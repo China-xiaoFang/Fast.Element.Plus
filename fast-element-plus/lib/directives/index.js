@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("./clickCopy/index.js"),r=require("./clickDebounce/index.js"),o=require("./clickDraggable/index.js"),s=require("./clickIconCopy/index.js"),c=require("./clickLongpress/index.js"),i=require("./clickThrottle/index.js");exports.vCopy=e.vCopy,exports.vDebounce=r.vDebounce,exports.vDraggable=o.vDraggable,exports.vIconCopy=s.vIconCopy,exports.vLongpress=c.vLongpress,exports.vThrottle=i.vThrottle;
+//# sourceMappingURL=index.js.map

@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("vue").reactive({warnPageNum:15,storageCrypto:!0,axios:{baseUrl:void 0,timeout:6e4,requestCipher:!0},table:{showSearch:!0,hideImage:!0,dataSearchRange:"Past3D"}}),t=(e,o)=>{for(const r in o){const s=o[r];void 0!==s&&null!=s&&(e[r]="object"==typeof s?t(e[r],o[r]):o[r])}};exports.fastOptions=e,exports.setFastOptions=o=>{t(e,o)};
+//# sourceMappingURL=index.js.map
