@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"}),require("../index.js");const e=require("../console.js");exports.execAsyncFunction=(r,...o)=>{if(!r)return Promise.resolve(void 0);if("AsyncFunction"!==r.constructor.name)throw e.consoleError("execAsyncFunction","必须为 Promise 异步方法"),new Error("必须为 Promise 异步方法");return r(...o).then((e=>e)).catch((r=>(e.consoleError("execAsyncFunction",r),Promise.reject(r))))};
+//# sourceMappingURL=func.js.map

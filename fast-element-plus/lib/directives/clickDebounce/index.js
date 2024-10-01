@@ -1,0 +1,2 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}}),require("../../utils/index.js");const e=require("../../utils/vue/install.js"),_={created(e,_,i){e.__debounce_originClick__=i.props.onClick,i.props.onClick=()=>{e.__debounce_timer__&&clearInterval(e.__debounce_timer__),e.__debounce_timer__=setTimeout((()=>{e.__debounce_originClick__()}),500)}}},i=e.withInstallDirective(_,"debounce");exports.default=i,exports.vDebounce=i;
+//# sourceMappingURL=index.js.map
