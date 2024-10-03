@@ -14,6 +14,7 @@ const ignoredDevDependencies = ["@vueuse/core", "crypto-js", "decimal.js", "loda
 const removedDevDependencies = [
 	"@types/crypto-js",
 	"@types/lodash-es",
+    "@types/sortablejs",
 	"@typescript-eslint/eslint-plugin",
 	"@typescript-eslint/parser",
 	"@vitejs/plugin-vue",
