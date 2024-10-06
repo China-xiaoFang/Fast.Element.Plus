@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sources":["../../../packages/stores/index.ts"],"sourcesContent":["export default {\n\ta: 1,\n};\n"],"names":["a"],"mappings":"4HAAe,CACdA,EAAG"}

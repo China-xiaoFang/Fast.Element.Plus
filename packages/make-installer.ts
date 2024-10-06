@@ -1,5 +1,5 @@
 import type { App } from "vue";
-import { type FastOptions, setFastOptions } from "@fast-element-plus/settings";
+import { FastApp, type FastAppOptions } from "@fast-element-plus/settings";
 import { errorHandler, makeIdentity } from "@fast-element-plus/utils";
 import { installElementPlus } from "./element-plus";
 import { installFastElementPlus } from "./fast-element-plus";
@@ -9,9 +9,9 @@ export const INSTALLED_KEY = Symbol("INSTALLED_KEY");
 
 export const makeInstaller = (): {
 	version: string;
-	install: (app: App, options?: FastOptions) => void;
+	install: (app: App, options?: FastAppOptions) => void;
 } => {
-	const install = (app: App, options?: FastOptions): void => {
+	const install = (app: App, options?: FastAppOptions): void => {
 		if (app[INSTALLED_KEY]) return;
 
 		app[INSTALLED_KEY] = true;
@@ -22,7 +22,7 @@ export const makeInstaller = (): {
 		makeIdentity();
 
 		if (options) {
-			setFastOptions(options);
+			FastApp.setAppOptions(options);
 		}
 
 		installElementPlus(app);

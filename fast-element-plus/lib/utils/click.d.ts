@@ -1,14 +1,16 @@
 export declare const clickUtil: {
     /**
      * 防抖
-     * @param {Function} 执行函数
-     * @param {Number} delay 延时ms
+     * @param fn - 执行函数
+     * @param delay - 延时毫秒
+     * @returns 返回一个新的防抖函数
      */
-    debounce(fn: Function, delay?: number): void;
+    debounce<T extends any[]>(fn: (...args: T) => void, delay?: number): (...args: T) => void;
     /**
      * 节流
-     * @param {Function} 执行函数
-     * @param {Number} delay 延时ms
+     * @param fn - 执行函数
+     * @param delay - 延时毫秒
+     * @returns 返回一个新的节流函数
      */
-    throttle(fn: Function, delay?: number): void;
+    throttle<T extends any[]>(fn: (...args: T) => void, delay?: number): (...args: T) => void;
 };

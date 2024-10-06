@@ -1,7 +1,7 @@
 import { App } from 'vue';
-import { FastOptions } from './settings';
+import { FastAppOptions } from './settings';
 export declare const INSTALLED_KEY: unique symbol;
 export declare const makeInstaller: () => {
     version: string;
-    install: (app: App, options?: FastOptions) => void;
+    install: (app: App, options?: FastAppOptions) => void;
 };

@@ -1,16 +1,21 @@
+import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+/**
+ * Vite 环境
+ */
+export type ViteEnv = "production" | "development" | "test" | "staging";
 /**
  * 日期范围
  */
 export type DataRange = "Past1D" | "Past3D" | "Past1W" | "Past1M" | "Past3M" | "Past6M" | "Past1Y";
 /**
- * Fast 配置选项
+ * Fast App 配置选项
  */
-export type FastOptions = {
+export type FastAppOptions = {
     /**
-     * 警告页面数量
-     * @default 15
+     * 环境
+     * @default "development"
      */
-    warnPageNum?: number;
+    env?: ViteEnv;
     /**
      * 存储加密
      * @description 请在初始化的时候确认，后续不可再修改，否则所有数据都将失效
@@ -35,6 +40,23 @@ export type FastOptions = {
          * @default true
          */
         requestCipher?: boolean;
+        /**
+         * 拦截器
+         */
+        interceptors?: {
+            /**
+             * 请求拦截器
+             */
+            request?: <Input = any>(config: InternalAxiosRequestConfig<Input>) => void;
+            /**
+             * 响应拦截器
+             */
+            response?: <Output = any, Input = any>(response: AxiosResponse<Output, Input>) => any | void;
+            /**
+             * 响应错误处理
+             */
+            responseError?: (error: AxiosError | any) => any | void;
+        };
     };
     /**
      * 表格配置
@@ -57,23 +79,67 @@ export type FastOptions = {
     };
 };
 /**
- * 全局 Fast 配置选项
+ * 后续删除
  */
-export declare const fastOptions: {
-    warnPageNum?: number;
-    storageCrypto?: boolean;
-    axios?: {
-        baseUrl?: string;
-        timeout?: number;
-        requestCipher?: boolean;
-    };
-    table?: {
-        showSearch?: boolean;
-        hideImage?: boolean;
-        dataSearchRange?: DataRange;
-    };
+type IMapToDo = {
+    value: any;
 };
-/**
- * 设置 全局 Fast 配置选项
- */
-export declare const setFastOptions: (options: FastOptions) => void;
+export declare class FastApp {
+    static state: {
+        env?: ViteEnv;
+        storageCrypto?: boolean;
+        axios?: {
+            baseUrl?: string;
+            timeout?: number;
+            requestCipher?: boolean;
+            interceptors?: {
+                request?: <Input = any>(config: InternalAxiosRequestConfig<Input>) => void;
+                response?: <Output = any, Input = any>(response: AxiosResponse<Output, Input>) => any | void;
+                responseError?: (error: AxiosError | any) => any | void;
+            };
+        };
+        table?: {
+            showSearch?: boolean;
+            hideImage?: boolean;
+            dataSearchRange?: DataRange;
+        };
+    };
+    private static stateMap;
+    /**
+     * 设置 App 配置
+     */
+    static setAppOptions: (appOptions: FastAppOptions) => void;
+    /**
+     * 设置环境
+     */
+    static setEnv: (env: ViteEnv) => void;
+    /**
+     * 设置 Axios 选项
+     */
+    static setAxiosOptions: (axiosOptions: FastAppOptions["axios"]) => void;
+    /**
+     * 设置 Table 选项
+     */
+    static setTableOptions: (tableOptions: FastAppOptions["table"]) => void;
+    /**
+     * 设置字典
+     */
+    static setDictionary: (dictionary: Map<string, IMapToDo[]>) => void;
+    /**
+     * 获取字典
+     */
+    static getDictionary: (key: string) => IMapToDo[];
+    /**
+     * 获取表格列
+     */
+    static getTableColumns: (tableKey: string) => IMapToDo[] | false;
+    /**
+     * 设置或更新表格列
+     */
+    static setTableColumns: (tableKey: string, columns: IMapToDo[]) => void;
+    /**
+     * 清除 App 缓存
+     */
+    static clearAppCache: () => void;
+}
+export {};

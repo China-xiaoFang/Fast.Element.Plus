@@ -7,7 +7,6 @@ export * from "@fast-element-plus/constants";
 export * from "@fast-element-plus/directives";
 export * from "@fast-element-plus/hooks";
 export * from "@fast-element-plus/settings";
-export * from "@fast-element-plus/stores";
 export * from "@fast-element-plus/utils";
 
 const installer = makeInstaller();

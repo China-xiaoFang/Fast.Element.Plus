@@ -1,33 +1,44 @@
-let _debounceTimeout: any = null,
-	_throttleRunning: any = false;
+let _debounceTimeout: ReturnType<typeof setTimeout> | null = null;
+let _throttleRunning = false;
 
 export const clickUtil = {
 	/**
 	 * 防抖
-	 * @param {Function} 执行函数
-	 * @param {Number} delay 延时ms
+	 * @param fn - 执行函数
+	 * @param delay - 延时毫秒
+	 * @returns 返回一个新的防抖函数
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-	debounce(fn: Function, delay = 500): void {
-		clearTimeout(_debounceTimeout);
-		_debounceTimeout = setTimeout(() => {
-			fn();
-		}, delay);
+	debounce<T extends any[]>(fn: (...args: T) => void, delay = 500): (...args: T) => void {
+		return (...args: T) => {
+			// 如果已有定时器，清除它
+			if (_debounceTimeout) {
+				clearTimeout(_debounceTimeout);
+			}
+			// 设置新的定时器
+			_debounceTimeout = setTimeout(() => {
+				fn(...args); // 调用原函数
+			}, delay);
+		};
 	},
 	/**
 	 * 节流
-	 * @param {Function} 执行函数
-	 * @param {Number} delay 延时ms
+	 * @param fn - 执行函数
+	 * @param delay - 延时毫秒
+	 * @returns 返回一个新的节流函数
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-	throttle(fn: Function, delay = 500): void {
-		if (_throttleRunning) {
-			return;
-		}
-		_throttleRunning = true;
-		fn();
-		setTimeout(() => {
-			_throttleRunning = false;
-		}, delay);
+	throttle<T extends any[]>(fn: (...args: T) => void, delay = 500): (...args: T) => void {
+		return (...args: T) => {
+			// 如果节流操作正在运行，直接返回
+			if (_throttleRunning) {
+				return;
+			}
+			// 设置节流状态为运行
+			_throttleRunning = true;
+			fn(...args); // 调用原函数
+			// 设置定时器以重置节流状态
+			setTimeout(() => {
+				_throttleRunning = false;
+			}, delay);
+		};
 	},
 };

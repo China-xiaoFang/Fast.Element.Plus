@@ -2,7 +2,7 @@
  * 本地缓存
  */
 
-import { fastOptions } from "@fast-element-plus/settings";
+import { FastApp } from "@fast-element-plus/settings";
 import { base64Util, consoleError } from "@fast-element-plus/utils";
 
 /**
@@ -28,7 +28,7 @@ export const Local = {
 	 */
 	set(key: string, val: any, expire?: number, encrypt?: boolean): void {
 		try {
-			encrypt ??= fastOptions.storageCrypto;
+			encrypt ??= FastApp.state.storageCrypto;
 			// 判断是否存在缓存过期时间
 			if (expire) {
 				if (isNaN(expire) || expire < 1) {
@@ -59,7 +59,7 @@ export const Local = {
 	 */
 	get<T = string>(key: string, decrypt?: boolean): T {
 		try {
-			decrypt ??= fastOptions.storageCrypto;
+			decrypt ??= FastApp.state.storageCrypto;
 			// 获取缓存 JSON 字符串
 			let valJson = window.localStorage.getItem(`${CACHE_PREFIX}${key}`);
 			if (valJson) {
@@ -142,7 +142,7 @@ export const Session = {
 	 */
 	set(key: string, val: any, expire?: number, encrypt?: boolean): void {
 		try {
-			encrypt ??= fastOptions.storageCrypto;
+			encrypt ??= FastApp.state.storageCrypto;
 			// 判断是否存在缓存过期时间
 			if (expire) {
 				if (isNaN(expire) || expire < 1) {
@@ -173,7 +173,7 @@ export const Session = {
 	 */
 	get<T = string>(key: string, decrypt?: boolean): T {
 		try {
-			decrypt ??= fastOptions.storageCrypto;
+			decrypt ??= FastApp.state.storageCrypto;
 			// 获取缓存 JSON 字符串
 			let valJson = window.sessionStorage.getItem(`${CACHE_PREFIX}${key}`);
 			if (valJson) {
