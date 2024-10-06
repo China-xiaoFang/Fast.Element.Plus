@@ -5,12 +5,11 @@ export * from './constants';
 export * from './directives';
 export * from './hooks';
 export * from './settings';
-export * from './stores';
 export * from './utils';
 declare const installer: {
     version: string;
-    install: (app: import('vue').App, options?: import('./settings').FastOptions) => void;
+    install: (app: import('vue').App, options?: import('./settings').FastAppOptions) => void;
 };
-export declare const install: (app: import('vue').App, options?: import('./settings').FastOptions) => void;
+export declare const install: (app: import('vue').App, options?: import('./settings').FastAppOptions) => void;
 export declare const version: string;
 export default installer;

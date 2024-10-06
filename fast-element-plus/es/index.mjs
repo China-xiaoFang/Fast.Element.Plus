@@ -4,8 +4,7 @@ import * as index from "./components/index.mjs";
 import "./constants/index.mjs";
 import "./directives/index.mjs";
 import "./hooks/index.mjs";
-import { fastOptions, setFastOptions } from "./settings/index.mjs";
-import "./stores/index.mjs";
+import { FastApp } from "./settings/index.mjs";
 import "./utils/index.mjs";
 import { FaIcon } from "./components/icon/index.mjs";
 import { FaMimeType } from "./constants/mime.mjs";
@@ -24,6 +23,7 @@ import { useProps } from "./utils/vue/props.mjs";
 import { makeSlots } from "./utils/vue/slots.mjs";
 import { useRender } from "./utils/vue/useRender.mjs";
 import { withDefineType } from "./utils/vue/with.mjs";
+import { HTTP_CACHE_KEY, axiosUtil } from "./utils/axios.mjs";
 import { base64Util } from "./utils/base64.mjs";
 import { clickUtil } from "./utils/click.mjs";
 import { colorUtil } from "./utils/color.mjs";
@@ -33,6 +33,7 @@ import { errorHandler } from "./utils/errorHandler.mjs";
 import { formUtil } from "./utils/form.mjs";
 import { CACHE_EXPIRE_SUFFIX, CACHE_PREFIX, Local, Session } from "./utils/storage.mjs";
 import { stringUtil } from "./utils/string.mjs";
+import { uploadUtil } from "./utils/upload.mjs";
 const installer = makeInstaller();
 const install = installer.install;
 const version = installer.version;
@@ -42,11 +43,14 @@ export {
   DEVICE_ID_KEY,
   FaIcon,
   FaMimeType,
+  FastApp,
   index as FastElementPlus,
+  HTTP_CACHE_KEY,
   INSTALLED_KEY,
   Local,
   RegExps,
   Session,
+  axiosUtil,
   base64Util,
   clickUtil,
   colorUtil,
@@ -57,13 +61,12 @@ export {
   installer as default,
   errorHandler,
   execAsyncFunction,
-  fastOptions,
   formUtil,
   install,
   makeIdentity,
   makeSlots,
-  setFastOptions,
   stringUtil,
+  uploadUtil,
   useLoading,
   useOverlay,
   useProps,

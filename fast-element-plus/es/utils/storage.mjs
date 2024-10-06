@@ -1,4 +1,4 @@
-import { fastOptions } from "../settings/index.mjs";
+import { FastApp } from "../settings/index.mjs";
 import "./index.mjs";
 import { base64Util } from "./base64.mjs";
 import { consoleError } from "./console.mjs";
@@ -14,7 +14,7 @@ const Local = {
    */
   set(key, val, expire, encrypt) {
     try {
-      encrypt ?? (encrypt = fastOptions.storageCrypto);
+      encrypt ?? (encrypt = FastApp.state.storageCrypto);
       if (expire) {
         if (isNaN(expire) || expire < 1) {
           throw new Error("有效期应为一个有效数值");
@@ -43,7 +43,7 @@ const Local = {
    */
   get(key, decrypt) {
     try {
-      decrypt ?? (decrypt = fastOptions.storageCrypto);
+      decrypt ?? (decrypt = FastApp.state.storageCrypto);
       let valJson = window.localStorage.getItem(`${CACHE_PREFIX}${key}`);
       if (valJson) {
         if (decrypt) {
@@ -117,7 +117,7 @@ const Session = {
    */
   set(key, val, expire, encrypt) {
     try {
-      encrypt ?? (encrypt = fastOptions.storageCrypto);
+      encrypt ?? (encrypt = FastApp.state.storageCrypto);
       if (expire) {
         if (isNaN(expire) || expire < 1) {
           throw new Error("有效期应为一个有效数值");
@@ -146,7 +146,7 @@ const Session = {
    */
   get(key, decrypt) {
     try {
-      decrypt ?? (decrypt = fastOptions.storageCrypto);
+      decrypt ?? (decrypt = FastApp.state.storageCrypto);
       let valJson = window.sessionStorage.getItem(`${CACHE_PREFIX}${key}`);
       if (valJson) {
         if (decrypt) {

@@ -1,4 +1,12 @@
 import { reactive } from "vue";
+import { Local, Session, consoleError, makeIdentity } from "@fast-element-plus/utils";
+import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { merge } from "lodash-unified";
+
+/**
+ * Vite 环境
+ */
+export type ViteEnv = "production" | "development" | "test" | "staging";
 
 /**
  * 日期范围
@@ -6,14 +14,14 @@ import { reactive } from "vue";
 export type DataRange = "Past1D" | "Past3D" | "Past1W" | "Past1M" | "Past3M" | "Past6M" | "Past1Y";
 
 /**
- * Fast 配置选项
+ * Fast App 配置选项
  */
-export type FastOptions = {
+export type FastAppOptions = {
 	/**
-	 * 警告页面数量
-	 * @default 15
+	 * 环境
+	 * @default "development"
 	 */
-	warnPageNum?: number;
+	env?: ViteEnv;
 	/**
 	 * 存储加密
 	 * @description 请在初始化的时候确认，后续不可再修改，否则所有数据都将失效
@@ -38,6 +46,23 @@ export type FastOptions = {
 		 * @default true
 		 */
 		requestCipher?: boolean;
+		/**
+		 * 拦截器
+		 */
+		interceptors?: {
+			/**
+			 * 请求拦截器
+			 */
+			request?: <Input = any>(config: InternalAxiosRequestConfig<Input>) => void;
+			/**
+			 * 响应拦截器
+			 */
+			response?: <Output = any, Input = any>(response: AxiosResponse<Output, Input>) => any | void;
+			/**
+			 * 响应错误处理
+			 */
+			responseError?: (error: AxiosError | any) => any | void;
+		};
 	};
 	/**
 	 * 表格配置
@@ -61,39 +86,108 @@ export type FastOptions = {
 };
 
 /**
- * 全局 Fast 配置选项
+ * 后续删除
  */
-export const fastOptions = reactive<FastOptions>({
-	warnPageNum: 15,
-	storageCrypto: true,
-	axios: {
-		baseUrl: undefined,
-		timeout: 60000,
-		requestCipher: true,
-	},
-	table: {
-		showSearch: true,
-		hideImage: true,
-		dataSearchRange: "Past3D",
-	},
-});
+type IMapToDo = { value: any };
 
-const merge = (target: FastOptions, source: FastOptions): void => {
-	for (const key in source) {
-		const value = source[key];
-		if (value !== undefined && value != null) {
-			if (typeof value === "object") {
-				target[key] = merge(target[key], source[key]);
-			} else {
-				target[key] = source[key];
-			}
+export class FastApp {
+	public static state = reactive<FastAppOptions>({
+		storageCrypto: true,
+		axios: {
+			baseUrl: undefined,
+			timeout: 60000,
+			requestCipher: true,
+		},
+		table: {
+			showSearch: true,
+			hideImage: true,
+			dataSearchRange: "Past3D",
+		},
+	});
+
+	private static stateMap = reactive({
+		dictionary: new Map<string, IMapToDo[]>(),
+		columns: new Map<string, IMapToDo[]>(),
+	});
+
+	/**
+	 * 设置 App 配置
+	 */
+	public static setAppOptions = (appOptions: FastAppOptions): void => {
+		merge(FastApp.state, appOptions);
+	};
+
+	/**
+	 * 设置环境
+	 */
+	public static setEnv = (env: ViteEnv): void => {
+		FastApp.state.env = env;
+	};
+
+	/**
+	 * 设置 Axios 选项
+	 */
+	public static setAxiosOptions = (axiosOptions: FastAppOptions["axios"]): void => {
+		FastApp.state.axios = Object.assign(FastApp.state.axios, axiosOptions);
+	};
+
+	/**
+	 * 设置 Table 选项
+	 */
+	public static setTableOptions = (tableOptions: FastAppOptions["table"]): void => {
+		FastApp.state.table = Object.assign(FastApp.state.table, tableOptions);
+	};
+
+	/**
+	 * 设置字典
+	 */
+	public static setDictionary = (dictionary: Map<string, IMapToDo[]>): void => {
+		FastApp.stateMap.dictionary = dictionary;
+	};
+
+	/**
+	 * 获取字典
+	 */
+	public static getDictionary = (key: string): IMapToDo[] => {
+		if (!FastApp.stateMap.dictionary.has(key)) {
+			consoleError("app", `字典 [${key}] 不存在`);
+			return [];
 		}
-	}
-};
+		return FastApp.stateMap.dictionary.get(key);
+	};
 
-/**
- * 设置 全局 Fast 配置选项
- */
-export const setFastOptions = (options: FastOptions): void => {
-	merge(fastOptions, options);
-};
+	/**
+	 * 获取表格列
+	 */
+	public static getTableColumns = (tableKey: string): IMapToDo[] | false => {
+		if (!FastApp.stateMap.columns.has(tableKey)) {
+			consoleError("app", `表格列 [${tableKey}] 不存在`);
+			return [];
+		}
+		return FastApp.stateMap.columns.get(tableKey);
+	};
+
+	/**
+	 * 设置或更新表格列
+	 */
+	public static setTableColumns = (tableKey: string, columns: IMapToDo[]): void => {
+		if (FastApp.stateMap.columns.has(tableKey)) {
+			FastApp.stateMap.columns.delete(tableKey);
+		}
+		FastApp.stateMap.columns.set(tableKey, columns);
+	};
+
+	/**
+	 * 清除 App 缓存
+	 */
+	public static clearAppCache = (): void => {
+		// 获取设备Id，这里按理来说不应该不存在的
+		const deviceId = makeIdentity();
+		// 清空 Local 缓存
+		Local.clear();
+		// 清空 Session 缓存
+		Session.clear();
+		// 重新设置设备Id
+		makeIdentity(deviceId);
+	};
+}

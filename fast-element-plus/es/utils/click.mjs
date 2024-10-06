@@ -1,32 +1,39 @@
-let _debounceTimeout = null, _throttleRunning = false;
+let _debounceTimeout = null;
+let _throttleRunning = false;
 const clickUtil = {
   /**
    * 防抖
-   * @param {Function} 执行函数
-   * @param {Number} delay 延时ms
+   * @param fn - 执行函数
+   * @param delay - 延时毫秒
+   * @returns 返回一个新的防抖函数
    */
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   debounce(fn, delay = 500) {
-    clearTimeout(_debounceTimeout);
-    _debounceTimeout = setTimeout(() => {
-      fn();
-    }, delay);
+    return (...args) => {
+      if (_debounceTimeout) {
+        clearTimeout(_debounceTimeout);
+      }
+      _debounceTimeout = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
   },
   /**
    * 节流
-   * @param {Function} 执行函数
-   * @param {Number} delay 延时ms
+   * @param fn - 执行函数
+   * @param delay - 延时毫秒
+   * @returns 返回一个新的节流函数
    */
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   throttle(fn, delay = 500) {
-    if (_throttleRunning) {
-      return;
-    }
-    _throttleRunning = true;
-    fn();
-    setTimeout(() => {
-      _throttleRunning = false;
-    }, delay);
+    return (...args) => {
+      if (_throttleRunning) {
+        return;
+      }
+      _throttleRunning = true;
+      fn(...args);
+      setTimeout(() => {
+        _throttleRunning = false;
+      }, delay);
+    };
   }
 };
 export {

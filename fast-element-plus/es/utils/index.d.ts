@@ -1,4 +1,5 @@
 export * from './vue';
+export * from './axios';
 export * from './base64';
 export * from './click';
 export * from './color';
@@ -8,3 +9,4 @@ export * from './errorHandler';
 export * from './form';
 export * from './storage';
 export * from './string';
+export * from './upload';

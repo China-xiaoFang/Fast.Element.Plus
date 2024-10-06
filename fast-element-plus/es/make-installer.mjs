@@ -1,4 +1,4 @@
-import { setFastOptions } from "./settings/index.mjs";
+import { FastApp } from "./settings/index.mjs";
 import "./utils/index.mjs";
 import { installElementPlus } from "./element-plus.mjs";
 import { installFastElementPlus } from "./fast-element-plus.mjs";
@@ -13,7 +13,7 @@ const makeInstaller = () => {
     app.config.errorHandler = errorHandler;
     makeIdentity();
     if (options) {
-      setFastOptions(options);
+      FastApp.setAppOptions(options);
     }
     installElementPlus(app);
     installFastElementPlus(app);
