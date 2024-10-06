@@ -1,4 +1,4 @@
-import { FaIcon } from "../components/icon/index.mjs";
+import { FaIcon } from "./components/icon/index.mjs";
 const FastElementPlusComponents = [FaIcon];
 export {
   FastElementPlusComponents as default

@@ -2,7 +2,7 @@ import { isVNode, defineComponent, reactive, computed, createVNode, mergeProps, 
 import "../../../constants/index.mjs";
 import "../../../utils/index.mjs";
 import { ElIcon } from "element-plus";
-import { isNumber } from "lodash-es";
+import { isNumber } from "lodash-unified";
 import { RegExps } from "../../../constants/regex.mjs";
 import { useRender } from "../../../utils/vue/useRender.mjs";
 function _isSlot(s) {
@@ -57,18 +57,18 @@ const Icon = /* @__PURE__ */ defineComponent({
     useRender(() => {
       let _slot, _slot2;
       return props.name.indexOf("el-icon-") === 0 ? createVNode(ElIcon, mergeProps(attrs, props, {
-        "class": "fa-icon"
+        "class": ["fa-icon", props.name]
       }), _isSlot(_slot = h(resolveComponent(props.name))) ? _slot : {
         default: () => [_slot]
       }) : props.name.indexOf("fa-icon") === 0 ? createVNode(ElIcon, mergeProps(attrs, props, {
-        "class": "fa-icon"
+        "class": ["fa-icon", props.name]
       }), _isSlot(_slot2 = h(resolveComponent(props.name))) ? _slot2 : {
         default: () => [_slot2]
       }) : state.isUrl ? createVNode("div", mergeProps(attrs, {
         "class": "el-icon fa-icon url-icon",
         "style": state.style
       }), null) : createVNode("i", mergeProps(attrs, {
-        "class": [props.name, "el-icon fa-icon"],
+        "class": ["el-icon fa-icon", props.name],
         "style": state.style
       }), null);
     });

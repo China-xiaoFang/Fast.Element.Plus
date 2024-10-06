@@ -3,7 +3,7 @@ import { computed, defineComponent, h, reactive, resolveComponent } from "vue";
 import { RegExps } from "@fast-element-plus/constants";
 import { useRender } from "@fast-element-plus/utils";
 import { ElIcon } from "element-plus";
-import { isNumber } from "lodash-es";
+import { isNumber } from "lodash-unified";
 
 export const faIconProps = {
 	/**
@@ -56,17 +56,17 @@ export default defineComponent({
 
 		useRender(() =>
 			props.name.indexOf("el-icon-") === 0 ? (
-				<ElIcon {...attrs} {...props} class="fa-icon">
+				<ElIcon {...attrs} {...props} class={["fa-icon", props.name]}>
 					{h(resolveComponent(props.name))}
 				</ElIcon>
 			) : props.name.indexOf("fa-icon") === 0 ? (
-				<ElIcon {...attrs} {...props} class="fa-icon">
+				<ElIcon {...attrs} {...props} class={["fa-icon", props.name]}>
 					{h(resolveComponent(props.name))}
 				</ElIcon>
 			) : state.isUrl ? (
 				<div {...attrs} class="el-icon fa-icon url-icon" style={state.style} />
 			) : (
-				<i {...attrs} class={[props.name, "el-icon fa-icon"]} style={state.style} />
+				<i {...attrs} class={["el-icon fa-icon", props.name]} style={state.style} />
 			)
 		);
 	},

@@ -1,10 +1,10 @@
-import { setFastOptions } from "../settings/index.mjs";
-import "../utils/index.mjs";
+import { setFastOptions } from "./settings/index.mjs";
+import "./utils/index.mjs";
 import { installElementPlus } from "./element-plus.mjs";
 import { installFastElementPlus } from "./fast-element-plus.mjs";
 import { fastElementPlusVersion } from "./version.mjs";
-import { errorHandler } from "../utils/errorHandler.mjs";
-import { makeIdentity } from "../utils/deviceId.mjs";
+import { errorHandler } from "./utils/errorHandler.mjs";
+import { makeIdentity } from "./utils/deviceId.mjs";
 const INSTALLED_KEY = Symbol("INSTALLED_KEY");
 const makeInstaller = () => {
   const install = (app, options) => {

@@ -1,4 +1,4 @@
-import { isString } from "lodash-es";
+import { isString } from "lodash-unified";
 
 /**
  * 字符串工具类

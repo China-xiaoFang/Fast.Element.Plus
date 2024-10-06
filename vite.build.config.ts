@@ -1,20 +1,12 @@
 /**
  * 构建预依赖的包
  */
-const peerDependencies = ["@element-plus/icons-vue", "@fast-element-plus/icons-vue", "axios", "element-plus", "pinia", "vue", "vue-router"];
-
-/**
- * 构建忽略包
- */
-const ignoredDevDependencies = ["@vueuse/core", "crypto-js", "decimal.js", "lodash-es", "pinia-plugin-persistedstate", "screenfull", "sortablejs"];
+const peerDependencies = ["axios", "element-plus", "vue", "vue-router"];
 
 /**
  * 构建删除包
  */
 const removedDevDependencies = [
-	"@types/crypto-js",
-	"@types/lodash-es",
-    "@types/sortablejs",
 	"@typescript-eslint/eslint-plugin",
 	"@typescript-eslint/parser",
 	"@vitejs/plugin-vue",
@@ -43,18 +35,21 @@ const removedDevDependencies = [
 const globalDependenciesMapping = {
 	"@element-plus/icons-vue": "ElementPlusIconsVue",
 	"@fast-element-plus/icons-vue": "FastElementPlusIconsVue",
-	axios: "axios",
-	"element-plus": "ElementPlus",
-	pinia: "Pinia",
-	vue: "Vue",
-	"vue-router": "VueRouter",
-
 	"@vueuse/core": "VueUse",
 	"crypto-js": "CryptoJS",
-	"lodash-es": "LodashES",
-	"pinia-plugin-persistedstate": "piniaPluginPersistedstate",
+	"decimal.js": "Decimal",
+	lodash: "_",
+	"lodash-es": "_",
+	"lodash-unified": "_",
 	screenfull: "screenfull",
 	sortablejs: "Sortable",
+
+	axios: "axios",
+	"element-plus": "ElementPlus",
+	// pinia: "Pinia",
+	// "pinia-plugin-persistedstate": "piniaPluginPersistedstate",
+	vue: "Vue",
+	"vue-router": "VueRouter",
 };
 
-export { peerDependencies, ignoredDevDependencies, removedDevDependencies, globalDependenciesMapping };
+export { peerDependencies, removedDevDependencies, globalDependenciesMapping };

@@ -1,6 +1,6 @@
 import type { ComputedRef } from "vue";
 import { computed } from "vue";
-import { omit, pick } from "lodash-es";
+import { omit, pick } from "lodash-unified";
 
 /**
  * 构建 props

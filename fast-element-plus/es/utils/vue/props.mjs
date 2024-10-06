@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import { omit, pick } from "lodash-es";
+import { omit, pick } from "lodash-unified";
 const useProps = (props, rawProps, ignoreRawProps, mergeProps) => {
   if (!props) return computed(() => ({}));
   return computed(() => {

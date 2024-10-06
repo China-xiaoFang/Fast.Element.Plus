@@ -1,11 +1,11 @@
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import "../hooks/index.mjs";
-import "../utils/index.mjs";
+import "./hooks/index.mjs";
+import "./utils/index.mjs";
 import ElementPlus, { ElDialog, ElInput, ElMessageBox } from "element-plus";
-import { useOverlay } from "../hooks/useOverlay/index.mjs";
-import { execAsyncFunction } from "../utils/vue/func.mjs";
-import { consoleError } from "../utils/console.mjs";
-import { errorHandler } from "../utils/errorHandler.mjs";
+import { useOverlay } from "./hooks/useOverlay/index.mjs";
+import { execAsyncFunction } from "./utils/vue/func.mjs";
+import { consoleError } from "./utils/console.mjs";
+import { errorHandler } from "./utils/errorHandler.mjs";
 ElDialog.props = {
   ...ElDialog.props,
   draggable: {
