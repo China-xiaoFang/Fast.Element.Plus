@@ -1,6 +1,6 @@
-import { makeInstaller } from "./fast-element-plus/make-installer.mjs";
-import { INSTALLED_KEY } from "./fast-element-plus/make-installer.mjs";
-import "./components/index.mjs";
+import { makeInstaller } from "./make-installer.mjs";
+import { INSTALLED_KEY } from "./make-installer.mjs";
+import * as index from "./components/index.mjs";
 import "./constants/index.mjs";
 import "./directives/index.mjs";
 import "./hooks/index.mjs";
@@ -42,6 +42,7 @@ export {
   DEVICE_ID_KEY,
   FaIcon,
   FaMimeType,
+  index as FastElementPlus,
   INSTALLED_KEY,
   Local,
   RegExps,

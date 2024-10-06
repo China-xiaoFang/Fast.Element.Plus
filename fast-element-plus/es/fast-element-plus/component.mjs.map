@@ -1,1 +1,0 @@
-{"version":3,"file":"component.mjs","sources":["../../../packages/fast-element-plus/component.ts"],"sourcesContent":["import type { Plugin } from \"vue\";\nimport { FaIcon } from \"@fast-element-plus/components/icon\";\n\nexport default [FaIcon] as Plugin[];\n"],"names":[],"mappings":";AAGA,MAAe,4BAAA,CAAC,MAAM;"}

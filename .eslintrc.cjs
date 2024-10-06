@@ -374,5 +374,21 @@ module.exports = defineConfig({
 		"import/no-named-as-default-member": "off",
 		// 关闭 - 禁用对命名导入（即从模块中导入特定命名的内容）的检查
 		"import/named": "off",
+		// 限制某些模块导入
+		"no-restricted-imports": [
+			"error",
+			{
+				paths: [
+					{ name: "lodash", message: "Use lodash-unified instead." },
+					{ name: "lodash-es", message: "Use lodash-unified instead." },
+				],
+				patterns: [
+					{
+						group: ["lodash/*", "lodash-es/*"],
+						message: "Use lodash-unified instead.",
+					},
+				],
+			},
+		],
 	},
 });

@@ -8,4 +8,4 @@ dist
 *.woff
 *.ttf
 .vscode
-/@fast-element-plus
+/fast-element-plus
