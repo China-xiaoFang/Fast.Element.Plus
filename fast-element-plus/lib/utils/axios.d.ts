@@ -92,6 +92,7 @@ export type AxiosOptions = {
      */
     autoDownloadFile?: boolean;
 };
+type FastAxiosRequestConfig<Input> = AxiosRequestConfig<Input> & AxiosOptions;
 /**
  * Http 缓存 Key
  */
@@ -102,7 +103,11 @@ export declare const axiosUtil: {
      * @param axiosConfig axios 请求配置
      * @param loading loading配置
      */
-    request: <Input = any, Output = any>(axiosConfig: AxiosRequestConfig<Input> & AxiosOptions, loading?: LoadingOptions) => Promise<Output>;
+    request: <Input = any, Output = any>(axiosConfig: FastAxiosRequestConfig<Input>, loading?: LoadingOptions) => Promise<Output>;
+    /**
+     * 下载文件
+     */
+    downloadFile: (response: AxiosResponse) => void;
     /**
      * 删除HTTP 缓存数据
      */
@@ -113,3 +118,4 @@ export declare const axiosUtil: {
      */
     checkVersionUpdate: (version: string, delay?: number) => void;
 };
+export {};

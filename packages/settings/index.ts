@@ -23,8 +23,7 @@ export type FastAppOptions = {
 	 */
 	env?: ViteEnv;
 	/**
-	 * 存储加密
-	 * @description 请在初始化的时候确认，后续不可再修改，否则所有数据都将失效
+	 * 存储加密，请在初始化的时候确认，后续不可再修改，否则所有数据都将失效
 	 * @default true
 	 */
 	storageCrypto?: boolean;
@@ -83,6 +82,15 @@ export type FastAppOptions = {
 		 */
 		dataSearchRange?: DataRange;
 	};
+	/**
+	 * 上传
+	 */
+	upload?: {
+		/**
+		 * 上传路径
+		 */
+		url?: string;
+	};
 };
 
 /**
@@ -102,6 +110,9 @@ export class FastApp {
 			showSearch: true,
 			hideImage: true,
 			dataSearchRange: "Past3D",
+		},
+		upload: {
+			url: "",
 		},
 	});
 
@@ -136,6 +147,13 @@ export class FastApp {
 	 */
 	public static setTableOptions = (tableOptions: FastAppOptions["table"]): void => {
 		FastApp.state.table = Object.assign(FastApp.state.table, tableOptions);
+	};
+
+	/**
+	 * 设置 Upload 选项
+	 */
+	public static setUploadOptions = (uploadOptions: FastAppOptions["upload"]): void => {
+		FastApp.state.upload = Object.assign(FastApp.state.upload, uploadOptions);
 	};
 
 	/**

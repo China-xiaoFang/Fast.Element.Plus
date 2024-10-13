@@ -1,5 +1,5 @@
 /**
- * 正则表达式
+ * @description 正则表达式
  */
 export declare const RegExps: {
     /**

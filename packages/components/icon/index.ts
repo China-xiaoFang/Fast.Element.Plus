@@ -6,6 +6,8 @@ import Icon from "./src/icon";
 export const FaIcon = withInstall(Icon);
 export default FaIcon;
 
+export { faIconProps };
+
 export type GIconInstance = InstanceType<typeof Icon>;
 
 export type GIconProps = ExtractPropTypes<typeof faIconProps>;

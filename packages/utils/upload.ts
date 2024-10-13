@@ -3,7 +3,7 @@ import type { ApiResponse } from "@fast-element-plus/utils";
 import { axiosUtil, consoleError } from "@fast-element-plus/utils";
 import type { UploadRawFile } from "element-plus";
 import { ElMessage } from "element-plus";
-import { isFunction } from "lodash-unified";
+import { isArray, isFunction } from "lodash-unified";
 
 const FaMimeTypeNames: Record<string, keyof typeof FaMimeType> = {};
 
@@ -30,16 +30,16 @@ export const uploadUtil = {
 	/**
 	 * 获取props data属性值
 	 */
-	getPropsData(rawFile: UploadRawFile, data: anyObj | anyObj[] | ((rawFile: UploadRawFile) => anyObj[])): anyObj {
-		let propsData: anyObj | anyObj[];
+	getPropsData(rawFile: UploadRawFile, data: any | any[] | ((rawFile: UploadRawFile) => any[])): any {
+		let propsData;
 		if (isFunction(data)) {
 			propsData = data(rawFile);
 		} else {
 			propsData = data;
 		}
 
-		const result: anyObj = {};
-		if (Array.isArray(data)) {
+		const result = {};
+		if (isArray(data)) {
 			data.forEach((item) => {
 				Object.assign(result, item);
 			});

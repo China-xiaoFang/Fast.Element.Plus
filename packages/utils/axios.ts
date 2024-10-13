@@ -101,6 +101,8 @@ export type AxiosOptions = {
 	autoDownloadFile?: boolean;
 };
 
+type FastAxiosRequestConfig<Input> = AxiosRequestConfig<Input> & AxiosOptions;
+
 /**
  * Http 缓存 Key
  */
@@ -236,7 +238,7 @@ const httpErrorStatusHandle = (error: AxiosError | any): void => {
  * 获取错误信息
  */
 const getPromiseReject = <Input = any, Output = any>(
-	options: AxiosRequestConfig<Input> & AxiosOptions,
+	options: FastAxiosRequestConfig<Input>,
 	code = 500,
 	message?: string,
 	data?: any,
@@ -284,7 +286,7 @@ const downloadFile = (response: AxiosResponse): void => {
  * @param axiosConfig axios 请求配置
  * @param loading loading配置
  */
-const createAxios = <Input = any, Output = any>(axiosConfig: AxiosRequestConfig<Input> & AxiosOptions, loading?: LoadingOptions): Promise<Output> => {
+const createAxios = <Input = any, Output = any>(axiosConfig: FastAxiosRequestConfig<Input>, loading?: LoadingOptions): Promise<Output> => {
 	// 合并选项
 	const options = { ...axiosOptions, ...axiosConfig };
 
@@ -314,16 +316,16 @@ const createAxios = <Input = any, Output = any>(axiosConfig: AxiosRequestConfig<
 	// 获取请求唯一 Key
 	const pendingKey = getPendingKey(axiosConfig);
 
-	const timestamp = new Date().getTime();
+	const timestamp = Date.now();
 
 	// 创建 Axios 请求
 	const Axios = axios.create({
 		baseURL: FastApp.state.axios.baseUrl,
 		timeout: FastApp.state.axios.timeout,
 		headers: {
-			"Gejia-DeviceID": window.deviceId,
+			"Fast-DeviceID": window.deviceId,
 			// 配置请求来源，标识为PC端
-			"Gejia-DeviceType": "Web",
+			"Fast-DeviceType": "Web",
 		},
 		responseType: "json",
 	});
@@ -444,6 +446,7 @@ const createAxios = <Input = any, Output = any>(axiosConfig: AxiosRequestConfig<
 						ElMessage.error(errorCodeMessages["fileDownloadError"]);
 						return Promise.reject(response);
 					}
+				// 正常 JSON 格式响应处理
 				case "json":
 					{
 						const responseData = response.data;
@@ -553,9 +556,6 @@ const versionUpdate = (version: string): void => {
 	axios
 		.get<{ version: string; dateTime: string }>(`/version.json?_=${Date.now()}`)
 		.then((response) => {
-			// 开发环境判断
-			if (FastApp.state.env === "development") return;
-
 			if (version !== response.data.version) {
 				// 判断是否存在版本更新实例弹窗
 				if (existsVersionUpdateInstance) return;
@@ -603,6 +603,10 @@ export const axiosUtil = {
 	 * @param loading loading配置
 	 */
 	request: createAxios,
+	/**
+	 * 下载文件
+	 */
+	downloadFile,
 	/**
 	 * 删除HTTP 缓存数据
 	 */

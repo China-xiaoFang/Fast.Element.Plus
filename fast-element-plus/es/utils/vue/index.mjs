@@ -1,12 +1,15 @@
-import { execAsyncFunction } from "./func.mjs";
+import { useExpose } from "./expose.mjs";
+import { execFunction } from "./func.mjs";
 import { withInstall, withInstallDirective, withNoopInstall } from "./install.mjs";
-import { useProps } from "./props.mjs";
+import { definePropType, useProps } from "./props.mjs";
 import { makeSlots } from "./slots.mjs";
 import { useRender } from "./useRender.mjs";
 import { withDefineType } from "./with.mjs";
 export {
-  execAsyncFunction,
+  definePropType,
+  execFunction,
   makeSlots,
+  useExpose,
   useProps,
   useRender,
   withDefineType,

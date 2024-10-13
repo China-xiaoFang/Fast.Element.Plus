@@ -17,14 +17,6 @@ declare global {
 		| "el-zoom-in-bottom";
 
 	/**
-	 * 匿名对象
-	 * @description 建议使用 anyObj 或者 unknown 而不是 any
-	 */
-	interface anyObj<T = any> {
-		[key: string]: T;
-	}
-
-	/**
 	 * 拓展 Window 对象
 	 */
 	interface Window {

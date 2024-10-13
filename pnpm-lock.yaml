@@ -63,9 +63,6 @@ importers:
       '@fast-element-plus/hooks':
         specifier: workspace:*
         version: link:packages/hooks
-      '@fast-element-plus/stores':
-        specifier: workspace:*
-        version: link:packages/stores
       '@fast-element-plus/utils':
         specifier: workspace:*
         version: link:packages/utils
@@ -154,8 +151,6 @@ importers:
   packages/hooks: {}
 
   packages/settings: {}
-
-  packages/stores: {}
 
   packages/utils: {}
 

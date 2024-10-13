@@ -1,0 +1,122 @@
+@use "./animation.scss";
+
+.w100 {
+	width: 100%;
+}
+
+.h100 {
+	height: 100%;
+}
+
+/** 鼠标置入放大动画 */
+.fa__hover__twinkle {
+	transform-origin: center;
+	&:hover {
+		:first-child {
+			animation: twinkle var(--el-transition-duration) linear;
+		}
+	}
+}
+
+/** 鼠标置入浮动动画 */
+.fa__hover__suspension {
+	transition: all var(--el-transition-duration) ease;
+	&:hover {
+		-webkit-transform: translateY(-4px) scale(1.02);
+		-moz-transform: translateY(-4px) scale(1.02);
+		-ms-transform: translateY(-4px) scale(1.02);
+		-o-transform: translateY(-4px) scale(1.02);
+		transform: translateY(-4px) scale(1.02);
+		-webkit-box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
+		border-radius: 6px;
+	}
+}
+
+/** 鼠标点击禁止效果 */
+.fa__click__disabled {
+	&.fa__click__disabled__cursor {
+		position: relative !important;
+		pointer-events: auto !important;
+	}
+	pointer-events: none !important;
+	&:hover {
+		cursor: not-allowed !important;
+	}
+}
+
+/** 左右布局，左边自动宽度 */
+.fa__display_lr-l {
+	--width: 400px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	> :first-child {
+		flex: 1;
+		min-width: 0px;
+		width: auto;
+		height: auto;
+	}
+	> :last-child {
+		max-width: var(--width);
+		margin-left: 10px;
+	}
+}
+
+/** 左右布局，右边自动宽度 */
+.fa__display_lr-r {
+	--width: 400px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	> :first-child {
+		max-width: var(--width);
+		margin-right: 10px;
+	}
+	> :last-child {
+		flex: 1;
+		min-width: 0px;
+		width: auto;
+		height: auto;
+	}
+}
+
+/** 上下布局，上边自动宽度 */
+.fa__display_tb-t {
+	--height: 50%;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	> :first-child {
+		flex: 1;
+		min-height: 0px;
+	}
+	> :last-child {
+		max-height: var(--height);
+		margin-top: 10px;
+	}
+}
+
+/** 上下布局，下边自动宽度 */
+.fa__display_tb-b {
+	--height: 50%;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	> :first-child {
+		max-height: var(--height);
+		margin-bottom: 10px;
+	}
+	> :last-child {
+		flex: 1;
+		min-height: 0px;
+	}
+}

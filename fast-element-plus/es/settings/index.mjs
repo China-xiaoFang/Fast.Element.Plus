@@ -20,6 +20,9 @@ __publicField(_FastApp, "state", reactive({
     showSearch: true,
     hideImage: true,
     dataSearchRange: "Past3D"
+  },
+  upload: {
+    url: ""
   }
 }));
 __publicField(_FastApp, "stateMap", reactive({
@@ -49,6 +52,12 @@ __publicField(_FastApp, "setAxiosOptions", (axiosOptions) => {
  */
 __publicField(_FastApp, "setTableOptions", (tableOptions) => {
   _FastApp.state.table = Object.assign(_FastApp.state.table, tableOptions);
+});
+/**
+ * 设置 Upload 选项
+ */
+__publicField(_FastApp, "setUploadOptions", (uploadOptions) => {
+  _FastApp.state.upload = Object.assign(_FastApp.state.upload, uploadOptions);
 });
 /**
  * 设置字典

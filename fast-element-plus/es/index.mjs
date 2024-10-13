@@ -6,7 +6,28 @@ import "./directives/index.mjs";
 import "./hooks/index.mjs";
 import { FastApp } from "./settings/index.mjs";
 import "./utils/index.mjs";
+import { FaAvatar } from "./components/avatar/index.mjs";
+import { FaButton } from "./components/button/index.mjs";
+import { faButtonEmits, faButtonProps } from "./components/button/src/button.mjs";
+import { FaContextMenu } from "./components/contextMenu/index.mjs";
+import { FaDialog } from "./components/dialog/index.mjs";
+import { faDialogEmits, faDialogProps } from "./components/dialog/src/dialog.mjs";
+import { FaDrawer } from "./components/drawer/index.mjs";
+import { FaForm, FaFormItem } from "./components/form/index.mjs";
+import { faFormProps } from "./components/form/src/form.mjs";
+import { faFormItemProps } from "./components/form/src/formItem.mjs";
+import { FaFormItemTip } from "./components/formItemTip/index.mjs";
+import { faFormItemTipProps } from "./components/formItemTip/src/formItemTip.mjs";
 import { FaIcon } from "./components/icon/index.mjs";
+import { FaIconSelector } from "./components/iconSelector/index.mjs";
+import { FaImage } from "./components/image/index.mjs";
+import { faImageProps } from "./components/image/src/image.mjs";
+import { FaLayoutGrid, FaLayoutGridItem } from "./components/layoutGrid/index.mjs";
+import { FaUpload } from "./components/upload/index.mjs";
+import { faUploadEmits, faUploadProps } from "./components/upload/src/upload.mjs";
+import { FaUploadImage } from "./components/uploadImage/index.mjs";
+import { faUploadImageEmits, faUploadImageProps } from "./components/uploadImage/src/uploadImage.mjs";
+import { FaUploadImages } from "./components/uploadImages/index.mjs";
 import { FaMimeType } from "./constants/mime.mjs";
 import { RegExps } from "./constants/regex.mjs";
 import { vCopy } from "./directives/clickCopy/index.mjs";
@@ -17,9 +38,11 @@ import { vLongpress } from "./directives/clickLongpress/index.mjs";
 import { vThrottle } from "./directives/clickThrottle/index.mjs";
 import { useLoading } from "./hooks/useLoading/index.mjs";
 import { useOverlay } from "./hooks/useOverlay/index.mjs";
-import { execAsyncFunction } from "./utils/vue/func.mjs";
+import { useScreenFull } from "./hooks/useScreenFull/index.mjs";
+import { useExpose } from "./utils/vue/expose.mjs";
+import { execFunction } from "./utils/vue/func.mjs";
 import { withInstall, withInstallDirective, withNoopInstall } from "./utils/vue/install.mjs";
-import { useProps } from "./utils/vue/props.mjs";
+import { definePropType, useProps } from "./utils/vue/props.mjs";
 import { makeSlots } from "./utils/vue/slots.mjs";
 import { useRender } from "./utils/vue/useRender.mjs";
 import { withDefineType } from "./utils/vue/with.mjs";
@@ -41,8 +64,23 @@ export {
   CACHE_EXPIRE_SUFFIX,
   CACHE_PREFIX,
   DEVICE_ID_KEY,
+  FaAvatar,
+  FaButton,
+  FaContextMenu,
+  FaDialog,
+  FaDrawer,
+  FaForm,
+  FaFormItem,
+  FaFormItemTip,
   FaIcon,
+  FaIconSelector,
+  FaImage,
+  FaLayoutGrid,
+  FaLayoutGridItem,
   FaMimeType,
+  FaUpload,
+  FaUploadImage,
+  FaUploadImages,
   FastApp,
   index as FastElementPlus,
   HTTP_CACHE_KEY,
@@ -59,18 +97,33 @@ export {
   consoleLog,
   consoleWarn,
   installer as default,
+  definePropType,
   errorHandler,
-  execAsyncFunction,
+  execFunction,
+  faButtonEmits,
+  faButtonProps,
+  faDialogEmits,
+  faDialogProps,
+  faFormItemProps,
+  faFormItemTipProps,
+  faFormProps,
+  faImageProps,
+  faUploadEmits,
+  faUploadImageEmits,
+  faUploadImageProps,
+  faUploadProps,
   formUtil,
   install,
   makeIdentity,
   makeSlots,
   stringUtil,
   uploadUtil,
+  useExpose,
   useLoading,
   useOverlay,
   useProps,
   useRender,
+  useScreenFull,
   vCopy,
   vDebounce,
   vDraggable,

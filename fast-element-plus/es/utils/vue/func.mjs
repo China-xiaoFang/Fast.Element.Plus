@@ -1,17 +1,27 @@
 import "../index.mjs";
 import { consoleError } from "../console.mjs";
-const execAsyncFunction = (fn, ...args) => {
+const execFunction = async (fn, ...args) => {
   if (!fn) return Promise.resolve(void 0);
-  if (fn.constructor.name !== "AsyncFunction") {
-    consoleError("execAsyncFunction", "必须为 Promise 异步方法");
-    throw new Error("必须为 Promise 异步方法");
+  if (fn.constructor.name === "AsyncFunction") {
+    try {
+      return await fn(...args);
+    } catch (error) {
+      consoleError("execFunction", error);
+      return Promise.reject(error);
+    }
+  } else {
+    return new Promise((resolve, reject) => {
+      try {
+        const res = fn(...args);
+        return resolve(res);
+      } catch (error) {
+        consoleError("execFunction", error);
+        return reject(error);
+      }
+    });
   }
-  return fn(...args).then((res) => res).catch((error) => {
-    consoleError("execAsyncFunction", error);
-    return Promise.reject(error);
-  });
 };
 export {
-  execAsyncFunction
+  execFunction
 };
 //# sourceMappingURL=func.mjs.map

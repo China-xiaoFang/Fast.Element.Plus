@@ -1,4 +1,4 @@
-const fastElementPlusVersion = "1.4.18";
+const fastElementPlusVersion = "1.0.0";
 export {
   fastElementPlusVersion
 };
