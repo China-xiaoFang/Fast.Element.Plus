@@ -1,2 +1,2 @@
-export * from "./types/components.d";
+export * from "./types/components";
 export * from "./types/env";
