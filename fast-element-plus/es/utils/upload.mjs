@@ -1,7 +1,7 @@
 import "../constants/index.mjs";
 import "./index.mjs";
 import { ElMessage } from "element-plus";
-import { isFunction } from "lodash-unified";
+import { isFunction, isArray } from "lodash-unified";
 import { FaMimeType } from "../constants/mime.mjs";
 import { consoleError } from "./console.mjs";
 import { axiosUtil } from "./axios.mjs";
@@ -33,7 +33,7 @@ const uploadUtil = {
       propsData = data;
     }
     const result = {};
-    if (Array.isArray(data)) {
+    if (isArray(data)) {
       data.forEach((item) => {
         Object.assign(result, item);
       });

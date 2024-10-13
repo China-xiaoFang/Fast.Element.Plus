@@ -1,0 +1,2 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}}),require("../../utils/index.js");const e=require("./src/form.js"),r=require("./src/formItem.js"),t=require("../../utils/vue/install.js"),o=t.withInstall(e.default,{FormItem:r.default}),s=t.withNoopInstall(r.default);exports.faFormProps=e.faFormProps,exports.faFormItemProps=r.faFormItemProps,exports.FaForm=o,exports.FaFormItem=s,exports.default=o;
+//# sourceMappingURL=index.js.map

@@ -1,27 +1,73 @@
 /** Element Plus 组件全局配置 */
 
-import type { App } from "vue";
+import type { App, PropType } from "vue";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { useOverlay } from "@fast-element-plus/hooks";
-import { consoleError, errorHandler, execAsyncFunction } from "@fast-element-plus/utils";
-import type { Action, ElMessageBoxOptions, MessageBoxData, MessageBoxState } from "element-plus";
-import ElementPlus, { ElDialog, ElInput, ElMessageBox } from "element-plus";
+import { consoleError, errorHandler, execFunction } from "@fast-element-plus/utils";
+import type { Action, ElMessageBoxOptions, MessageBoxData, MessageBoxState, TableProps } from "element-plus";
+import ElementPlus, { ElDialog, ElInput, ElInputNumber, ElMessageBox, ElTable } from "element-plus";
 
-// ELDialog 默认拖拽
 ElDialog.props = {
 	...ElDialog.props,
+	/**
+	 * 默认拖拽
+	 * @description enable dragging feature for Dialog
+	 */
 	draggable: {
 		type: Boolean,
 		default: true,
 	},
 };
 
-// ELInput 默认显示统计字数
 ElInput.props = {
 	...ElInput.props,
+	/**
+	 * 默认显示统计字数
+	 * @description word count
+	 */
 	showWordLimit: {
 		type: Boolean,
 		default: true,
+	},
+};
+
+ElInputNumber.props = {
+	...ElInputNumber.props,
+	/**
+	 * 默认不使用控制按钮
+	 * @description whether to enable the control buttons
+	 */
+	controls: {
+		type: Boolean,
+		default: false,
+	},
+};
+
+ElTable.props = {
+	...ElTable.props,
+	/**
+	 * 默认显示边框
+	 * @description whether Table has vertical border
+	 */
+	border: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认高亮当前行
+	 * @description whether current row is highlighted
+	 */
+	highlightCurrentRow: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认行Key为 "id"
+	 * @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used
+	 */
+	rowKey: {
+		type: [String, Function] as PropType<TableProps<any>["rowKey"]>,
+		default: "id",
 	},
 };
 
@@ -81,7 +127,7 @@ const elMessageBox = (
 					done();
 				};
 
-				execAsyncFunction(localBeforeClose, action, instance, newDone)
+				execFunction(localBeforeClose, action, instance, newDone)
 					.then(() => {
 						newDone();
 					})

@@ -7,5 +7,5 @@ type MakeSlots<T extends RawSlots> = {
 /**
  * 构建 slots
  */
-declare const makeSlots: <Slots extends RawSlots>() => SlotsType<Partial<MakeSlots<Slots>>>;
-export { makeSlots };
+export declare const makeSlots: <Slots extends RawSlots>() => SlotsType<Partial<MakeSlots<Slots>>>;
+export {};

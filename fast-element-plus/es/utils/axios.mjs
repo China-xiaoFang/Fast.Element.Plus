@@ -149,14 +149,14 @@ const createAxios = (axiosConfig, loading) => {
     options.cache = false;
   }
   const pendingKey = getPendingKey(axiosConfig);
-  const timestamp = (/* @__PURE__ */ new Date()).getTime();
+  const timestamp = Date.now();
   const Axios = axios.create({
     baseURL: FastApp.state.axios.baseUrl,
     timeout: FastApp.state.axios.timeout,
     headers: {
-      "Gejia-DeviceID": window.deviceId,
+      "Fast-DeviceID": window.deviceId,
       // 配置请求来源，标识为PC端
-      "Gejia-DeviceType": "Web"
+      "Fast-DeviceType": "Web"
     },
     responseType: "json"
   });
@@ -323,7 +323,6 @@ let existsVersionUpdateInstance = false;
 const versionUpdate = (version) => {
   consoleLog("axiosUtil", `当前版本 ${version}`);
   axios.get(`/version.json?_=${Date.now()}`).then((response) => {
-    if (FastApp.state.env === "development") return;
     if (version !== response.data.version) {
       if (existsVersionUpdateInstance) return;
       existsVersionUpdateInstance = true;
@@ -360,6 +359,10 @@ const axiosUtil = {
    * @param loading loading配置
    */
   request: createAxios,
+  /**
+   * 下载文件
+   */
+  downloadFile,
   /**
    * 删除HTTP 缓存数据
    */

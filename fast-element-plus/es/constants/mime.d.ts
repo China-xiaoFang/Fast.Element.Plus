@@ -1,5 +1,5 @@
 /**
- * MIME 类型
+ * @description MIME 类型
  */
 export declare const FaMimeType: {
     /**

@@ -1,4 +1,4 @@
-import type { CSSProperties, PropType } from "vue";
+import type { CSSProperties } from "vue";
 import { computed, defineComponent, h, reactive, resolveComponent } from "vue";
 import { RegExps } from "@fast-element-plus/constants";
 import { useRender } from "@fast-element-plus/utils";
@@ -6,28 +6,19 @@ import { ElIcon } from "element-plus";
 import { isNumber } from "lodash-unified";
 
 export const faIconProps = {
-	/**
-	 * 名称
-	 * @description el-icon- 使用 El-icon 的图标；fa-icon 使用 Fast 图标组件库；
-	 * @requires 必填
-	 */
+	/** @description el-icon- 使用 El-icon 的图标；fa-icon 使用 Fast 图标组件库； */
 	name: {
 		type: String,
 		required: true,
 	},
-	/**
-	 * 大小
-	 */
-	size: [Number, String] as PropType<number | string>,
-	/**
-	 * 颜色
-	 */
+	/** @description 大小 */
+	size: {
+		type: [String, Number],
+	},
+	/** @description 颜色*/
 	color: String,
 };
 
-/**
- * FaIcon 组件
- */
 export default defineComponent({
 	name: "FaIcon",
 	props: faIconProps,

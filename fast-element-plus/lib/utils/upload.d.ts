@@ -10,7 +10,7 @@ export declare const uploadUtil: {
     /**
      * 获取props data属性值
      */
-    getPropsData(rawFile: UploadRawFile, data: anyObj | anyObj[] | ((rawFile: UploadRawFile) => anyObj[])): anyObj;
+    getPropsData(rawFile: UploadRawFile, data: any | any[] | ((rawFile: UploadRawFile) => any[])): any;
     /**
      * 文件上传
      * @param url 地址

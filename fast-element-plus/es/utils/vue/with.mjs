@@ -1,4 +1,4 @@
-const withDefineType = (data) => {
+const withDefineType = (data = void 0) => {
   return data;
 };
 export {

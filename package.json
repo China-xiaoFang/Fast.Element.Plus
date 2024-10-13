@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.3.1",
-		"@fast-element-plus/icons-vue": "^1.0.11",
+		"@fast-element-plus/icons-vue": "^1.0.12",
 		"@types/crypto-js": "^4.2.0",
 		"@types/lodash": "^4.17.10",
 		"@types/lodash-es": "^4.17.12",
@@ -59,7 +59,6 @@
 		"@fast-element-plus/constants": "workspace:*",
 		"@fast-element-plus/directives": "workspace:*",
 		"@fast-element-plus/hooks": "workspace:*",
-		"@fast-element-plus/stores": "workspace:*",
 		"@fast-element-plus/utils": "workspace:*",
 		"@types/node": "*",
 		"@typescript-eslint/eslint-plugin": "^8.6.0",

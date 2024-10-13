@@ -71,7 +71,7 @@ export const Local = {
 				const expireJson = window.localStorage.getItem(`${CACHE_PREFIX}${key}${CACHE_EXPIRE_SUFFIX}`);
 				// 判断是否存在过期时间
 				if (expireJson) {
-					const expireData = JSON.parse(expireJson) as anyObj;
+					const expireData = JSON.parse(expireJson);
 					if (Date.now() > expireData.time + expireData.expire * 60 * 1000) {
 						// 过期了，删除对应的缓存数据
 						window.localStorage.removeItem(`${CACHE_PREFIX}${key}`);
@@ -185,7 +185,7 @@ export const Session = {
 				const expireJson = window.sessionStorage.getItem(`${CACHE_PREFIX}${key}${CACHE_EXPIRE_SUFFIX}`);
 				// 判断是否存在过期时间
 				if (expireJson) {
-					const expireData = JSON.parse(expireJson) as anyObj;
+					const expireData = JSON.parse(expireJson);
 					if (Date.now() > expireData.time + expireData.expire * 60 * 1000) {
 						// 过期了，删除对应的缓存数据
 						window.sessionStorage.removeItem(`${CACHE_PREFIX}${key}`);

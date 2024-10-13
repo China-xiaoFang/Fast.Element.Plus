@@ -17,8 +17,7 @@ export type FastAppOptions = {
      */
     env?: ViteEnv;
     /**
-     * 存储加密
-     * @description 请在初始化的时候确认，后续不可再修改，否则所有数据都将失效
+     * 存储加密，请在初始化的时候确认，后续不可再修改，否则所有数据都将失效
      * @default true
      */
     storageCrypto?: boolean;
@@ -77,6 +76,15 @@ export type FastAppOptions = {
          */
         dataSearchRange?: DataRange;
     };
+    /**
+     * 上传
+     */
+    upload?: {
+        /**
+         * 上传路径
+         */
+        url?: string;
+    };
 };
 /**
  * 后续删除
@@ -103,6 +111,9 @@ export declare class FastApp {
             hideImage?: boolean;
             dataSearchRange?: DataRange;
         };
+        upload?: {
+            url?: string;
+        };
     };
     private static stateMap;
     /**
@@ -121,6 +132,10 @@ export declare class FastApp {
      * 设置 Table 选项
      */
     static setTableOptions: (tableOptions: FastAppOptions["table"]) => void;
+    /**
+     * 设置 Upload 选项
+     */
+    static setUploadOptions: (uploadOptions: FastAppOptions["upload"]) => void;
     /**
      * 设置字典
      */

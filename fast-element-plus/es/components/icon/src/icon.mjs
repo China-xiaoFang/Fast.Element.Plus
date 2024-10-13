@@ -9,22 +9,16 @@ function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const faIconProps = {
-  /**
-   * 名称
-   * @description el-icon- 使用 El-icon 的图标；fa-icon 使用 Fast 图标组件库；
-   * @requires 必填
-   */
+  /** @description el-icon- 使用 El-icon 的图标；fa-icon 使用 Fast 图标组件库； */
   name: {
     type: String,
     required: true
   },
-  /**
-   * 大小
-   */
-  size: [Number, String],
-  /**
-   * 颜色
-   */
+  /** @description 大小 */
+  size: {
+    type: [String, Number]
+  },
+  /** @description 颜色*/
   color: String
 };
 const Icon = /* @__PURE__ */ defineComponent({
