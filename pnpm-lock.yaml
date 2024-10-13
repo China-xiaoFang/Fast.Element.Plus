@@ -12,8 +12,8 @@ importers:
         specifier: ^2.3.1
         version: 2.3.1(vue@3.5.11(typescript@5.6.2))
       '@fast-element-plus/icons-vue':
-        specifier: ^1.0.11
-        version: 1.0.11(vue@3.5.11(typescript@5.6.2))
+        specifier: ^1.0.12
+        version: 1.0.12(vue@3.5.11(typescript@5.6.2))
       '@types/crypto-js':
         specifier: ^4.2.0
         version: 4.2.2
@@ -590,8 +590,8 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@fast-element-plus/icons-vue@1.0.11':
-    resolution: {integrity: sha512-jvKQPqjC2E+wNVBcaTZi1Wh+3n604J36+99Ee6LvCOj0A09m+O3qCOYQRYbKcUg2hAha57qcZb8bXgKauqPIbg==}
+  '@fast-element-plus/icons-vue@1.0.12':
+    resolution: {integrity: sha512-/gmWHuGb1zMgBqk7q4evTx6uw2ZWjqj9HRreT7JynFmjzF2DQWkAKu4Y5VP1CsT6f803fsYwzF0Ecdj/xoItkQ==}
     peerDependencies:
       vue: ^3.2.47
 
@@ -2631,7 +2631,7 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@fast-element-plus/icons-vue@1.0.11(vue@3.5.11(typescript@5.6.2))':
+  '@fast-element-plus/icons-vue@1.0.12(vue@3.5.11(typescript@5.6.2))':
     dependencies:
       vue: 3.5.11(typescript@5.6.2)
 
