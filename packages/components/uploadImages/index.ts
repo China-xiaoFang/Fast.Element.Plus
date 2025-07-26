@@ -1,7 +1,7 @@
-import type { ExtractPropTypes } from "vue";
-import { withInstall } from "@fast-element-plus/utils";
+import { withInstall } from "@fast-china/utils";
 import UploadImages from "./src/uploadImages";
 import type { faUploadImagesEmits, faUploadImagesProps } from "./src/uploadImages";
+import type { ExtractPropTypes } from "vue";
 
 export const FaUploadImages = withInstall(UploadImages);
 export default FaUploadImages;

@@ -1,7 +1,6 @@
+import { TSXWithInstall } from "@fast-china/utils";
+import type { default as UploadImage, faUploadImageEmits, faUploadImageProps } from "./src/uploadImage";
 import type { ExtractPropTypes } from "vue";
-import type { default as UploadImage } from "./src/uploadImage";
-import type { faUploadImageEmits, faUploadImageProps } from "./src/uploadImage";
-import type { TSXWithInstall } from "../../utils";
 
 export declare const FaUploadImage: TSXWithInstall<typeof UploadImage>;
 export default FaUploadImage;

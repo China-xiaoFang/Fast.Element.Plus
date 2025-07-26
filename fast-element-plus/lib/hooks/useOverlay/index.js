@@ -1,2 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("vue"),o={show:(e=0)=>{if(!window.overlay){const o=document.body,r=document.createElement("div");r.className="__fa-overlay",r.style.backgroundColor=`rgba(0, 0, 0, ${e})`,o.insertBefore(r,o.childNodes[0]),window.overlay=!0}},hide:()=>{window.overlay&&e.nextTick((()=>{var e;const o=document.querySelector(".__fa-overlay");o&&(null==(e=o.parentNode)||e.removeChild(o)),window.overlay=!1}))}};exports.useOverlay=o;
-//# sourceMappingURL=index.js.map

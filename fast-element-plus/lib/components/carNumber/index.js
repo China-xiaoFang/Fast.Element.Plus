@@ -1,0 +1,2 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),r=require("./src/carNumber.js"),t=require("./src/common.js"),a=e.withInstall(r.default);exports.default=r.default,exports.CarNumberArea=t.CarNumberArea,exports.CarNumberDigit=t.CarNumberDigit,exports.CarNumberLetter=t.CarNumberLetter,exports.FaCarNumber=a;
+//# sourceMappingURL=index.js.map

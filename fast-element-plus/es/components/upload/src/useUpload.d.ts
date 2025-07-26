@@ -4,46 +4,51 @@ export declare const useUpload: <T extends string | string[]>(componentName: str
     modelValue: T;
 }, emit: ((event: "update:fileList", value: UploadUserFile[]) => void) & ((event: "update:modelValue", value: T) => void) & ((event: "change", value: T) => void), data?: {
     maxSize?: string | number;
+    uploadApi?: (formData: FormData) => Promise<string>;
     uploadUrl?: string;
 }) => {
     fileList: import('vue').Ref<{
-        url?: string;
-        size?: number;
-        name: string;
-        response?: unknown;
         raw?: {
             uid: number;
+            isDirectory?: boolean;
             readonly lastModified: number;
             readonly name: string;
             readonly webkitRelativePath: string;
             readonly size: number;
             readonly type: string;
             arrayBuffer: () => Promise<ArrayBuffer>;
+            bytes: () => Promise<Uint8Array>;
             slice: (start?: number, end?: number, contentType?: string) => Blob;
             stream: () => ReadableStream<Uint8Array>;
             text: () => Promise<string>;
         };
+        size?: number;
+        name: string;
+        url?: string;
         percentage?: number;
+        response?: unknown;
         status?: import('element-plus').UploadStatus;
         uid?: number;
     }[], {
-        url?: string;
-        size?: number;
-        name: string;
-        response?: unknown;
         raw?: {
             uid: number;
+            isDirectory?: boolean;
             readonly lastModified: number;
             readonly name: string;
             readonly webkitRelativePath: string;
             readonly size: number;
             readonly type: string;
             arrayBuffer: () => Promise<ArrayBuffer>;
+            bytes: () => Promise<Uint8Array>;
             slice: (start?: number, end?: number, contentType?: string) => Blob;
             stream: () => ReadableStream<Uint8Array>;
             text: () => Promise<string>;
         };
+        size?: number;
+        name: string;
+        url?: string;
         percentage?: number;
+        response?: unknown;
         status?: import('element-plus').UploadStatus;
         uid?: number;
     }[]>;

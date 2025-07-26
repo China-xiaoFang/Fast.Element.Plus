@@ -1,10 +1,8 @@
 import { isVNode, defineComponent, reactive, computed, createVNode, mergeProps, h, resolveComponent } from "vue";
-import "../../../constants/index.mjs";
-import "../../../utils/index.mjs";
 import { ElIcon } from "element-plus";
-import { isNumber } from "lodash-unified";
+import "../../../constants/index.mjs";
+import { addUnit, useRender } from "@fast-china/utils";
 import { RegExps } from "../../../constants/regex.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
 function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
@@ -32,11 +30,7 @@ const Icon = /* @__PURE__ */ defineComponent({
       style: computed(() => {
         const result = {};
         if (props.size) {
-          if (isNumber(props.size)) {
-            result.size = `${props.size}px`;
-          } else {
-            result.size = props.size;
-          }
+          result.size = addUnit(props.size);
         }
         if (props.color) {
           result.color = props.color;

@@ -1,6 +1,6 @@
-import type { ExtractPropTypes } from "vue";
-import { withInstall } from "@fast-element-plus/utils";
+import { withInstall } from "@fast-china/utils";
 import Image, { faImageProps } from "./src/image";
+import type { ExtractPropTypes } from "vue";
 
 export const FaImage = withInstall(Image);
 export default FaImage;

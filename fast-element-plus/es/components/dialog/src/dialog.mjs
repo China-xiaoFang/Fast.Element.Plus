@@ -1,17 +1,16 @@
-import { defineComponent, reactive, computed, ref, nextTick, watch, createVNode, mergeProps, Fragment, withDirectives, resolveDirective } from "vue";
-import { Refresh, FullScreen, Close, Eleme } from "@element-plus/icons-vue";
+import { defineComponent, reactive, ref, nextTick, watch, createVNode, mergeProps, Fragment, withDirectives, resolveDirective, computed } from "vue";
+import { dialogProps, dialogEmits, useGlobalSize, ElMessage, ElMessageBox, ElDialog, ElButton, ElScrollbar, ElIcon } from "element-plus";
+import { Eleme, Refresh, FullScreen, Close } from "@element-plus/icons-vue";
 import { FullScreenExit } from "@fast-element-plus/icons-vue";
-import "../../../utils/index.mjs";
-import { dialogProps, dialogEmits, ElMessage, ElMessageBox, ElDialog, ElIcon, ElScrollbar, ElButton } from "element-plus";
-import { isBoolean, isNumber } from "lodash-unified";
-import { definePropType, useProps } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { execFunction } from "../../../utils/vue/func.mjs";
-import { consoleError } from "../../../utils/console.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
+import { definePropType, execFunction, consoleError, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
+import { isBoolean } from "lodash-unified";
 const faDialogProps = {
   ...dialogProps,
+  /** @description whether to align the dialog both horizontally and vertically*/
+  alignCenter: {
+    type: Boolean,
+    default: true
+  },
   /** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
   appendToBody: {
     type: Boolean,
@@ -32,9 +31,15 @@ const faDialogProps = {
     type: Boolean,
     default: true
   },
-  /** @description 高度 */
-  height: {
-    type: [String, Number]
+  /** @description value for `margin-top` of Dialog CSS, default is 15vh */
+  top: {
+    type: String,
+    default: "5vh"
+  },
+  /** @description width of Dialog, default is 50% */
+  width: {
+    type: [String, Number],
+    default: "90%"
   },
   /** @description 显示刷新按钮 */
   showRefresh: {
@@ -97,34 +102,11 @@ const Dialog = /* @__PURE__ */ defineComponent({
     emit,
     expose
   }) {
+    const _globalSize = useGlobalSize();
     const state = reactive({
       loading: false,
       visible: false,
       fullscreen: false,
-      width: computed(() => {
-        if (!props.width) return "auto";
-        if (isNumber(props.width)) return `${props.width}px`;
-        return props.width;
-      }),
-      height: computed(() => {
-        if (!props.height) return "auto";
-        if (isNumber(props.height)) return `${props.height}px`;
-        return props.height;
-      }),
-      maxHeight: computed(() => {
-        let maxHeight = "calc(";
-        if (state.fullscreen) {
-          maxHeight += "100vh";
-        } else {
-          maxHeight += "var(--fa-dialog-height)";
-        }
-        maxHeight += " - var(--fa-dialog-header-height)";
-        if (!props.hideFooter) {
-          maxHeight += " - var(--fa-dialog-footer-height)";
-        }
-        maxHeight += " - 18px)";
-        return maxHeight;
-      }),
       refreshing: false
     });
     const dialogRef = ref();
@@ -164,6 +146,7 @@ const Dialog = /* @__PURE__ */ defineComponent({
       });
     };
     const handleRefresh = () => {
+      if (state.loading) return;
       state.refreshing = true;
       state.loading = true;
       setTimeout(() => {
@@ -211,16 +194,10 @@ const Dialog = /* @__PURE__ */ defineComponent({
     const elDialogProps = useProps(props, dialogProps, ["modelValue", "fullscreen", "showClose", "beforeClose"]);
     useRender(() => createVNode(ElDialog, mergeProps(elDialogProps.value, {
       "ref": dialogRef,
-      "class": ["fa-dialog", {
-        "fa-dialog__fill-height": props.fillHeight,
-        "fa-dialog__fullscreen": state.fullscreen
+      "class": ["fa-dialog", `fa-dialofa-${_globalSize.value}`, {
+        "fa-dialofa__fill-height": props.fillHeight,
+        "fa-dialofa__fullscreen": state.fullscreen
       }],
-      "style": {
-        width: state.width,
-        maxWidth: state.width,
-        height: state.height,
-        maxHeight: state.height
-      },
       "modelValue": state.visible,
       "onUpdate:modelValue": ($event) => state.visible = $event,
       "fullscreen": state.fullscreen,
@@ -232,38 +209,33 @@ const Dialog = /* @__PURE__ */ defineComponent({
       "onCloseAutoFocus": () => emit("closeAutoFocus")
     }), {
       header: () => createVNode(Fragment, null, [createVNode("div", {
-        "class": "fa-dialog__header-title"
+        "class": "fa-dialofa__header-title"
       }, [props.title, slots.header && slots.header({
         loading: state.loading,
         close: handleCloseClick
       })]), props.showRefresh && createVNode("div", {
         "title": "刷新",
-        "class": ["fa-dialog__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
+        "class": ["fa-dialofa__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
         "onClick": handleRefresh
       }, [createVNode(ElIcon, null, {
         default: () => [createVNode(Refresh, null, null)]
       })]), props.showFullscreen && createVNode("div", {
         "title": state.fullscreen ? "关闭全屏显示" : "全屏显示",
-        "class": ["fa-dialog__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
+        "class": ["fa-dialofa__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
         "onClick": handleFullscreen
       }, [createVNode(ElIcon, null, {
         default: () => [state.fullscreen ? createVNode(FullScreenExit, null, null) : createVNode(FullScreen, null, null)]
       })]), props.showClose && createVNode("div", {
         "title": "关闭",
-        "class": ["fa-dialog__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
+        "class": ["fa-dialofa__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
         "onClick": handleCloseClick
       }, [createVNode(ElIcon, null, {
         default: () => [createVNode(Close, null, null)]
       })])]),
       default: () => withDirectives(createVNode(ElScrollbar, {
-        "class": "fa-dialog__scrollbar",
-        "wrapStyle": {
-          "--fa-dialog-scrollbar__max-height": state.maxHeight,
-          maxHeight: "var(--fa-dialog-scrollbar__max-height)"
-        },
         "element-loading-text": "加载中..."
       }, {
-        default: () => [state.refreshing ? null : slots.default && slots.default(state)]
+        default: () => [!state.refreshing && slots.default && slots.default(state)]
       }), [[resolveDirective("loading"), state.loading]]),
       ...!props.hideFooter && {
         footer: () => createVNode(Fragment, null, [slots.footer && slots.footer({
@@ -286,17 +258,20 @@ const Dialog = /* @__PURE__ */ defineComponent({
       }
     }));
     return useExpose(expose, {
-      ...computed(() => {
-        var _a, _b;
-        return {
-          dialogContentRef: (_a = dialogRef.value) == null ? void 0 : _a.dialogContentRef,
-          resetPosition: (_b = dialogRef.value) == null ? void 0 : _b.resetPosition
-        };
-      }).value,
+      /** @description 弹窗内容引用 */
+      dialogContentRef: computed(() => {
+        var _a;
+        return (_a = dialogRef.value) == null ? void 0 : _a.dialogContentRef;
+      }),
+      /** @description 重置位置 */
+      resetPosition: computed(() => {
+        var _a;
+        return (_a = dialogRef.value) == null ? void 0 : _a.resetPosition;
+      }),
       /** @description 加载状态 */
-      loading: state.loading,
+      loading: computed(() => state.loading),
       /** @description 是否显示 */
-      visible: state.visible,
+      visible: computed(() => state.visible),
       /** @description 打开弹窗 */
       open: handleOpen,
       /** @description 关闭弹窗 */

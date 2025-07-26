@@ -1,7 +1,7 @@
-import type { ExtractPropTypes } from "vue";
-import { withInstall } from "@fast-element-plus/utils";
-import type { faDrawerEmits, faDrawerProps } from "./src/drawer";
+import { withInstall } from "@fast-china/utils";
 import Drawer from "./src/drawer";
+import type { faDrawerEmits, faDrawerProps } from "./src/drawer";
+import type { ExtractPropTypes } from "vue";
 
 export const FaDrawer = withInstall(Drawer);
 export default FaDrawer;

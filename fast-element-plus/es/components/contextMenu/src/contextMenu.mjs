@@ -1,11 +1,9 @@
-import { defineComponent, reactive, onMounted, createVNode, Transition, withDirectives, vShow } from "vue";
+import { defineComponent, reactive, onMounted, createVNode, Transition, withDirectives, vShow, computed } from "vue";
+import { useGlobalSize } from "element-plus";
 import { FaIcon } from "../../icon/index.mjs";
-import "../../../utils/index.mjs";
+import { useRender, useExpose, definePropType } from "@fast-china/utils";
 import { useEventListener } from "@vueuse/core";
 import { isObject } from "lodash-unified";
-import { definePropType } from "../../../utils/vue/props.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
 const ContextMenu = /* @__PURE__ */ defineComponent({
   name: "FaContextMenu",
   props: {
@@ -23,6 +21,7 @@ const ContextMenu = /* @__PURE__ */ defineComponent({
     emit,
     expose
   }) {
+    const _globalSize = useGlobalSize();
     const state = reactive({
       visible: false,
       axis: {
@@ -52,7 +51,7 @@ const ContextMenu = /* @__PURE__ */ defineComponent({
       "name": "el-zoom-in-center"
     }, {
       default: () => [withDirectives(createVNode("div", {
-        "class": "fa-context-menu el-popper el-dropdown__popper",
+        "class": ["fa-context-menu", `fa-context-menu-${_globalSize.value}`, "el-popper el-dropdown__popper"],
         "style": {
           top: `${state.axis.y + 5}px`,
           left: `${state.axis.x + 14}px`
@@ -72,7 +71,7 @@ const ContextMenu = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 是否显示 */
-      visible: state.visible,
+      visible: computed(() => state.visible),
       /** @description 打开菜单 */
       open,
       /** @description 关闭菜单 */

@@ -15,15 +15,49 @@ export declare const faAvatarProps: {
     small: BooleanConstructor;
     /** @description 缩略图 */
     thumb: BooleanConstructor;
-    size: import('element-plus/es/utils').EpPropFinalized<readonly [NumberConstructor, StringConstructor], "" | "small" | "default" | "large", number, "", boolean>;
-    shape: import('element-plus/es/utils').EpPropFinalized<StringConstructor, "circle" | "square", unknown, "circle", boolean>;
-    src: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    size: {
+        readonly type: import('vue').PropType<number | "" | "small" | "default" | "large">;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
+    shape: {
+        readonly type: import('vue').PropType<"circle" | "square">;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "circle";
+    };
+    src: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
     alt: StringConstructor;
     srcSet: StringConstructor;
-    fit: import('element-plus/es/utils').EpPropFinalized<(new (...args: any[]) => ObjectFitProperty & {}) | (() => ObjectFitProperty) | ((new (...args: any[]) => ObjectFitProperty & {}) | (() => ObjectFitProperty))[], unknown, unknown, "cover", boolean>;
+    fit: {
+        readonly type: import('vue').PropType<any>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "cover";
+    };
 };
 export declare const faAvatarEmits: {
     error: (evt: Event) => boolean;
+};
+type FaAvatarSlots = {
+    /** @description 默认内容插槽 */
+    default: {
+        src: string;
+    };
 };
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     /** @description representation type to icon, more info on icon component. */
@@ -41,12 +75,40 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     small: BooleanConstructor;
     /** @description 缩略图 */
     thumb: BooleanConstructor;
-    size: import('element-plus/es/utils').EpPropFinalized<readonly [NumberConstructor, StringConstructor], "" | "small" | "default" | "large", number, "", boolean>;
-    shape: import('element-plus/es/utils').EpPropFinalized<StringConstructor, "circle" | "square", unknown, "circle", boolean>;
-    src: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    size: {
+        readonly type: import('vue').PropType<number | "" | "small" | "default" | "large">;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
+    shape: {
+        readonly type: import('vue').PropType<"circle" | "square">;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "circle";
+    };
+    src: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
     alt: StringConstructor;
     srcSet: StringConstructor;
-    fit: import('element-plus/es/utils').EpPropFinalized<(new (...args: any[]) => ObjectFitProperty & {}) | (() => ObjectFitProperty) | ((new (...args: any[]) => ObjectFitProperty & {}) | (() => ObjectFitProperty))[], unknown, unknown, "cover", boolean>;
+    fit: {
+        readonly type: import('vue').PropType<any>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "cover";
+    };
 }>, {
     /** @description 图片路径 */
     src: string;
@@ -68,27 +130,51 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     small: BooleanConstructor;
     /** @description 缩略图 */
     thumb: BooleanConstructor;
-    size: import('element-plus/es/utils').EpPropFinalized<readonly [NumberConstructor, StringConstructor], "" | "small" | "default" | "large", number, "", boolean>;
-    shape: import('element-plus/es/utils').EpPropFinalized<StringConstructor, "circle" | "square", unknown, "circle", boolean>;
-    src: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    size: {
+        readonly type: import('vue').PropType<number | "" | "small" | "default" | "large">;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
+    shape: {
+        readonly type: import('vue').PropType<"circle" | "square">;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "circle";
+    };
+    src: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
     alt: StringConstructor;
     srcSet: StringConstructor;
-    fit: import('element-plus/es/utils').EpPropFinalized<(new (...args: any[]) => ObjectFitProperty & {}) | (() => ObjectFitProperty) | ((new (...args: any[]) => ObjectFitProperty & {}) | (() => ObjectFitProperty))[], unknown, unknown, "cover", boolean>;
+    fit: {
+        readonly type: import('vue').PropType<any>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "cover";
+    };
 }>> & Readonly<{
     onError?: (evt: Event) => any;
 }>, {
-    icon: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
-    size: import('element-plus/es/utils').EpPropMergeType<readonly [NumberConstructor, StringConstructor], "" | "default" | "small" | "large", number>;
     small: boolean;
-    fit: any;
+    size: number | "" | "small" | "default" | "large";
+    icon: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     original: boolean;
     normal: boolean;
     thumb: boolean;
-    shape: import('element-plus/es/utils').EpPropMergeType<StringConstructor, "circle" | "square", unknown>;
+    shape: "circle" | "square";
     src: string;
-}, import('vue').SlotsType<Partial<{
-    default: (arg: {
-        src: string;
-    }) => import('vue').VNode[];
-}>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    fit: any;
+}, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaAvatarSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

@@ -1,7 +1,6 @@
-import "../../utils/index.mjs";
+import { withInstall } from "@fast-china/utils";
 import FormItemTip from "./src/formItemTip.mjs";
 import { faFormItemTipProps } from "./src/formItemTip.mjs";
-import { withInstall } from "../../utils/vue/install.mjs";
 const FaFormItemTip = withInstall(FormItemTip);
 export {
   FaFormItemTip,

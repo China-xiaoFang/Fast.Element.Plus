@@ -1,7 +1,7 @@
 import type { Component } from "vue";
 import { computed, defineComponent, reactive } from "vue";
 import { Picture } from "@element-plus/icons-vue";
-import { definePropType, makeSlots, useExpose, useProps, useRender } from "@fast-element-plus/utils";
+import { definePropType, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
 import { ElAvatar, avatarEmits, avatarProps } from "element-plus";
 
 export const faAvatarProps = {

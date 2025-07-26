@@ -1,0 +1,44 @@
+.fa-form {
+	// 滚动条
+	padding-right: 10px;
+	.el-form-item__label {
+		padding: 0 6px 0 0;
+	}
+}
+
+.fa-form-small {
+	.el-form-item__label {
+		padding: 0 6px 0 0;
+	}
+}
+
+.fa-form-detail {
+	.el-form-item__label {
+		color: var(--el-color-info);
+		height: 18px;
+		line-height: 18px;
+	}
+	.el-form-item__content {
+		line-height: 14px;
+		// 表单组件自动宽度100%
+		> * {
+			width: auto;
+		}
+	}
+	.el-form-item {
+		margin-bottom: 8px;
+	}
+}
+
+.fa-form-detail-small {
+	.el-form-item__label {
+		height: 16px;
+		line-height: 16px;
+	}
+	.el-form-item__content {
+		line-height: 12px;
+	}
+	.el-form-item {
+		margin-bottom: 6px;
+	}
+}

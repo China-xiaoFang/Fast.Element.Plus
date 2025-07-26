@@ -1,6 +1,5 @@
-import "../../utils/index.mjs";
+import { withInstall } from "@fast-china/utils";
 import IconSelector from "./src/iconSelector.mjs";
-import { withInstall } from "../../utils/vue/install.mjs";
 const FaIconSelector = withInstall(IconSelector);
 export {
   FaIconSelector,

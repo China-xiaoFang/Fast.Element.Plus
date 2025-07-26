@@ -1,10 +1,11 @@
 import { computed, defineComponent, provide, reactive, ref } from "vue";
+import { ElForm, formProps, useGlobalSize } from "element-plus";
 import { FaLayoutGrid } from "@fast-element-plus/components/layoutGrid";
-import type { FaLayoutGridBreakPoint } from "@fast-element-plus/components/layoutGrid";
-import { definePropType, formUtil, makeSlots, useExpose, useProps, useRender } from "@fast-element-plus/utils";
-import type { FormInstance, FormValidationResult } from "element-plus";
-import { ElForm, formProps } from "element-plus";
+import { definePropType, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
 import { isNumber, isObject } from "lodash-unified";
+import { formUtil } from "../utils/form";
+import type { FaLayoutGridBreakPoint } from "@fast-element-plus/components/layoutGrid";
+import type { FormInstance, FormItemContext, FormValidationResult } from "element-plus";
 
 export const faFormProps = {
 	...formProps,
@@ -23,7 +24,7 @@ export const faFormProps = {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 详情From，会删除 FormItem 的 padding-bottom */
+	/** @description 详情From，会删除 FormItem 的 paddinfa-bottom */
 	detailForm: Boolean,
 	/** @description Grid布局*/
 	grid: {
@@ -47,6 +48,8 @@ export default defineComponent({
 	props: faFormProps,
 	slots: makeSlots<FaFormSlots>(),
 	setup(props, { attrs, slots, expose }) {
+		const _globalSize = useGlobalSize();
+
 		const state = reactive({
 			cols: computed(() => {
 				if (isObject(props.cols)) {
@@ -56,7 +59,7 @@ export default defineComponent({
 					return { xs: 1, sm: colsNumber, md: colsNumber, lg: colsNumber, xl: colsNumber };
 				}
 			}),
-			gap: [20, 0],
+			gap: computed(() => (_globalSize.value === "small" ? [15, 0] : [20, 0])),
 		});
 
 		const formRef = ref<FormInstance>();
@@ -67,7 +70,11 @@ export default defineComponent({
 		const elFormProps = useProps(props, formProps);
 
 		useRender(() => (
-			<ElForm {...elFormProps.value} ref={formRef} class={["fa-form", { "fa-form-detail": props.detailForm }]}>
+			<ElForm
+				{...elFormProps.value}
+				ref={formRef}
+				class={["fa-form", `fa-form-${_globalSize.value}`, { [`fa-form-detail fa-form-detail_${_globalSize.value}`]: props.detailForm }]}
+			>
 				{{
 					default: () =>
 						props.grid ? (
@@ -82,20 +89,20 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			...computed(() => ({
-				/** @description Validate the whole form. Receives a callback or returns `Promise`. */
-				validate: (): FormValidationResult => formUtil.validate(formRef),
-				/** @description Validate specified fields. */
-				validateField: (): FormValidationResult => formUtil.validateScrollToField(formRef),
-				/** @description Reset specified fields and remove validation result. */
-				resetFields: formRef.value?.resetFields,
-				/** @description Clear validation message for specified fields. */
-				clearValidate: formRef.value?.clearValidate,
-				/** @description Scroll to the specified fields. */
-				scrollToField: formRef.value?.scrollToField,
-				/** @description All fields context. */
-				fields: formRef.value?.fields,
-			})).value,
+			/** @description 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 */
+			validate: (): FormValidationResult => formUtil.validate(formRef),
+			/** @description 验证具体的某个字段。 */
+			validateField: computed(() => formRef.value?.validateField),
+			/** @description 重置该表单项，将其值重置为初始值，并移除校验结果 */
+			resetFields: computed(() => formRef.value?.resetFields),
+			/** @description 清理某个字段的表单验证信息。 */
+			clearValidate: computed(() => formRef.value?.clearValidate),
+			/** @description 滚动到指定的字段 */
+			scrollToField: computed(() => formRef.value?.scrollToField),
+			/** @description 获取所有字段的 context */
+			fields: computed(() => formRef.value?.fields as FormItemContext[]),
+			/** @description 对整个表单的内容进行验证，带滚动。 接收一个回调函数，或返回 Promise。 */
+			validateScrollToField: (): FormValidationResult => formUtil.validateScrollToField(formRef),
 		});
 	},
 });

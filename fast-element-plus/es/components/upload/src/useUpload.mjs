@@ -1,12 +1,10 @@
-import { ref, inject, watch } from "vue";
-import { FastApp } from "../../../settings/index.mjs";
-import "../../../utils/index.mjs";
+import { ref, inject, onMounted, watch } from "vue";
+import { formContextKey, formItemContextKey, ElMessage, ElNotification, genFileId } from "element-plus";
+import { consoleWarn, consoleError } from "@fast-china/utils";
 import { useVModel } from "@vueuse/core";
 import { Decimal } from "decimal.js";
-import { formContextKey, formItemContextKey, ElMessage, ElNotification, genFileId } from "element-plus";
 import { isNumber, isString, isArray } from "lodash-unified";
-import { uploadUtil } from "../../../utils/upload.mjs";
-import { consoleError, consoleWarn } from "../../../utils/console.mjs";
+import { uploadUtil } from "../utils/upload.mjs";
 const useUpload = (componentName, fileTypeName, props, emit, data) => {
   const fileList = useVModel(props, "fileList", emit, { passive: true });
   const loading = ref(false);
@@ -15,6 +13,11 @@ const useUpload = (componentName, fileTypeName, props, emit, data) => {
   const mbNum = new Decimal(1024);
   const maxSizeKB = new Decimal(isNumber(data == null ? void 0 : data.maxSize) ? data == null ? void 0 : data.maxSize : Number(data == null ? void 0 : data.maxSize));
   const maxSizeMB = maxSizeKB.div(mbNum);
+  onMounted(() => {
+    if (!data.uploadApi && !data.uploadUrl) {
+      consoleWarn(componentName, "['uploadApi', 'uploadUrl'] 属性必须二选一。");
+    }
+  });
   const handleValue = () => {
     if (fileList.value.length > 0) {
       if (isString(props.modelValue)) {
@@ -40,15 +43,19 @@ const useUpload = (componentName, fileTypeName, props, emit, data) => {
     if (props.data) {
       propsData = uploadUtil.getPropsData(options.file, props.data);
     }
-    const uploadUrl = (data == null ? void 0 : data.uploadUrl) ?? FastApp.state.upload.url;
-    if (!uploadUrl) {
-      ElMessage.error(`上传${fileTypeName}地址不能为空`);
-      consoleError(componentName, `上传${fileTypeName}地址 “uploadUrl” 不能为空`);
+    if (!(data == null ? void 0 : data.uploadUrl) && !(data == null ? void 0 : data.uploadUrl)) {
+      ElMessage.error(`上传${fileTypeName}Api或地址不能为空`);
+      consoleError(componentName, `上传${fileTypeName}接口 “uploadApi” 或地址 “uploadUrl” 不能为空`);
       return;
     }
     loading.value = true;
     try {
-      const fileUrl = await uploadUtil.uploadFile(uploadUrl, options.file, options.filename, propsData);
+      let fileUrl;
+      if (data.uploadApi) {
+        fileUrl = await uploadUtil.uploadFileByApi(data.uploadApi, options.file, options.filename, propsData);
+      } else {
+        fileUrl = await uploadUtil.uploadFile(data.uploadUrl, options.file, options.filename, propsData);
+      }
       options.onSuccess(fileUrl);
     } finally {
       loading.value = false;
@@ -90,6 +97,7 @@ const useUpload = (componentName, fileTypeName, props, emit, data) => {
       ElMessage.error(`只允许上传【${uploadFileNames}】格式的${fileTypeName}`);
       return false;
     }
+    return true;
   };
   watch(
     () => props.modelValue,

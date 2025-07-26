@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}}),require("../../utils/index.js");const e=require("./src/iconSelector.js"),t=require("../../utils/vue/install.js").withInstall(e.default);exports.FaIconSelector=t,exports.default=t;
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/iconSelector.js"),r=e.withInstall(t.default);exports.FaIconSelector=r,exports.default=r;
 //# sourceMappingURL=index.js.map

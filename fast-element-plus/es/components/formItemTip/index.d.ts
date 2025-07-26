@@ -1,7 +1,6 @@
+import { TSXWithInstall } from "@fast-china/utils";
+import type { default as FormItemTip, faFormItemTipProps } from "./src/formItemTip";
 import type { ExtractPropTypes } from "vue";
-import type { default as FormItemTip } from "./src/formItemTip";
-import type { faFormItemTipProps } from "./src/formItemTip";
-import type { TSXWithInstall } from "../../utils";
 
 export declare const FaFormItemTip: TSXWithInstall<typeof FormItemTip>;
 export default FaFormItemTip;

@@ -1,6 +1,6 @@
+import { TSXWithInstall } from "@fast-china/utils";
 import type { default as LayoutGrid } from "./src/layoutGrid";
 import type { default as LayoutGridItem } from "./src/layoutGridItem";
-import type { TSXWithInstall } from "../../utils";
 
 export declare const FaLayoutGrid: TSXWithInstall<typeof LayoutGrid> & {
 	LayoutGridItem: typeof LayoutGridItem;

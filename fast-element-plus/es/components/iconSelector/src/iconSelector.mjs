@@ -1,14 +1,11 @@
 import { isVNode, defineComponent, reactive, computed, createVNode, createTextVNode } from "vue";
+import { ElPopover, ElScrollbar, ElInput, ElIcon } from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import { ChromeFilled, RefreshRight } from "@element-plus/icons-vue";
+import { RefreshRight, ChromeFilled } from "@element-plus/icons-vue";
 import { FaIcon } from "../../icon/index.mjs";
-import { FastElementPlusIconsVue } from "@fast-element-plus/icons-vue";
-import "../../../utils/index.mjs";
-import { ElPopover, ElInput, ElIcon, ElScrollbar } from "element-plus";
-import { isString } from "lodash-unified";
-import { definePropType } from "../../../utils/vue/props.mjs";
-import { withDefineType } from "../../../utils/vue/with.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
+import FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
+import { withDefineType, useRender, useExpose, definePropType } from "@fast-china/utils";
+import { isString, isNull } from "lodash-unified";
 function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
@@ -22,9 +19,9 @@ const IconSelector = /* @__PURE__ */ defineComponent({
   },
   emits: {
     /** @description v-model 回调 */
-    "update:modelValue": (value) => isString(value),
+    "update:modelValue": (value) => isString(value) || isNull(value),
     /** @description 改变 */
-    change: (value) => isString(value)
+    change: (value) => isString(value) || isNull(value)
   },
   setup(props, {
     attrs,
@@ -105,15 +102,21 @@ const IconSelector = /* @__PURE__ */ defineComponent({
         }, [createTextVNode("请选择图标")]), createVNode("div", {
           "class": "fa-icon-selector-popover__box-header__tab"
         }, [createVNode("span", {
-          "class": [state.iconType === "ele" ? "fa-icon-selector-popover__box-header__tab-is-active" : ""],
+          "class": {
+            "is-active": state.iconType === "ele"
+          },
           "title": "Element Plus 图标",
           "onClick": () => handleTabClick("ele")
         }, [createTextVNode("ele")]), createVNode("span", {
-          "class": [state.iconType === "fastEle" ? "fa-icon-selector-popover__box-header__tab-is-active" : ""],
+          "class": {
+            "is-active": state.iconType === "fastEle"
+          },
           "title": "Fast Element Plus 图标",
           "onClick": () => handleTabClick("fastEle")
         }, [createTextVNode("fastEle")]), createVNode("span", {
-          "class": [state.iconType === "local" ? "fa-icon-selector-popover__box-header__tab-is-active" : ""],
+          "class": {
+            "is-active": state.iconType === "local"
+          },
           "title": "本地图标",
           "onClick": () => handleTabClick("local")
         }, [createTextVNode("local")])])]), createVNode("div", {
@@ -129,12 +132,9 @@ const IconSelector = /* @__PURE__ */ defineComponent({
         })])]);
       }
     }));
-    expose({
+    return useExpose(expose, {
       iconType: state.iconType
     });
-    return {
-      iconType: state.iconType
-    };
   }
 });
 export {

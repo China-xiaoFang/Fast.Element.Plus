@@ -1,15 +1,9 @@
-import { defineComponent, reactive, computed, ref, nextTick, watch, createVNode, mergeProps, Fragment, withDirectives, resolveDirective } from "vue";
-import { Refresh, FullScreen, Close, Eleme } from "@element-plus/icons-vue";
+import { defineComponent, reactive, ref, nextTick, watch, createVNode, mergeProps, Fragment, withDirectives, resolveDirective, computed } from "vue";
+import { drawerProps, drawerEmits, useGlobalSize, ElMessage, ElMessageBox, ElDrawer, ElButton, ElScrollbar, ElIcon } from "element-plus";
+import { Eleme, Refresh, FullScreen, Close } from "@element-plus/icons-vue";
 import { FullScreenExit } from "@fast-element-plus/icons-vue";
-import "../../../utils/index.mjs";
-import { drawerProps, drawerEmits, ElMessage, ElMessageBox, ElDrawer, ElIcon, ElScrollbar, ElButton } from "element-plus";
+import { definePropType, execFunction, consoleError, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
 import { isBoolean } from "lodash-unified";
-import { definePropType, useProps } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { execFunction } from "../../../utils/vue/func.mjs";
-import { consoleError } from "../../../utils/console.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
 const faDrawerProps = {
   ...drawerProps,
   /** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
@@ -86,22 +80,13 @@ const Drawer = /* @__PURE__ */ defineComponent({
     emit,
     expose
   }) {
+    const _globalSize = useGlobalSize();
     const state = reactive({
       loading: false,
       visible: false,
       fullscreen: false,
       size: props.size ?? "30%",
-      maxHeight: computed(() => {
-        let maxHeight = "100vh";
-        if (props.withHeader) {
-          maxHeight += " - var(--fa-drawer-header-height)";
-        }
-        if (!props.hideFooter) {
-          maxHeight += " - var(--fa-drawer-footer-height)";
-        }
-        maxHeight += " - 18px)";
-        return maxHeight;
-      }),
+      dragging: false,
       refreshing: false
     });
     const drawerRef = ref();
@@ -200,7 +185,7 @@ const Drawer = /* @__PURE__ */ defineComponent({
     const elDrawerProps = useProps(props, drawerProps, ["modelValue", "size", "showClose", "beforeClose"]);
     useRender(() => createVNode(ElDrawer, mergeProps(elDrawerProps.value, {
       "ref": drawerRef,
-      "class": ["fa-drawer", {
+      "class": ["fa-drawer", `fa-drawer-${_globalSize.value}`, {
         "fa-drawer__fullscreen": state.fullscreen
       }],
       "modelValue": state.visible,
@@ -245,14 +230,9 @@ const Drawer = /* @__PURE__ */ defineComponent({
         "class": "fa-drawer__draggable",
         "onmousedown": handleDraggableMousedown
       }, null), withDirectives(createVNode(ElScrollbar, {
-        "class": "fa-drawer__scrollbar",
-        "wrapStyle": {
-          "--fa-drawer-scrollbar__max-height": state.maxHeight,
-          maxHeight: "var(--fa-drawer-scrollbar__max-height)"
-        },
         "element-loading-text": "加载中..."
       }, {
-        default: () => [state.refreshing ? null : slots.default && slots.default(state)]
+        default: () => [!state.refreshing && slots.default && slots.default(state)]
       }), [[resolveDirective("loading"), state.loading]])]),
       ...!props.hideFooter && {
         footer: () => createVNode(Fragment, null, [slots.footer && slots.footer({
@@ -275,18 +255,25 @@ const Drawer = /* @__PURE__ */ defineComponent({
       }
     }));
     return useExpose(expose, {
-      ...computed(() => {
-        var _a, _b, _c;
-        return {
-          handleClose: (_a = drawerRef.value) == null ? void 0 : _a.handleClose,
-          afterEnter: (_b = drawerRef.value) == null ? void 0 : _b.afterEnter,
-          afterLeave: (_c = drawerRef.value) == null ? void 0 : _c.afterLeave
-        };
-      }).value,
+      /** @description 用于关闭 Drawer, 该方法会调用传入的 before-close 方法 */
+      handleClose: computed(() => {
+        var _a;
+        return (_a = drawerRef.value) == null ? void 0 : _a.handleClose;
+      }),
+      /** @description 进入动画后的回调 */
+      afterEnter: computed(() => {
+        var _a;
+        return (_a = drawerRef.value) == null ? void 0 : _a.afterEnter;
+      }),
+      /** @description 离开动画后的回调 */
+      afterLeave: computed(() => {
+        var _a;
+        return (_a = drawerRef.value) == null ? void 0 : _a.afterLeave;
+      }),
       /** @description 加载状态 */
-      loading: state.loading,
+      loading: computed(() => state.loading),
       /** @description 是否显示 */
-      visible: state.visible,
+      visible: computed(() => state.visible),
       /** @description 打开弹窗 */
       open: handleOpen,
       /** @description 关闭弹窗 */

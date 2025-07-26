@@ -1,10 +1,6 @@
-import { defineComponent, ref, provide, computed, onMounted, nextTick, onActivated, onUnmounted, onDeactivated, watch, createVNode } from "vue";
-import "../../../utils/index.mjs";
+import { defineComponent, ref, provide, computed, onMounted, nextTick, watch, onActivated, onUnmounted, onDeactivated, createVNode } from "vue";
+import { useRender, useExpose, makeSlots, definePropType } from "@fast-china/utils";
 import { isArray, isObject, isNumber } from "lodash-unified";
-import { definePropType } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { consoleWarn } from "../../../utils/console.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
 const LayoutGrid = /* @__PURE__ */ defineComponent({
   name: "FaLayoutGrid",
   props: {
@@ -97,43 +93,18 @@ const LayoutGrid = /* @__PURE__ */ defineComponent({
         }
       }
     };
-    const findIndex = () => {
-      var _a, _b, _c, _d, _e, _f, _g;
-      const fields = [];
-      let suffix = null;
-      const slotContent = (_a = divElRef.value) == null ? void 0 : _a.children;
-      if (slotContent) {
-        for (let i = 0; i < slotContent.length; i++) {
-          const slotNode = (_b = slotContent[i]["__vueParentComponent"]) == null ? void 0 : _b.vnode;
-          if (typeof (slotNode == null ? void 0 : slotNode.type) === "object" && (slotNode == null ? void 0 : slotNode.type.name) === "FaLayoutGridItem" && ((_c = slotNode == null ? void 0 : slotNode.props) == null ? void 0 : _c.suffix) !== void 0) suffix = slotNode;
-          if (typeof (slotNode == null ? void 0 : slotNode.type) === "symbol" && Array.isArray(slotNode == null ? void 0 : slotNode.children)) slotNode == null ? void 0 : slotNode.children.forEach((child) => fields.push(child));
-        }
-      }
-      let suffixCols = 0;
-      if (suffix) {
-        suffixCols = (((_d = suffix.props[breakPoint.value]) == null ? void 0 : _d.span) ?? ((_e = suffix.props) == null ? void 0 : _e.span) ?? 1) + (((_f = suffix.props[breakPoint.value]) == null ? void 0 : _f.offset) ?? ((_g = suffix.props) == null ? void 0 : _g.offset) ?? 0);
-      }
-      try {
-        let find = false;
-        fields.reduce((prev = 0, current, index) => {
-          var _a2, _b2, _c2, _d2;
-          prev += (((_a2 = current.props[breakPoint.value]) == null ? void 0 : _a2.span) ?? ((_b2 = current.props) == null ? void 0 : _b2.span) ?? 1) + (((_c2 = current.props[breakPoint.value]) == null ? void 0 : _c2.offset) ?? ((_d2 = current.props) == null ? void 0 : _d2.offset) ?? 0);
-          if (prev > collapsedRows * cols.value - suffixCols) {
-            hiddenIndex.value = index;
-            find = true;
-          }
-          return prev;
-        }, 0);
-        if (!find) hiddenIndex.value = -1;
-      } catch (error) {
-        consoleWarn("FaLayoutGrid", error);
-      }
-    };
     let resizeObserver = null;
     onMounted(() => {
       nextTick(() => {
         resizeObserver = new ResizeObserver(resize);
         resizeObserver.observe(divElRef.value);
+      });
+      watch(() => breakPoint.value, (newValue) => {
+        emit("breakPointChange", {
+          breakPoint: newValue
+        });
+      }, {
+        immediate: true
       });
     });
     onActivated(() => {
@@ -148,22 +119,6 @@ const LayoutGrid = /* @__PURE__ */ defineComponent({
     onDeactivated(() => {
       resizeObserver == null ? void 0 : resizeObserver.disconnect();
     });
-    onMounted(() => {
-      watch(() => breakPoint.value, () => {
-        if (props.collapsed) {
-          emit("breakPointChange", {
-            breakPoint: breakPoint.value
-          });
-          findIndex();
-        }
-      }, {
-        immediate: true
-      });
-    });
-    watch(() => props.collapsed, (value) => {
-      if (value) return findIndex();
-      hiddenIndex.value = -1;
-    });
     const gap = computed(() => {
       if (isNumber(props.gap)) return `${props.gap}px`;
       if (isArray(props.gap)) return `${props.gap[1]}px ${props.gap[0]}px`;
@@ -176,10 +131,48 @@ const LayoutGrid = /* @__PURE__ */ defineComponent({
         gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`
       };
     });
-    useRender(() => createVNode("div", {
-      "ref": divElRef,
-      "style": style.value
-    }, [slots.default && slots.default()]));
+    useRender(() => {
+      var _a, _b, _c, _d;
+      const defaultSlot = (slots == null ? void 0 : slots.default()) ?? [];
+      if (props.collapsed) {
+        const fields = [];
+        let suffix = null;
+        defaultSlot.forEach((slot) => {
+          var _a2;
+          if (typeof slot.type === "object" && slot.type.name === "FaLayoutGridItem" && ((_a2 = slot.props) == null ? void 0 : _a2.suffix) !== void 0) suffix = slot;
+          if (typeof slot.type === "symbol" && Array.isArray(slot == null ? void 0 : slot.children)) fields.push(...slot.children);
+        });
+        let suffixCols = 0;
+        if (suffix) {
+          suffixCols = (((_a = suffix.props[breakPoint.value]) == null ? void 0 : _a.span) ?? ((_b = suffix.props) == null ? void 0 : _b.span) ?? 1) + (((_c = suffix.props[breakPoint.value]) == null ? void 0 : _c.offset) ?? ((_d = suffix.props) == null ? void 0 : _d.offset) ?? 0);
+        }
+        try {
+          let find = false;
+          fields.reduce((prev = 0, current, index) => {
+            var _a2, _b2, _c2, _d2;
+            prev += (((_a2 = current.props[breakPoint.value]) == null ? void 0 : _a2.span) ?? ((_b2 = current.props) == null ? void 0 : _b2.span) ?? 1) + (((_c2 = current.props[breakPoint.value]) == null ? void 0 : _c2.offset) ?? ((_d2 = current.props) == null ? void 0 : _d2.offset) ?? 0);
+            if (Number(prev) > collapsedRows * Number(cols.value) - suffixCols) {
+              hiddenIndex.value = index;
+              find = true;
+              throw "find it";
+            }
+            return prev;
+          }, 0);
+          if (!find) hiddenIndex.value = -1;
+        } catch {
+        }
+      } else {
+        hiddenIndex.value = -1;
+      }
+      return createVNode("div", {
+        "ref": divElRef,
+        "style": style.value
+      }, [defaultSlot]);
+    });
+    return useExpose(expose, {
+      /** @description 响应式断点 */
+      breakPoint
+    });
   }
 });
 export {

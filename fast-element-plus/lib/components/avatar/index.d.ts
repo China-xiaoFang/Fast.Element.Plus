@@ -1,7 +1,6 @@
 import type { ExtractPropTypes } from "vue";
-import type { default as Avatar } from "./src/avatar";
-import { faAvatarEmits, faAvatarProps } from "./src/avatar";
-import type { TSXWithInstall } from "../../utils";
+import { TSXWithInstall } from "@fast-china/utils";
+import { default as Avatar, faAvatarEmits, faAvatarProps } from "./src/avatar";
 
 export declare const FaAvatar: TSXWithInstall<typeof Avatar>;
 export default FaAvatar;

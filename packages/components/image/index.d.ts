@@ -1,7 +1,6 @@
+import { TSXWithInstall } from "@fast-china/utils";
+import type { default as Image, faImageProps } from "./src/image";
 import type { ExtractPropTypes } from "vue";
-import type { default as Image } from "./src/image";
-import type { faImageProps } from "./src/image";
-import type { TSXWithInstall } from "../../utils";
 
 export declare const FaImage: TSXWithInstall<typeof Image>;
 export default FaImage;

@@ -1,11 +1,9 @@
 @use "./animation.scss";
 
-.w100 {
-	width: 100%;
-}
-
-.h100 {
-	height: 100%;
+/** 复制图标样式 */
+.fa__copy-icon {
+	margin-right: 3px;
+	cursor: pointer;
 }
 
 /** 鼠标置入放大动画 */
@@ -42,81 +40,5 @@
 	pointer-events: none !important;
 	&:hover {
 		cursor: not-allowed !important;
-	}
-}
-
-/** 左右布局，左边自动宽度 */
-.fa__display_lr-l {
-	--width: 400px;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	> :first-child {
-		flex: 1;
-		min-width: 0px;
-		width: auto;
-		height: auto;
-	}
-	> :last-child {
-		max-width: var(--width);
-		margin-left: 10px;
-	}
-}
-
-/** 左右布局，右边自动宽度 */
-.fa__display_lr-r {
-	--width: 400px;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	> :first-child {
-		max-width: var(--width);
-		margin-right: 10px;
-	}
-	> :last-child {
-		flex: 1;
-		min-width: 0px;
-		width: auto;
-		height: auto;
-	}
-}
-
-/** 上下布局，上边自动宽度 */
-.fa__display_tb-t {
-	--height: 50%;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	> :first-child {
-		flex: 1;
-		min-height: 0px;
-	}
-	> :last-child {
-		max-height: var(--height);
-		margin-top: 10px;
-	}
-}
-
-/** 上下布局，下边自动宽度 */
-.fa__display_tb-b {
-	--height: 50%;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	> :first-child {
-		max-height: var(--height);
-		margin-bottom: 10px;
-	}
-	> :last-child {
-		flex: 1;
-		min-height: 0px;
 	}
 }

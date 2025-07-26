@@ -1,14 +1,19 @@
-import type { VNode } from "vue";
 import { Fragment, computed, defineComponent, nextTick, reactive, ref, watch } from "vue";
+import { ElButton, ElDialog, ElIcon, ElMessage, ElMessageBox, ElScrollbar, dialogEmits, dialogProps, useGlobalSize } from "element-plus";
 import { Close, Eleme, FullScreen, Refresh } from "@element-plus/icons-vue";
 import { FullScreenExit } from "@fast-element-plus/icons-vue";
-import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-element-plus/utils";
+import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
+import { isBoolean } from "lodash-unified";
 import type { DialogInstance } from "element-plus";
-import { ElButton, ElDialog, ElIcon, ElMessage, ElMessageBox, ElScrollbar, dialogEmits, dialogProps } from "element-plus";
-import { isBoolean, isNumber } from "lodash-unified";
+import type { VNode } from "vue";
 
 export const faDialogProps = {
 	...dialogProps,
+	/** @description whether to align the dialog both horizontally and vertically*/
+	alignCenter: {
+		type: Boolean,
+		default: true,
+	},
 	/** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
 	appendToBody: {
 		type: Boolean,
@@ -29,9 +34,15 @@ export const faDialogProps = {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 高度 */
-	height: {
+	/** @description value for `margin-top` of Dialog CSS, default is 15vh */
+	top: {
+		type: String,
+		default: "5vh",
+	},
+	/** @description width of Dialog, default is 50% */
+	width: {
 		type: [String, Number],
+		default: "90%",
 	},
 	/** @description 显示刷新按钮 */
 	showRefresh: {
@@ -100,36 +111,12 @@ export default defineComponent({
 	emits: faDialogEmits,
 	slots: makeSlots<FaDialogSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
+		const _globalSize = useGlobalSize();
+
 		const state = reactive({
 			loading: false,
 			visible: false,
 			fullscreen: false,
-			width: computed(() => {
-				if (!props.width) return "auto";
-				if (isNumber(props.width)) return `${props.width}px`;
-				return props.width;
-			}),
-			height: computed(() => {
-				if (!props.height) return "auto";
-				if (isNumber(props.height)) return `${props.height}px`;
-				return props.height;
-			}),
-			maxHeight: computed(() => {
-				let maxHeight = "calc(";
-				if (state.fullscreen) {
-					maxHeight += "100vh";
-				} else {
-					maxHeight += "var(--fa-dialog-height)";
-				}
-				maxHeight += " - var(--fa-dialog-header-height)";
-
-				if (!props.hideFooter) {
-					maxHeight += " - var(--fa-dialog-footer-height)";
-				}
-				// 16px(内容padding高度) - 2px(线条高度)
-				maxHeight += " - 18px)";
-				return maxHeight;
-			}),
 			refreshing: false,
 		});
 
@@ -185,6 +172,7 @@ export default defineComponent({
 		};
 
 		const handleRefresh = (): void => {
+			if (state.loading) return;
 			state.refreshing = true;
 			state.loading = true;
 			setTimeout(() => {
@@ -247,13 +235,11 @@ export default defineComponent({
 			<ElDialog
 				{...elDialogProps.value}
 				ref={dialogRef}
-				class={["fa-dialog", { "fa-dialog__fill-height": props.fillHeight, "fa-dialog__fullscreen": state.fullscreen }]}
-				style={{
-					width: state.width,
-					maxWidth: state.width,
-					height: state.height,
-					maxHeight: state.height,
-				}}
+				class={[
+					"fa-dialog",
+					`fa-dialofa-${_globalSize.value}`,
+					{ "fa-dialofa__fill-height": props.fillHeight, "fa-dialofa__fullscreen": state.fullscreen },
+				]}
 				vModel={state.visible}
 				fullscreen={state.fullscreen}
 				showClose={false}
@@ -266,7 +252,7 @@ export default defineComponent({
 				{{
 					header: () => (
 						<Fragment>
-							<div class="fa-dialog__header-title">
+							<div class="fa-dialofa__header-title">
 								{props.title}
 								{slots.header && slots.header({ loading: state.loading, close: handleCloseClick })}
 							</div>
@@ -274,7 +260,7 @@ export default defineComponent({
 								<div
 									title="刷新"
 									class={[
-										"fa-dialog__header-icon",
+										"fa-dialofa__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
 									onClick={handleRefresh}
@@ -288,7 +274,7 @@ export default defineComponent({
 								<div
 									title={state.fullscreen ? "关闭全屏显示" : "全屏显示"}
 									class={[
-										"fa-dialog__header-icon",
+										"fa-dialofa__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
 									onClick={handleFullscreen}
@@ -300,7 +286,7 @@ export default defineComponent({
 								<div
 									title="关闭"
 									class={[
-										"fa-dialog__header-icon",
+										"fa-dialofa__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
 									onClick={handleCloseClick}
@@ -313,13 +299,8 @@ export default defineComponent({
 						</Fragment>
 					),
 					default: () => (
-						<ElScrollbar
-							class="fa-dialog__scrollbar"
-							wrapStyle={{ "--fa-dialog-scrollbar__max-height": state.maxHeight, maxHeight: "var(--fa-dialog-scrollbar__max-height)" }}
-							vLoading={state.loading}
-							element-loading-text="加载中..."
-						>
-							{state.refreshing ? null : slots.default && slots.default(state)}
+						<ElScrollbar vLoading={state.loading} element-loading-text="加载中...">
+							{!state.refreshing && slots.default && slots.default(state)}
 						</ElScrollbar>
 					),
 					...(!props.hideFooter && {
@@ -350,14 +331,14 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			...computed(() => ({
-				dialogContentRef: dialogRef.value?.dialogContentRef,
-				resetPosition: dialogRef.value?.resetPosition,
-			})).value,
+			/** @description 弹窗内容引用 */
+			dialogContentRef: computed(() => dialogRef.value?.dialogContentRef),
+			/** @description 重置位置 */
+			resetPosition: computed(() => dialogRef.value?.resetPosition),
 			/** @description 加载状态 */
-			loading: state.loading,
+			loading: computed(() => state.loading),
 			/** @description 是否显示 */
-			visible: state.visible,
+			visible: computed(() => state.visible),
 			/** @description 打开弹窗 */
 			open: handleOpen,
 			/** @description 关闭弹窗 */

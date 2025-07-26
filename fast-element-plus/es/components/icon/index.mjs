@@ -1,6 +1,5 @@
-import "../../utils/index.mjs";
+import { withInstall } from "@fast-china/utils";
 import Icon from "./src/icon.mjs";
-import { withInstall } from "../../utils/vue/install.mjs";
 const FaIcon = withInstall(Icon);
 export {
   FaIcon,

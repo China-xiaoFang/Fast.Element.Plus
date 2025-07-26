@@ -1,8 +1,8 @@
-import type { VNode, VNodeArrayChildren } from "vue";
 import { computed, defineComponent, nextTick, onActivated, onDeactivated, onMounted, onUnmounted, provide, ref, watch } from "vue";
-import { consoleWarn, definePropType, makeSlots, useRender } from "@fast-element-plus/utils";
+import { definePropType, makeSlots, useExpose, useRender } from "@fast-china/utils";
 import { isArray, isNumber, isObject } from "lodash-unified";
 import type { FaLayoutGridBreakPoint } from "./layoutGrid.type";
+import type { VNode, VNodeArrayChildren } from "vue";
 
 type FaLayoutGridSlots = {
 	/** @description 默认内容插槽 */
@@ -87,46 +87,6 @@ export default defineComponent({
 			}
 		};
 
-		const findIndex = (): void => {
-			const fields: VNodeArrayChildren = [];
-			let suffix: VNode = null;
-			const slotContent = divElRef.value?.children;
-			if (slotContent) {
-				for (let i = 0; i < slotContent.length; i++) {
-					const slotNode = slotContent[i]["__vueParentComponent"]?.vnode;
-					if (typeof slotNode?.type === "object" && slotNode?.type.name === "FaLayoutGridItem" && slotNode?.props?.suffix !== undefined)
-						suffix = slotNode;
-					if (typeof slotNode?.type === "symbol" && Array.isArray(slotNode?.children))
-						slotNode?.children.forEach((child: VNode) => fields.push(child));
-				}
-			}
-
-			// 计算 suffix 所占用的列
-			let suffixCols = 0;
-			if (suffix) {
-				suffixCols =
-					(suffix.props[breakPoint.value]?.span ?? suffix.props?.span ?? 1) +
-					(suffix.props[breakPoint.value]?.offset ?? suffix.props?.offset ?? 0);
-			}
-			try {
-				let find = false;
-				fields.reduce((prev = 0, current, index) => {
-					prev +=
-						((current as VNode).props[breakPoint.value]?.span ?? (current as VNode).props?.span ?? 1) +
-						((current as VNode).props[breakPoint.value]?.offset ?? (current as VNode).props?.offset ?? 0);
-					if ((prev as number) > collapsedRows * (cols.value as number) - suffixCols) {
-						hiddenIndex.value = index;
-						find = true;
-						// throw "find it";
-					}
-					return prev;
-				}, 0);
-				if (!find) hiddenIndex.value = -1;
-			} catch (error) {
-				consoleWarn("FaLayoutGrid", error);
-			}
-		};
-
 		let resizeObserver: ResizeObserver = null;
 
 		onMounted(() => {
@@ -134,6 +94,17 @@ export default defineComponent({
 				resizeObserver = new ResizeObserver(resize);
 				resizeObserver.observe(divElRef.value);
 			});
+
+			// 断点变化时 执行 findIndex
+			watch(
+				() => breakPoint.value,
+				(newValue) => {
+					emit("breakPointChange", { breakPoint: newValue });
+				},
+				{
+					immediate: true,
+				}
+			);
 		});
 
 		onActivated(() => {
@@ -151,31 +122,6 @@ export default defineComponent({
 			resizeObserver?.disconnect();
 		});
 
-		onMounted(() => {
-			// 断点变化时 执行 findIndex
-			watch(
-				() => breakPoint.value,
-				() => {
-					if (props.collapsed) {
-						emit("breakPointChange", { breakPoint: breakPoint.value });
-						findIndex();
-					}
-				},
-				{
-					immediate: true,
-				}
-			);
-		});
-
-		// 监听 collapsed
-		watch(
-			() => props.collapsed,
-			(value) => {
-				if (value) return findIndex();
-				hiddenIndex.value = -1;
-			}
-		);
-
 		// 设置间距
 		const gap = computed(() => {
 			if (isNumber(props.gap)) return `${props.gap}px`;
@@ -192,10 +138,57 @@ export default defineComponent({
 			};
 		});
 
-		useRender(() => (
-			<div ref={divElRef} style={style.value}>
-				{slots.default && slots.default()}
-			</div>
-		));
+		useRender(() => {
+			const defaultSlot = slots?.default() ?? [];
+
+			if (props.collapsed) {
+				const fields: VNodeArrayChildren = [];
+				let suffix: VNode = null;
+
+				defaultSlot.forEach((slot: any) => {
+					// suffix
+					if (typeof slot.type === "object" && slot.type.name === "FaLayoutGridItem" && slot.props?.suffix !== undefined) suffix = slot;
+					// slot children
+					if (typeof slot.type === "symbol" && Array.isArray(slot?.children)) fields.push(...slot.children);
+				});
+
+				// 计算 suffix 所占用的列
+				let suffixCols = 0;
+				if (suffix) {
+					suffixCols =
+						(suffix.props[breakPoint.value]?.span ?? suffix.props?.span ?? 1) +
+						(suffix.props[breakPoint.value]?.offset ?? suffix.props?.offset ?? 0);
+				}
+
+				try {
+					let find = false;
+					fields.reduce((prev = 0, current, index) => {
+						prev +=
+							((current as VNode).props[breakPoint.value]?.span ?? (current as VNode).props?.span ?? 1) +
+							((current as VNode).props[breakPoint.value]?.offset ?? (current as VNode).props?.offset ?? 0);
+						if (Number(prev) > collapsedRows * Number(cols.value) - suffixCols) {
+							hiddenIndex.value = index;
+							find = true;
+							throw "find it";
+						}
+						return prev;
+					}, 0);
+					if (!find) hiddenIndex.value = -1;
+				} catch {}
+			} else {
+				hiddenIndex.value = -1;
+			}
+
+			return (
+				<div ref={divElRef} style={style.value}>
+					{defaultSlot}
+				</div>
+			);
+		});
+
+		return useExpose(expose, {
+			/** @description 响应式断点 */
+			breakPoint,
+		});
 	},
 });

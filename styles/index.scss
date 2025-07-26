@@ -1,2 +1,18 @@
-@use "./mixins/mixins.scss";
-@use "./common/var.scss";
+@use "./common/animation.scss";
+@use "./common/loading.scss";
+@use "./common/overlay.scss";
+@use "./common/common.scss";
+
+@use "./components/carNumber.scss";
+@use "./components/contextMenu.scss";
+@use "./components/dialog.scss";
+@use "./components/drawer.scss";
+@use "./components/form.scss";
+@use "./components/formItemTip.scss";
+@use "./components/image.scss";
+@use "./components/selectPage.scss";
+@use "./components/selectV2.scss";
+@use "./components/table.scss";
+@use "./components/tree.scss";
+@use "./components/uploadImage.scss";
+@use "./components/uploadImages.scss";

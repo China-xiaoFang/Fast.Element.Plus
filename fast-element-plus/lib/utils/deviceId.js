@@ -1,2 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"}),require("../constants/index.js"),require("./index.js");const e=require("../constants/regex.js"),t=require("./storage.js"),s=require("./string.js"),r="__DEVICE_ID";exports.DEVICE_ID_KEY=r,exports.makeIdentity=i=>i&&e.RegExps.UUID.test(i)?(t.Local.set(r,i),window.deviceId=i,i):(i=t.Local.get(r))&&e.RegExps.UUID.test(i)?(window.deviceId=i,i):(i=s.stringUtil.generateUUID(),t.Local.set(r,i),window.deviceId=i,i);
-//# sourceMappingURL=deviceId.js.map

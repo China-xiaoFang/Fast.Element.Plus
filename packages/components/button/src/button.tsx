@@ -2,7 +2,7 @@ import type { Component, VNode } from "vue";
 import { computed, defineComponent, reactive, ref, watch, withModifiers } from "vue";
 import { Eleme } from "@element-plus/icons-vue";
 import { useOverlay } from "@fast-element-plus/hooks";
-import { definePropType, makeSlots, useExpose, useProps, useRender } from "@fast-element-plus/utils";
+import { definePropType, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
 import type { ButtonInstance } from "element-plus";
 import { ElButton, buttonEmits, buttonProps } from "element-plus";
 import { isFunction } from "lodash-unified";
@@ -15,8 +15,7 @@ export const faButtonProps = {
 	 */
 	loadingIcon: {
 		type: definePropType<string | Component>([String, Object, Function]),
-		// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-		default: () => Eleme,
+		default: (): string | Component => Eleme,
 	},
 	/** @description 禁用加载 */
 	disabledLoading: Boolean,
@@ -112,20 +111,18 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			...computed(() => ({
-				/** @description button html element */
-				ref: buttonRef.value?.ref,
-				/** @description button size */
-				size: buttonRef.value?.size,
-				/** @description button type */
-				type: buttonRef.value?.type,
-				/** @description button disabled */
-				disabled: buttonRef.value?.disabled,
-				/** @description whether adding space */
-				shouldAddSpace: buttonRef.value?.shouldAddSpace,
-			})).value,
+			/** @description 按钮 html 元素 */
+			ref: computed(() => buttonRef.value?.ref),
+			/** @description 按钮尺寸 */
+			size: computed(() => buttonRef.value?.size),
+			/** @description 按钮类型 */
+			type: computed(() => buttonRef.value?.type),
+			/** @description 按钮已禁用 */
+			disabled: computed(() => buttonRef.value?.disabled),
+			/** @description 是否在两个字符之间插入空格 */
+			shouldAddSpace: computed(() => buttonRef.value?.shouldAddSpace),
 			/** @description 加载状态 */
-			loading: state.loading,
+			loading: computed(() => state.loading),
 		});
 	},
 });

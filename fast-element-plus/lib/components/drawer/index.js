@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}}),require("../../utils/index.js");const e=require("./src/drawer.js"),r=require("../../utils/vue/install.js").withInstall(e.default);exports.FaDrawer=r,exports.default=r;
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),r=require("./src/drawer.js"),t=e.withInstall(r.default);exports.FaDrawer=t,exports.default=t;
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,9 @@
-import { VNode } from 'vue';
 export declare const faDialogProps: {
+    /** @description whether to align the dialog both horizontally and vertically*/
+    alignCenter: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     /** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
     appendToBody: {
         type: BooleanConstructor;
@@ -20,9 +24,15 @@ export declare const faDialogProps: {
         type: BooleanConstructor;
         default: boolean;
     };
-    /** @description 高度 */
-    height: {
-        type: (StringConstructor | NumberConstructor)[];
+    /** @description value for `margin-top` of Dialog CSS, default is 15vh */
+    top: {
+        type: StringConstructor;
+        default: string;
+    };
+    /** @description width of Dialog, default is 50% */
+    width: {
+        type: (NumberConstructor | StringConstructor)[];
+        default: string;
     };
     /** @description 显示刷新按钮 */
     showRefresh: {
@@ -66,33 +76,73 @@ export declare const faDialogProps: {
     afterOpen: {
         type: import('vue').PropType<() => void>;
     };
-    appendTo: import('element-plus/es/utils').EpPropFinalized<(new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement) | ((new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement))[], unknown, unknown, "body", boolean>;
+    appendTo: {
+        readonly type: import('vue').PropType<string | HTMLElement>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "body";
+    };
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    closeOnClickModal: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    closeOnPressEscape: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    lockScroll: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    modal: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    openDelay: import('element-plus/es/utils').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
-    closeDelay: import('element-plus/es/utils').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
-    top: {
-        readonly type: import('vue').PropType<string>;
+    closeOnClickModal: {
+        readonly type: import('vue').PropType<boolean>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    closeOnPressEscape: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    lockScroll: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    modal: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    openDelay: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 0;
+    };
+    closeDelay: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 0;
     };
     modelValue: BooleanConstructor;
     modalClass: StringConstructor;
-    width: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    };
+    headerClass: StringConstructor;
+    bodyClass: StringConstructor;
+    footerClass: StringConstructor;
     zIndex: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -100,19 +150,46 @@ export declare const faDialogProps: {
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    headerAriaLevel: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    headerAriaLevel: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "2";
+    };
     center: BooleanConstructor;
-    alignCenter: BooleanConstructor;
     closeIcon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) & {}) | (() => string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) | ((new (...args: any[]) => (string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) & {}) | (() => string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     fullscreen: BooleanConstructor;
-    showClose: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    title: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
-    ariaLevel: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    showClose: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    title: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
+    ariaLevel: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "2";
+    };
 };
 export declare const faDialogEmits: {
     /** @description v-model 回调 */
@@ -126,7 +203,28 @@ export declare const faDialogEmits: {
     openAutoFocus: () => boolean;
     closeAutoFocus: () => boolean;
 };
+type FaDialogSlots = {
+    /** @description 默认内容插槽 */
+    default: {
+        loading: boolean;
+    };
+    /** @description 头部插槽 */
+    header: {
+        loading: boolean;
+        close: () => void;
+    };
+    /** @description 底部插槽 */
+    footer: {
+        loading: boolean;
+        close: () => void;
+    };
+};
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
+    /** @description whether to align the dialog both horizontally and vertically*/
+    alignCenter: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     /** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
     appendToBody: {
         type: BooleanConstructor;
@@ -147,9 +245,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    /** @description 高度 */
-    height: {
-        type: (StringConstructor | NumberConstructor)[];
+    /** @description value for `margin-top` of Dialog CSS, default is 15vh */
+    top: {
+        type: StringConstructor;
+        default: string;
+    };
+    /** @description width of Dialog, default is 50% */
+    width: {
+        type: (NumberConstructor | StringConstructor)[];
+        default: string;
     };
     /** @description 显示刷新按钮 */
     showRefresh: {
@@ -193,33 +297,73 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     afterOpen: {
         type: import('vue').PropType<() => void>;
     };
-    appendTo: import('element-plus/es/utils').EpPropFinalized<(new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement) | ((new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement))[], unknown, unknown, "body", boolean>;
+    appendTo: {
+        readonly type: import('vue').PropType<string | HTMLElement>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "body";
+    };
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    closeOnClickModal: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    closeOnPressEscape: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    lockScroll: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    modal: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    openDelay: import('element-plus/es/utils').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
-    closeDelay: import('element-plus/es/utils').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
-    top: {
-        readonly type: import('vue').PropType<string>;
+    closeOnClickModal: {
+        readonly type: import('vue').PropType<boolean>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    closeOnPressEscape: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    lockScroll: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    modal: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    openDelay: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 0;
+    };
+    closeDelay: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 0;
     };
     modelValue: BooleanConstructor;
     modalClass: StringConstructor;
-    width: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    };
+    headerClass: StringConstructor;
+    bodyClass: StringConstructor;
+    footerClass: StringConstructor;
     zIndex: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -227,24 +371,55 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    headerAriaLevel: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    headerAriaLevel: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "2";
+    };
     center: BooleanConstructor;
-    alignCenter: BooleanConstructor;
     closeIcon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) & {}) | (() => string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) | ((new (...args: any[]) => (string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) & {}) | (() => string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     fullscreen: BooleanConstructor;
-    showClose: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    title: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
-    ariaLevel: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    showClose: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    title: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
+    ariaLevel: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "2";
+    };
 }>, {
+    /** @description 弹窗内容引用 */
+    dialogContentRef: import('vue').ComputedRef<any>;
+    /** @description 重置位置 */
+    resetPosition: import('vue').ComputedRef<() => void>;
     /** @description 加载状态 */
-    loading: boolean;
+    loading: import('vue').ComputedRef<boolean>;
     /** @description 是否显示 */
-    visible: boolean;
+    visible: import('vue').ComputedRef<boolean>;
     /** @description 打开弹窗 */
     open: (openFunction?: () => void | Promise<void>) => void;
     /** @description 关闭弹窗 */
@@ -253,8 +428,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     refresh: () => void;
     /** @description 弹窗加载 */
     doLoading: (loadingFunction: () => void | Promise<void>) => void;
-    dialogContentRef: any;
-    resetPosition: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     /** @description v-model 回调 */
     "update:modelValue": (value: boolean) => boolean;
@@ -267,6 +440,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     openAutoFocus: () => boolean;
     closeAutoFocus: () => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+    /** @description whether to align the dialog both horizontally and vertically*/
+    alignCenter: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     /** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
     appendToBody: {
         type: BooleanConstructor;
@@ -287,9 +465,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    /** @description 高度 */
-    height: {
-        type: (StringConstructor | NumberConstructor)[];
+    /** @description value for `margin-top` of Dialog CSS, default is 15vh */
+    top: {
+        type: StringConstructor;
+        default: string;
+    };
+    /** @description width of Dialog, default is 50% */
+    width: {
+        type: (NumberConstructor | StringConstructor)[];
+        default: string;
     };
     /** @description 显示刷新按钮 */
     showRefresh: {
@@ -333,33 +517,73 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     afterOpen: {
         type: import('vue').PropType<() => void>;
     };
-    appendTo: import('element-plus/es/utils').EpPropFinalized<(new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement) | ((new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement))[], unknown, unknown, "body", boolean>;
+    appendTo: {
+        readonly type: import('vue').PropType<string | HTMLElement>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "body";
+    };
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    closeOnClickModal: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    closeOnPressEscape: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    lockScroll: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    modal: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    openDelay: import('element-plus/es/utils').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
-    closeDelay: import('element-plus/es/utils').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
-    top: {
-        readonly type: import('vue').PropType<string>;
+    closeOnClickModal: {
+        readonly type: import('vue').PropType<boolean>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    closeOnPressEscape: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    lockScroll: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    modal: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    openDelay: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 0;
+    };
+    closeDelay: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 0;
     };
     modelValue: BooleanConstructor;
     modalClass: StringConstructor;
-    width: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    };
+    headerClass: StringConstructor;
+    bodyClass: StringConstructor;
+    footerClass: StringConstructor;
     zIndex: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -367,49 +591,69 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    headerAriaLevel: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    headerAriaLevel: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "2";
+    };
     center: BooleanConstructor;
-    alignCenter: BooleanConstructor;
     closeIcon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) & {}) | (() => string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) | ((new (...args: any[]) => (string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>) & {}) | (() => string | import('vue').Component<any, any, any, import('vue').ComputedOptions, import('vue').MethodOptions>))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     fullscreen: BooleanConstructor;
-    showClose: import('element-plus/es/utils').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    title: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
-    ariaLevel: import('element-plus/es/utils').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    showClose: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: true;
+    };
+    title: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "";
+    };
+    ariaLevel: {
+        readonly type: import('vue').PropType<string>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: "2";
+    };
 }>> & Readonly<{
-    onClosed?: () => any;
-    onClose?: () => any;
-    onOpen?: () => any;
     "onUpdate:modelValue"?: (value: boolean) => any;
+    onOpen?: () => any;
+    onClose?: () => any;
     onConfirmClick?: () => any;
     onOpened?: () => any;
+    onClosed?: () => any;
     onOpenAutoFocus?: () => any;
     onCloseAutoFocus?: () => any;
 }>, {
-    fullscreen: boolean;
-    center: boolean;
-    showClose: import('element-plus/es/utils').EpPropMergeType<BooleanConstructor, unknown, unknown>;
-    appendTo: import('element-plus/es/utils').EpPropMergeType<(new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement) | ((new (...args: any[]) => (string | HTMLElement) & {}) | (() => string | HTMLElement))[], unknown, unknown>;
     title: string;
-    appendToBody: boolean;
-    destroyOnClose: boolean;
-    closeOnClickModal: import('element-plus/es/utils').EpPropMergeType<BooleanConstructor, unknown, unknown>;
-    closeOnPressEscape: import('element-plus/es/utils').EpPropMergeType<BooleanConstructor, unknown, unknown>;
-    lockScroll: import('element-plus/es/utils').EpPropMergeType<BooleanConstructor, unknown, unknown>;
-    modal: import('element-plus/es/utils').EpPropMergeType<BooleanConstructor, unknown, unknown>;
-    openDelay: number;
-    closeDelay: number;
+    center: boolean;
+    showClose: boolean;
+    appendTo: string | HTMLElement;
     modelValue: boolean;
-    trapFocus: boolean;
-    headerAriaLevel: string;
+    width: string | number;
+    top: string;
+    fullscreen: boolean;
     alignCenter: boolean;
+    appendToBody: boolean;
     draggable: boolean;
+    destroyOnClose: boolean;
     overflow: boolean;
-    ariaLevel: string;
     showRefresh: boolean;
     showFullscreen: boolean;
     showCloseButton: boolean;
@@ -420,17 +664,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     hideFooter: boolean;
     fillHeight: boolean;
     showBeforeClose: boolean;
-}, import('vue').SlotsType<Partial<{
-    default: (arg: {
-        loading: boolean;
-    }) => VNode[];
-    header: (arg: {
-        loading: boolean;
-        close: () => void;
-    }) => VNode[];
-    footer: (arg: {
-        loading: boolean;
-        close: () => void;
-    }) => VNode[];
-}>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    closeOnClickModal: boolean;
+    closeOnPressEscape: boolean;
+    lockScroll: boolean;
+    modal: boolean;
+    openDelay: number;
+    closeDelay: number;
+    trapFocus: boolean;
+    headerAriaLevel: string;
+    ariaLevel: string;
+}, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaDialogSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
