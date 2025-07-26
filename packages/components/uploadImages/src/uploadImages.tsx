@@ -1,12 +1,11 @@
 import { Fragment, computed, defineComponent, reactive, ref } from "vue";
+import { ElIcon, ElImageViewer, ElUpload, uploadProps } from "element-plus";
 import { Delete, Edit, Plus, ZoomIn } from "@element-plus/icons-vue";
 import { useUpload } from "@fast-element-plus/components/upload/src/useUpload";
 import { FaMimeType } from "@fast-element-plus/constants";
-import { FastApp } from "@fast-element-plus/settings";
-import { definePropType, makeSlots, stringUtil, useExpose, useProps, useRender } from "@fast-element-plus/utils";
-import { ElIcon, ElImageViewer, ElUpload, uploadProps } from "element-plus";
+import { definePropType, makeSlots, stringUtil, useExpose, useProps, useRender } from "@fast-china/utils";
+import { isArray, isNull, isString } from "lodash-unified";
 import type { UploadFile, UploadInstance, UploadProps, UploadUserFile, uploadListTypes } from "element-plus";
-import { isArray, isString } from "lodash-unified";
 
 export const faUploadImagesProps = {
 	...uploadProps,
@@ -34,25 +33,24 @@ export const faUploadImagesProps = {
 	modelValue: definePropType<string | string[]>([String, Array]),
 	/** @description 大小限制，单位kb */
 	maxSize: {
-		type: definePropType<string | number>([String, Number]),
+		type: [String, Number],
 		default: 2048,
 	},
-	/** @description 图片上传地址 */
-	uploadUrl: {
-		type: String,
-		default: (): string => FastApp.state.upload.url,
+	/** @description 图片上传接口，优先级最高 */
+	uploadApi: {
+		type: definePropType<(formData: FormData) => Promise<string>>(Function),
 	},
-	/** @description 文件类型 */
-	fileType: Number,
+	/** @description 图片上传地址 */
+	uploadUrl: String,
 };
 
 export const faUploadImagesEmits = {
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | string[]): boolean => isString(value) || isArray(value),
+	"update:modelValue": (value: string | string[]): boolean => isString(value) || isArray(value) || isNull(value),
 	/** @description v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
 	/** @description 改变 */
-	change: (value: string | string[]): boolean => isString(value) || isArray(value),
+	change: (value: string | string[]): boolean => isString(value) || isArray(value) || isNull(value),
 };
 
 type FaUploadImagesSlots = {
@@ -79,6 +77,7 @@ export default defineComponent({
 			handleOnUpload,
 		} = useUpload("FaUploadImages", "图片", props, emit, {
 			maxSize: props.maxSize,
+			uploadApi: props.uploadApi,
 			uploadUrl: props.uploadUrl,
 		});
 
@@ -184,7 +183,7 @@ export default defineComponent({
 						),
 					}}
 				</ElUpload>
-				{state.preview ? (
+				{state.preview && (
 					<ElImageViewer
 						closeOnPressEscape
 						hideOnClickModal
@@ -192,31 +191,29 @@ export default defineComponent({
 						onClose={() => (state.preview = false)}
 						urlList={state.previewList}
 					/>
-				) : null}
+				)}
 			</Fragment>
 		));
 
 		return useExpose(expose, {
-			...computed(() => ({
-				/** @description cancel upload request */
-				abort: uploadRef.value?.abort,
-				/** @description upload the file list manually */
-				submit: uploadRef.value?.submit,
-				/** @description clear the file list  */
-				clearFiles: uploadRef.value?.clearFiles,
-				/** @description select the file manually */
-				handleStart: uploadRef.value?.handleStart,
-				/** @description remove the file manually */
-				handleRemove: uploadRef.value?.handleRemove,
-			})).value,
+			/** @description 取消上传请求 */
+			abort: computed(() => uploadRef.value?.abort),
+			/** @description 手动上传文件列表 */
+			submit: computed(() => uploadRef.value?.submit),
+			/** @description 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
+			clearFiles: computed(() => uploadRef.value?.clearFiles),
+			/** @description 手动选择文件 */
+			handleStart: computed(() => uploadRef.value?.handleStart),
+			/** @description 手动移除文件。 file 和 rawFile 已被合并。 rawFile 将在 v2.2.0 中移除 */
+			handleRemove: computed(() => uploadRef.value?.handleRemove),
 			/** @description 加载状态 */
 			loading,
 			/** @description 文件集合 */
 			fileList,
 			/** @description 预览 */
-			preview: state.preview,
+			preview: computed(() => state.preview),
 			/** @description 预览集合 */
-			previewList: state.previewList,
+			previewList: computed(() => state.previewList),
 		});
 	},
 });

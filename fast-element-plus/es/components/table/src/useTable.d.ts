@@ -1,0 +1,32 @@
+import { makeSlots } from '@fast-china/utils';
+import { PagedInput } from './page.type';
+import { FaTableSlots, faTableEmits, faTableProps } from './table';
+import { FaTableState } from './table.state';
+import { FaTableColumnCtx, FaTableEnumColumnCtx } from './table.type';
+import { TableInstance } from 'element-plus';
+import { ExtractPropTypes, InjectionKey, SetupContext } from 'vue';
+export declare const tableStateKey: InjectionKey<FaTableState>;
+export declare const enumMapKey: InjectionKey<Map<string, FaTableEnumColumnCtx[]>>;
+type TableSetupContext = SetupContext<typeof faTableEmits, ReturnType<typeof makeSlots<FaTableSlots>>>;
+export declare const useTable: (props: ExtractPropTypes<typeof faTableProps>, slots: TableSetupContext["slots"], emit: TableSetupContext["emit"]) => {
+    _globalSize: import('vue').ComputedRef<"" | "small" | "default" | "large">;
+    state: FaTableState;
+    elementRef: import('vue').Ref<HTMLElement, HTMLElement>;
+    tableRef: import('vue').Ref<TableInstance, TableInstance>;
+    handleTableColumnAutoWidth: () => void;
+    getRequestParam: () => PagedInput;
+    loadTableColumns: () => void;
+    handleSizeChange: (pageSize: number) => void;
+    handlePaginationChange: (val: number) => void;
+    defaultSearchTime: () => void;
+    tableSearch: () => Promise<void>;
+    tableReset: () => Promise<void>;
+    doRender: () => Promise<void>;
+    doLoading: (loadingFunction: () => void | Promise<void>, loadingText?: string) => void;
+    handleCustomCellClick: (emitName: string, { row, column, $index }: {
+        row: any;
+        column: FaTableColumnCtx;
+        $index: number;
+    }) => void;
+};
+export {};

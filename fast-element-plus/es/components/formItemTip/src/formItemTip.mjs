@@ -1,9 +1,7 @@
 import { defineComponent, createVNode } from "vue";
-import { QuestionFilled } from "@element-plus/icons-vue";
-import "../../../utils/index.mjs";
 import { ElTooltip, ElIcon } from "element-plus";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
+import { QuestionFilled } from "@element-plus/icons-vue";
+import { useRender, makeSlots } from "@fast-china/utils";
 const faFormItemTipProps = {
   /** @description 提示 */
   tips: String,

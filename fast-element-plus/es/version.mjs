@@ -1,5 +1,5 @@
-const fastElementPlusVersion = "1.0.0";
+const version = "1.0.0";
 export {
-  fastElementPlusVersion
+  version
 };
 //# sourceMappingURL=version.mjs.map

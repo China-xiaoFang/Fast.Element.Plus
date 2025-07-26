@@ -1,8 +1,5 @@
 import { defineComponent, reactive, inject, ref, watch, computed, withDirectives, createVNode, vShow } from "vue";
-import "../../../utils/index.mjs";
-import { definePropType } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
+import { useRender, useExpose, makeSlots, definePropType } from "@fast-china/utils";
 const LayoutGridItem = /* @__PURE__ */ defineComponent({
   name: "FaLayoutGridItem",
   props: {
@@ -23,23 +20,28 @@ const LayoutGridItem = /* @__PURE__ */ defineComponent({
     },
     /** @description 响应式，小于480px屏幕配置 */
     xs: {
-      type: definePropType(Object)
+      type: definePropType(Object),
+      default: void 0
     },
     /** @description 响应式，平板竖屏配置 */
     sm: {
-      type: definePropType(Object)
+      type: definePropType(Object),
+      default: void 0
     },
     /** @description 响应式，平板横屏配置 */
     md: {
-      type: definePropType(Object)
+      type: definePropType(Object),
+      default: void 0
     },
     /** @description 响应式，小型桌面配置 */
     lg: {
-      type: definePropType(Object)
+      type: definePropType(Object),
+      default: void 0
     },
     /** @description 响应式，大型桌面配置 */
     xl: {
-      type: definePropType(Object)
+      type: definePropType(Object),
+      default: void 0
     }
   },
   slots: makeSlots(),
@@ -84,6 +86,9 @@ const LayoutGridItem = /* @__PURE__ */ defineComponent({
     useRender(() => withDirectives(createVNode("div", {
       "style": style.value
     }, [slots.default && slots.default()]), [[vShow, state.show]]));
+    return useExpose(expose, {
+      show: state.show
+    });
   }
 });
 export {

@@ -1,36 +1,29 @@
-import type { App } from "vue";
-import { FastApp, type FastAppOptions } from "@fast-element-plus/settings";
-import { errorHandler, makeIdentity } from "@fast-element-plus/utils";
+import FastElementPlusComponents from "./component";
+import FastElementPlusDirectives from "./directive";
 import { installElementPlus } from "./element-plus";
-import { installFastElementPlus } from "./fast-element-plus";
-import { fastElementPlusVersion } from "./version";
+import { version } from "./version";
+import type { App } from "vue";
 
 export const INSTALLED_KEY = Symbol("INSTALLED_KEY");
 
 export const makeInstaller = (): {
 	version: string;
-	install: (app: App, options?: FastAppOptions) => void;
+	install: (app: App) => void;
 } => {
-	const install = (app: App, options?: FastAppOptions): void => {
+	const install = (app: App): void => {
 		if (app[INSTALLED_KEY]) return;
 
 		app[INSTALLED_KEY] = true;
 
-		// 全局异常捕获
-		app.config.errorHandler = errorHandler;
-
-		makeIdentity();
-
-		if (options) {
-			FastApp.setAppOptions(options);
-		}
-
 		installElementPlus(app);
-		installFastElementPlus(app);
+
+		FastElementPlusComponents.forEach((c) => app.use(c));
+
+		FastElementPlusDirectives.forEach((d) => app.use(d));
 	};
 
 	return {
-		version: fastElementPlusVersion,
+		version,
 		install,
 	};
 };

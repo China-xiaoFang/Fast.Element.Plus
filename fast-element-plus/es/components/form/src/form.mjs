@@ -1,13 +1,9 @@
 import { defineComponent, reactive, computed, ref, provide, createVNode, mergeProps } from "vue";
+import { formProps, useGlobalSize, ElForm } from "element-plus";
 import { FaLayoutGrid } from "../../layoutGrid/index.mjs";
-import "../../../utils/index.mjs";
-import { formProps, ElForm } from "element-plus";
+import { definePropType, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
 import { isObject, isNumber } from "lodash-unified";
-import { definePropType, useProps } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
-import { formUtil } from "../../../utils/form.mjs";
+import { formUtil } from "../utils/form.mjs";
 const faFormProps = {
   ...formProps,
   /** @description Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported. */
@@ -25,7 +21,7 @@ const faFormProps = {
     type: Boolean,
     default: true
   },
-  /** @description 详情From，会删除 FormItem 的 padding-bottom */
+  /** @description 详情From，会删除 FormItem 的 paddinfa-bottom */
   detailForm: Boolean,
   /** @description Grid布局*/
   grid: {
@@ -53,6 +49,7 @@ const Form = /* @__PURE__ */ defineComponent({
     slots,
     expose
   }) {
+    const _globalSize = useGlobalSize();
     const state = reactive({
       cols: computed(() => {
         if (isObject(props.cols)) {
@@ -68,15 +65,15 @@ const Form = /* @__PURE__ */ defineComponent({
           };
         }
       }),
-      gap: [20, 0]
+      gap: computed(() => _globalSize.value === "small" ? [15, 0] : [20, 0])
     });
     const formRef = ref();
     provide("faFormCols", state.cols);
     const elFormProps = useProps(props, formProps);
     useRender(() => createVNode(ElForm, mergeProps(elFormProps.value, {
       "ref": formRef,
-      "class": ["fa-form", {
-        "fa-form-detail": props.detailForm
+      "class": ["fa-form", `fa-form-${_globalSize.value}`, {
+        [`fa-form-detail fa-form-detail_${_globalSize.value}`]: props.detailForm
       }]
     }), {
       default: () => props.grid ? createVNode(FaLayoutGrid, {
@@ -88,23 +85,35 @@ const Form = /* @__PURE__ */ defineComponent({
       }) : slots.default && slots.default(state)
     }));
     return useExpose(expose, {
-      ...computed(() => {
-        var _a, _b, _c, _d;
-        return {
-          /** @description Validate the whole form. Receives a callback or returns `Promise`. */
-          validate: () => formUtil.validate(formRef),
-          /** @description Validate specified fields. */
-          validateField: () => formUtil.validateScrollToField(formRef),
-          /** @description Reset specified fields and remove validation result. */
-          resetFields: (_a = formRef.value) == null ? void 0 : _a.resetFields,
-          /** @description Clear validation message for specified fields. */
-          clearValidate: (_b = formRef.value) == null ? void 0 : _b.clearValidate,
-          /** @description Scroll to the specified fields. */
-          scrollToField: (_c = formRef.value) == null ? void 0 : _c.scrollToField,
-          /** @description All fields context. */
-          fields: (_d = formRef.value) == null ? void 0 : _d.fields
-        };
-      }).value
+      /** @description 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 */
+      validate: () => formUtil.validate(formRef),
+      /** @description 验证具体的某个字段。 */
+      validateField: computed(() => {
+        var _a;
+        return (_a = formRef.value) == null ? void 0 : _a.validateField;
+      }),
+      /** @description 重置该表单项，将其值重置为初始值，并移除校验结果 */
+      resetFields: computed(() => {
+        var _a;
+        return (_a = formRef.value) == null ? void 0 : _a.resetFields;
+      }),
+      /** @description 清理某个字段的表单验证信息。 */
+      clearValidate: computed(() => {
+        var _a;
+        return (_a = formRef.value) == null ? void 0 : _a.clearValidate;
+      }),
+      /** @description 滚动到指定的字段 */
+      scrollToField: computed(() => {
+        var _a;
+        return (_a = formRef.value) == null ? void 0 : _a.scrollToField;
+      }),
+      /** @description 获取所有字段的 context */
+      fields: computed(() => {
+        var _a;
+        return (_a = formRef.value) == null ? void 0 : _a.fields;
+      }),
+      /** @description 对整个表单的内容进行验证，带滚动。 接收一个回调函数，或返回 Promise。 */
+      validateScrollToField: () => formUtil.validateScrollToField(formRef)
     });
   }
 });

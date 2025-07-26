@@ -1,17 +1,11 @@
 import { defineComponent, computed, reactive, ref, createVNode, Fragment, withDirectives, mergeProps, createTextVNode, resolveDirective } from "vue";
-import { Plus, ZoomIn, Edit, Delete } from "@element-plus/icons-vue";
+import { uploadProps, ElUpload, ElIcon, ElImageViewer } from "element-plus";
+import { ZoomIn, Edit, Delete, Plus } from "@element-plus/icons-vue";
 import { useUpload } from "../../upload/src/useUpload.mjs";
 import "../../../constants/index.mjs";
-import { FastApp } from "../../../settings/index.mjs";
-import "../../../utils/index.mjs";
-import { uploadProps, ElUpload, ElIcon, ElImageViewer } from "element-plus";
-import { isString, isArray } from "lodash-unified";
+import { definePropType, stringUtil, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
+import { isString, isArray, isNull } from "lodash-unified";
 import { FaMimeType } from "../../../constants/mime.mjs";
-import { definePropType, useProps } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { stringUtil } from "../../../utils/string.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
 const faUploadImagesProps = {
   ...uploadProps,
   /** @description accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true` */
@@ -38,24 +32,23 @@ const faUploadImagesProps = {
   modelValue: definePropType([String, Array]),
   /** @description 大小限制，单位kb */
   maxSize: {
-    type: definePropType([String, Number]),
+    type: [String, Number],
     default: 2048
   },
-  /** @description 图片上传地址 */
-  uploadUrl: {
-    type: String,
-    default: () => FastApp.state.upload.url
+  /** @description 图片上传接口，优先级最高 */
+  uploadApi: {
+    type: definePropType(Function)
   },
-  /** @description 文件类型 */
-  fileType: Number
+  /** @description 图片上传地址 */
+  uploadUrl: String
 };
 const faUploadImagesEmits = {
   /** @description v-model 回调 */
-  "update:modelValue": (value) => isString(value) || isArray(value),
+  "update:modelValue": (value) => isString(value) || isArray(value) || isNull(value),
   /** @description v-model:fileList 回调 */
   "update:fileList": (value) => isArray(value),
   /** @description 改变 */
-  change: (value) => isString(value) || isArray(value)
+  change: (value) => isString(value) || isArray(value) || isNull(value)
 };
 const UploadImages = /* @__PURE__ */ defineComponent({
   name: "FaUploadImages",
@@ -81,6 +74,7 @@ const UploadImages = /* @__PURE__ */ defineComponent({
       handleOnUpload
     } = useUpload("FaUploadImages", "图片", props, emit, {
       maxSize: props.maxSize,
+      uploadApi: props.uploadApi,
       uploadUrl: props.uploadUrl
     });
     const disabled = computed(() => {
@@ -163,37 +157,47 @@ const UploadImages = /* @__PURE__ */ defineComponent({
       }, [createVNode(ElIcon, null, {
         default: () => [createVNode(Delete, null, null)]
       })])])])])
-    }), [[resolveDirective("loading"), loading.value]]), state.preview ? createVNode(ElImageViewer, {
+    }), [[resolveDirective("loading"), loading.value]]), state.preview && createVNode(ElImageViewer, {
       "closeOnPressEscape": true,
       "hideOnClickModal": true,
       "teleported": true,
       "onClose": () => state.preview = false,
       "urlList": state.previewList
-    }, null) : null]));
+    }, null)]));
     return useExpose(expose, {
-      ...computed(() => {
-        var _a, _b, _c, _d, _e;
-        return {
-          /** @description cancel upload request */
-          abort: (_a = uploadRef.value) == null ? void 0 : _a.abort,
-          /** @description upload the file list manually */
-          submit: (_b = uploadRef.value) == null ? void 0 : _b.submit,
-          /** @description clear the file list  */
-          clearFiles: (_c = uploadRef.value) == null ? void 0 : _c.clearFiles,
-          /** @description select the file manually */
-          handleStart: (_d = uploadRef.value) == null ? void 0 : _d.handleStart,
-          /** @description remove the file manually */
-          handleRemove: (_e = uploadRef.value) == null ? void 0 : _e.handleRemove
-        };
-      }).value,
+      /** @description 取消上传请求 */
+      abort: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.abort;
+      }),
+      /** @description 手动上传文件列表 */
+      submit: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.submit;
+      }),
+      /** @description 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
+      clearFiles: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.clearFiles;
+      }),
+      /** @description 手动选择文件 */
+      handleStart: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.handleStart;
+      }),
+      /** @description 手动移除文件。 file 和 rawFile 已被合并。 rawFile 将在 v2.2.0 中移除 */
+      handleRemove: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.handleRemove;
+      }),
       /** @description 加载状态 */
       loading,
       /** @description 文件集合 */
       fileList,
       /** @description 预览 */
-      preview: state.preview,
+      preview: computed(() => state.preview),
       /** @description 预览集合 */
-      previewList: state.previewList
+      previewList: computed(() => state.previewList)
     });
   }
 });

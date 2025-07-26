@@ -1,6 +1,5 @@
-import "../../utils/index.mjs";
+import { withInstall } from "@fast-china/utils";
 import Drawer from "./src/drawer.mjs";
-import { withInstall } from "../../utils/vue/install.mjs";
 const FaDrawer = withInstall(Drawer);
 export {
   FaDrawer,

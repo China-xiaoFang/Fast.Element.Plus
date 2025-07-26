@@ -1,6 +1,6 @@
-import { useLoading } from "./useLoading/index.mjs";
-import { useOverlay } from "./useOverlay/index.mjs";
-import { useScreenFull } from "./useScreenFull/index.mjs";
+import { useLoading } from "./use-loading/index.mjs";
+import { useOverlay } from "./use-overlay/index.mjs";
+import { useScreenFull } from "./use-screenFull/index.mjs";
 export {
   useLoading,
   useOverlay,

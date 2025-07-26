@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
-import { QuestionFilled } from "@element-plus/icons-vue";
-import { makeSlots, useRender } from "@fast-element-plus/utils";
 import { ElIcon, ElTooltip } from "element-plus";
+import { QuestionFilled } from "@element-plus/icons-vue";
+import { makeSlots, useRender } from "@fast-china/utils";
 
 export const faFormItemTipProps = {
 	/** @description 提示 */

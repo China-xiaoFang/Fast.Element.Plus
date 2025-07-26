@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from "@fast-element-plus/utils";
+import { withInstall, withNoopInstall } from "@fast-china/utils";
 import LayoutGrid from "./src/layoutGrid";
 import LayoutGridItem from "./src/layoutGridItem";
 

@@ -1,7 +1,6 @@
+import { TSXWithInstall } from "@fast-china/utils";
+import type { default as Dialog, faDialogEmits, faDialogProps } from "./src/dialog";
 import type { ExtractPropTypes } from "vue";
-import type { default as Dialog } from "./src/dialog";
-import type { faDialogEmits, faDialogProps } from "./src/dialog";
-import type { TSXWithInstall } from "../../utils";
 
 export declare const FaDialog: TSXWithInstall<typeof Dialog>;
 export default FaDialog;

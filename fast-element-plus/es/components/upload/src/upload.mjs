@@ -1,14 +1,9 @@
 import { defineComponent, computed, ref, withDirectives, createVNode, mergeProps, Fragment, createTextVNode, resolveDirective } from "vue";
-import { UploadFilled } from "@element-plus/icons-vue";
-import { FastApp } from "../../../settings/index.mjs";
-import "../../../utils/index.mjs";
 import { uploadProps, ElUpload, ElIcon } from "element-plus";
-import { isString, isArray } from "lodash-unified";
+import { UploadFilled } from "@element-plus/icons-vue";
+import { definePropType, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
+import { isString, isArray, isNull } from "lodash-unified";
 import { useUpload } from "./useUpload.mjs";
-import { definePropType, useProps } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
 const faUploadProps = {
   ...uploadProps,
   /** @description whether to activate drag and drop mode */
@@ -28,21 +23,20 @@ const faUploadProps = {
     type: definePropType([String, Number]),
     default: 5120
   },
-  /** @description 图片上传地址 */
-  uploadUrl: {
-    type: String,
-    default: () => FastApp.state.upload.url
+  /** @description 图片上传接口，优先级最高 */
+  uploadApi: {
+    type: definePropType(Function)
   },
-  /** @description 文件类型 */
-  fileType: Number
+  /** @description 图片上传地址 */
+  uploadUrl: String
 };
 const faUploadEmits = {
   /** @description v-model 回调 */
-  "update:modelValue": (value) => isString(value) || isArray(value),
+  "update:modelValue": (value) => isString(value) || isArray(value) || isNull(value),
   /** @description v-model:fileList 回调 */
   "update:fileList": (value) => isArray(value),
   /** @description 改变 */
-  change: (value) => isString(value) || isArray(value)
+  change: (value) => isString(value) || isArray(value) || isNull(value)
 };
 const Upload = /* @__PURE__ */ defineComponent({
   name: "FaUpload",
@@ -67,6 +61,7 @@ const Upload = /* @__PURE__ */ defineComponent({
       handleOnUpload
     } = useUpload("FaUpload", "文件", props, emit, {
       maxSize: props.maxSize,
+      uploadApi: props.uploadApi,
       uploadUrl: props.uploadUrl
     });
     const disabled = computed(() => {
@@ -120,21 +115,31 @@ const Upload = /* @__PURE__ */ defineComponent({
       }
     }), [[resolveDirective("loading"), loading.value]]));
     return useExpose(expose, {
-      ...computed(() => {
-        var _a, _b, _c, _d, _e;
-        return {
-          /** @description cancel upload request */
-          abort: (_a = uploadRef.value) == null ? void 0 : _a.abort,
-          /** @description upload the file list manually */
-          submit: (_b = uploadRef.value) == null ? void 0 : _b.submit,
-          /** @description clear the file list  */
-          clearFiles: (_c = uploadRef.value) == null ? void 0 : _c.clearFiles,
-          /** @description select the file manually */
-          handleStart: (_d = uploadRef.value) == null ? void 0 : _d.handleStart,
-          /** @description remove the file manually */
-          handleRemove: (_e = uploadRef.value) == null ? void 0 : _e.handleRemove
-        };
-      }).value,
+      /** @description 取消上传请求 */
+      abort: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.abort;
+      }),
+      /** @description 手动上传文件列表 */
+      submit: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.submit;
+      }),
+      /** @description 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
+      clearFiles: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.clearFiles;
+      }),
+      /** @description 手动选择文件 */
+      handleStart: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.handleStart;
+      }),
+      /** @description 手动移除文件。 file 和rawFile 已被合并。 rawFile 将在 v2.2.0 中移除 */
+      handleRemove: computed(() => {
+        var _a;
+        return (_a = uploadRef.value) == null ? void 0 : _a.handleRemove;
+      }),
       /** @description 加载状态 */
       loading,
       /** @description 文件集合 */

@@ -1,7 +1,7 @@
-import type { ExtractPropTypes } from "vue";
-import { withInstall, withNoopInstall } from "@fast-element-plus/utils";
+import { withInstall, withNoopInstall } from "@fast-china/utils";
 import Form, { faFormProps } from "./src/form";
 import FormItem, { faFormItemProps } from "./src/formItem";
+import type { ExtractPropTypes } from "vue";
 
 export const FaForm = withInstall(Form, {
 	FormItem,

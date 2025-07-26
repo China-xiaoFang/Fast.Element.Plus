@@ -1,8 +1,8 @@
-import type { VNode } from "vue";
 import { computed, defineComponent, reactive } from "vue";
-import { Picture as ElIconPicture } from "@element-plus/icons-vue";
-import { makeSlots, useProps, useRender } from "@fast-element-plus/utils";
 import { ElIcon, ElImage, imageProps } from "element-plus";
+import { Picture as ElIconPicture } from "@element-plus/icons-vue";
+import { makeSlots, useProps, useRender } from "@fast-china/utils";
+import type { VNode } from "vue";
 
 export const faImageProps = {
 	...imageProps,
@@ -52,7 +52,7 @@ export default defineComponent({
 	setup(props, { attrs, slots, expose }) {
 		const state = reactive({
 			src: computed(() => {
-				if (!props.src) return props.src;
+				if (!props.src) return undefined;
 				if (props.original) {
 					return props.src;
 				} else if (props.normal) {
@@ -72,7 +72,7 @@ export default defineComponent({
 		const bindProps = useProps(props, imageProps, ["src", "previewSrcList"]);
 
 		useRender(() => (
-			<ElImage {...attrs} {...bindProps.value} class="fa-image" src={state.src} previewSrcList={state.previewList}>
+			<ElImage {...bindProps.value} class="fa-image" src={state.src} previewSrcList={state.previewList}>
 				{{
 					error: () =>
 						slots.error ? (

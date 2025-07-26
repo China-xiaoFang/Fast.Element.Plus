@@ -1,6 +1,6 @@
-import type { ExtractPropTypes } from "vue";
-import { withInstall } from "@fast-element-plus/utils";
+import { withInstall } from "@fast-china/utils";
 import Dialog, { faDialogEmits, faDialogProps } from "./src/dialog";
+import type { ExtractPropTypes } from "vue";
 
 export const FaDialog = withInstall(Dialog);
 export default FaDialog;

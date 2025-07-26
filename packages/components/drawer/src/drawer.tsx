@@ -1,10 +1,10 @@
-import type { VNode } from "vue";
 import { Fragment, computed, defineComponent, nextTick, reactive, ref, watch } from "vue";
+import { ElButton, ElDrawer, ElIcon, ElMessage, ElMessageBox, ElScrollbar, drawerEmits, drawerProps, useGlobalSize } from "element-plus";
 import { Close, Eleme, FullScreen, Refresh } from "@element-plus/icons-vue";
 import { FullScreenExit } from "@fast-element-plus/icons-vue";
-import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-element-plus/utils";
-import { ElButton, ElDrawer, ElIcon, ElMessage, ElMessageBox, ElScrollbar, drawerEmits, drawerProps } from "element-plus";
+import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
 import { isBoolean } from "lodash-unified";
+import type { VNode } from "vue";
 
 export const faDrawerProps = {
 	...drawerProps,
@@ -88,23 +88,14 @@ export default defineComponent({
 	emits: faDrawerEmits,
 	slots: makeSlots<FaDrawerSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
+		const _globalSize = useGlobalSize();
+
 		const state = reactive({
 			loading: false,
 			visible: false,
 			fullscreen: false,
 			size: props.size ?? "30%",
-			maxHeight: computed(() => {
-				let maxHeight = "100vh";
-				if (props.withHeader) {
-					maxHeight += " - var(--fa-drawer-header-height)";
-				}
-				if (!props.hideFooter) {
-					maxHeight += " - var(--fa-drawer-footer-height)";
-				}
-				// 16px(内容padding高度) - 2px(线条高度)
-				maxHeight += " - 18px)";
-				return maxHeight;
-			}),
+			dragging: false,
 			refreshing: false,
 		});
 
@@ -240,7 +231,7 @@ export default defineComponent({
 			<ElDrawer
 				{...elDrawerProps.value}
 				ref={drawerRef}
-				class={["fa-drawer", { "fa-drawer__fullscreen": state.fullscreen }]}
+				class={["fa-drawer", `fa-drawer-${_globalSize.value}`, { "fa-drawer__fullscreen": state.fullscreen }]}
 				vModel={state.visible}
 				size={state.size}
 				showClose={false}
@@ -302,16 +293,8 @@ export default defineComponent({
 					default: () => (
 						<Fragment>
 							{props.draggable && <div class="fa-drawer__draggable" onmousedown={handleDraggableMousedown} />}
-							<ElScrollbar
-								class="fa-drawer__scrollbar"
-								wrapStyle={{
-									"--fa-drawer-scrollbar__max-height": state.maxHeight,
-									maxHeight: "var(--fa-drawer-scrollbar__max-height)",
-								}}
-								vLoading={state.loading}
-								element-loading-text="加载中..."
-							>
-								{state.refreshing ? null : slots.default && slots.default(state)}
+							<ElScrollbar vLoading={state.loading} element-loading-text="加载中...">
+								{!state.refreshing && slots.default && slots.default(state)}
 							</ElScrollbar>
 						</Fragment>
 					),
@@ -343,15 +326,16 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			...computed(() => ({
-				handleClose: drawerRef.value?.handleClose,
-				afterEnter: drawerRef.value?.afterEnter,
-				afterLeave: drawerRef.value?.afterLeave,
-			})).value,
+			/** @description 用于关闭 Drawer, 该方法会调用传入的 before-close 方法 */
+			handleClose: computed(() => drawerRef.value?.handleClose),
+			/** @description 进入动画后的回调 */
+			afterEnter: computed(() => drawerRef.value?.afterEnter),
+			/** @description 离开动画后的回调 */
+			afterLeave: computed(() => drawerRef.value?.afterLeave),
 			/** @description 加载状态 */
-			loading: state.loading,
+			loading: computed(() => state.loading),
 			/** @description 是否显示 */
-			visible: state.visible,
+			visible: computed(() => state.visible),
 			/** @description 打开弹窗 */
 			open: handleOpen,
 			/** @description 关闭弹窗 */

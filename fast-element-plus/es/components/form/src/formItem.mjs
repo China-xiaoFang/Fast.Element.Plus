@@ -1,13 +1,9 @@
 import { defineComponent, ref, inject, Fragment, createVNode, mergeProps, computed } from "vue";
+import { formItemProps, ElFormItem } from "element-plus";
 import { FaFormItemTip } from "../../formItemTip/index.mjs";
 import { FaLayoutGridItem } from "../../layoutGrid/index.mjs";
-import "../../../utils/index.mjs";
-import { formItemProps, ElFormItem } from "element-plus";
+import { useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
 import { isNumber } from "lodash-unified";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useProps } from "../../../utils/vue/props.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
 const faFormItemProps = {
   ...formItemProps,
   /** @description Label tips 提示 */
@@ -65,16 +61,29 @@ const FormItem = /* @__PURE__ */ defineComponent({
         "ref": formItemRef
       }, elFormItemProps.value), {
         default: () => slots.default(),
-        ...(slots.label || props.tips) && {
+        ...slots.label && !props.tips && {
           label: ({
             label
-          }) => props.tips ? createVNode(FaFormItemTip, null, {
+          }) => slots.label({
+            label
+          })
+        },
+        ...slots.label && props.tips && {
+          label: ({
+            label
+          }) => createVNode(FaFormItemTip, null, {
             label: () => slots.label({
               label
             })
-          }) : slots.label({
-            label
           })
+        },
+        ...!slots.label && props.tips && {
+          label: ({
+            label
+          }) => createVNode(FaFormItemTip, {
+            "label": label ?? props.label,
+            "tips": props.tips
+          }, null)
         },
         ...slots.error && {
           error: ({
@@ -86,23 +95,36 @@ const FormItem = /* @__PURE__ */ defineComponent({
       })]
     }));
     return useExpose(expose, {
-      ...computed(() => {
-        var _a, _b, _c, _d, _e, _f;
-        return {
-          /** @description Size of the form item from the reference */
-          size: (_a = formItemRef.value) == null ? void 0 : _a.size,
-          /** @description Validation message from the form item */
-          validateMessage: (_b = formItemRef.value) == null ? void 0 : _b.validateMessage,
-          /** @description Current validation state of the form item */
-          validateState: (_c = formItemRef.value) == null ? void 0 : _c.validateState,
-          /** @description Function to validate the form item */
-          validate: (_d = formItemRef.value) == null ? void 0 : _d.validate,
-          /** @description Function to clear validation status of the form item */
-          clearValidate: (_e = formItemRef.value) == null ? void 0 : _e.clearValidate,
-          /** @description Reset the form item and clear validation results */
-          resetField: (_f = formItemRef.value) == null ? void 0 : _f.resetField
-        };
-      }).value
+      /** @description 表单项大小 */
+      size: computed(() => {
+        var _a;
+        return (_a = formItemRef.value) == null ? void 0 : _a.size;
+      }),
+      /** @description 校验消息 */
+      validateMessage: computed(() => {
+        var _a;
+        return (_a = formItemRef.value) == null ? void 0 : _a.validateMessage;
+      }),
+      /** @description 校验状态 */
+      validateState: computed(() => {
+        var _a;
+        return (_a = formItemRef.value) == null ? void 0 : _a.validateState;
+      }),
+      /** @description 验证表单项 */
+      validate: computed(() => {
+        var _a;
+        return (_a = formItemRef.value) == null ? void 0 : _a.validate;
+      }),
+      /** @description 移除该表单项的校验结果 */
+      clearValidate: computed(() => {
+        var _a;
+        return (_a = formItemRef.value) == null ? void 0 : _a.clearValidate;
+      }),
+      /** @description 对该表单项进行重置，将其值重置为初始值并移除校验结果 */
+      resetField: computed(() => {
+        var _a;
+        return (_a = formItemRef.value) == null ? void 0 : _a.resetField;
+      })
     });
   }
 });

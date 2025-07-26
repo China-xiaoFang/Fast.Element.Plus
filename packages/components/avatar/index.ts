@@ -1,5 +1,5 @@
 import type { ExtractPropTypes } from "vue";
-import { withInstall } from "@fast-element-plus/utils";
+import { withInstall } from "@fast-china/utils";
 import type { faAvatarEmits, faAvatarProps } from "./src/avatar";
 import Avatar from "./src/avatar";
 

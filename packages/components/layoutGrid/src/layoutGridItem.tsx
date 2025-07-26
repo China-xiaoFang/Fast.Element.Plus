@@ -1,8 +1,8 @@
-import type { Ref } from "vue";
 import { computed, defineComponent, inject, reactive, ref, watch } from "vue";
-import type { FaLayoutGridBreakPoint } from "@fast-element-plus/components/layoutGrid";
-import { definePropType, makeSlots, useRender } from "@fast-element-plus/utils";
+import { definePropType, makeSlots, useExpose, useRender } from "@fast-china/utils";
 import type { FaLayoutGridItemResponsive } from "./layoutGrid.type";
+import type { FaLayoutGridBreakPoint } from "@fast-element-plus/components/layoutGrid";
+import type { Ref } from "vue";
 
 type FaLayoutGridItemSlots = {
 	/** @description 默认内容插槽 */
@@ -21,22 +21,27 @@ export default defineComponent({
 		/** @description 响应式，小于480px屏幕配置 */
 		xs: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
+			default: undefined as FaLayoutGridItemResponsive,
 		},
 		/** @description 响应式，平板竖屏配置 */
 		sm: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
+			default: undefined as FaLayoutGridItemResponsive,
 		},
 		/** @description 响应式，平板横屏配置 */
 		md: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
+			default: undefined as FaLayoutGridItemResponsive,
 		},
 		/** @description 响应式，小型桌面配置 */
 		lg: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
+			default: undefined as FaLayoutGridItemResponsive,
 		},
 		/** @description 响应式，大型桌面配置 */
 		xl: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
+			default: undefined as FaLayoutGridItemResponsive,
 		},
 	},
 	slots: makeSlots<FaLayoutGridItemSlots>(),
@@ -89,5 +94,9 @@ export default defineComponent({
 				{slots.default && slots.default()}
 			</div>
 		));
+
+		return useExpose(expose, {
+			show: state.show,
+		});
 	},
 });

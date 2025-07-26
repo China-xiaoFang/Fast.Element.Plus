@@ -1,10 +1,7 @@
 import { defineComponent, reactive, computed, createVNode, mergeProps } from "vue";
-import { Picture } from "@element-plus/icons-vue";
-import "../../../utils/index.mjs";
 import { imageProps, ElImage, ElIcon } from "element-plus";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useProps } from "../../../utils/vue/props.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
+import { Picture } from "@element-plus/icons-vue";
+import { useProps, useRender, makeSlots } from "@fast-china/utils";
 const faImageProps = {
   ...imageProps,
   /** @description when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode. */
@@ -47,7 +44,7 @@ const Image = /* @__PURE__ */ defineComponent({
   }) {
     const state = reactive({
       src: computed(() => {
-        if (!props.src) return props.src;
+        if (!props.src) return void 0;
         if (props.original) {
           return props.src;
         } else if (props.normal) {
@@ -63,7 +60,7 @@ const Image = /* @__PURE__ */ defineComponent({
       previewList: computed(() => props.preview ? [props.src] : [])
     });
     const bindProps = useProps(props, imageProps, ["src", "previewSrcList"]);
-    useRender(() => createVNode(ElImage, mergeProps(attrs, bindProps.value, {
+    useRender(() => createVNode(ElImage, mergeProps(bindProps.value, {
       "class": "fa-image",
       "src": state.src,
       "previewSrcList": state.previewList

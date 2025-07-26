@@ -1,11 +1,11 @@
-import type { Ref, VNode } from "vue";
 import { Fragment, computed, defineComponent, inject, ref } from "vue";
+import { ElFormItem, formItemProps } from "element-plus";
 import { FaFormItemTip } from "@fast-element-plus/components/formItemTip";
 import { FaLayoutGridItem } from "@fast-element-plus/components/layoutGrid";
-import { makeSlots, useExpose, useProps, useRender } from "@fast-element-plus/utils";
-import type { FormItemInstance } from "element-plus";
-import { ElFormItem, formItemProps } from "element-plus";
+import { makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
 import { isNumber } from "lodash-unified";
+import type { FormItemInstance } from "element-plus";
+import type { Ref, VNode } from "vue";
 
 export const faFormItemProps = {
 	...formItemProps,
@@ -79,18 +79,21 @@ export default defineComponent({
 				<ElFormItem ref={formItemRef} {...elFormItemProps.value}>
 					{{
 						default: () => slots.default(),
-						...((slots.label || props.tips) && {
-							label: ({ label }: { label: string }): VNode[] =>
-								props.tips ? (
+						...(slots.label && !props.tips && { label: ({ label }: { label: string }): VNode[] => slots.label({ label }) }),
+						...(slots.label &&
+							props.tips && {
+								label: ({ label }: { label: string }): VNode[] => (
 									<FaFormItemTip>
 										{{
 											label: () => slots.label({ label }),
 										}}
 									</FaFormItemTip>
-								) : (
-									slots.label({ label })
 								),
-						}),
+							}),
+						...(!slots.label &&
+							props.tips && {
+								label: ({ label }: { label: string }): VNode[] => <FaFormItemTip label={label ?? props.label} tips={props.tips} />,
+							}),
 						...(slots.error && { error: ({ error }: { error: string }): VNode[] => slots.error({ error }) }),
 					}}
 				</ElFormItem>
@@ -98,20 +101,18 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			...computed(() => ({
-				/** @description Size of the form item from the reference */
-				size: formItemRef.value?.size,
-				/** @description Validation message from the form item */
-				validateMessage: formItemRef.value?.validateMessage,
-				/** @description Current validation state of the form item */
-				validateState: formItemRef.value?.validateState,
-				/** @description Function to validate the form item */
-				validate: formItemRef.value?.validate,
-				/** @description Function to clear validation status of the form item */
-				clearValidate: formItemRef.value?.clearValidate,
-				/** @description Reset the form item and clear validation results */
-				resetField: formItemRef.value?.resetField,
-			})).value,
+			/** @description 表单项大小 */
+			size: computed(() => formItemRef.value?.size),
+			/** @description 校验消息 */
+			validateMessage: computed(() => formItemRef.value?.validateMessage),
+			/** @description 校验状态 */
+			validateState: computed(() => formItemRef.value?.validateState),
+			/** @description 验证表单项 */
+			validate: computed(() => formItemRef.value?.validate),
+			/** @description 移除该表单项的校验结果 */
+			clearValidate: computed(() => formItemRef.value?.clearValidate),
+			/** @description 对该表单项进行重置，将其值重置为初始值并移除校验结果 */
+			resetField: computed(() => formItemRef.value?.resetField),
 		});
 	},
 });

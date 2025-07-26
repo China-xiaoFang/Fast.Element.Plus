@@ -1,11 +1,7 @@
 import { defineComponent, reactive, computed, createVNode, mergeProps } from "vue";
 import { Picture } from "@element-plus/icons-vue";
-import "../../../utils/index.mjs";
+import { definePropType, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
 import { avatarProps, avatarEmits, ElAvatar } from "element-plus";
-import { definePropType, useProps } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
 const faAvatarProps = {
   ...avatarProps,
   /** @description representation type to icon, more info on icon component. */

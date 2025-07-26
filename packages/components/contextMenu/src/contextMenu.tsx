@@ -1,6 +1,7 @@
-import { Transition, defineComponent, onMounted, reactive } from "vue";
+import { Transition, computed, defineComponent, onMounted, reactive } from "vue";
+import { useGlobalSize } from "element-plus";
 import { FaIcon } from "@fast-element-plus/components/icon";
-import { definePropType, useExpose, useRender } from "@fast-element-plus/utils";
+import { definePropType, useExpose, useRender } from "@fast-china/utils";
 import { useEventListener } from "@vueuse/core";
 import { isObject } from "lodash-unified";
 import type { FaContextMenuData } from "./contextMenu.type";
@@ -19,6 +20,8 @@ export default defineComponent({
 		click: (event: MouseEvent, data: FaContextMenuData) => event instanceof MouseEvent && isObject(data),
 	},
 	setup(props, { emit, expose }) {
+		const _globalSize = useGlobalSize();
+
 		const state = reactive({
 			visible: false,
 			axis: {
@@ -49,9 +52,9 @@ export default defineComponent({
 		useRender(() => (
 			<Transition name="el-zoom-in-center">
 				<div
-					class="fa-context-menu el-popper el-dropdown__popper"
-					vShow={state.visible}
+					class={["fa-context-menu", `fa-context-menu-${_globalSize.value}`, "el-popper el-dropdown__popper"]}
 					style={{ top: `${state.axis.y + 5}px`, left: `${state.axis.x + 14}px` }}
+					vShow={state.visible}
 					key={Math.random()}
 				>
 					<ul class="el-dropdown-menu">
@@ -76,7 +79,7 @@ export default defineComponent({
 
 		return useExpose(expose, {
 			/** @description 是否显示 */
-			visible: state.visible,
+			visible: computed(() => state.visible),
 			/** @description 打开菜单 */
 			open,
 			/** @description 关闭菜单 */

@@ -1,2 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"}),require("../index.js");const e=require("../console.js");exports.execFunction=async(r,...t)=>{if(!r)return Promise.resolve(void 0);if("AsyncFunction"!==r.constructor.name)return new Promise(((n,o)=>{try{return n(r(...t))}catch(c){return e.consoleError("execFunction",c),o(c)}}));try{return await r(...t)}catch(n){return e.consoleError("execFunction",n),Promise.reject(n)}};
-//# sourceMappingURL=func.js.map

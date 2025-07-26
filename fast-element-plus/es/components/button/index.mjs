@@ -1,7 +1,6 @@
-import "../../utils/index.mjs";
+import { withInstall } from "@fast-china/utils";
 import Button from "./src/button.mjs";
 import { faButtonEmits, faButtonProps } from "./src/button.mjs";
-import { withInstall } from "../../utils/vue/install.mjs";
 const FaButton = withInstall(Button);
 export {
   FaButton,

@@ -1,0 +1,9 @@
+.fa-upload-images {
+	&.fa-upload-images__hidden-upload {
+		.el-upload-list {
+			.el-upload {
+				display: none;
+			}
+		}
+	}
+}

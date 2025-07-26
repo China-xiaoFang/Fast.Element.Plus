@@ -1,11 +1,11 @@
 import { computed, defineComponent, reactive } from "vue";
+import { ElIcon, ElInput, ElPopover, ElScrollbar } from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { ChromeFilled, RefreshRight } from "@element-plus/icons-vue";
 import { FaIcon } from "@fast-element-plus/components/icon";
-import { FastElementPlusIconsVue } from "@fast-element-plus/icons-vue";
-import { definePropType, useRender, withDefineType } from "@fast-element-plus/utils";
-import { ElIcon, ElInput, ElPopover, ElScrollbar } from "element-plus";
-import { isString } from "lodash-unified";
+import FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
+import { definePropType, useExpose, useRender, withDefineType } from "@fast-china/utils";
+import { isNull, isString } from "lodash-unified";
 
 type IconType = "ele" | "fastEle" | "local";
 
@@ -19,9 +19,9 @@ export default defineComponent({
 	},
 	emits: {
 		/** @description v-model 回调 */
-		"update:modelValue": (value: string) => isString(value),
+		"update:modelValue": (value: string) => isString(value) || isNull(value),
 		/** @description 改变 */
-		change: (value: string) => isString(value),
+		change: (value: string) => isString(value) || isNull(value),
 	},
 	setup(props, { attrs, slots, emit, expose }) {
 		const state = reactive({
@@ -100,21 +100,21 @@ export default defineComponent({
 								<div class="fa-icon-selector-popover__box-header__title">请选择图标</div>
 								<div class="fa-icon-selector-popover__box-header__tab">
 									<span
-										class={[state.iconType === "ele" ? "fa-icon-selector-popover__box-header__tab-is-active" : ""]}
+										class={{ "is-active": state.iconType === "ele" }}
 										title="Element Plus 图标"
 										onClick={() => handleTabClick("ele")}
 									>
 										ele
 									</span>
 									<span
-										class={[state.iconType === "fastEle" ? "fa-icon-selector-popover__box-header__tab-is-active" : ""]}
+										class={{ "is-active": state.iconType === "fastEle" }}
 										title="Fast Element Plus 图标"
 										onClick={() => handleTabClick("fastEle")}
 									>
 										fastEle
 									</span>
 									<span
-										class={[state.iconType === "local" ? "fa-icon-selector-popover__box-header__tab-is-active" : ""]}
+										class={{ "is-active": state.iconType === "local" }}
 										title="本地图标"
 										onClick={() => handleTabClick("local")}
 									>
@@ -137,12 +137,8 @@ export default defineComponent({
 			</ElPopover>
 		));
 
-		expose({
+		return useExpose(expose, {
 			iconType: state.iconType,
 		});
-
-		return {
-			iconType: state.iconType,
-		};
 	},
 });

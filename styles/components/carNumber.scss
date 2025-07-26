@@ -1,0 +1,44 @@
+.fa-car-number__popover {
+	margin-top: -12px;
+	// 按钮的宽度 + popover padding + 边框
+	width: calc(360px + var(--el-popover-padding) * 2 + 2px) !important;
+	.fa-car-number__popover__hide {
+		display: none !important;
+	}
+	.fa-car-number__popover__digit-letter {
+		display: flex;
+		flex-wrap: wrap;
+		.el-button {
+			width: 32px;
+			margin: 2px;
+		}
+	}
+	.fa-car-number__popover__area {
+		display: flex;
+		flex-wrap: wrap;
+		.el-button {
+			width: 32px;
+			margin: 2px;
+		}
+		.el-button:nth-child(11) {
+			margin-left: 20px;
+		}
+		.el-button:nth-child(19) {
+			margin-right: 20px;
+		}
+		.el-button:nth-child(20) {
+			margin-left: 38px;
+		}
+		.el-button:nth-child(27) {
+			margin-right: 38px;
+		}
+		.el-button:nth-child(28) {
+			margin-left: 56px;
+		}
+	}
+	.fa-car-number__popover__btn {
+		display: flex;
+		justify-content: end;
+		margin-top: 2px;
+	}
+}

@@ -1,11 +1,12 @@
 /** Element Plus 组件全局配置 */
 
-import type { App, PropType } from "vue";
+import ElementPlus, { ElDialog, ElForm, ElInput, ElInputNumber, ElMessageBox, ElSelect, ElTable, ElTree, ElTreeSelect } from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { useOverlay } from "@fast-element-plus/hooks";
-import { consoleError, errorHandler, execFunction } from "@fast-element-plus/utils";
+import { consoleError, execFunction } from "@fast-china/utils";
+import { isNil, isString } from "lodash-unified";
 import type { Action, ElMessageBoxOptions, MessageBoxData, MessageBoxState, TableProps } from "element-plus";
-import ElementPlus, { ElDialog, ElInput, ElInputNumber, ElMessageBox, ElTable } from "element-plus";
+import type { App, AppContext, PropType } from "vue";
 
 ElDialog.props = {
 	...ElDialog.props,
@@ -14,6 +15,25 @@ ElDialog.props = {
 	 * @description enable dragging feature for Dialog
 	 */
 	draggable: {
+		type: Boolean,
+		default: true,
+	},
+};
+
+ElForm.props = {
+	...ElForm.props,
+	/** @description Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported. */
+	labelWidth: {
+		type: [String, Number],
+		default: "auto",
+	},
+	/** @description Suffix of the label. */
+	labelSuffix: {
+		type: String,
+		default: "：",
+	},
+	/** @description When validation fails, scroll to the first error form entry. */
+	scrollToError: {
 		type: Boolean,
 		default: true,
 	},
@@ -40,6 +60,41 @@ ElInputNumber.props = {
 	controls: {
 		type: Boolean,
 		default: false,
+	},
+};
+
+ElSelect.props = {
+	...ElSelect.props,
+	/** @description displayed text while loading data from server, default is 'Loading' */
+	loadingText: {
+		type: String,
+		default: "加载中...",
+	},
+	/** @description displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data' */
+	noMatchText: {
+		type: String,
+		default: "暂无匹配的数据",
+	},
+	/** @description displayed text when there is no options, you can also use slot `empty`, default is 'No data' */
+	noDataText: {
+		type: String,
+		default: "暂无数据",
+	},
+	/**
+	 * 默认按文字形式展示
+	 * @description whether to collapse tags to a text when multiple selecting
+	 */
+	collapseTags: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认显示所有选中的标签
+	 * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
+	 */
+	collapseTagsTooltip: {
+		type: Boolean,
+		default: true,
 	},
 };
 
@@ -71,18 +126,111 @@ ElTable.props = {
 	},
 };
 
+ElTree.props = {
+	...ElTree.props,
+	/**
+	 * 默认展开所有节点
+	 * @description 是否默认展开所有节点
+	 */
+	defaultExpandAll: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认点击时选中节点
+	 * @description 是否在点击节点的时候选中节点
+	 */
+	checkOnClickNode: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认高亮选中节点
+	 * @description 是否高亮当前选中节点
+	 */
+	highlightCurrent: {
+		type: Boolean,
+		default: true,
+	},
+};
+
+ElTreeSelect.props = {
+	...ElTreeSelect.props,
+	/** @description displayed text while loading data from server, default is 'Loading' */
+	loadingText: {
+		type: String,
+		default: "加载中...",
+	},
+	/** @description displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data' */
+	noMatchText: {
+		type: String,
+		default: "暂无匹配的数据",
+	},
+	/** @description displayed text when there is no options, you can also use slot `empty`, default is 'No data' */
+	noDataText: {
+		type: String,
+		default: "暂无数据",
+	},
+	/**
+	 * 默认按文字形式展示
+	 * @description whether to collapse tags to a text when multiple selecting
+	 */
+	collapseTags: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认显示所有选中的标签
+	 * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
+	 */
+	collapseTagsTooltip: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认展开所有节点
+	 * @description 是否默认展开所有节点
+	 */
+	defaultExpandAll: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认点击时选中节点
+	 * @description 是否在点击节点的时候选中节点
+	 */
+	checkOnClickNode: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认高亮选中节点
+	 * @description 是否高亮当前选中节点
+	 */
+	highlightCurrent: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 默认点击节点不展开或收缩节点
+	 * @description 是否在点击节点的时候展开或者收缩节点， 默认值为 true，如果为 false，则只有点箭头图标的时候才会展开或者收缩节点。
+	 */
+	expandOnClickNode: Boolean,
+};
+
 // ElMessageBox 默认配置
 const elMessageBox = (
+	type: "alert" | "confirm" | "prompt",
 	message: ElMessageBoxOptions["message"],
-	options: ElMessageBoxOptions,
-	type: "alert" | "confirm" | "prompt"
+	options?: ElMessageBoxOptions,
+	appContext?: AppContext | null
 ): Promise<MessageBoxData> => {
 	options = options ?? {};
 	if (!options?.title) {
 		// 默认提示
 		options.title = "温馨提示";
 	}
-	if (options?.draggable == undefined) {
+	if (isNil(options?.draggable)) {
 		// 默认拖拽
 		options.draggable = true;
 	}
@@ -94,20 +242,20 @@ const elMessageBox = (
 		// 默认 确定按钮的文本内容
 		options.confirmButtonText = "确定";
 	}
-	if (options?.closeOnClickModal == undefined) {
+	if (isNil(options?.closeOnClickModal)) {
 		// 默认 是否可通过点击遮罩层关闭 MessageBox
 		options.closeOnClickModal = false;
 	}
-	if (options?.closeOnPressEscape == undefined) {
+	if (isNil(options?.closeOnPressEscape)) {
 		// 默认 是否可通过按下 ESC 键关闭 MessageBox
 		options.closeOnPressEscape = false;
 	}
 
 	// 关闭之前的判断逻辑
-	if (options?.beforeClose != undefined) {
+	if (isNil(options?.beforeClose)) {
 		const localBeforeClose = options.beforeClose;
-		const localConfirmButtonText = options?.confirmButtonText ?? "确定";
-		const localShowCancelButton = options?.showCancelButton ?? false;
+		const localConfirmButtonText = options?.confirmButtonText;
+		const localShowCancelButton = options?.showCancelButton;
 		options.beforeClose = (action: Action, instance: MessageBoxState, done: () => void): void => {
 			if (action === "confirm") {
 				useOverlay.show(0);
@@ -134,7 +282,7 @@ const elMessageBox = (
 					.catch((error) => {
 						consoleError("MessageBox", error);
 						cancelLoading();
-						errorHandler(error);
+						throw error;
 					});
 			} else {
 				done();
@@ -147,7 +295,7 @@ const elMessageBox = (
 		case "alert":
 			break;
 		case "confirm":
-			if (options?.showCancelButton == undefined) {
+			if (isNil(options?.showCancelButton)) {
 				options.showCancelButton = true;
 			}
 			break;
@@ -171,14 +319,42 @@ const elMessageBox = (
 	);
 };
 
-ElMessageBox.alert = (message: ElMessageBoxOptions["message"], options?: ElMessageBoxOptions): Promise<MessageBoxData> =>
-	elMessageBox(message, options, "alert");
+type MESSAGE_BOX_TYPE = "alert" | "confirm" | "prompt";
+const MESSAGE_BOX_DEFAULT_OPTS: Record<MESSAGE_BOX_TYPE, Partial<ElMessageBoxOptions>> = {
+	alert: { closeOnPressEscape: false, closeOnClickModal: false },
+	confirm: { showCancelButton: true },
+	prompt: { showCancelButton: true, showInput: true },
+};
 
-ElMessageBox.prompt = (message: ElMessageBoxOptions["message"], options?: ElMessageBoxOptions): Promise<MessageBoxData> =>
-	elMessageBox(message, options, "prompt");
+ElMessageBox.alert = (
+	message: ElMessageBoxOptions["message"],
+	titleOrOptions?: string | ElMessageBoxOptions,
+	options?: ElMessageBoxOptions,
+	appContext?: AppContext | null
+): Promise<MessageBoxData> =>
+	isString(titleOrOptions)
+		? elMessageBox("alert", message, Object.assign({ title: titleOrOptions, ...MESSAGE_BOX_DEFAULT_OPTS["alert"] }, options), appContext)
+		: elMessageBox("alert", message, Object.assign(titleOrOptions, MESSAGE_BOX_DEFAULT_OPTS["alert"], options), options as AppContext);
 
-ElMessageBox.confirm = (message: ElMessageBoxOptions["message"], options?: ElMessageBoxOptions): Promise<MessageBoxData> =>
-	elMessageBox(message, options, "confirm");
+ElMessageBox.prompt = (
+	message: ElMessageBoxOptions["message"],
+	titleOrOptions?: string | ElMessageBoxOptions,
+	options?: ElMessageBoxOptions,
+	appContext?: AppContext | null
+): Promise<MessageBoxData> =>
+	isString(titleOrOptions)
+		? elMessageBox("prompt", message, Object.assign({ title: titleOrOptions, ...MESSAGE_BOX_DEFAULT_OPTS["prompt"] }, options), appContext)
+		: elMessageBox("prompt", message, Object.assign(titleOrOptions, MESSAGE_BOX_DEFAULT_OPTS["prompt"], options), options as AppContext);
+
+ElMessageBox.confirm = (
+	message: ElMessageBoxOptions["message"],
+	titleOrOptions?: string | ElMessageBoxOptions,
+	options?: AppContext | ElMessageBoxOptions,
+	appContext?: AppContext | null
+): Promise<MessageBoxData> =>
+	isString(titleOrOptions)
+		? elMessageBox("confirm", message, Object.assign({ title: titleOrOptions, ...MESSAGE_BOX_DEFAULT_OPTS["confirm"] }, options), appContext)
+		: elMessageBox("confirm", message, Object.assign(titleOrOptions, MESSAGE_BOX_DEFAULT_OPTS["confirm"], options), options as AppContext);
 
 export const installElementPlus = (app: App): void => {
 	/** 注册所有 Element Plus Icon */

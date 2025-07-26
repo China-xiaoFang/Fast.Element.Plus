@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}}),require("../../utils/index.js");const e=require("./src/upload.js"),s=require("../../utils/vue/install.js").withInstall(e.default);exports.faUploadEmits=e.faUploadEmits,exports.faUploadProps=e.faUploadProps,exports.FaUpload=s,exports.default=s;
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/upload.js"),a=e.withInstall(t.default);exports.faUploadEmits=t.faUploadEmits,exports.faUploadProps=t.faUploadProps,exports.FaUpload=a,exports.default=a;
 //# sourceMappingURL=index.js.map

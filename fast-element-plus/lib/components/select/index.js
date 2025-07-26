@@ -1,0 +1,2 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/select.js"),s=require("./src/selectOption.js");require("./src/select.type.js");const r=e.withInstall(t.default,{SelectOption:s.default}),l=e.withNoopInstall(s.default);exports.SelectProps=t.SelectProps,exports.faSelectProps=t.faSelectProps,exports.FaSelect=r,exports.FaSelectOption=l,exports.default=r;
+//# sourceMappingURL=index.js.map

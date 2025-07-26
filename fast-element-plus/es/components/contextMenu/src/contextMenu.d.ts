@@ -7,7 +7,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
 }>, {
     /** @description 是否显示 */
-    visible: boolean;
+    visible: import('vue').ComputedRef<boolean>;
     /** @description 打开菜单 */
     open: (axis?: {
         x: number;

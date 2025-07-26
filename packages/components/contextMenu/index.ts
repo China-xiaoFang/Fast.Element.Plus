@@ -1,4 +1,4 @@
-import { withInstall } from "@fast-element-plus/utils";
+import { withInstall } from "@fast-china/utils";
 import ContextMenu from "./src/contextMenu";
 
 export const FaContextMenu = withInstall(ContextMenu);

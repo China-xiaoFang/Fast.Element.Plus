@@ -17,7 +17,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 自定义图标 */
     customIcons: import('vue').PropType<string[]>;
 }>> & Readonly<{
-    onChange?: (value: string) => any;
     "onUpdate:modelValue"?: (value: string) => any;
+    onChange?: (value: string) => any;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

@@ -1,13 +1,13 @@
-import type { ExtractPropTypes } from "vue";
-import { withInstall } from "@fast-element-plus/utils";
-import type { faIconProps } from "./src/icon";
+import { withInstall } from "@fast-china/utils";
 import Icon from "./src/icon";
+import type { faIconProps } from "./src/icon";
+import type { ExtractPropTypes } from "vue";
 
 export const FaIcon = withInstall(Icon);
 export default FaIcon;
 
 export { faIconProps };
 
-export type GIconInstance = InstanceType<typeof Icon>;
+export type FaIconInstance = InstanceType<typeof Icon>;
 
-export type GIconProps = ExtractPropTypes<typeof faIconProps>;
+export type FaIconProps = ExtractPropTypes<typeof faIconProps>;

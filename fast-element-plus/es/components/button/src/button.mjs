@@ -1,14 +1,10 @@
 import { defineComponent, reactive, ref, watch, createVNode, mergeProps, withModifiers, computed } from "vue";
 import { Eleme } from "@element-plus/icons-vue";
 import "../../../hooks/index.mjs";
-import "../../../utils/index.mjs";
+import { definePropType, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
 import { buttonProps, buttonEmits, ElButton } from "element-plus";
 import { isFunction } from "lodash-unified";
-import { definePropType, useProps } from "../../../utils/vue/props.mjs";
-import { makeSlots } from "../../../utils/vue/slots.mjs";
-import { useOverlay } from "../../../hooks/useOverlay/index.mjs";
-import { useRender } from "../../../utils/vue/useRender.mjs";
-import { useExpose } from "../../../utils/vue/expose.mjs";
+import { useOverlay } from "../../../hooks/use-overlay/index.mjs";
 const faButtonProps = {
   ...buttonProps,
   /**
@@ -17,7 +13,6 @@ const faButtonProps = {
    */
   loadingIcon: {
     type: definePropType([String, Object, Function]),
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     default: () => Eleme
   },
   /** @description 禁用加载 */
@@ -90,23 +85,33 @@ const Button = /* @__PURE__ */ defineComponent({
       }
     }));
     return useExpose(expose, {
-      ...computed(() => {
-        var _a, _b, _c, _d, _e;
-        return {
-          /** @description button html element */
-          ref: (_a = buttonRef.value) == null ? void 0 : _a.ref,
-          /** @description button size */
-          size: (_b = buttonRef.value) == null ? void 0 : _b.size,
-          /** @description button type */
-          type: (_c = buttonRef.value) == null ? void 0 : _c.type,
-          /** @description button disabled */
-          disabled: (_d = buttonRef.value) == null ? void 0 : _d.disabled,
-          /** @description whether adding space */
-          shouldAddSpace: (_e = buttonRef.value) == null ? void 0 : _e.shouldAddSpace
-        };
-      }).value,
+      /** @description 按钮 html 元素 */
+      ref: computed(() => {
+        var _a;
+        return (_a = buttonRef.value) == null ? void 0 : _a.ref;
+      }),
+      /** @description 按钮尺寸 */
+      size: computed(() => {
+        var _a;
+        return (_a = buttonRef.value) == null ? void 0 : _a.size;
+      }),
+      /** @description 按钮类型 */
+      type: computed(() => {
+        var _a;
+        return (_a = buttonRef.value) == null ? void 0 : _a.type;
+      }),
+      /** @description 按钮已禁用 */
+      disabled: computed(() => {
+        var _a;
+        return (_a = buttonRef.value) == null ? void 0 : _a.disabled;
+      }),
+      /** @description 是否在两个字符之间插入空格 */
+      shouldAddSpace: computed(() => {
+        var _a;
+        return (_a = buttonRef.value) == null ? void 0 : _a.shouldAddSpace;
+      }),
       /** @description 加载状态 */
-      loading: state.loading
+      loading: computed(() => state.loading)
     });
   }
 });

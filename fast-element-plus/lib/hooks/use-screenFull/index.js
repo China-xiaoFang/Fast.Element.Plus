@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("vue"),l=require("element-plus"),s=require("screenfull"),n=e.ref(!1),r={isFullscreen:()=>n.value,init:()=>{s.isEnabled&&s.onchange(()=>{n.value=s.isFullscreen})},toggle:()=>{s.isEnabled?s.toggle():l.ElMessage.warning("当前您的浏览器不支持全屏 ❌")},full:()=>{s.isEnabled?s.isFullscreen||s.request():l.ElMessage.warning("当前您的浏览器不支持全屏 ❌")},exit:()=>{s.isEnabled?s.isFullscreen&&s.exit():l.ElMessage.warning("当前您的浏览器不支持全屏 ❌")}};exports.useScreenFull=r;
+//# sourceMappingURL=index.js.map

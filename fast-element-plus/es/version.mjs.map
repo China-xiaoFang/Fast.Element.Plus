@@ -1,1 +1,1 @@
-{"version":3,"file":"version.mjs","sources":["../../packages/version.ts"],"sourcesContent":["/**\n * 组件库版本号\n */\nexport const fastElementPlusVersion = \"1.0.0\";\n"],"names":[],"mappings":"AAGO,MAAM,yBAAyB;"}
+{"version":3,"file":"version.mjs","sources":["../../packages/version.ts"],"sourcesContent":["export const version = \"1.0.0\";\n"],"names":[],"mappings":"AAAO,MAAM,UAAU;"}

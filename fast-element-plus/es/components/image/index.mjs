@@ -1,7 +1,6 @@
-import "../../utils/index.mjs";
+import { withInstall } from "@fast-china/utils";
 import Image from "./src/image.mjs";
 import { faImageProps } from "./src/image.mjs";
-import { withInstall } from "../../utils/vue/install.mjs";
 const FaImage = withInstall(Image);
 export {
   FaImage,

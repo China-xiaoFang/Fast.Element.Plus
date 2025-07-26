@@ -1,0 +1,2 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),_={created(e,_,o){e.__debounce_originClick__=o.props.onClick,o.props.onClick=()=>{e.__debounce_timer__&&clearInterval(e.__debounce_timer__),e.__debounce_timer__=setTimeout(()=>{e.__debounce_originClick__()},500)}}},o=e.withInstallDirective(_,"debounce");exports.default=o,exports.vDebounce=o;
+//# sourceMappingURL=index.js.map

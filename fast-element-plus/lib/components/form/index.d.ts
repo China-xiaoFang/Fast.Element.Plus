@@ -1,9 +1,7 @@
+import { TSXWithInstall } from "@fast-china/utils";
+import type { default as Form, faFormProps } from "./src/form";
+import type { default as FormItem, faFormItemProps } from "./src/formItem";
 import type { ExtractPropTypes } from "vue";
-import type { faFormProps } from "./src/form";
-import type { default as Form } from "./src/form";
-import type { faFormItemProps } from "./src/formItem";
-import type { default as FormItem } from "./src/formItem";
-import type { TSXWithInstall } from "../../utils";
 
 export declare const FaForm: TSXWithInstall<typeof Form> & {
 	FormItem: typeof FormItem;

@@ -1,4 +1,1 @@
-/**
- * 组件库版本号
- */
-export const fastElementPlusVersion = "1.0.0";
+export const version = "1.0.0";

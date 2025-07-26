@@ -4,12 +4,11 @@ export * from './components';
 export * from './constants';
 export * from './directives';
 export * from './hooks';
-export * from './settings';
-export * from './utils';
+export { Decimal } from 'decimal.js';
 declare const installer: {
     version: string;
-    install: (app: import('vue').App, options?: import('./settings').FastAppOptions) => void;
+    install: (app: import('vue').App) => void;
 };
-export declare const install: (app: import('vue').App, options?: import('./settings').FastAppOptions) => void;
+export declare const install: (app: import('vue').App) => void;
 export declare const version: string;
 export default installer;

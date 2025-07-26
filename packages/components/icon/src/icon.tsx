@@ -1,9 +1,8 @@
-import type { CSSProperties } from "vue";
 import { computed, defineComponent, h, reactive, resolveComponent } from "vue";
-import { RegExps } from "@fast-element-plus/constants";
-import { useRender } from "@fast-element-plus/utils";
 import { ElIcon } from "element-plus";
-import { isNumber } from "lodash-unified";
+import { RegExps } from "@fast-element-plus/constants";
+import { addUnit, useRender } from "@fast-china/utils";
+import type { CSSProperties } from "vue";
 
 export const faIconProps = {
 	/** @description el-icon- 使用 El-icon 的图标；fa-icon 使用 Fast 图标组件库； */
@@ -28,11 +27,7 @@ export default defineComponent({
 			style: computed((): CSSProperties => {
 				const result: any = {};
 				if (props.size) {
-					if (isNumber(props.size)) {
-						result.size = `${props.size}px`;
-					} else {
-						result.size = props.size;
-					}
+					result.size = addUnit(props.size);
 				}
 				if (props.color) {
 					result.color = props.color;

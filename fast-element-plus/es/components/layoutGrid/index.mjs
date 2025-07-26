@@ -1,8 +1,7 @@
-import "../../utils/index.mjs";
+import { withInstall, withNoopInstall } from "@fast-china/utils";
 import LayoutGrid from "./src/layoutGrid.mjs";
 import LayoutGridItem from "./src/layoutGridItem.mjs";
 import "./src/layoutGrid.type.mjs";
-import { withInstall, withNoopInstall } from "../../utils/vue/install.mjs";
 const FaLayoutGrid = withInstall(LayoutGrid, {
   LayoutGridItem
 });
