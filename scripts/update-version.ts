@@ -106,7 +106,7 @@ Object.keys(packageJson.devDependencies ?? {}).forEach((needKey) => {
 });
 
 newPackageJson.devDependencies = Object.keys(packageJson.devDependencies ?? {}).reduce((acc, key) => {
-	if (!key.startsWith("@fast-element-plus/")) {
+	if (!key.startsWith("@fast-element-plus/") || key === "@fast-element-plus/icons-vue") {
 		acc[key] = packageJson.devDependencies[key];
 	}
 	return acc;
