@@ -19,3 +19,5 @@ export type FaFormProps = ExtractPropTypes<typeof faFormProps>;
 export type FaFormItemInstance = InstanceType<typeof FormItem>;
 
 export type FaFormItemProps = ExtractPropTypes<typeof faFormItemProps>;
+
+export * from "./utils/form";

@@ -1313,8 +1313,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
 }>> & Readonly<{
     onSelect?: (selection: any[], row: any) => any;
-    onReset?: (params: any) => any;
-    onRefresh?: (params: any) => any;
+    onReset?: (params: PagedInput) => any;
+    onRefresh?: (params: PagedInput) => any;
     onCurrentChange?: (currentRow: any, oldCurrentRow: any) => any;
     onSelectAll?: (selection: any[]) => any;
     onSelectionChange?: (newSelection: any[]) => any;

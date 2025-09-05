@@ -14,6 +14,7 @@ import { FaContextMenu } from "./components/contextMenu/index.mjs";
 import { FaDialog } from "./components/dialog/index.mjs";
 import { faDialogEmits, faDialogProps } from "./components/dialog/src/dialog.mjs";
 import { FaDrawer } from "./components/drawer/index.mjs";
+import { formUtil } from "./components/form/utils/form.mjs";
 import { FaForm, FaFormItem } from "./components/form/index.mjs";
 import { faFormProps } from "./components/form/src/form.mjs";
 import { faFormItemProps } from "./components/form/src/formItem.mjs";
@@ -117,6 +118,7 @@ export {
   faUploadImageEmits,
   faUploadImageProps,
   faUploadProps,
+  formUtil,
   getTableDefaultSlots,
   install,
   tableColumnProps,
