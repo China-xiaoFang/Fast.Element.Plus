@@ -22,6 +22,7 @@ import { FaUploadImages } from "./uploadImages/index.mjs";
 import { faButtonEmits, faButtonProps } from "./button/src/button.mjs";
 import { CarNumberArea, CarNumberDigit, CarNumberLetter } from "./carNumber/src/common.mjs";
 import { faDialogEmits, faDialogProps } from "./dialog/src/dialog.mjs";
+import { formUtil } from "./form/utils/form.mjs";
 import { faFormProps } from "./form/src/form.mjs";
 import { faFormItemProps } from "./form/src/formItem.mjs";
 import { faFormItemTipProps } from "./formItemTip/src/formItemTip.mjs";
@@ -90,6 +91,7 @@ export {
   faUploadImageEmits,
   faUploadImageProps,
   faUploadProps,
+  formUtil,
   getTableDefaultSlots,
   tableColumnProps,
   tableProps,

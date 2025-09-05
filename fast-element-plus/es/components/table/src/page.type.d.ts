@@ -112,7 +112,7 @@ export type PagedSortInput = {
     mode?: string;
 };
 /** @description FaTable 统一分页输入 */
-export type PagedInput<Input = any> = {
+export type PagedInput = {
     /**
      * 当前页面索引值，默认为1
      */
@@ -142,4 +142,4 @@ export type PagedInput<Input = any> = {
      * @default true
      */
     enablePaged?: boolean;
-} & Input;
+};
