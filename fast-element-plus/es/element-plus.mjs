@@ -226,7 +226,7 @@ const elMessageBox = (type, message, options, appContext) => {
   if (isNil(options?.closeOnPressEscape)) {
     options.closeOnPressEscape = false;
   }
-  if (isNil(options?.beforeClose)) {
+  if (!isNil(options?.beforeClose)) {
     const localBeforeClose = options.beforeClose;
     const localConfirmButtonText = options?.confirmButtonText;
     const localShowCancelButton = options?.showCancelButton;
