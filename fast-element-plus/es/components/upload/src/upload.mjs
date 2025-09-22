@@ -65,7 +65,7 @@ const Upload = /* @__PURE__ */ defineComponent({
       uploadUrl: props.uploadUrl
     });
     const disabled = computed(() => {
-      return props.disabled || (formContext == null ? void 0 : formContext.disabled);
+      return props.disabled || formContext?.disabled;
     });
     const uploadRef = ref();
     const handleOnChange = (uploadFile, uploadFiles) => {
@@ -116,30 +116,15 @@ const Upload = /* @__PURE__ */ defineComponent({
     }), [[resolveDirective("loading"), loading.value]]));
     return useExpose(expose, {
       /** @description 取消上传请求 */
-      abort: computed(() => {
-        var _a;
-        return (_a = uploadRef.value) == null ? void 0 : _a.abort;
-      }),
+      abort: computed(() => uploadRef.value?.abort),
       /** @description 手动上传文件列表 */
-      submit: computed(() => {
-        var _a;
-        return (_a = uploadRef.value) == null ? void 0 : _a.submit;
-      }),
+      submit: computed(() => uploadRef.value?.submit),
       /** @description 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
-      clearFiles: computed(() => {
-        var _a;
-        return (_a = uploadRef.value) == null ? void 0 : _a.clearFiles;
-      }),
+      clearFiles: computed(() => uploadRef.value?.clearFiles),
       /** @description 手动选择文件 */
-      handleStart: computed(() => {
-        var _a;
-        return (_a = uploadRef.value) == null ? void 0 : _a.handleStart;
-      }),
+      handleStart: computed(() => uploadRef.value?.handleStart),
       /** @description 手动移除文件。 file 和rawFile 已被合并。 rawFile 将在 v2.2.0 中移除 */
-      handleRemove: computed(() => {
-        var _a;
-        return (_a = uploadRef.value) == null ? void 0 : _a.handleRemove;
-      }),
+      handleRemove: computed(() => uploadRef.value?.handleRemove),
       /** @description 加载状态 */
       loading,
       /** @description 文件集合 */

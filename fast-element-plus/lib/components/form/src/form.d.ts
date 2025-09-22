@@ -36,7 +36,7 @@ export declare const faFormProps: {
         __epPropKey: true;
     };
     labelPosition: {
-        readonly type: import('vue').PropType<"left" | "right" | "top">;
+        readonly type: import('vue').PropType<"top" | "left" | "right">;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -72,7 +72,7 @@ export declare const faFormProps: {
     };
     hideRequiredAsterisk: BooleanConstructor;
     scrollIntoViewOptions: {
-        readonly type: import('vue').PropType<boolean | Record<string, any>>;
+        readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -127,7 +127,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     labelPosition: {
-        readonly type: import('vue').PropType<"left" | "right" | "top">;
+        readonly type: import('vue').PropType<"top" | "left" | "right">;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -163,7 +163,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     hideRequiredAsterisk: BooleanConstructor;
     scrollIntoViewOptions: {
-        readonly type: import('vue').PropType<boolean | Record<string, any>>;
+        readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -228,7 +228,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     labelPosition: {
-        readonly type: import('vue').PropType<"left" | "right" | "top">;
+        readonly type: import('vue').PropType<"top" | "left" | "right">;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -264,7 +264,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     hideRequiredAsterisk: BooleanConstructor;
     scrollIntoViewOptions: {
-        readonly type: import('vue').PropType<boolean | Record<string, any>>;
+        readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -280,7 +280,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     disabled: BooleanConstructor;
 }>> & Readonly<{}>, {
     disabled: boolean;
-    labelPosition: "left" | "right" | "top";
+    labelPosition: "top" | "left" | "right";
     requireAsteriskPosition: "left" | "right";
     labelWidth: string | number;
     labelSuffix: string;
@@ -291,7 +291,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     validateOnRuleChange: boolean;
     hideRequiredAsterisk: boolean;
     scrollToError: boolean;
-    scrollIntoViewOptions: boolean | Record<string, any>;
+    scrollIntoViewOptions: true;
     cols: string | number | Record<FaLayoutGridBreakPoint, number>;
     grid: boolean;
     detailForm: boolean;

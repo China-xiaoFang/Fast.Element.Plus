@@ -59,10 +59,7 @@ const TableSearchForm = /* @__PURE__ */ defineComponent({
     const _globalSize = useGlobalSize();
     const gridRef = ref();
     const tableState = inject(tableStateKey);
-    const breakPoint = computed(() => {
-      var _a;
-      return (_a = gridRef.value) == null ? void 0 : _a.breakPoint;
-    });
+    const breakPoint = computed(() => gridRef.value?.breakPoint);
     const state = reactive({
       refreshing: false,
       height: "auto",
@@ -72,8 +69,7 @@ const TableSearchForm = /* @__PURE__ */ defineComponent({
       showCollapsed: computed(() => {
         let show = false;
         tableState.searchColumns.reduce((prev, current) => {
-          var _a, _b, _c, _d;
-          prev += (((_a = current.search[breakPoint.value]) == null ? void 0 : _a.span) ?? ((_b = current.search) == null ? void 0 : _b.span) ?? 1) + (((_c = current.search[breakPoint.value]) == null ? void 0 : _c.offset) ?? ((_d = current.search) == null ? void 0 : _d.offset) ?? 0);
+          prev += (current.search[breakPoint.value]?.span ?? current.search?.span ?? 1) + (current.search[breakPoint.value]?.offset ?? current.search?.offset ?? 0);
           if (typeof props.cols !== "number") {
             if (prev >= props.cols[breakPoint.value]) show = true;
           } else {
@@ -91,26 +87,26 @@ const TableSearchForm = /* @__PURE__ */ defineComponent({
     const advancedSearchRef = ref();
     const getResponsive = (item) => {
       return {
-        span: item == null ? void 0 : item.span,
-        offset: (item == null ? void 0 : item.offset) ?? 0,
-        xs: item == null ? void 0 : item.xs,
-        sm: item == null ? void 0 : item.sm,
-        md: item == null ? void 0 : item.md,
-        lg: item == null ? void 0 : item.lg,
-        xl: item == null ? void 0 : item.xl
+        span: item?.span,
+        offset: item?.offset ?? 0,
+        xs: item?.xs,
+        sm: item?.sm,
+        md: item?.md,
+        lg: item?.lg,
+        xl: item?.xl
       };
     };
     const handleBreakPointChange = ({
       breakPoint: breakPoint2
     }) => {
       state.breakPoint = props.cols[breakPoint2] - 1;
-      state.searchColumns = tableState.searchColumns.filter((f) => f == null ? void 0 : f.show).slice(0, state.breakPoint);
-      state.advancedSearchColumns = tableState.searchColumns.filter((f) => f == null ? void 0 : f.show).slice(state.breakPoint);
+      state.searchColumns = tableState.searchColumns.filter((f) => f?.show).slice(0, state.breakPoint);
+      state.advancedSearchColumns = tableState.searchColumns.filter((f) => f?.show).slice(state.breakPoint);
     };
     watch(() => tableState.searchColumns, () => {
       if (state.breakPoint) {
-        state.searchColumns = tableState.searchColumns.filter((f) => f == null ? void 0 : f.show).slice(0, state.breakPoint);
-        state.advancedSearchColumns = tableState.searchColumns.filter((f) => f == null ? void 0 : f.show).slice(state.breakPoint);
+        state.searchColumns = tableState.searchColumns.filter((f) => f?.show).slice(0, state.breakPoint);
+        state.advancedSearchColumns = tableState.searchColumns.filter((f) => f?.show).slice(state.breakPoint);
       }
     });
     const searchColumns = computed(() => props.advancedSearchDrawer ? state.searchColumns : tableState.searchColumns);
@@ -151,32 +147,26 @@ const TableSearchForm = /* @__PURE__ */ defineComponent({
         "cols": props.cols,
         "onBreakPointChange": handleBreakPointChange
       }, {
-        default: () => [searchColumns.value.map((item, index) => {
-          var _a;
-          return createVNode(FaLayoutGridItem, mergeProps({
-            "key": ((_a = item == null ? void 0 : item.search) == null ? void 0 : _a.key) ?? item.prop
-          }, getResponsive(item.search), {
-            "index": index
-          }), {
-            default: () => {
-              var _a2;
-              return [createVNode("div", {
-                "class": "el-form-item el-form-item--default el-form-item--label-right"
-              }, [createVNode("label", {
-                "class": "el-form-item__label"
-              }, [item.search.label]), createVNode("div", {
-                "class": "el-form-item__content"
-              }, [((_a2 = item.search) == null ? void 0 : _a2.slot) ? slots[item.search.slot] && slots[item.search.slot]({
-                column: item,
-                search: props.search,
-                ...getTableDefaultSlots(tableState)
-              }) : createVNode(TableSearchFormItem, {
-                "column": item,
-                "search": props.search
-              }, null)])])];
-            }
-          });
-        }), createVNode(FaLayoutGridItem, {
+        default: () => [searchColumns.value.map((item, index) => createVNode(FaLayoutGridItem, mergeProps({
+          "key": item?.search?.key ?? item.prop
+        }, getResponsive(item.search), {
+          "index": index
+        }), {
+          default: () => [createVNode("div", {
+            "class": "el-form-item el-form-item--default el-form-item--label-right"
+          }, [createVNode("label", {
+            "class": "el-form-item__label"
+          }, [item.search.label]), createVNode("div", {
+            "class": "el-form-item__content"
+          }, [item.search?.slot ? slots[item.search.slot] && slots[item.search.slot]({
+            column: item,
+            search: props.search,
+            ...getTableDefaultSlots(tableState)
+          }) : createVNode(TableSearchFormItem, {
+            "column": item,
+            "search": props.search
+          }, null)])])]
+        })), createVNode(FaLayoutGridItem, {
           "suffix": true
         }, {
           default: () => [createVNode("div", {
@@ -247,29 +237,26 @@ const TableSearchForm = /* @__PURE__ */ defineComponent({
             lg: 5,
             xl: 6
           }
-        }, _isSlot(_slot = state.advancedSearchColumns.map((item, index) => {
-          var _a;
-          return createVNode(FaLayoutGridItem, mergeProps({
-            "key": item.prop ?? ((_a = item == null ? void 0 : item.search) == null ? void 0 : _a.key)
-          }, getResponsive(item.search), {
-            "index": index
-          }), {
-            default: () => [createVNode("div", {
-              "class": "el-form-item el-form-item--default el-form-item--label-top"
-            }, [createVNode("label", {
-              "class": "el-form-item__label"
-            }, [item.search.label]), createVNode("div", {
-              "class": "el-form-item__content"
-            }, [item.search.slot ? slots[item.search.slot] && slots[item.search.slot]({
-              column: item,
-              search: props.search,
-              ...getTableDefaultSlots(tableState)
-            }) : createVNode(TableSearchFormItem, {
-              "column": item,
-              "search": props.search
-            }, null)])])]
-          });
-        })) ? _slot : {
+        }, _isSlot(_slot = state.advancedSearchColumns.map((item, index) => createVNode(FaLayoutGridItem, mergeProps({
+          "key": item.prop ?? item?.search?.key
+        }, getResponsive(item.search), {
+          "index": index
+        }), {
+          default: () => [createVNode("div", {
+            "class": "el-form-item el-form-item--default el-form-item--label-top"
+          }, [createVNode("label", {
+            "class": "el-form-item__label"
+          }, [item.search.label]), createVNode("div", {
+            "class": "el-form-item__content"
+          }, [item.search.slot ? slots[item.search.slot] && slots[item.search.slot]({
+            column: item,
+            search: props.search,
+            ...getTableDefaultSlots(tableState)
+          }) : createVNode(TableSearchFormItem, {
+            "column": item,
+            "search": props.search
+          }, null)])])]
+        }))) ? _slot : {
           default: () => [_slot]
         })])]
       })]);

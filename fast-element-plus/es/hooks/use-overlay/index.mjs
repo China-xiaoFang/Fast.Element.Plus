@@ -13,9 +13,8 @@ const useOverlay = {
   hide: () => {
     if (window.overlay) {
       nextTick(() => {
-        var _a;
         const loadingEl = document.querySelector(".__fa-overlay");
-        loadingEl && ((_a = loadingEl.parentNode) == null ? void 0 : _a.removeChild(loadingEl));
+        loadingEl && loadingEl.parentNode?.removeChild(loadingEl);
         window.overlay = false;
       });
     }

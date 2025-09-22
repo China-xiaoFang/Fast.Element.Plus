@@ -402,9 +402,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
             readonly size: number;
             readonly type: string;
             arrayBuffer: () => Promise<ArrayBuffer>;
-            bytes: () => Promise<Uint8Array>;
+            bytes: () => Promise<Uint8Array<ArrayBuffer>>;
             slice: (start?: number, end?: number, contentType?: string) => Blob;
-            stream: () => ReadableStream<Uint8Array>;
+            stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
         size?: number;
@@ -424,9 +424,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
             readonly size: number;
             readonly type: string;
             arrayBuffer: () => Promise<ArrayBuffer>;
-            bytes: () => Promise<Uint8Array>;
+            bytes: () => Promise<Uint8Array<ArrayBuffer>>;
             slice: (start?: number, end?: number, contentType?: string) => Blob;
-            stream: () => ReadableStream<Uint8Array>;
+            stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
         size?: number;

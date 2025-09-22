@@ -208,28 +208,28 @@ ElTreeSelect.props = {
 };
 const elMessageBox = (type, message, options, appContext) => {
   options = options ?? {};
-  if (!(options == null ? void 0 : options.title)) {
+  if (!options?.title) {
     options.title = "温馨提示";
   }
-  if (isNil(options == null ? void 0 : options.draggable)) {
+  if (isNil(options?.draggable)) {
     options.draggable = true;
   }
-  if (!(options == null ? void 0 : options.cancelButtonText)) {
+  if (!options?.cancelButtonText) {
     options.cancelButtonText = "取消";
   }
-  if (!(options == null ? void 0 : options.confirmButtonText)) {
+  if (!options?.confirmButtonText) {
     options.confirmButtonText = "确定";
   }
-  if (isNil(options == null ? void 0 : options.closeOnClickModal)) {
+  if (isNil(options?.closeOnClickModal)) {
     options.closeOnClickModal = false;
   }
-  if (isNil(options == null ? void 0 : options.closeOnPressEscape)) {
+  if (isNil(options?.closeOnPressEscape)) {
     options.closeOnPressEscape = false;
   }
-  if (isNil(options == null ? void 0 : options.beforeClose)) {
+  if (isNil(options?.beforeClose)) {
     const localBeforeClose = options.beforeClose;
-    const localConfirmButtonText = options == null ? void 0 : options.confirmButtonText;
-    const localShowCancelButton = options == null ? void 0 : options.showCancelButton;
+    const localConfirmButtonText = options?.confirmButtonText;
+    const localShowCancelButton = options?.showCancelButton;
     options.beforeClose = (action, instance, done) => {
       if (action === "confirm") {
         useOverlay.show(0);
@@ -262,12 +262,12 @@ const elMessageBox = (type, message, options, appContext) => {
     case "alert":
       break;
     case "confirm":
-      if (isNil(options == null ? void 0 : options.showCancelButton)) {
+      if (isNil(options?.showCancelButton)) {
         options.showCancelButton = true;
       }
       break;
     case "prompt":
-      if ((options == null ? void 0 : options.showCancelButton) == void 0) {
+      if (options?.showCancelButton == void 0) {
         options.showCancelButton = true;
       }
       break;

@@ -378,11 +378,10 @@ const TableColumn = /* @__PURE__ */ defineComponent({
       column,
       $index
     }) => {
-      var _a, _b;
       if (props.type === "submitInfo") {
         let _slot;
-        const submitClerkName = row[((_a = props.submitInfoField) == null ? void 0 : _a.submitClerkName) ?? "submitClerkName"];
-        const submitTime = row[((_b = props.submitInfoField) == null ? void 0 : _b.submitTime) ?? "submitTime"];
+        const submitClerkName = row[props.submitInfoField?.submitClerkName ?? "submitClerkName"];
+        const submitTime = row[props.submitInfoField?.submitTime ?? "submitTime"];
         return createVNode(Fragment, null, [createVNode("div", {
           "style": "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;",
           "title": submitTime
@@ -512,11 +511,65 @@ const TableColumn = /* @__PURE__ */ defineComponent({
     watch(() => props, () => {
       elTableColumnProps = useProps(props, tableColumnProps, ["type", "minWidth", "sortable", "sortOrders", "resizable", "showOverflowTooltip"]);
     });
-    useRender(() => {
-      var _a;
-      return createVNode(Fragment, null, [
-        // 如果有配置多级表头的数据，则递归该组件
-        ((_a = props._children) == null ? void 0 : _a.length) ? createVNode(ElTableColumn, mergeProps(elTableColumnProps.value, {
+    useRender(() => createVNode(Fragment, null, [
+      // 如果有配置多级表头的数据，则递归该组件
+      props._children?.length ? createVNode(ElTableColumn, mergeProps(elTableColumnProps.value, {
+        "minWidth": getWidth("auto"),
+        "sortable": props.sortable ? "custom" : false,
+        "sortOrders": props.sortOrders ?? ["descending", "ascending", null],
+        "resizable": props.resizable && !props.autoWidth,
+        "showOverflowTooltip": (props.showOverflowTooltip ?? true) && !props.autoWidth && !props.type
+      }), {
+        header: ({
+          column,
+          $index
+        }) => headerRender({
+          column,
+          $index
+        }),
+        default: () => props._children.map((col) => h(resolveComponent("FaTableColumn"), {
+          ...col
+        }, slots))
+      }) : props.type === "image" ? createVNode(ElTableColumn, mergeProps(elTableColumnProps.value, {
+        "align": "center",
+        "className": "fa-table__image-column",
+        "minWidth": "50px",
+        "sortable": false,
+        "resizable": false,
+        "showOverflowTooltip": false
+      }), {
+        header: ({
+          column,
+          $index
+        }) => headerRender({
+          column,
+          $index
+        }),
+        default: ({
+          row
+        }) => row[props.prop] ? tableState.hideImage ? createVNode(ElImage, {
+          "class": "fa-image",
+          "lazy": true,
+          "src": artwork,
+          "fit": "cover",
+          "previewSrcList": [row[props.prop]],
+          "closeOnPressEscape": true,
+          "hideOnClickModal": true,
+          "previewTeleported": true
+        }, null) : createVNode(FaImage, {
+          "lazy": true,
+          "src": row[props.prop],
+          "fit": "cover",
+          "thumb": true
+        }, null) : createVNode(ElImage, {
+          "class": "fa-image",
+          "lazy": true,
+          "src": notImage,
+          "fit": "cover"
+        }, null)
+      }) : (
+        // 其他正常的列
+        createVNode(ElTableColumn, mergeProps(elTableColumnProps.value, {
           "minWidth": getWidth("auto"),
           "sortable": props.sortable ? "custom" : false,
           "sortOrders": props.sortOrders ?? ["descending", "ascending", null],
@@ -530,75 +583,18 @@ const TableColumn = /* @__PURE__ */ defineComponent({
             column,
             $index
           }),
-          default: () => props._children.map((col) => h(resolveComponent("FaTableColumn"), {
-            ...col
-          }, slots))
-        }) : props.type === "image" ? createVNode(ElTableColumn, mergeProps(elTableColumnProps.value, {
-          "align": "center",
-          "className": "fa-table__image-column",
-          "minWidth": "50px",
-          "sortable": false,
-          "resizable": false,
-          "showOverflowTooltip": false
-        }), {
-          header: ({
-            column,
-            $index
-          }) => headerRender({
-            column,
-            $index
-          }),
           default: ({
-            row
-          }) => row[props.prop] ? tableState.hideImage ? createVNode(ElImage, {
-            "class": "fa-image",
-            "lazy": true,
-            "src": artwork,
-            "fit": "cover",
-            "previewSrcList": [row[props.prop]],
-            "closeOnPressEscape": true,
-            "hideOnClickModal": true,
-            "previewTeleported": true
-          }, null) : createVNode(FaImage, {
-            "lazy": true,
-            "src": row[props.prop],
-            "fit": "cover",
-            "thumb": true
-          }, null) : createVNode(ElImage, {
-            "class": "fa-image",
-            "lazy": true,
-            "src": notImage,
-            "fit": "cover"
-          }, null)
-        }) : (
-          // 其他正常的列
-          createVNode(ElTableColumn, mergeProps(elTableColumnProps.value, {
-            "minWidth": getWidth("auto"),
-            "sortable": props.sortable ? "custom" : false,
-            "sortOrders": props.sortOrders ?? ["descending", "ascending", null],
-            "resizable": props.resizable && !props.autoWidth,
-            "showOverflowTooltip": (props.showOverflowTooltip ?? true) && !props.autoWidth && !props.type
-          }), {
-            header: ({
-              column,
-              $index
-            }) => headerRender({
-              column,
-              $index
-            }),
-            default: ({
-              row,
-              column,
-              $index
-            }) => defaultRender({
-              row,
-              column,
-              $index
-            })
+            row,
+            column,
+            $index
+          }) => defaultRender({
+            row,
+            column,
+            $index
           })
-        )
-      ]);
-    });
+        })
+      )
+    ]));
   }
 });
 export {

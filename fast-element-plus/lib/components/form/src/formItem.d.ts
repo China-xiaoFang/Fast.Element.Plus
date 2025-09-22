@@ -27,7 +27,7 @@ export declare const faFormItemProps: {
         readonly default: "";
     };
     labelPosition: {
-        readonly type: import('vue').PropType<"" | "left" | "right" | "top">;
+        readonly type: import('vue').PropType<"" | "top" | "left" | "right">;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -63,12 +63,12 @@ export declare const faFormItemProps: {
     };
     for: StringConstructor;
     inlineMessage: {
-        readonly type: import('vue').PropType<string | boolean>;
+        readonly type: import('vue').PropType<boolean>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     } & {
-        readonly default: "";
+        readonly default: undefined;
     };
     showMessage: {
         readonly type: import('vue').PropType<boolean>;
@@ -126,7 +126,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly default: "";
     };
     labelPosition: {
-        readonly type: import('vue').PropType<"" | "left" | "right" | "top">;
+        readonly type: import('vue').PropType<"" | "top" | "left" | "right">;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -162,12 +162,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     for: StringConstructor;
     inlineMessage: {
-        readonly type: import('vue').PropType<string | boolean>;
+        readonly type: import('vue').PropType<boolean>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     } & {
-        readonly default: "";
+        readonly default: undefined;
     };
     showMessage: {
         readonly type: import('vue').PropType<boolean>;
@@ -225,7 +225,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly default: "";
     };
     labelPosition: {
-        readonly type: import('vue').PropType<"" | "left" | "right" | "top">;
+        readonly type: import('vue').PropType<"" | "top" | "left" | "right">;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -261,12 +261,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     for: StringConstructor;
     inlineMessage: {
-        readonly type: import('vue').PropType<string | boolean>;
+        readonly type: import('vue').PropType<boolean>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     } & {
-        readonly default: "";
+        readonly default: undefined;
     };
     showMessage: {
         readonly type: import('vue').PropType<boolean>;
@@ -285,9 +285,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>> & Readonly<{}>, {
     required: boolean;
     offset: string | number;
-    labelPosition: "" | "left" | "right" | "top";
+    labelPosition: "" | "top" | "left" | "right";
     labelWidth: string | number;
-    inlineMessage: string | boolean;
+    inlineMessage: boolean;
     showMessage: boolean;
     grid: boolean;
     row: boolean;

@@ -256,20 +256,11 @@ const Drawer = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 用于关闭 Drawer, 该方法会调用传入的 before-close 方法 */
-      handleClose: computed(() => {
-        var _a;
-        return (_a = drawerRef.value) == null ? void 0 : _a.handleClose;
-      }),
+      handleClose: computed(() => drawerRef.value?.handleClose),
       /** @description 进入动画后的回调 */
-      afterEnter: computed(() => {
-        var _a;
-        return (_a = drawerRef.value) == null ? void 0 : _a.afterEnter;
-      }),
+      afterEnter: computed(() => drawerRef.value?.afterEnter),
       /** @description 离开动画后的回调 */
-      afterLeave: computed(() => {
-        var _a;
-        return (_a = drawerRef.value) == null ? void 0 : _a.afterLeave;
-      }),
+      afterLeave: computed(() => drawerRef.value?.afterLeave),
       /** @description 加载状态 */
       loading: computed(() => state.loading),
       /** @description 是否显示 */

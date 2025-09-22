@@ -8,7 +8,7 @@
 		4、鼠标松开(onmouseup)时完成一次拖拽
 
 	使用：在 Dom 上加上 v-draggable 即可
-	<div class="dialofa-model" v-draggable></div>
+	<div class="dialog-model" v-draggable></div>
 */
 import { withInstallDirective } from "@fast-china/utils";
 import type { Directive } from "vue";

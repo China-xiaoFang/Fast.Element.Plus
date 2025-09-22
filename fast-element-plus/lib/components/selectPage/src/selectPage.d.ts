@@ -89,8 +89,8 @@ export declare const faSelectPageProps: {
         default: string;
     };
     popperOptions: {
-        type: import('vue').PropType<Partial<import('element-plus').Options>>;
-        default: () => Partial<import('element-plus').Options>;
+        type: import('vue').PropType<Options>;
+        default: () => Partial<Options>;
     };
     remote: BooleanConstructor;
     remoteMethod: FunctionConstructor;
@@ -130,12 +130,12 @@ export declare const faSelectPageProps: {
     };
     clearIcon: {
         type: import('vue').PropType<string | import('vue').Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     fitInputWidth: BooleanConstructor;
     suffixIcon: {
         type: import('vue').PropType<string | import('vue').Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     tagType: {
         default: string;
@@ -157,11 +157,11 @@ export declare const faSelectPageProps: {
     };
     remoteShowSuffix: BooleanConstructor;
     placement: {
-        type: import('vue').PropType<import('element-plus').Placement>;
+        type: import('vue').PropType<Placement>;
         default: string;
     };
     fallbackPlacements: {
-        type: import('vue').PropType<import('element-plus').Placement[]>;
+        type: import('vue').PropType<Placement[]>;
         default: string[];
     };
 };
@@ -294,8 +294,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: string;
     };
     popperOptions: {
-        type: import('vue').PropType<Partial<import('element-plus').Options>>;
-        default: () => Partial<import('element-plus').Options>;
+        type: import('vue').PropType<Options>;
+        default: () => Partial<Options>;
     };
     remote: BooleanConstructor;
     remoteMethod: FunctionConstructor;
@@ -335,12 +335,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     clearIcon: {
         type: import('vue').PropType<string | import('vue').Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     fitInputWidth: BooleanConstructor;
     suffixIcon: {
         type: import('vue').PropType<string | import('vue').Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     tagType: {
         default: string;
@@ -362,11 +362,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     remoteShowSuffix: BooleanConstructor;
     placement: {
-        type: import('vue').PropType<import('element-plus').Placement>;
+        type: import('vue').PropType<Placement>;
         default: string;
     };
     fallbackPlacements: {
-        type: import('vue').PropType<import('element-plus').Placement[]>;
+        type: import('vue').PropType<Placement[]>;
         default: string[];
     };
 }>, {
@@ -501,8 +501,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: string;
     };
     popperOptions: {
-        type: import('vue').PropType<Partial<import('element-plus').Options>>;
-        default: () => Partial<import('element-plus').Options>;
+        type: import('vue').PropType<Options>;
+        default: () => Partial<Options>;
     };
     remote: BooleanConstructor;
     remoteMethod: FunctionConstructor;
@@ -542,12 +542,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     clearIcon: {
         type: import('vue').PropType<string | import('vue').Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     fitInputWidth: BooleanConstructor;
     suffixIcon: {
         type: import('vue').PropType<string | import('vue').Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     tagType: {
         default: string;
@@ -569,11 +569,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     remoteShowSuffix: BooleanConstructor;
     placement: {
-        type: import('vue').PropType<import('element-plus').Placement>;
+        type: import('vue').PropType<Placement>;
         default: string;
     };
     fallbackPlacements: {
-        type: import('vue').PropType<import('element-plus').Placement[]>;
+        type: import('vue').PropType<Placement[]>;
         default: string[];
     };
 }>> & Readonly<{
@@ -596,21 +596,22 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     onRemoveTag?: (tagValue: any) => any;
 }>, {
     props: SelectComponentProps;
+    placement: Placement;
     loading: boolean;
     disabled: boolean;
     modelValue: string | number | boolean | object | (string | number | boolean | object)[];
     autocomplete: string;
     clearable: boolean;
-    suffixIcon: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    clearIcon: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    suffixIcon: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     validateEvent: boolean;
-    placement: import('element-plus').Placement;
-    popperOptions: Partial<import('element-plus').Options>;
+    popperOptions: Options;
     popperClass: string;
     effect: string | (string & {});
     teleported: boolean;
     width: string | number;
     persistent: boolean;
-    fallbackPlacements: import('element-plus').Placement[];
+    fallbackPlacements: Placement[];
     moreDetail: boolean;
     loadingText: string;
     noMatchText: string;
@@ -628,7 +629,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     reserveKeyword: boolean;
     valueKey: string;
     maxCollapseTags: number;
-    clearIcon: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     fitInputWidth: boolean;
     tagType: "primary" | "success" | "warning" | "info" | "danger";
     tagEffect: "plain" | "dark" | "light";

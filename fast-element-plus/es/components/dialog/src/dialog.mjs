@@ -194,9 +194,9 @@ const Dialog = /* @__PURE__ */ defineComponent({
     const elDialogProps = useProps(props, dialogProps, ["modelValue", "fullscreen", "showClose", "beforeClose"]);
     useRender(() => createVNode(ElDialog, mergeProps(elDialogProps.value, {
       "ref": dialogRef,
-      "class": ["fa-dialog", `fa-dialofa-${_globalSize.value}`, {
-        "fa-dialofa__fill-height": props.fillHeight,
-        "fa-dialofa__fullscreen": state.fullscreen
+      "class": ["fa-dialog", `fa-dialog-${_globalSize.value}`, {
+        "fa-dialog__fill-height": props.fillHeight,
+        "fa-dialog__fullscreen": state.fullscreen
       }],
       "modelValue": state.visible,
       "onUpdate:modelValue": ($event) => state.visible = $event,
@@ -209,25 +209,25 @@ const Dialog = /* @__PURE__ */ defineComponent({
       "onCloseAutoFocus": () => emit("closeAutoFocus")
     }), {
       header: () => createVNode(Fragment, null, [createVNode("div", {
-        "class": "fa-dialofa__header-title"
+        "class": "fa-dialog__header-title"
       }, [props.title, slots.header && slots.header({
         loading: state.loading,
         close: handleCloseClick
       })]), props.showRefresh && createVNode("div", {
         "title": "刷新",
-        "class": ["fa-dialofa__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
+        "class": ["fa-dialog__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
         "onClick": handleRefresh
       }, [createVNode(ElIcon, null, {
         default: () => [createVNode(Refresh, null, null)]
       })]), props.showFullscreen && createVNode("div", {
         "title": state.fullscreen ? "关闭全屏显示" : "全屏显示",
-        "class": ["fa-dialofa__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
+        "class": ["fa-dialog__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
         "onClick": handleFullscreen
       }, [createVNode(ElIcon, null, {
         default: () => [state.fullscreen ? createVNode(FullScreenExit, null, null) : createVNode(FullScreen, null, null)]
       })]), props.showClose && createVNode("div", {
         "title": "关闭",
-        "class": ["fa-dialofa__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
+        "class": ["fa-dialog__header-icon", state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle"],
         "onClick": handleCloseClick
       }, [createVNode(ElIcon, null, {
         default: () => [createVNode(Close, null, null)]
@@ -259,15 +259,9 @@ const Dialog = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 弹窗内容引用 */
-      dialogContentRef: computed(() => {
-        var _a;
-        return (_a = dialogRef.value) == null ? void 0 : _a.dialogContentRef;
-      }),
+      dialogContentRef: computed(() => dialogRef.value?.dialogContentRef),
       /** @description 重置位置 */
-      resetPosition: computed(() => {
-        var _a;
-        return (_a = dialogRef.value) == null ? void 0 : _a.resetPosition;
-      }),
+      resetPosition: computed(() => dialogRef.value?.resetPosition),
       /** @description 加载状态 */
       loading: computed(() => state.loading),
       /** @description 是否显示 */

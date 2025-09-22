@@ -368,7 +368,6 @@ const SelectV2 = /* @__PURE__ */ defineComponent({
     emit,
     expose
   }) {
-    var _a;
     const selectedLabel = useVModel(props, "label", emit, {
       passive: true
     });
@@ -380,7 +379,7 @@ const SelectV2 = /* @__PURE__ */ defineComponent({
       /** 首次出现 */
       debut: true,
       /** 回显 */
-      echo: ((_a = props.data) == null ? void 0 : _a.length) > 0 ? false : true,
+      echo: props.data?.length > 0 ? false : true,
       /** 下次刷新 */
       nextRefresh: false
     });
@@ -411,7 +410,7 @@ const SelectV2 = /* @__PURE__ */ defineComponent({
     const handleChange = (value) => {
       if (props.multiple) {
         const valueArr = value;
-        if ((valueArr == null ? void 0 : valueArr.length) === 0) {
+        if (valueArr?.length === 0) {
           state.value = null;
           selectedLabel.value = null;
           emit("update:modelValue", null);
@@ -493,13 +492,12 @@ const SelectV2 = /* @__PURE__ */ defineComponent({
       immediate: true
     });
     onMounted(async () => {
-      var _a2;
       if (props.defaultSelected) {
         await loadData();
         if (state.selectorData.length > 0) {
           handleChange(props.multiple ? [state.selectorData[0].value] : state.selectorData[0].value);
         }
-      } else if (!props.requestApi && ((_a2 = props.data) == null ? void 0 : _a2.length) > 0) {
+      } else if (!props.requestApi && props.data?.length > 0) {
         state.debut = false;
         await loadData();
       } else if (!props.lazy) {
@@ -582,20 +580,11 @@ const SelectV2 = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 使选择器的输入框获取焦点 */
-      focus: computed(() => {
-        var _a2;
-        return (_a2 = selectV2Ref.value) == null ? void 0 : _a2.focus;
-      }),
+      focus: computed(() => selectV2Ref.value?.focus),
       /** @description 使选择器的输入框失去焦点，并隐藏下拉框 */
-      blur: computed(() => {
-        var _a2;
-        return (_a2 = selectV2Ref.value) == null ? void 0 : _a2.blur;
-      }),
+      blur: computed(() => selectV2Ref.value?.blur),
       /** @description 获取当前选中的标签 */
-      selectedLabel: computed(() => {
-        var _a2;
-        return (_a2 = selectV2Ref.value) == null ? void 0 : _a2.selectedLabel;
-      }),
+      selectedLabel: computed(() => selectV2Ref.value?.selectedLabel),
       /** @description 加载状态 */
       loading: computed(() => state.loading),
       /** @description 刷新 */

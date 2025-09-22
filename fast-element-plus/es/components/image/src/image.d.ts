@@ -101,6 +101,14 @@ export declare const faImageProps: {
     } & {
         readonly default: 1.2;
     };
+    scale: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 1;
+    };
     minScale: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -238,6 +246,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: 1.2;
     };
+    scale: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 1;
+    };
     minScale: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -364,6 +380,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: 1.2;
     };
+    scale: {
+        readonly type: import('vue').PropType<number>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: 1;
+    };
     minScale: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -403,6 +427,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     initialIndex: number;
     infinite: boolean;
     zoomRate: number;
+    scale: number;
     minScale: number;
     maxScale: number;
     showProgress: boolean;

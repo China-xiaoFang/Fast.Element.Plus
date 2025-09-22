@@ -72,7 +72,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly default: false;
     };
     autocomplete: {
-        readonly type: import('vue').PropType<string>;
+        readonly type: import('vue').PropType<AutoFill>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -99,6 +99,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     readonly: BooleanConstructor;
     clearable: BooleanConstructor;
+    clearIcon: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    };
     showPassword: BooleanConstructor;
     showWordLimit: BooleanConstructor;
     suffixIcon: {
@@ -233,7 +239,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly default: false;
     };
     autocomplete: {
-        readonly type: import('vue').PropType<string>;
+        readonly type: import('vue').PropType<AutoFill>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -260,6 +266,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     readonly: BooleanConstructor;
     clearable: BooleanConstructor;
+    clearIcon: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    };
     showPassword: BooleanConstructor;
     showWordLimit: BooleanConstructor;
     suffixIcon: {
@@ -327,7 +339,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     inputmode: "none" | "search" | "text" | "url" | "email" | "tel" | "numeric" | "decimal";
     modelValue: string | number;
     autosize: false;
-    autocomplete: string;
+    autocomplete: AutoFill;
     readonly: boolean;
     clearable: boolean;
     showPassword: boolean;

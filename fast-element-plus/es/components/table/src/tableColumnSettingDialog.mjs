@@ -70,25 +70,22 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
     const handleChange = async () => {
       if (props.change) {
         if (state.change) {
-          await props.change(tableState.orgColumns.map((m) => {
-            var _a, _b;
-            return {
-              columnID: m.columnID,
-              label: m.label,
-              fixed: m.fixed,
-              width: m.width,
-              smallWidth: m.smallWidth,
-              order: m.order,
-              sortable: m.sortable,
-              copy: m.copy,
-              autoWidth: m.autoWidth,
-              show: m.show,
-              search: {
-                label: (_a = m.search) == null ? void 0 : _a.label,
-                order: (_b = m.search) == null ? void 0 : _b.order
-              }
-            };
-          }));
+          await props.change(tableState.orgColumns.map((m) => ({
+            columnID: m.columnID,
+            label: m.label,
+            fixed: m.fixed,
+            width: m.width,
+            smallWidth: m.smallWidth,
+            order: m.order,
+            sortable: m.sortable,
+            copy: m.copy,
+            autoWidth: m.autoWidth,
+            show: m.show,
+            search: {
+              label: m.search?.label,
+              order: m.search?.order
+            }
+          })));
           ElMessage.success("保存列配置成功");
         } else {
           ElMessage.info("列配置未发生变化");
@@ -102,7 +99,7 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
     };
     const handleOrderChange = () => {
       state.change = true;
-      let orderColumns = tableState.orgColumns.filter((f) => !(f == null ? void 0 : f.pureSearch));
+      let orderColumns = tableState.orgColumns.filter((f) => !f?.pureSearch);
       orderColumns = orderColumns.sort((a, b) => {
         if (a.order !== b.order) {
           return a.order - b.order;
@@ -110,7 +107,7 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
           return orderColumns.indexOf(b) - orderColumns.indexOf(a);
         }
       });
-      tableState.orgColumns = [...orderColumns, ...tableState.orgColumns.filter((f) => f == null ? void 0 : f.pureSearch)];
+      tableState.orgColumns = [...orderColumns, ...tableState.orgColumns.filter((f) => f?.pureSearch)];
       tableState.orgColumns.forEach((item, index) => {
         item.order = index + 1;
       });
@@ -124,8 +121,8 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
         disabled: false,
         placeholder: void 0
       };
-      if (row == null ? void 0 : row.type) {
-        switch (row == null ? void 0 : row.type) {
+      if (row?.type) {
+        switch (row?.type) {
           case "expand":
             result.disabled = true;
             result.placeholder = "暂不支持宽度配置";
@@ -145,10 +142,10 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
             result.placeholder = "当前列无需配置";
             break;
         }
-      } else if (row == null ? void 0 : row.tag) {
+      } else if (row?.tag) {
         result.disabled = true;
         result.placeholder = "标签列无需配置";
-      } else if (row == null ? void 0 : row.autoWidth) {
+      } else if (row?.autoWidth) {
         result.disabled = true;
         result.placeholder = "自动列宽无需配置";
       }
@@ -168,7 +165,7 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
         disabled: false,
         placeholder: void 0
       };
-      if (row == null ? void 0 : row.pureSearch) {
+      if (row?.pureSearch) {
         result.disabled = true;
         result.placeholder = "搜索列无需配置";
       }
@@ -326,7 +323,7 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
             "inlinePrompt": true,
             "activeText": "是",
             "inactiveText": "否",
-            "disabled": row.disabledSortable || (row == null ? void 0 : row.type) === "image"
+            "disabled": row.disabledSortable || row?.type === "image"
           }, pureSearchDisabled(row, true), {
             "onChange": handleColumnChange
           }), null)
@@ -342,7 +339,7 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
             "inlinePrompt": true,
             "activeText": "是",
             "inactiveText": "否",
-            "disabled": !!(row == null ? void 0 : row.type) || !!(row == null ? void 0 : row.slot)
+            "disabled": !!row?.type || !!row?.slot
           }, pureSearchDisabled(row, true), {
             "onChange": handleColumnChange
           }), null)
@@ -358,7 +355,7 @@ const TableColumnsSettingDialog = /* @__PURE__ */ defineComponent({
             "inlinePrompt": true,
             "activeText": "是",
             "inactiveText": "否",
-            "disabled": !!(row == null ? void 0 : row.type)
+            "disabled": !!row?.type
           }, pureSearchDisabled(row, true), {
             "onChange": handleColumnChange
           }), null)

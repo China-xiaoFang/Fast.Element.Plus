@@ -139,10 +139,7 @@ const Tree = /* @__PURE__ */ defineComponent({
         }
       })
     });
-    const fold = computed(() => [...state.orgTreeData].filter((f) => {
-      var _a;
-      return ((_a = f[props.props.children]) == null ? void 0 : _a.length) > 0;
-    }).length === 0);
+    const fold = computed(() => [...state.orgTreeData].filter((f) => f[props.props.children]?.length > 0).length === 0);
     const treeRef = ref();
     const setTreeData = (treeData) => {
       if (!props.hideAll) {
@@ -299,14 +296,14 @@ const Tree = /* @__PURE__ */ defineComponent({
           data
         }) => createVNode("span", {
           "class": "el-tree-node__label",
-          "title": (data == null ? void 0 : data.all) ? data.label : node.label,
+          "title": data?.all ? data.label : node.label,
           "style": {
             paddingLeft: fold.value ? "3px" : ""
           }
         }, [createVNode("span", null, [slots.label ? slots.label({
           node,
           data
-        }) : (data == null ? void 0 : data.all) ? data.label : node.label]), node.key && data.showNum ? createVNode("span", null, [createTextVNode("["), data.quantity, createTextVNode("]")]) : null, slots.default && createVNode("span", null, [slots.default({
+        }) : data?.all ? data.label : node.label]), node.key && data.showNum ? createVNode("span", null, [createTextVNode("["), data.quantity, createTextVNode("]")]) : null, slots.default && createVNode("span", null, [slots.default({
           node,
           data
         })])]),
@@ -317,95 +314,41 @@ const Tree = /* @__PURE__ */ defineComponent({
     })]), [[resolveDirective("loading"), state.loading]]));
     return useExpose(expose, {
       /** @description 过滤所有树节点，过滤后的节点将被隐藏 */
-      filter: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.filter;
-      }),
+      filter: computed(() => treeRef.value?.filter),
       /** @description 为节点设置新数据，只有当设置 node-key 属性的时候才可用 */
-      updateKeyChildren: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.updateKeyChildren;
-      }),
+      updateKeyChildren: computed(() => treeRef.value?.updateKeyChildren),
       /** @description 如果节点可以被选中，(show-checkbox 为 true), 本方法将返回当前选中节点的数组 */
-      getCheckedNodes: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.getCheckedNodes;
-      }),
+      getCheckedNodes: computed(() => treeRef.value?.getCheckedNodes),
       /** @description 设置目前勾选的节点，使用此方法必须提前设置 node-key 属性 */
-      setCheckedNodes: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.setCheckedNodes;
-      }),
+      setCheckedNodes: computed(() => treeRef.value?.setCheckedNodes),
       /** @description 	若节点可用被选中 (show-checkbox 为 true), 它将返回当前选中节点 key 的数组 */
-      getCheckedKeys: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.getCheckedKeys;
-      }),
+      getCheckedKeys: computed(() => treeRef.value?.getCheckedKeys),
       /** @description 设置目前选中的节点，使用此方法必须设置 node-key 属性 */
-      setCheckedKeys: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.setCheckedKeys;
-      }),
+      setCheckedKeys: computed(() => treeRef.value?.setCheckedKeys),
       /** @description 设置节点是否被选中, 使用此方法必须设置 node-key 属性 */
-      setChecked: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.setChecked;
-      }),
+      setChecked: computed(() => treeRef.value?.setChecked),
       /** @description 如果节点可用被选中 (show-checkbox 为 true), 它将返回当前半选中的节点组成的数组 */
-      getHalfCheckedNodes: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.getHalfCheckedNodes;
-      }),
+      getHalfCheckedNodes: computed(() => treeRef.value?.getHalfCheckedNodes),
       /** @description 若节点可被选中(show-checkbox 为 true)，则返回目前半选中的节点的 key 所组成的数组 */
-      getHalfCheckedKeys: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.getHalfCheckedKeys;
-      }),
+      getHalfCheckedKeys: computed(() => treeRef.value?.getHalfCheckedKeys),
       /** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
-      getCurrentKey: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.getCurrentKey;
-      }),
+      getCurrentKey: computed(() => treeRef.value?.getCurrentKey),
       /** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
-      getCurrentNode: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.getCurrentNode;
-      }),
+      getCurrentNode: computed(() => treeRef.value?.getCurrentNode),
       /** @description 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key  属性 */
-      setCurrentKey: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.setCurrentKey;
-      }),
+      setCurrentKey: computed(() => treeRef.value?.setCurrentKey),
       /** @description 设置节点为选中状态，使用此方法必须设置 node-key 属性 */
-      setCurrentNode: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.setCurrentNode;
-      }),
+      setCurrentNode: computed(() => treeRef.value?.setCurrentNode),
       /** @description 根据 data 或者 key 拿到 Tree 组件中的 node */
-      getNode: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.getNode;
-      }),
+      getNode: computed(() => treeRef.value?.getNode),
       /** @description 删除 Tree 中的一个节点，使用此方法必须设置 node-key 属性 */
-      remove: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.remove;
-      }),
+      remove: computed(() => treeRef.value?.remove),
       /** @description 为 Tree 中的一个节点追加一个子节点 */
-      append: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.append;
-      }),
+      append: computed(() => treeRef.value?.append),
       /** @description 在 Tree 中给定节点前插入一个节点 */
-      insertBefore: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.insertBefore;
-      }),
+      insertBefore: computed(() => treeRef.value?.insertBefore),
       /** @description 在 Tree 中给定节点后插入一个节点 */
-      insertAfter: computed(() => {
-        var _a;
-        return (_a = treeRef.value) == null ? void 0 : _a.insertAfter;
-      }),
+      insertAfter: computed(() => treeRef.value?.insertAfter),
       /** @description 加载状态 */
       loading: computed(() => state.loading),
       /** @description 刷新 */
