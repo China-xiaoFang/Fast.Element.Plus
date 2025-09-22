@@ -252,7 +252,7 @@ const elMessageBox = (
 	}
 
 	// 关闭之前的判断逻辑
-	if (isNil(options?.beforeClose)) {
+	if (!isNil(options?.beforeClose)) {
 		const localBeforeClose = options.beforeClose;
 		const localConfirmButtonText = options?.confirmButtonText;
 		const localShowCancelButton = options?.showCancelButton;
