@@ -22,12 +22,12 @@ const TableSearchForm = /* @__PURE__ */ defineComponent({
     /** @description 折叠搜素 */
     collapsedSearch: {
       type: Boolean,
-      required: true
+      default: true
     },
     /** @description 高级搜素抽屉 */
     advancedSearchDrawer: {
       type: Boolean,
-      required: true
+      default: false
     },
     /** @description Grid布局列配置 */
     cols: {

@@ -270,8 +270,8 @@ export default defineComponent({
 		submitInfoField: {
 			type: definePropType<{ submitClerkName?: string; submitTime?: string }>(Object),
 			default: () => ({
-				submitClerkName: "submitClerkName",
-				submitTime: "submitTime",
+				submitClerkName: "createdUserName",
+				submitTime: "createdTime",
 			}),
 		},
 	},
@@ -395,8 +395,8 @@ export default defineComponent({
 
 		const defaultRender = ({ row, column, $index }: { row: any; column: TableColumnCtx<any>; $index: number }): VNode[] => {
 			if (props.type === "submitInfo") {
-				const submitClerkName = row[props.submitInfoField?.submitClerkName ?? "submitClerkName"];
-				const submitTime = row[props.submitInfoField?.submitTime ?? "submitTime"];
+				const submitClerkName = row[props.submitInfoField?.submitClerkName ?? "createdUserName"];
+				const submitTime = row[props.submitInfoField?.submitTime ?? "createdTime"];
 				return (
 					<Fragment>
 						<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title={submitTime}>
@@ -613,7 +613,7 @@ export default defineComponent({
 												previewTeleported
 											/>
 										) : (
-											<FaImage lazy src={row[props.prop]} fit="cover" thumb />
+											<FaImage lazy src={row[props.prop]} fit="cover" original />
 										)
 									) : (
 										<ElImage class="fa-image" lazy src={notImage} fit="cover" />

@@ -241,8 +241,8 @@ const TableColumn = /* @__PURE__ */ defineComponent({
     submitInfoField: {
       type: definePropType(Object),
       default: () => ({
-        submitClerkName: "submitClerkName",
-        submitTime: "submitTime"
+        submitClerkName: "createdUserName",
+        submitTime: "createdTime"
       })
     }
   },
@@ -380,8 +380,8 @@ const TableColumn = /* @__PURE__ */ defineComponent({
     }) => {
       if (props.type === "submitInfo") {
         let _slot;
-        const submitClerkName = row[props.submitInfoField?.submitClerkName ?? "submitClerkName"];
-        const submitTime = row[props.submitInfoField?.submitTime ?? "submitTime"];
+        const submitClerkName = row[props.submitInfoField?.submitClerkName ?? "createdUserName"];
+        const submitTime = row[props.submitInfoField?.submitTime ?? "createdTime"];
         return createVNode(Fragment, null, [createVNode("div", {
           "style": "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;",
           "title": submitTime
@@ -560,7 +560,7 @@ const TableColumn = /* @__PURE__ */ defineComponent({
           "lazy": true,
           "src": row[props.prop],
           "fit": "cover",
-          "thumb": true
+          "original": true
         }, null) : createVNode(ElImage, {
           "class": "fa-image",
           "lazy": true,
