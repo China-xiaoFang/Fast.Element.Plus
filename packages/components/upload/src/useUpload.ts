@@ -68,7 +68,7 @@ export const useUpload = <T extends string | string[]>(
 		if (props.data) {
 			propsData = uploadUtil.getPropsData(options.file, props.data);
 		}
-		if (!data?.uploadUrl && !data?.uploadUrl) {
+		if (!data?.uploadApi && !data?.uploadUrl) {
 			ElMessage.error(`上传${fileTypeName}Api或地址不能为空`);
 			consoleError(componentName, `上传${fileTypeName}接口 “uploadApi” 或地址 “uploadUrl” 不能为空`);
 			return;
