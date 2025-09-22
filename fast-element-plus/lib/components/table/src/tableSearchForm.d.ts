@@ -15,12 +15,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 折叠搜素 */
     collapsedSearch: {
         type: BooleanConstructor;
-        required: true;
+        default: boolean;
     };
     /** @description 高级搜素抽屉 */
     advancedSearchDrawer: {
         type: BooleanConstructor;
-        required: true;
+        default: boolean;
     };
     /** @description Grid布局列配置 */
     cols: {
@@ -52,12 +52,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 折叠搜素 */
     collapsedSearch: {
         type: BooleanConstructor;
-        required: true;
+        default: boolean;
     };
     /** @description 高级搜素抽屉 */
     advancedSearchDrawer: {
         type: BooleanConstructor;
-        required: true;
+        default: boolean;
     };
     /** @description Grid布局列配置 */
     cols: {
@@ -82,5 +82,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
 }>> & Readonly<{}>, {
     cols: string | number | Record<FaLayoutGridBreakPoint, number>;
+    collapsedSearch: boolean;
+    advancedSearchDrawer: boolean;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaTableSearchFormSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
