@@ -35,14 +35,14 @@ const tableUtil = {
    * @param {String} type 过滤类型（目前只有 tag）
    */
   filterEnum(callValue, enumData, fieldNames, type) {
-    const value = (fieldNames == null ? void 0 : fieldNames.value) ?? "value";
-    const label = (fieldNames == null ? void 0 : fieldNames.label) ?? "label";
+    const value = fieldNames?.value ?? "value";
+    const label = fieldNames?.label ?? "label";
     let filterData = {};
     if (isArray(enumData)) {
       filterData = enumData.find((item) => item[value] === callValue);
     }
     if (type === "tag") {
-      return (filterData == null ? void 0 : filterData.type) ?? "primary";
+      return filterData?.type ?? "primary";
     }
     return filterData ? filterData[label] : null;
   },
@@ -102,22 +102,18 @@ const tableUtil = {
   flatColumns(columns, enumMap) {
     const flatArr = [];
     columns.forEach((col) => {
-      var _a, _b;
-      if ((_a = col._children) == null ? void 0 : _a.length) {
+      if (col._children?.length) {
         flatArr.push(...this.flatColumns(col._children));
       }
       flatArr.push(col);
       col.show = col.show ?? true;
-      let enumKey = col.prop ?? ((_b = col.search) == null ? void 0 : _b.key);
+      let enumKey = col.prop ?? col.search?.key;
       if (col.enum && isString(col.enum)) {
         enumKey = col.enum;
       }
       this.setEnumMap(col.enum, enumKey, enumMap);
     });
-    return flatArr.filter((item) => {
-      var _a;
-      return !((_a = item._children) == null ? void 0 : _a.length);
-    });
+    return flatArr.filter((item) => !item._children?.length);
   }
 };
 export {

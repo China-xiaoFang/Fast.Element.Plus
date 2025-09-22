@@ -20,9 +20,8 @@ const useLoading = {
     if (window.loading) {
       nextTick(() => {
         setTimeout(() => {
-          var _a;
           const loadingEl = document.querySelector(".__fa-loading__box");
-          loadingEl && ((_a = loadingEl.parentNode) == null ? void 0 : _a.removeChild(loadingEl));
+          loadingEl && loadingEl.parentNode?.removeChild(loadingEl);
           window.loading = false;
         }, 500);
       });

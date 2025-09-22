@@ -96,35 +96,17 @@ const FormItem = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 表单项大小 */
-      size: computed(() => {
-        var _a;
-        return (_a = formItemRef.value) == null ? void 0 : _a.size;
-      }),
+      size: computed(() => formItemRef.value?.size),
       /** @description 校验消息 */
-      validateMessage: computed(() => {
-        var _a;
-        return (_a = formItemRef.value) == null ? void 0 : _a.validateMessage;
-      }),
+      validateMessage: computed(() => formItemRef.value?.validateMessage),
       /** @description 校验状态 */
-      validateState: computed(() => {
-        var _a;
-        return (_a = formItemRef.value) == null ? void 0 : _a.validateState;
-      }),
+      validateState: computed(() => formItemRef.value?.validateState),
       /** @description 验证表单项 */
-      validate: computed(() => {
-        var _a;
-        return (_a = formItemRef.value) == null ? void 0 : _a.validate;
-      }),
+      validate: computed(() => formItemRef.value?.validate),
       /** @description 移除该表单项的校验结果 */
-      clearValidate: computed(() => {
-        var _a;
-        return (_a = formItemRef.value) == null ? void 0 : _a.clearValidate;
-      }),
+      clearValidate: computed(() => formItemRef.value?.clearValidate),
       /** @description 对该表单项进行重置，将其值重置为初始值并移除校验结果 */
-      resetField: computed(() => {
-        var _a;
-        return (_a = formItemRef.value) == null ? void 0 : _a.resetField;
-      })
+      resetField: computed(() => formItemRef.value?.resetField)
     });
   }
 });

@@ -423,11 +423,10 @@ const Table = /* @__PURE__ */ defineComponent({
     const columnSettingRef = ref();
     let lastRowIndex = 0;
     const indexMethod = (index) => {
-      var _a;
       if (index === 0) {
         lastRowIndex = 0;
       }
-      if (((_a = state.spanColumns) == null ? void 0 : _a.length) > 0) {
+      if (state.spanColumns?.length > 0) {
         const rowspan = Number(state.tableSpanData["__table-index"][index]);
         if (rowspan === 0) {
           return lastRowIndex + (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize + 1;
@@ -499,7 +498,6 @@ const Table = /* @__PURE__ */ defineComponent({
       prop,
       order
     }) => {
-      var _a, _b;
       if (!column.multiOrder) {
         column.multiOrder = "descending";
       } else if (column.multiOrder === "descending") {
@@ -507,7 +505,7 @@ const Table = /* @__PURE__ */ defineComponent({
       } else {
         column.multiOrder = null;
       }
-      state.searchParam.sortList = [.../* @__PURE__ */ new Set([...((_a = props.initParam) == null ? void 0 : _a.sortList) ?? [], ...((_b = state.searchParam) == null ? void 0 : _b.sortList) ?? []])];
+      state.searchParam.sortList = [.../* @__PURE__ */ new Set([...props.initParam?.sortList ?? [], ...state.searchParam?.sortList ?? []])];
       const orgColumn = state.orgColumns.find((f) => f.prop === prop);
       const enField = orgColumn.sortableField ?? orgColumn.prop ?? orgColumn.property;
       const fieldIndex = state.searchParam.sortList.findIndex((f) => f.enField === enField);
@@ -558,7 +556,7 @@ const Table = /* @__PURE__ */ defineComponent({
         }
       }
       const columnInfo = state.tableColumns.find((f) => f.prop === column.property);
-      if (columnInfo == null ? void 0 : columnInfo.dataDeleteField) {
+      if (columnInfo?.dataDeleteField) {
         if (row && row[columnInfo.dataDeleteField] === true) {
           if (localCellClassName) {
             localCellClassName += " fa-table__data-delete-column";
@@ -567,15 +565,15 @@ const Table = /* @__PURE__ */ defineComponent({
           }
         }
       }
-      if ((columnInfo == null ? void 0 : columnInfo.type) === "submitInfo") {
+      if (columnInfo?.type === "submitInfo") {
         if (localCellClassName) {
           localCellClassName += " fa-table__line-height-normal-column";
         } else {
           localCellClassName = "fa-table__line-height-normal-column";
         }
       }
-      if ((columnInfo == null ? void 0 : columnInfo.type) === "date" || (columnInfo == null ? void 0 : columnInfo.type) === "time" || (columnInfo == null ? void 0 : columnInfo.type) === "dateTime") {
-        if (columnInfo == null ? void 0 : columnInfo.dateFix) {
+      if (columnInfo?.type === "date" || columnInfo?.type === "time" || columnInfo?.type === "dateTime") {
+        if (columnInfo?.dateFix) {
           if (localCellClassName) {
             localCellClassName += " fa-table__line-height-normal-column";
           } else {
@@ -870,83 +868,80 @@ const Table = /* @__PURE__ */ defineComponent({
       }, [slots.empty ? slots.empty() : createVNode(Fragment, null, [createVNode(ElIcon, null, {
         default: () => [createVNode(NotData, null, null)]
       }), createVNode("div", null, [createTextVNode("暂无数据")])])]),
-      default: () => {
-        var _a;
-        return createVNode(Fragment, null, [createVNode(ElTableColumn, {
-          "className": "fa-table__index-column",
-          "type": "index",
-          "fixed": "left",
-          "width": state.tablePagination.pageIndex * state.tablePagination.pageSize >= 100 ? state.tablePagination.pageIndex * state.tablePagination.pageSize >= 1e3 ? 50 : 40 : 30,
-          "align": "center",
-          "index": indexMethod,
-          "showOverflowTooltip": false,
-          "resizable": false,
-          "columnKey": "__table-index"
-        }, null), createVNode(ElTableColumn, {
-          "className": "fa-table__selection-column",
-          "type": "selection",
-          "fixed": "left",
-          "width": 35,
-          "align": "center",
-          "reserveSelection": true,
-          "showOverflowTooltip": false,
-          "resizable": false,
-          "columnKey": "__table-selection",
-          "selectable": props.rowSelectable
-        }, null), slots.operation && createVNode(ElTableColumn, {
-          "fixed": "right",
-          "width": state.operationColumnWidth,
-          "headerAlign": "center",
-          "align": "center",
-          "showOverflowTooltip": false,
-          "className": "fa-table__operation-column",
-          "resizable": false,
-          "columnKey": "__table-operation"
-        }, {
-          header: () => createVNode("div", {
-            "class": "fa-table__auto-width-column__cell-header __fa-table__auto-width-column__cell-header____table-operation"
-          }, [createVNode("span", null, [createTextVNode("操作")])]),
-          default: ({
-            row,
-            column,
-            $index
-          }) => createVNode("div", {
-            "class": "fa-table__auto-width-column__cell __fa-table__auto-width-column__cell____table-operation"
-          }, [slots.operation({
-            row,
-            column,
-            $index,
-            ...{
-              search: tableSearch
-            },
-            ...getTableDefaultSlots(state)
-          })])
-        }), ((_a = state.tableColumns) == null ? void 0 : _a.length) === 0 ? slots.default && slots.default() : state.tableColumns.map((col) => col.show && (col.type === "expand" ? createVNode(ElTableColumn, mergeProps(col, {
-          "width": 35,
-          "fixed": col.fixed ?? "left",
-          "resizable": false
-        }), {
-          default: ({
-            row,
-            column,
-            $index
-          }) => createVNode(Fragment, null, [col.render && col.render({
-            row,
-            column,
-            $index,
-            ...getTableDefaultSlots(state)
-          }), col.slot && slots[col.slot] && slots[col.slot]({
-            row,
-            column,
-            $index,
-            ...getTableDefaultSlots(state)
-          })])
-        }) : col.prop && createVNode(TableColumn, mergeProps(omit(col, tableColumnOmitNames), {
-          "resizable": true,
-          "onImagePreview": handleImagePreview,
-          "onCustomCellClick": handleCustomCellClick
-        }), pick(slots, tableColumnSlotNames.value))))]);
-      }
+      default: () => createVNode(Fragment, null, [createVNode(ElTableColumn, {
+        "className": "fa-table__index-column",
+        "type": "index",
+        "fixed": "left",
+        "width": state.tablePagination.pageIndex * state.tablePagination.pageSize >= 100 ? state.tablePagination.pageIndex * state.tablePagination.pageSize >= 1e3 ? 50 : 40 : 30,
+        "align": "center",
+        "index": indexMethod,
+        "showOverflowTooltip": false,
+        "resizable": false,
+        "columnKey": "__table-index"
+      }, null), createVNode(ElTableColumn, {
+        "className": "fa-table__selection-column",
+        "type": "selection",
+        "fixed": "left",
+        "width": 35,
+        "align": "center",
+        "reserveSelection": true,
+        "showOverflowTooltip": false,
+        "resizable": false,
+        "columnKey": "__table-selection",
+        "selectable": props.rowSelectable
+      }, null), slots.operation && createVNode(ElTableColumn, {
+        "fixed": "right",
+        "width": state.operationColumnWidth,
+        "headerAlign": "center",
+        "align": "center",
+        "showOverflowTooltip": false,
+        "className": "fa-table__operation-column",
+        "resizable": false,
+        "columnKey": "__table-operation"
+      }, {
+        header: () => createVNode("div", {
+          "class": "fa-table__auto-width-column__cell-header __fa-table__auto-width-column__cell-header____table-operation"
+        }, [createVNode("span", null, [createTextVNode("操作")])]),
+        default: ({
+          row,
+          column,
+          $index
+        }) => createVNode("div", {
+          "class": "fa-table__auto-width-column__cell __fa-table__auto-width-column__cell____table-operation"
+        }, [slots.operation({
+          row,
+          column,
+          $index,
+          ...{
+            search: tableSearch
+          },
+          ...getTableDefaultSlots(state)
+        })])
+      }), state.tableColumns?.length === 0 ? slots.default && slots.default() : state.tableColumns.map((col) => col.show && (col.type === "expand" ? createVNode(ElTableColumn, mergeProps(col, {
+        "width": 35,
+        "fixed": col.fixed ?? "left",
+        "resizable": false
+      }), {
+        default: ({
+          row,
+          column,
+          $index
+        }) => createVNode(Fragment, null, [col.render && col.render({
+          row,
+          column,
+          $index,
+          ...getTableDefaultSlots(state)
+        }), col.slot && slots[col.slot] && slots[col.slot]({
+          row,
+          column,
+          $index,
+          ...getTableDefaultSlots(state)
+        })])
+      }) : col.prop && createVNode(TableColumn, mergeProps(omit(col, tableColumnOmitNames), {
+        "resizable": true,
+        "onImagePreview": handleImagePreview,
+        "onCustomCellClick": handleCustomCellClick
+      }), pick(slots, tableColumnSlotNames.value))))])
     }), [[resolveDirective("loading"), state.loading]]), createVNode("div", {
       "class": "fa-table__main-footer"
     }, [createVNode("div", {
@@ -982,80 +977,35 @@ const Table = /* @__PURE__ */ defineComponent({
     }, null)]));
     return useExpose(expose, {
       /** @description 用于多选表格，清空用户的选择 */
-      clearSelection: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.clearSelection;
-      }),
+      clearSelection: computed(() => tableRef.value?.clearSelection),
       /** @description 返回当前选中的行 */
-      getSelectionRows: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.getSelectionRows;
-      }),
+      getSelectionRows: computed(() => tableRef.value?.getSelectionRows),
       /** @description 用于多选表格，切换某一行的选中状态， 如果使用了第二个参数，则可直接设置这一行选中与否 */
-      toggleRowSelection: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.toggleRowSelection;
-      }),
+      toggleRowSelection: computed(() => tableRef.value?.toggleRowSelection),
       /** @description 用于多选表格，切换全选和全不选 */
-      toggleAllSelection: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.toggleAllSelection;
-      }),
+      toggleAllSelection: computed(() => tableRef.value?.toggleAllSelection),
       /** @description 用于可扩展的表格或树表格，如果某行被扩展，则切换。 使用第二个参数，您可以直接设置该行应该被扩展或折叠。 */
-      toggleRowExpansion: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.toggleRowExpansion;
-      }),
+      toggleRowExpansion: computed(() => tableRef.value?.toggleRowExpansion),
       /** @description 用于单选表格，设定某一行为选中行， 如果调用时不加参数，则会取消目前高亮行的选中状态。 */
-      setCurrentRow: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.setCurrentRow;
-      }),
+      setCurrentRow: computed(() => tableRef.value?.setCurrentRow),
       /** @description 用于清空排序条件，数据会恢复成未排序的状态 */
-      clearSort: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.clearSort;
-      }),
+      clearSort: computed(() => tableRef.value?.clearSort),
       /** @description 传入由columnKey 组成的数组以清除指定列的过滤条件。 如果没有参数，清除所有过滤器 */
-      clearFilter: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.clearFilter;
-      }),
+      clearFilter: computed(() => tableRef.value?.clearFilter),
       /** @description 对 Table 进行重新布局。 当表格可见性变化时，您可能需要调用此方法以获得正确的布局 */
-      doLayout: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.doLayout;
-      }),
+      doLayout: computed(() => tableRef.value?.doLayout),
       /** @description 手动排序表格。 参数 prop 属性指定排序列，order 指定排序顺序。 */
-      sort: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.sort;
-      }),
+      sort: computed(() => tableRef.value?.sort),
       /** @description 滚动到一组特定坐标 */
-      scrollTo: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.scrollTo;
-      }),
+      scrollTo: computed(() => tableRef.value?.scrollTo),
       /** @description 设置垂直滚动位置 */
-      setScrollTop: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.setScrollTop;
-      }),
+      setScrollTop: computed(() => tableRef.value?.setScrollTop),
       /** @description 设置水平滚动位置 */
-      setScrollLeft: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.setScrollLeft;
-      }),
+      setScrollLeft: computed(() => tableRef.value?.setScrollLeft),
       /** @description 获取表列的 context */
-      columns: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.columns;
-      }),
+      columns: computed(() => tableRef.value?.columns),
       /** @description 适用于 lazy Table, 需要设置 rowKey, 更新 key children */
-      updateKeyChildren: computed(() => {
-        var _a;
-        return (_a = tableRef.value) == null ? void 0 : _a.updateKeyChildren;
-      }),
+      updateKeyChildren: computed(() => tableRef.value?.updateKeyChildren),
       /** @description 加载状态 */
       loading: computed(() => state.loading),
       /** @description 表格数据 */

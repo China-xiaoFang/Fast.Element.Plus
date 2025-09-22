@@ -119,7 +119,7 @@ const SelectPage = /* @__PURE__ */ defineComponent({
     });
     const selectRef = ref();
     const handleData = (data) => {
-      return data == null ? void 0 : data.map((m) => ({
+      return data?.map((m) => ({
         ...m,
         value: m[props.valueKey],
         label: isFunction(props.props.label) ? props.props.label(m) : m[props.props.label ?? "label"],
@@ -155,7 +155,7 @@ const SelectPage = /* @__PURE__ */ defineComponent({
     const handleChange = (value) => {
       if (props.multiple) {
         const valueArr = value;
-        if ((valueArr == null ? void 0 : valueArr.length) === 0) {
+        if (valueArr?.length === 0) {
           state.value = null;
           selectedLabel.value = null;
           state.selectedList = [];
@@ -335,8 +335,8 @@ const SelectPage = /* @__PURE__ */ defineComponent({
           const selectedData = state.selectedList.find((f) => f.value === value);
           if (slots.label) {
             return slots.label({
-              label: selectedData == null ? void 0 : selectedData.label,
-              value: isNil(selectedData) ? value : selectedData == null ? void 0 : selectedData.value
+              label: selectedData?.label,
+              value: isNil(selectedData) ? value : selectedData?.value
             });
           }
           return selectedData && createVNode("span", {
@@ -355,20 +355,11 @@ const SelectPage = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 使选择器的输入框获取焦点 */
-      focus: computed(() => {
-        var _a;
-        return (_a = selectRef.value) == null ? void 0 : _a.focus;
-      }),
+      focus: computed(() => selectRef.value?.focus),
       /** @description 使选择器的输入框失去焦点，并隐藏下拉框 */
-      blur: computed(() => {
-        var _a;
-        return (_a = selectRef.value) == null ? void 0 : _a.blur;
-      }),
+      blur: computed(() => selectRef.value?.blur),
       /** @description 获取当前选中的标签 */
-      selectedLabel: computed(() => {
-        var _a;
-        return (_a = selectRef.value) == null ? void 0 : _a.selectedLabel;
-      }),
+      selectedLabel: computed(() => selectRef.value?.selectedLabel),
       /** @description 加载状态 */
       loading: computed(() => state.loading),
       /** @description 选中的数据 */

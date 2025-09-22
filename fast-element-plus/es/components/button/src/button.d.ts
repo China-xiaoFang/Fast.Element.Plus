@@ -48,7 +48,14 @@ export declare const faButtonProps: {
     } & {
         readonly default: undefined;
     };
-    text: BooleanConstructor;
+    text: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     link: BooleanConstructor;
     bg: BooleanConstructor;
     autofocus: BooleanConstructor;
@@ -144,7 +151,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: undefined;
     };
-    text: BooleanConstructor;
+    text: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     link: BooleanConstructor;
     bg: BooleanConstructor;
     autofocus: BooleanConstructor;
@@ -243,7 +257,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: undefined;
     };
-    text: BooleanConstructor;
+    text: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     link: BooleanConstructor;
     bg: BooleanConstructor;
     autofocus: BooleanConstructor;

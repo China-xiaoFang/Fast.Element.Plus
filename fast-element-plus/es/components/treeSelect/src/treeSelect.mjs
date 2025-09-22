@@ -165,7 +165,6 @@ const TreeSelect = /* @__PURE__ */ defineComponent({
     emit,
     expose
   }) {
-    var _a;
     const selectedLabel = useVModel(props, "label", emit, {
       passive: true
     });
@@ -176,13 +175,13 @@ const TreeSelect = /* @__PURE__ */ defineComponent({
       /** 首次出现 */
       debut: true,
       /** 回显 */
-      echo: ((_a = props.data) == null ? void 0 : _a.length) > 0 ? false : true,
+      echo: props.data?.length > 0 ? false : true,
       /** 下次刷新 */
       nextRefresh: false
     });
     const treeSelectRef = ref();
     const handleData = (data) => {
-      return data == null ? void 0 : data.map((m) => ({
+      return data?.map((m) => ({
         ...m,
         value: m[props.nodeKey],
         label: isFunction(props.props.label) ? props.props.label(m) : m[props.props.label ?? "label"],
@@ -227,7 +226,7 @@ const TreeSelect = /* @__PURE__ */ defineComponent({
     const handleChange = (value, data) => {
       if (props.multiple) {
         const valueArr = value;
-        if ((valueArr == null ? void 0 : valueArr.length) === 0) {
+        if (valueArr?.length === 0) {
           state.value = null;
           selectedLabel.value = null;
           emit("update:modelValue", null);
@@ -247,7 +246,7 @@ const TreeSelect = /* @__PURE__ */ defineComponent({
           emit("change", null, null);
           return;
         }
-        data ?? (data = state.selectorData.find((f) => f.value === value));
+        data ??= state.selectorData.find((f) => f.value === value);
         state.value = value;
         selectedLabel.value = data.label;
         emit("update:modelValue", value);
@@ -326,7 +325,6 @@ const TreeSelect = /* @__PURE__ */ defineComponent({
       immediate: true
     });
     onMounted(async () => {
-      var _a2;
       if (props.defaultSelected) {
         await loadData();
         if (state.selectorData.length > 0) {
@@ -336,7 +334,7 @@ const TreeSelect = /* @__PURE__ */ defineComponent({
             handleChange(state.selectorData[0].value, state.selectorData[0]);
           }
         }
-      } else if (!props.requestApi && ((_a2 = props.data) == null ? void 0 : _a2.length) > 0) {
+      } else if (!props.requestApi && props.data?.length > 0) {
         state.debut = false;
         await loadData();
       } else if (!props.lazy) {
@@ -433,110 +431,47 @@ const TreeSelect = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 使选择器的输入框获取焦点 */
-      focus: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.focus;
-      }),
+      focus: computed(() => treeSelectRef.value?.focus),
       /** @description 使选择器的输入框失去焦点，并隐藏下拉框 */
-      blur: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.blur;
-      }),
+      blur: computed(() => treeSelectRef.value?.blur),
       /** @description 获取当前选中的标签 */
-      selectedLabel: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.selectedLabel;
-      }),
+      selectedLabel: computed(() => treeSelectRef.value?.selectedLabel),
       /** @description 过滤所有树节点，过滤后的节点将被隐藏 */
-      filter: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.filter;
-      }),
+      filter: computed(() => treeSelectRef.value?.filter),
       /** @description 为节点设置新数据，只有当设置 node-key 属性的时候才可用 */
-      updateKeyChildren: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.updateKeyChildren;
-      }),
+      updateKeyChildren: computed(() => treeSelectRef.value?.updateKeyChildren),
       /** @description 如果节点可以被选中，(show-checkbox 为 true), 本方法将返回当前选中节点的数组 */
-      getCheckedNodes: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.getCheckedNodes;
-      }),
+      getCheckedNodes: computed(() => treeSelectRef.value?.getCheckedNodes),
       /** @description 设置目前勾选的节点，使用此方法必须提前设置 node-key 属性 */
-      setCheckedNodes: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.setCheckedNodes;
-      }),
+      setCheckedNodes: computed(() => treeSelectRef.value?.setCheckedNodes),
       /** @description 若节点可用被选中 (show-checkbox 为 true), 它将返回当前选中节点 key 的数组 */
-      getCheckedKeys: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.getCheckedKeys;
-      }),
+      getCheckedKeys: computed(() => treeSelectRef.value?.getCheckedKeys),
       /** @description 设置目前选中的节点，使用此方法必须设置 node-key 属性 */
-      setCheckedKeys: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.setCheckedKeys;
-      }),
+      setCheckedKeys: computed(() => treeSelectRef.value?.setCheckedKeys),
       /** @description 设置节点是否被选中, 使用此方法必须设置 node-key 属性 */
-      setChecked: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.setChecked;
-      }),
+      setChecked: computed(() => treeSelectRef.value?.setChecked),
       /** @description 如果节点可用被选中 (show-checkbox 为 true), 它将返回当前半选中的节点组成的数组 */
-      getHalfCheckedNodes: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.getHalfCheckedNodes;
-      }),
+      getHalfCheckedNodes: computed(() => treeSelectRef.value?.getHalfCheckedNodes),
       /** @description 若节点可被选中(show-checkbox 为 true)，则返回目前半选中的节点的 key 所组成的数组 */
-      getHalfCheckedKeys: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.getHalfCheckedKeys;
-      }),
+      getHalfCheckedKeys: computed(() => treeSelectRef.value?.getHalfCheckedKeys),
       /** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
-      getCurrentKey: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.getCurrentKey;
-      }),
+      getCurrentKey: computed(() => treeSelectRef.value?.getCurrentKey),
       /** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
-      getCurrentNode: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.getCurrentNode;
-      }),
+      getCurrentNode: computed(() => treeSelectRef.value?.getCurrentNode),
       /** @description 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key 属性 */
-      setCurrentKey: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.setCurrentKey;
-      }),
+      setCurrentKey: computed(() => treeSelectRef.value?.setCurrentKey),
       /** @description 设置节点为选中状态，使用此方法必须设置 node-key 属性 */
-      setCurrentNode: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.setCurrentNode;
-      }),
+      setCurrentNode: computed(() => treeSelectRef.value?.setCurrentNode),
       /** @description 根据 data 或者 key 拿到 Tree 组件中的 node */
-      getNode: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.getNode;
-      }),
+      getNode: computed(() => treeSelectRef.value?.getNode),
       /** @description 删除 Tree 中的一个节点，使用此方法必须设置 node-key 属性 */
-      remove: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.remove;
-      }),
+      remove: computed(() => treeSelectRef.value?.remove),
       /** @description 为 Tree 中的一个节点追加一个子节点 */
-      append: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.append;
-      }),
+      append: computed(() => treeSelectRef.value?.append),
       /** @description 在 Tree 中给定节点前插入一个节点 */
-      insertBefore: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.insertBefore;
-      }),
+      insertBefore: computed(() => treeSelectRef.value?.insertBefore),
       /** @description 在 Tree 中给定节点后插入一个节点 */
-      insertAfter: computed(() => {
-        var _a2;
-        return (_a2 = treeSelectRef.value) == null ? void 0 : _a2.insertAfter;
-      }),
+      insertAfter: computed(() => treeSelectRef.value?.insertAfter),
       /** @description 加载状态 */
       loading: computed(() => state.loading),
       /** @description 刷新 */

@@ -88,30 +88,15 @@ const Form = /* @__PURE__ */ defineComponent({
       /** @description 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 */
       validate: () => formUtil.validate(formRef),
       /** @description 验证具体的某个字段。 */
-      validateField: computed(() => {
-        var _a;
-        return (_a = formRef.value) == null ? void 0 : _a.validateField;
-      }),
+      validateField: computed(() => formRef.value?.validateField),
       /** @description 重置该表单项，将其值重置为初始值，并移除校验结果 */
-      resetFields: computed(() => {
-        var _a;
-        return (_a = formRef.value) == null ? void 0 : _a.resetFields;
-      }),
+      resetFields: computed(() => formRef.value?.resetFields),
       /** @description 清理某个字段的表单验证信息。 */
-      clearValidate: computed(() => {
-        var _a;
-        return (_a = formRef.value) == null ? void 0 : _a.clearValidate;
-      }),
+      clearValidate: computed(() => formRef.value?.clearValidate),
       /** @description 滚动到指定的字段 */
-      scrollToField: computed(() => {
-        var _a;
-        return (_a = formRef.value) == null ? void 0 : _a.scrollToField;
-      }),
+      scrollToField: computed(() => formRef.value?.scrollToField),
       /** @description 获取所有字段的 context */
-      fields: computed(() => {
-        var _a;
-        return (_a = formRef.value) == null ? void 0 : _a.fields;
-      }),
+      fields: computed(() => formRef.value?.fields),
       /** @description 对整个表单的内容进行验证，带滚动。 接收一个回调函数，或返回 Promise。 */
       validateScrollToField: () => formUtil.validateScrollToField(formRef)
     });

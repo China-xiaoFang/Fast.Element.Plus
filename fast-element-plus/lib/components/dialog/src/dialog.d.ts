@@ -122,6 +122,7 @@ export declare const faDialogProps: {
     } & {
         readonly default: true;
     };
+    modalPenetrable: BooleanConstructor;
     openDelay: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -157,6 +158,14 @@ export declare const faDialogProps: {
         __epPropKey: true;
     } & {
         readonly default: "2";
+    };
+    transition: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
     };
     center: BooleanConstructor;
     closeIcon: {
@@ -343,6 +352,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: true;
     };
+    modalPenetrable: BooleanConstructor;
     openDelay: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -378,6 +388,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     } & {
         readonly default: "2";
+    };
+    transition: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
     };
     center: BooleanConstructor;
     closeIcon: {
@@ -563,6 +581,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: true;
     };
+    modalPenetrable: BooleanConstructor;
     openDelay: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -598,6 +617,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     } & {
         readonly default: "2";
+    };
+    transition: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
     };
     center: BooleanConstructor;
     closeIcon: {
@@ -644,10 +671,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     title: string;
     center: boolean;
     showClose: boolean;
+    top: string;
     appendTo: string | HTMLElement;
     modelValue: boolean;
+    transition: undefined;
     width: string | number;
-    top: string;
     fullscreen: boolean;
     alignCenter: boolean;
     appendToBody: boolean;
@@ -668,6 +696,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     closeOnPressEscape: boolean;
     lockScroll: boolean;
     modal: boolean;
+    modalPenetrable: boolean;
     openDelay: number;
     closeDelay: number;
     trapFocus: boolean;

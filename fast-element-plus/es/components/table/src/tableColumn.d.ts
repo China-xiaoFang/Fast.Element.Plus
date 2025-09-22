@@ -624,10 +624,10 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     tag: boolean;
     width: string | number;
     copy: boolean;
+    resizable: boolean;
     show: boolean;
     sortable: string | boolean;
     minWidth: string | number;
-    resizable: boolean;
     align: string;
     headerAlign: string;
     showOverflowTooltip: any;

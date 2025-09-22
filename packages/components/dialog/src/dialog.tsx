@@ -237,8 +237,8 @@ export default defineComponent({
 				ref={dialogRef}
 				class={[
 					"fa-dialog",
-					`fa-dialofa-${_globalSize.value}`,
-					{ "fa-dialofa__fill-height": props.fillHeight, "fa-dialofa__fullscreen": state.fullscreen },
+					`fa-dialog-${_globalSize.value}`,
+					{ "fa-dialog__fill-height": props.fillHeight, "fa-dialog__fullscreen": state.fullscreen },
 				]}
 				vModel={state.visible}
 				fullscreen={state.fullscreen}
@@ -252,7 +252,7 @@ export default defineComponent({
 				{{
 					header: () => (
 						<Fragment>
-							<div class="fa-dialofa__header-title">
+							<div class="fa-dialog__header-title">
 								{props.title}
 								{slots.header && slots.header({ loading: state.loading, close: handleCloseClick })}
 							</div>
@@ -260,7 +260,7 @@ export default defineComponent({
 								<div
 									title="刷新"
 									class={[
-										"fa-dialofa__header-icon",
+										"fa-dialog__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
 									onClick={handleRefresh}
@@ -274,7 +274,7 @@ export default defineComponent({
 								<div
 									title={state.fullscreen ? "关闭全屏显示" : "全屏显示"}
 									class={[
-										"fa-dialofa__header-icon",
+										"fa-dialog__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
 									onClick={handleFullscreen}
@@ -286,7 +286,7 @@ export default defineComponent({
 								<div
 									title="关闭"
 									class={[
-										"fa-dialofa__header-icon",
+										"fa-dialog__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
 									onClick={handleCloseClick}

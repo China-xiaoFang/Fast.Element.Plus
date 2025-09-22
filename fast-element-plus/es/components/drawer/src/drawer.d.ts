@@ -62,6 +62,7 @@ export declare const faDrawerProps: {
     } & {
         readonly default: "rtl";
     };
+    resizable: BooleanConstructor;
     size: {
         readonly type: import('vue').PropType<string | number>;
         readonly required: false;
@@ -140,6 +141,7 @@ export declare const faDrawerProps: {
     } & {
         readonly default: true;
     };
+    modalPenetrable: BooleanConstructor;
     openDelay: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -180,15 +182,37 @@ export declare const faDrawerProps: {
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
+    transition: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     center: BooleanConstructor;
-    alignCenter: BooleanConstructor;
+    alignCenter: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     closeIcon: {
         readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    overflow: BooleanConstructor;
+    overflow: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     fullscreen: BooleanConstructor;
     showClose: {
         readonly type: import('vue').PropType<boolean>;
@@ -307,6 +331,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: "rtl";
     };
+    resizable: BooleanConstructor;
     size: {
         readonly type: import('vue').PropType<string | number>;
         readonly required: false;
@@ -385,6 +410,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: true;
     };
+    modalPenetrable: BooleanConstructor;
     openDelay: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -425,15 +451,37 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
+    transition: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     center: BooleanConstructor;
-    alignCenter: BooleanConstructor;
+    alignCenter: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     closeIcon: {
         readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    overflow: BooleanConstructor;
+    overflow: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     fullscreen: BooleanConstructor;
     showClose: {
         readonly type: import('vue').PropType<boolean>;
@@ -553,6 +601,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: "rtl";
     };
+    resizable: BooleanConstructor;
     size: {
         readonly type: import('vue').PropType<string | number>;
         readonly required: false;
@@ -631,6 +680,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     } & {
         readonly default: true;
     };
+    modalPenetrable: BooleanConstructor;
     openDelay: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
@@ -671,15 +721,37 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
+    transition: {
+        readonly type: import('vue').PropType<unknown>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     center: BooleanConstructor;
-    alignCenter: BooleanConstructor;
+    alignCenter: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     closeIcon: {
         readonly type: import('vue').PropType<unknown>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    overflow: BooleanConstructor;
+    overflow: {
+        readonly type: import('vue').PropType<boolean>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    } & {
+        readonly default: undefined;
+    };
     fullscreen: BooleanConstructor;
     showClose: {
         readonly type: import('vue').PropType<boolean>;
@@ -721,6 +793,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     showClose: boolean;
     appendTo: string | HTMLElement;
     modelValue: boolean;
+    transition: undefined;
     fullscreen: boolean;
     alignCenter: boolean;
     appendToBody: boolean;
@@ -740,12 +813,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     closeOnPressEscape: boolean;
     lockScroll: boolean;
     modal: boolean;
+    modalPenetrable: boolean;
     openDelay: number;
     closeDelay: number;
     trapFocus: boolean;
     headerAriaLevel: string;
     ariaLevel: string;
     direction: "ltr" | "rtl" | "ttb" | "btt";
+    resizable: boolean;
     withHeader: boolean;
     modalFade: boolean;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaDrawerSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;

@@ -19,15 +19,14 @@ const useTable = (props, slots, emit) => {
     tableColumns: computed(() => state.orgColumns.filter((f) => f.prop && !f.pureSearch)),
     searchColumns: computed(
       () => state.orgColumns.filter((f) => f.pureSearch || f.search).sort((a, b) => {
-        var _a, _b;
-        return ((_a = a.search) == null ? void 0 : _a.order) - ((_b = b.search) == null ? void 0 : _b.order);
+        return a.search?.order - b.search?.order;
       })
     ),
     spanColumns: computed(() => [
       ...state.orgColumns.filter((f) => f.spanProp).map((col) => {
         return {
-          prop: col == null ? void 0 : col.prop,
-          spanProp: col == null ? void 0 : col.spanProp
+          prop: col?.prop,
+          spanProp: col?.spanProp
         };
       }),
       ...props.props.span ? [
@@ -38,8 +37,7 @@ const useTable = (props, slots, emit) => {
     ]),
     tableData: [],
     tableSpanData: computed(() => {
-      var _a, _b;
-      if (((_a = state.spanColumns) == null ? void 0 : _a.length) > 0 && ((_b = state.tableData) == null ? void 0 : _b.length) > 0) {
+      if (state.spanColumns?.length > 0 && state.tableData?.length > 0) {
         const result = [];
         state.spanColumns.forEach((item) => {
           result[item.prop] = new Array(state.tableData.length).fill(1, 0, 1).fill(0, 1);
@@ -101,23 +99,23 @@ const useTable = (props, slots, emit) => {
     state.loadingText = "加载中...";
     state.autoColumnWidth = [];
     const autoWidthColumns = state.tableColumns.filter((f) => f.autoWidth);
-    if (slots == null ? void 0 : slots.operation) {
+    if (slots?.operation) {
       autoWidthColumns.push({
         prop: "__table-operation"
       });
     }
-    if ((autoWidthColumns == null ? void 0 : autoWidthColumns.length) > 0) {
+    if (autoWidthColumns?.length > 0) {
       const otherWidth = _globalSize.value === "default" ? 25 : 17;
       nextTick(() => {
         const tableDom = document.querySelector(`.fa-table__${props.tableKey}`);
         if (tableDom) {
           autoWidthColumns.forEach((item) => {
-            const headerColumnDom = tableDom.querySelector(`.__fa-table__auto-width-column__cell-header__${item == null ? void 0 : item.prop}`);
-            const cellColumnDoms = tableDom.querySelectorAll(`.__fa-table__auto-width-column__cell__${item == null ? void 0 : item.prop}`);
+            const headerColumnDom = tableDom.querySelector(`.__fa-table__auto-width-column__cell-header__${item?.prop}`);
+            const cellColumnDoms = tableDom.querySelectorAll(`.__fa-table__auto-width-column__cell__${item?.prop}`);
             let maxWidth = 0;
             if (headerColumnDom) {
               maxWidth = Math.ceil(headerColumnDom.scrollWidth) + otherWidth;
-              if (item == null ? void 0 : item.sortable) {
+              if (item?.sortable) {
                 maxWidth += 24;
               }
             }
@@ -127,12 +125,12 @@ const useTable = (props, slots, emit) => {
                 maxWidth = curWidth;
               }
             });
-            const findInfo = state.autoColumnWidth.find((f) => f.prop === (item == null ? void 0 : item.prop));
+            const findInfo = state.autoColumnWidth.find((f) => f.prop === item?.prop);
             if (findInfo) {
               findInfo.width = Math.max(findInfo.width, maxWidth);
             } else {
               state.autoColumnWidth.push({
-                prop: item == null ? void 0 : item.prop,
+                prop: item?.prop,
                 width: maxWidth
               });
             }
@@ -164,7 +162,6 @@ const useTable = (props, slots, emit) => {
     return params;
   };
   const loadData = async () => {
-    var _a;
     state.loading = true;
     state.loadingText = "加载中...";
     if (props.requestApi) {
@@ -203,11 +200,10 @@ const useTable = (props, slots, emit) => {
       _value = _value.filter((f) => {
         if (!state.searchParam.searchValue) return true;
         return state.tableColumns.some((col) => {
-          var _a2, _b, _c;
-          return (_c = (_a2 = f[col.prop]) == null ? void 0 : _a2.toString()) == null ? void 0 : _c.toLowerCase().includes((_b = state.searchParam.searchValue) == null ? void 0 : _b.toLowerCase());
+          return f[col.prop]?.toString()?.toLowerCase().includes(state.searchParam.searchValue?.toLowerCase());
         });
       });
-      if (((_a = state.searchParam.sortList) == null ? void 0 : _a.length) > 0) {
+      if (state.searchParam.sortList?.length > 0) {
         _value = _value.sort(tableUtil.arrayDynamicSort(state.searchParam.sortList));
       }
       if (props.pagination) {
@@ -232,17 +228,16 @@ const useTable = (props, slots, emit) => {
   const loadTableColumns = () => {
     let columns = props.columns;
     columns.forEach((col) => {
-      var _a, _b;
       if (col.pureSearch || col.search) {
-        (_a = col.search).key ?? (_a.key = col.prop);
-        (_b = col.search).label ?? (_b.label = col.label);
+        col.search.key ??= col.prop;
+        col.search.label ??= col.label;
         if (col.search.defaultValue) {
           state.searchParam[col.search.key] = col.search.defaultValue;
         }
       }
     });
     columns = columns.sort((a, b) => {
-      return (a == null ? void 0 : a.order) - (b == null ? void 0 : b.order);
+      return a?.order - b?.order;
     });
     state.orgColumns = tableUtil.flatColumns(columns, enumMap);
   };

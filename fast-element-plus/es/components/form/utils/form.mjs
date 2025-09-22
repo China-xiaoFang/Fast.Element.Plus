@@ -90,9 +90,9 @@ const formUtil = {
    */
   carNumber(rule, value, callback) {
     let success = false;
-    if ((value == null ? void 0 : value.length) === 7) {
+    if (value?.length === 7) {
       success = RegExps.CarNumber.test(value);
-    } else if ((value == null ? void 0 : value.length) === 8) {
+    } else if (value?.length === 8) {
       success = RegExps.NewEnergyCarNumber.test(value);
     }
     if (success) {

@@ -1,6 +1,6 @@
 import { ElSelectorOutput } from '../../select/src/select.type';
 import { PagedInput, PagedResult } from '../../table';
-import { Options, Placement } from 'element-plus';
+import { Options } from 'element-plus';
 import { Component } from 'vue';
 type Props = {
     label?: string;
@@ -43,7 +43,7 @@ export declare const SelectV2Props: {
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tooltip theme, built-in theme: `dark` / `light`
@@ -199,7 +199,7 @@ export declare const SelectV2Props: {
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -412,7 +412,7 @@ export declare const faSelectV2Props: {
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tooltip theme, built-in theme: `dark` / `light`
@@ -542,7 +542,7 @@ export declare const faSelectV2Props: {
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -790,7 +790,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tooltip theme, built-in theme: `dark` / `light`
@@ -920,7 +920,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -1156,7 +1156,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tooltip theme, built-in theme: `dark` / `light`
@@ -1286,7 +1286,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -1416,15 +1416,16 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         children?: /*elided*/ any[];
     }[];
     offset: number;
+    placement: Placement;
     loading: boolean;
     disabled: boolean;
     modelValue: string | number | boolean | object | (string | number | boolean | object)[];
     autocomplete: "none" | "both" | "inline" | "list";
     clearable: boolean;
+    clearIcon: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     tabindex: string | number;
     validateEvent: boolean;
-    placement: Placement;
-    popperOptions: Partial<Options>;
+    popperOptions: Options;
     popperClass: string;
     effect: string | (string & {});
     teleported: boolean;
@@ -1452,7 +1453,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     reserveKeyword: boolean;
     valueKey: string;
     maxCollapseTags: number;
-    clearIcon: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     tagType: "primary" | "success" | "warning" | "info" | "danger";
     tagEffect: "plain" | "dark" | "light";
     pageResult: boolean;

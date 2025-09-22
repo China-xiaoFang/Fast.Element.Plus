@@ -68,8 +68,8 @@ const LayoutGridItem = /* @__PURE__ */ defineComponent({
     const cols = inject("cols", ref(5));
     const style = computed(() => {
       const breakPointObk = props[breakPoint.value];
-      const span = (breakPointObk == null ? void 0 : breakPointObk.span) ?? props.span;
-      const offset = (breakPointObk == null ? void 0 : breakPointObk.offset) ?? props.offset;
+      const span = breakPointObk?.span ?? props.span;
+      const offset = breakPointObk?.offset ?? props.offset;
       if (props.suffix) {
         return {
           gridColumnStart: cols.value - span - offset + 1,

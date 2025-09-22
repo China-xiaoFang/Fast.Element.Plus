@@ -114,10 +114,10 @@ const LayoutGrid = /* @__PURE__ */ defineComponent({
       });
     });
     onUnmounted(() => {
-      resizeObserver == null ? void 0 : resizeObserver.disconnect();
+      resizeObserver?.disconnect();
     });
     onDeactivated(() => {
-      resizeObserver == null ? void 0 : resizeObserver.disconnect();
+      resizeObserver?.disconnect();
     });
     const gap = computed(() => {
       if (isNumber(props.gap)) return `${props.gap}px`;
@@ -132,25 +132,22 @@ const LayoutGrid = /* @__PURE__ */ defineComponent({
       };
     });
     useRender(() => {
-      var _a, _b, _c, _d;
-      const defaultSlot = (slots == null ? void 0 : slots.default()) ?? [];
+      const defaultSlot = slots?.default() ?? [];
       if (props.collapsed) {
         const fields = [];
         let suffix = null;
         defaultSlot.forEach((slot) => {
-          var _a2;
-          if (typeof slot.type === "object" && slot.type.name === "FaLayoutGridItem" && ((_a2 = slot.props) == null ? void 0 : _a2.suffix) !== void 0) suffix = slot;
-          if (typeof slot.type === "symbol" && Array.isArray(slot == null ? void 0 : slot.children)) fields.push(...slot.children);
+          if (typeof slot.type === "object" && slot.type.name === "FaLayoutGridItem" && slot.props?.suffix !== void 0) suffix = slot;
+          if (typeof slot.type === "symbol" && Array.isArray(slot?.children)) fields.push(...slot.children);
         });
         let suffixCols = 0;
         if (suffix) {
-          suffixCols = (((_a = suffix.props[breakPoint.value]) == null ? void 0 : _a.span) ?? ((_b = suffix.props) == null ? void 0 : _b.span) ?? 1) + (((_c = suffix.props[breakPoint.value]) == null ? void 0 : _c.offset) ?? ((_d = suffix.props) == null ? void 0 : _d.offset) ?? 0);
+          suffixCols = (suffix.props[breakPoint.value]?.span ?? suffix.props?.span ?? 1) + (suffix.props[breakPoint.value]?.offset ?? suffix.props?.offset ?? 0);
         }
         try {
           let find = false;
           fields.reduce((prev = 0, current, index) => {
-            var _a2, _b2, _c2, _d2;
-            prev += (((_a2 = current.props[breakPoint.value]) == null ? void 0 : _a2.span) ?? ((_b2 = current.props) == null ? void 0 : _b2.span) ?? 1) + (((_c2 = current.props[breakPoint.value]) == null ? void 0 : _c2.offset) ?? ((_d2 = current.props) == null ? void 0 : _d2.offset) ?? 0);
+            prev += (current.props[breakPoint.value]?.span ?? current.props?.span ?? 1) + (current.props[breakPoint.value]?.offset ?? current.props?.offset ?? 0);
             if (Number(prev) > collapsedRows * Number(cols.value) - suffixCols) {
               hiddenIndex.value = index;
               find = true;

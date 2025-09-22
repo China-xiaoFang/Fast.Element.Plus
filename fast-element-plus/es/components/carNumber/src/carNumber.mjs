@@ -32,15 +32,13 @@ const CarNumber = /* @__PURE__ */ defineComponent({
     const state = reactive({
       value: withDefineType(),
       switchLetter: computed(() => {
-        var _a;
-        if (((_a = state.value) == null ? void 0 : _a.length) >= 1) {
+        if (state.value?.length >= 1) {
           return true;
         }
         return false;
       }),
       disabledButton: computed(() => {
-        var _a;
-        if (((_a = state.value) == null ? void 0 : _a.length) >= 8) {
+        if (state.value?.length >= 8) {
           return true;
         }
         return false;
@@ -59,16 +57,14 @@ const CarNumber = /* @__PURE__ */ defineComponent({
       }
     };
     const handleSelectCarNumber = (value) => {
-      state.value ?? (state.value = "");
+      state.value ??= "";
       state.value += value;
     };
     const handleBackClick = () => {
-      var _a;
-      if (((_a = state.value) == null ? void 0 : _a.length) === 0) return;
+      if (state.value?.length === 0) return;
       state.value = state.value.substring(0, state.value.length - 1);
     };
     const handleConfirmClick = () => {
-      var _a;
       let success = false;
       if (state.value.length === 7) {
         success = RegExps.CarNumber.test(state.value);
@@ -78,9 +74,9 @@ const CarNumber = /* @__PURE__ */ defineComponent({
       if (success) {
         emit("update:modelValue", state.value);
         emit("change", state.value);
-        (formItemContext == null ? void 0 : formItemContext.prop) && (formContext == null ? void 0 : formContext.validateField([formItemContext.prop]));
+        formItemContext?.prop && formContext?.validateField([formItemContext.prop]);
       } else {
-        if ((formItemContext == null ? void 0 : formItemContext.prop) && formContext) {
+        if (formItemContext?.prop && formContext) {
           emit("update:modelValue", state.value);
           emit("change", state.value);
           formContext.validateField([formItemContext.prop]);
@@ -88,13 +84,13 @@ const CarNumber = /* @__PURE__ */ defineComponent({
           ElMessage.error("车牌号格式不正确");
         }
       }
-      (_a = popoverRef.value) == null ? void 0 : _a.hide();
+      popoverRef.value?.hide();
     };
     const handleClearClick = () => {
       state.value = null;
       emit("update:modelValue", null);
       emit("change", null);
-      (formItemContext == null ? void 0 : formItemContext.prop) && (formContext == null ? void 0 : formContext.validateField([formItemContext.prop]));
+      formItemContext?.prop && formContext?.validateField([formItemContext.prop]);
     };
     watch(() => props.modelValue, (newValue) => {
       state.value = newValue.toString();

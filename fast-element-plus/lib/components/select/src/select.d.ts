@@ -1,5 +1,5 @@
 import { ElSelectorOutput } from './select.type';
-import { Options, Placement } from 'element-plus';
+import { Options } from 'element-plus';
 import { Component } from 'vue';
 export declare const SelectProps: {
     ariaLabel: StringConstructor;
@@ -85,7 +85,7 @@ export declare const SelectProps: {
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -185,7 +185,7 @@ export declare const SelectProps: {
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description whether the width of the dropdown is the same as the input
@@ -196,7 +196,7 @@ export declare const SelectProps: {
      */
     suffixIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tag type
@@ -401,7 +401,7 @@ export declare const faSelectProps: {
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -481,7 +481,7 @@ export declare const faSelectProps: {
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description whether the width of the dropdown is the same as the input
@@ -492,7 +492,7 @@ export declare const faSelectProps: {
      */
     suffixIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tag type
@@ -728,7 +728,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -808,7 +808,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description whether the width of the dropdown is the same as the input
@@ -819,7 +819,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     suffixIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tag type
@@ -1047,7 +1047,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description [popper.js](https://popper.js.org/docs/v2/) parameters
      */
     popperOptions: {
-        type: import('vue').PropType<Partial<Options>>;
+        type: import('vue').PropType<Options>;
         default: () => Partial<Options>;
     };
     /**
@@ -1127,7 +1127,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     clearIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description whether the width of the dropdown is the same as the input
@@ -1138,7 +1138,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     suffixIcon: {
         type: import('vue').PropType<string | Component>;
-        default: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+        default: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     };
     /**
      * @description tag type
@@ -1214,15 +1214,16 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         disabled?: boolean;
         children?: /*elided*/ any[];
     }[];
+    placement: Placement;
     loading: boolean;
     disabled: boolean;
     modelValue: string | number | boolean | object | (string | number | boolean | object)[];
     autocomplete: string;
     clearable: boolean;
-    suffixIcon: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    clearIcon: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    suffixIcon: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     validateEvent: boolean;
-    placement: Placement;
-    popperOptions: Partial<Options>;
+    popperOptions: Options;
     popperClass: string;
     effect: string | (string & {});
     teleported: boolean;
@@ -1248,7 +1249,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     reserveKeyword: boolean;
     valueKey: string;
     maxCollapseTags: number;
-    clearIcon: import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     fitInputWidth: boolean;
     tagType: "primary" | "success" | "warning" | "info" | "danger";
     tagEffect: "plain" | "dark" | "light";

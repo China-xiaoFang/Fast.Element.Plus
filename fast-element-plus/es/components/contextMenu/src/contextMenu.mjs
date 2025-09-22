@@ -30,8 +30,8 @@ const ContextMenu = /* @__PURE__ */ defineComponent({
       }
     });
     const handleClick = (event, data) => {
-      if (data == null ? void 0 : data.disabled) return;
-      (data == null ? void 0 : data.click) && data.click(event, data);
+      if (data?.disabled) return;
+      data?.click && data.click(event, data);
       emit("click", event, data);
     };
     const open = (axis = {
@@ -60,13 +60,13 @@ const ContextMenu = /* @__PURE__ */ defineComponent({
       }, [createVNode("ul", {
         "class": "el-dropdown-menu"
       }, [props.data.filter((f) => !f.hide).map((item) => createVNode("li", {
-        "class": ["el-dropdown-menu__item", (item == null ? void 0 : item.disabled) === true ? "is-disabled" : ""],
+        "class": ["el-dropdown-menu__item", item?.disabled === true ? "is-disabled" : ""],
         "tabIndex": "-1",
         "onClick": (event) => {
           handleClick(event, item);
         }
-      }, [(item == null ? void 0 : item.icon) ? createVNode(FaIcon, {
-        "name": item == null ? void 0 : item.icon
+      }, [item?.icon ? createVNode(FaIcon, {
+        "name": item?.icon
       }, null) : null, createVNode("span", null, [item.label])]))])]), [[vShow, state.visible]])]
     }));
     return useExpose(expose, {

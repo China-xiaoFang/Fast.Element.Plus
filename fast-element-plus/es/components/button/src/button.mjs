@@ -86,30 +86,15 @@ const Button = /* @__PURE__ */ defineComponent({
     }));
     return useExpose(expose, {
       /** @description 按钮 html 元素 */
-      ref: computed(() => {
-        var _a;
-        return (_a = buttonRef.value) == null ? void 0 : _a.ref;
-      }),
+      ref: computed(() => buttonRef.value?.ref),
       /** @description 按钮尺寸 */
-      size: computed(() => {
-        var _a;
-        return (_a = buttonRef.value) == null ? void 0 : _a.size;
-      }),
+      size: computed(() => buttonRef.value?.size),
       /** @description 按钮类型 */
-      type: computed(() => {
-        var _a;
-        return (_a = buttonRef.value) == null ? void 0 : _a.type;
-      }),
+      type: computed(() => buttonRef.value?.type),
       /** @description 按钮已禁用 */
-      disabled: computed(() => {
-        var _a;
-        return (_a = buttonRef.value) == null ? void 0 : _a.disabled;
-      }),
+      disabled: computed(() => buttonRef.value?.disabled),
       /** @description 是否在两个字符之间插入空格 */
-      shouldAddSpace: computed(() => {
-        var _a;
-        return (_a = buttonRef.value) == null ? void 0 : _a.shouldAddSpace;
-      }),
+      shouldAddSpace: computed(() => buttonRef.value?.shouldAddSpace),
       /** @description 加载状态 */
       loading: computed(() => state.loading)
     });
