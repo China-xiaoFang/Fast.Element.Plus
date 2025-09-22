@@ -1,3 +1,4 @@
+import * as FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
 import FastElementPlusComponents from "./component.mjs";
 import FastElementPlusDirectives from "./directive.mjs";
 import { installElementPlus } from "./element-plus.mjs";
@@ -8,6 +9,9 @@ const makeInstaller = () => {
     if (app[INSTALLED_KEY]) return;
     app[INSTALLED_KEY] = true;
     installElementPlus(app);
+    for (const [key, component] of Object.entries(FastElementPlusIconsVue)) {
+      app.component(`fa-icon-${key}`, component);
+    }
     FastElementPlusComponents.forEach((c) => app.use(c));
     FastElementPlusDirectives.forEach((d) => app.use(d));
   };

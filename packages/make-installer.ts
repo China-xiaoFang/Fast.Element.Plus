@@ -1,3 +1,4 @@
+import * as FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
 import FastElementPlusComponents from "./component";
 import FastElementPlusDirectives from "./directive";
 import { installElementPlus } from "./element-plus";
@@ -16,6 +17,12 @@ export const makeInstaller = (): {
 		app[INSTALLED_KEY] = true;
 
 		installElementPlus(app);
+
+		/** 注册所有 Fast Element Plus Icon */
+		for (const [key, component] of Object.entries(FastElementPlusIconsVue)) {
+			// 这里是给 FaIcon 使用的
+			app.component(`fa-icon-${key}`, component);
+		}
 
 		FastElementPlusComponents.forEach((c) => app.use(c));
 

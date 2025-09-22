@@ -3,7 +3,7 @@ import { ElPopover, ElScrollbar, ElInput, ElIcon } from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { RefreshRight, ChromeFilled } from "@element-plus/icons-vue";
 import { FaIcon } from "../../icon/index.mjs";
-import FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
+import FastElementPlusIconsVue__default from "@fast-element-plus/icons-vue";
 import { withDefineType, useRender, useExpose, definePropType } from "@fast-china/utils";
 import { isString, isNull } from "lodash-unified";
 function _isSlot(s) {
@@ -48,7 +48,7 @@ const IconSelector = /* @__PURE__ */ defineComponent({
           state.iconNames = Object.keys(ElementPlusIconsVue).map((m) => `el-icon-${m}`);
           break;
         case "fastEle":
-          state.iconNames = Object.keys(FastElementPlusIconsVue).map((m) => `fa-icon-${m}`);
+          state.iconNames = Object.keys(FastElementPlusIconsVue__default).map((m) => `fa-icon-${m}`);
           break;
         case "local":
           state.iconNames = props.customIcons;
