@@ -88,7 +88,7 @@ export const useTable = (props: ExtractPropTypes<typeof faTableProps>, slots: Ta
 		initParam: {},
 		searchParam: {},
 		searchValueUpdate: "",
-		showSearch: props.showSearch,
+		searchForm: props.searchForm,
 		hideImage: computed(() => props.hideImage),
 		selected: false,
 		selectedList: [],
@@ -411,9 +411,9 @@ export const useTable = (props: ExtractPropTypes<typeof faTableProps>, slots: Ta
 	);
 
 	watch(
-		() => props.showSearch,
+		() => props.searchForm,
 		(newValue) => {
-			state.showSearch = newValue;
+			state.searchForm = newValue;
 		}
 	);
 

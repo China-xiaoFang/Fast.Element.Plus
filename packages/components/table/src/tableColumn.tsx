@@ -571,7 +571,7 @@ export default defineComponent({
 							sortable={props.sortable ? "custom" : false}
 							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}
 							resizable={props.resizable && !props.autoWidth}
-							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && !props.type}
+							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && props.type == "default"}
 						>
 							{{
 								header: ({ column, $index }: { column: TableColumnCtx<any>; $index: number }) => headerRender({ column, $index }),
@@ -628,7 +628,7 @@ export default defineComponent({
 							sortable={props.sortable ? "custom" : false}
 							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}
 							resizable={props.resizable && !props.autoWidth}
-							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && !props.type}
+							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && props.type == "default"}
 						>
 							{{
 								header: ({ column, $index }: { column: TableColumnCtx<any>; $index: number }) => headerRender({ column, $index }),

@@ -93,6 +93,9 @@ export type FaTableSearchColumnCtx = Partial<Record<FaLayoutGridBreakPoint, FaLa
 };
 /**
  * @description 表格列类型
+ * @property default     默认
+ * @property selection	 选择列
+ * @property expand      可展开按钮列
  * @property expand      可展开按钮列
  * @property image       图片列
  * @property date        日期显示（格式 "YYYY-MM-DD"）
@@ -106,7 +109,7 @@ export type FaTableSearchColumnCtx = Partial<Record<FaLayoutGridBreakPoint, FaLa
  * @property gd6         数值列，保留 6 位小数，带千分位
  * @property submitInfo  提交信息列
  */
-export type FaTableColumnType = "expand" | "image" | "date" | "time" | "dateTime" | "d2" | "d4" | "d6" | "gd2" | "gd4" | "gd6" | "submitInfo";
+export type FaTableColumnType = "default" | "selection" | "index" | "expand" | "image" | "date" | "time" | "dateTime" | "d2" | "d4" | "d6" | "gd2" | "gd4" | "gd6" | "submitInfo";
 /** @description FaTable 表格列日期格式化 */
 export type FaTableColumnDateFormat = "YYYY-MM-DD HH:mm:ss" | "YYYY-MM-DD HH:mm" | "YYYY-MM-DD" | "YYYY-MM" | "YYYY" | "MM" | "DD" | "MM-DD" | "HH:mm:ss" | "HH:mm" | "HH" | "mm:ss" | "mm" | "ss";
 /** @description FaTable 表格列上下文 */
