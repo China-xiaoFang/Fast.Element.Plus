@@ -518,7 +518,7 @@ const TableColumn = /* @__PURE__ */ defineComponent({
         "sortable": props.sortable ? "custom" : false,
         "sortOrders": props.sortOrders ?? ["descending", "ascending", null],
         "resizable": props.resizable && !props.autoWidth,
-        "showOverflowTooltip": (props.showOverflowTooltip ?? true) && !props.autoWidth && !props.type
+        "showOverflowTooltip": (props.showOverflowTooltip ?? true) && !props.autoWidth && props.type == "default"
       }), {
         header: ({
           column,
@@ -574,7 +574,7 @@ const TableColumn = /* @__PURE__ */ defineComponent({
           "sortable": props.sortable ? "custom" : false,
           "sortOrders": props.sortOrders ?? ["descending", "ascending", null],
           "resizable": props.resizable && !props.autoWidth,
-          "showOverflowTooltip": (props.showOverflowTooltip ?? true) && !props.autoWidth && !props.type
+          "showOverflowTooltip": (props.showOverflowTooltip ?? true) && !props.autoWidth && props.type == "default"
         }), {
           header: ({
             column,

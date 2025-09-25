@@ -253,8 +253,6 @@ export declare const faTableProps: {
     columnsChange: {
         type: PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
     };
-    /** @description 显示搜素 */
-    showSearch: BooleanConstructor;
     /** @description 搜索表单 Grid布局列配置 */
     searchFormCols: {
         type: PropType<string | number | Record<FaLayoutGridBreakPoint, number>>;
@@ -649,8 +647,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     columnsChange: {
         type: PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
     };
-    /** @description 显示搜素 */
-    showSearch: BooleanConstructor;
     /** @description 搜索表单 Grid布局列配置 */
     searchFormCols: {
         type: PropType<string | number | Record<FaLayoutGridBreakPoint, number>>;
@@ -1065,8 +1061,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     columnsChange: {
         type: PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
     };
-    /** @description 显示搜素 */
-    showSearch: BooleanConstructor;
     /** @description 搜索表单 Grid布局列配置 */
     searchFormCols: {
         type: PropType<string | number | Record<FaLayoutGridBreakPoint, number>>;
@@ -1363,7 +1357,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     border: boolean;
     highlightCurrentRow: boolean;
     tableKey: string;
-    showSearch: boolean;
     searchFormCols: string | number | Record<FaLayoutGridBreakPoint, number>;
     searchForm: boolean;
     headerCard: boolean;

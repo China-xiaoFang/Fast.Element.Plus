@@ -21,7 +21,7 @@ export declare const faUploadImageProps: {
         default: boolean;
     };
     /** @description v-model绑定值 */
-    modelValue: StringConstructor;
+    modelValue: import('vue').PropType<string | string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
         type: (NumberConstructor | StringConstructor)[];
@@ -188,11 +188,11 @@ export declare const faUploadImageProps: {
 };
 export declare const faUploadImageEmits: {
     /** @description v-model 回调 */
-    "update:modelValue": (value: string) => boolean;
+    "update:modelValue": (value: string | string[]) => boolean;
     /** @description v-model:fileList 回调 */
     "update:fileList": (value: UploadUserFile[]) => boolean;
     /** @description 改变 */
-    change: (value: string) => boolean;
+    change: (value: string | string[]) => boolean;
 };
 type FaUploadImageSlots = {
     /** @description 默认内容插槽 */
@@ -220,7 +220,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: boolean;
     };
     /** @description v-model绑定值 */
-    modelValue: StringConstructor;
+    modelValue: import('vue').PropType<string | string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
         type: (NumberConstructor | StringConstructor)[];
@@ -449,11 +449,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     previewList: import('vue').ComputedRef<any[]>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     /** @description v-model 回调 */
-    "update:modelValue": (value: string) => boolean;
+    "update:modelValue": (value: string | string[]) => boolean;
     /** @description v-model:fileList 回调 */
     "update:fileList": (value: UploadUserFile[]) => boolean;
     /** @description 改变 */
-    change: (value: string) => boolean;
+    change: (value: string | string[]) => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description whether to activate drag and drop mode */
     drag: {
@@ -476,7 +476,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: boolean;
     };
     /** @description v-model绑定值 */
-    modelValue: StringConstructor;
+    modelValue: import('vue').PropType<string | string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
         type: (NumberConstructor | StringConstructor)[];
@@ -641,8 +641,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     disabled: BooleanConstructor;
     limit: NumberConstructor;
 }>> & Readonly<{
-    "onUpdate:modelValue"?: (value: string) => any;
-    onChange?: (value: string) => any;
+    "onUpdate:modelValue"?: (value: string | string[]) => any;
+    onChange?: (value: string | string[]) => any;
     "onUpdate:fileList"?: (value: UploadUserFile[]) => any;
 }>, {
     name: string;

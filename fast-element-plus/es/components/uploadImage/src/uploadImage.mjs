@@ -29,7 +29,7 @@ const faUploadImageProps = {
     default: false
   },
   /** @description v-model绑定值 */
-  modelValue: String,
+  modelValue: definePropType([String, Array]),
   /** @description 大小限制，单位kb */
   maxSize: {
     type: [String, Number],

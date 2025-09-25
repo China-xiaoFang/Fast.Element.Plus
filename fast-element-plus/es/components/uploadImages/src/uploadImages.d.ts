@@ -21,7 +21,7 @@ export declare const faUploadImagesProps: {
         default: number;
     };
     /** @description v-model绑定值 */
-    modelValue: import('vue').PropType<string | string[]>;
+    modelValue: import('vue').PropType<string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
         type: (NumberConstructor | StringConstructor)[];
@@ -185,11 +185,11 @@ export declare const faUploadImagesProps: {
 };
 export declare const faUploadImagesEmits: {
     /** @description v-model 回调 */
-    "update:modelValue": (value: string | string[]) => boolean;
+    "update:modelValue": (value: string[]) => boolean;
     /** @description v-model:fileList 回调 */
     "update:fileList": (value: UploadUserFile[]) => boolean;
     /** @description 改变 */
-    change: (value: string | string[]) => boolean;
+    change: (value: string[]) => boolean;
 };
 type FaUploadImagesSlots = {
     /** @description 默认内容插槽 */
@@ -217,7 +217,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: number;
     };
     /** @description v-model绑定值 */
-    modelValue: import('vue').PropType<string | string[]>;
+    modelValue: import('vue').PropType<string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
         type: (NumberConstructor | StringConstructor)[];
@@ -443,11 +443,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     previewList: import('vue').ComputedRef<any[]>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     /** @description v-model 回调 */
-    "update:modelValue": (value: string | string[]) => boolean;
+    "update:modelValue": (value: string[]) => boolean;
     /** @description v-model:fileList 回调 */
     "update:fileList": (value: UploadUserFile[]) => boolean;
     /** @description 改变 */
-    change: (value: string | string[]) => boolean;
+    change: (value: string[]) => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true` */
     accept: {
@@ -470,7 +470,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: number;
     };
     /** @description v-model绑定值 */
-    modelValue: import('vue').PropType<string | string[]>;
+    modelValue: import('vue').PropType<string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
         type: (NumberConstructor | StringConstructor)[];
@@ -632,8 +632,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     disabled: BooleanConstructor;
 }>> & Readonly<{
-    "onUpdate:modelValue"?: (value: string | string[]) => any;
-    onChange?: (value: string | string[]) => any;
+    "onUpdate:modelValue"?: (value: string[]) => any;
+    onChange?: (value: string[]) => any;
     "onUpdate:fileList"?: (value: UploadUserFile[]) => any;
 }>, {
     name: string;

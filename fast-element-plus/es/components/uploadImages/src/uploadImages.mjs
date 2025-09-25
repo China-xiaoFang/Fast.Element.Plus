@@ -4,7 +4,7 @@ import { ZoomIn, Edit, Delete, Plus } from "@element-plus/icons-vue";
 import { useUpload } from "../../upload/src/useUpload.mjs";
 import "../../../constants/index.mjs";
 import { definePropType, stringUtil, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
-import { isString, isArray, isNull } from "lodash-unified";
+import { isArray, isNull } from "lodash-unified";
 import { FaMimeType } from "../../../constants/mime.mjs";
 const faUploadImagesProps = {
   ...uploadProps,
@@ -29,7 +29,7 @@ const faUploadImagesProps = {
     default: 9
   },
   /** @description v-model绑定值 */
-  modelValue: definePropType([String, Array]),
+  modelValue: definePropType([Array]),
   /** @description 大小限制，单位kb */
   maxSize: {
     type: [String, Number],
@@ -44,11 +44,11 @@ const faUploadImagesProps = {
 };
 const faUploadImagesEmits = {
   /** @description v-model 回调 */
-  "update:modelValue": (value) => isString(value) || isArray(value) || isNull(value),
+  "update:modelValue": (value) => isArray(value) || isNull(value),
   /** @description v-model:fileList 回调 */
   "update:fileList": (value) => isArray(value),
   /** @description 改变 */
-  change: (value) => isString(value) || isArray(value) || isNull(value)
+  change: (value) => isArray(value) || isNull(value)
 };
 const UploadImages = /* @__PURE__ */ defineComponent({
   name: "FaUploadImages",

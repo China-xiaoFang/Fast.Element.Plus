@@ -259,8 +259,6 @@ const faTableProps = {
   columnsChange: {
     type: definePropType(Function)
   },
-  /** @description 显示搜素 */
-  showSearch: Boolean,
   /** @description 搜索表单 Grid布局列配置 */
   searchFormCols: {
     type: definePropType([String, Number, Object]),
@@ -728,7 +726,7 @@ const Table = /* @__PURE__ */ defineComponent({
         "--fa-table-height": `${state.tableHeight ? `${state.tableHeight}px` : ""}`
       }
     }, [createVNode(TableSearchForm, {
-      "show": props.searchForm && state.showSearch,
+      "show": props.searchForm && state.searchForm,
       "cols": props.searchFormCols,
       "search": tableSearch,
       "reset": tableReset
@@ -804,10 +802,10 @@ const Table = /* @__PURE__ */ defineComponent({
     }, null), props.searchBtn && state.searchColumns.length > 0 && createVNode(ElButton, {
       "loading": state.loading,
       "loadingIcon": Eleme,
-      "title": state.showSearch ? "隐藏搜索栏" : "显示搜索栏",
+      "title": state.searchForm ? "隐藏搜索栏" : "显示搜索栏",
       "circle": true,
       "icon": Search,
-      "onClick": () => state.showSearch = !state.showSearch
+      "onClick": () => state.searchForm = !state.searchForm
     }, null), props.columnSettingBtn && !props.columns && createVNode(ElButton, {
       "loading": state.loading,
       "loadingIcon": Eleme,

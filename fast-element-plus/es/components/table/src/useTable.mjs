@@ -65,7 +65,7 @@ const useTable = (props, slots, emit) => {
     initParam: {},
     searchParam: {},
     searchValueUpdate: "",
-    showSearch: props.showSearch,
+    searchForm: props.searchForm,
     hideImage: computed(() => props.hideImage),
     selected: false,
     selectedList: [],
@@ -343,9 +343,9 @@ const useTable = (props, slots, emit) => {
     }
   );
   watch(
-    () => props.showSearch,
+    () => props.searchForm,
     (newValue) => {
-      state.showSearch = newValue;
+      state.searchForm = newValue;
     }
   );
   return {

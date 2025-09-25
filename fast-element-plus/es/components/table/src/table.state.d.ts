@@ -63,7 +63,7 @@ export type FaTableState = {
     /**
      * 显示搜索表单
      */
-    showSearch: boolean;
+    searchForm: boolean;
     /**
      * 隐藏图片
      */

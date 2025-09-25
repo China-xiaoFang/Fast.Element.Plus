@@ -286,8 +286,6 @@ export const faTableProps = {
 	columnsChange: {
 		type: definePropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>(Function),
 	},
-	/** @description 显示搜素 */
-	showSearch: Boolean,
 	/** @description 搜索表单 Grid布局列配置 */
 	searchFormCols: {
 		type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
@@ -842,7 +840,7 @@ export default defineComponent({
 				}}
 			>
 				<FaTableSearchForm
-					show={props.searchForm && state.showSearch}
+					show={props.searchForm && state.searchForm}
 					vSlots={pick(slots, searchFormSlotNames.value)}
 					cols={props.searchFormCols}
 					search={tableSearch}
@@ -913,10 +911,10 @@ export default defineComponent({
 											<ElButton
 												loading={state.loading}
 												loadingIcon={Eleme}
-												title={state.showSearch ? "隐藏搜索栏" : "显示搜索栏"}
+												title={state.searchForm ? "隐藏搜索栏" : "显示搜索栏"}
 												circle
 												icon={Search}
-												onClick={() => (state.showSearch = !state.showSearch)}
+												onClick={() => (state.searchForm = !state.searchForm)}
 											/>
 										)}
 										{props.columnSettingBtn && !props.columns && (

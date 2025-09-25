@@ -4,7 +4,7 @@ import { Delete, Edit, Plus, ZoomIn } from "@element-plus/icons-vue";
 import { useUpload } from "@fast-element-plus/components/upload/src/useUpload";
 import { FaMimeType } from "@fast-element-plus/constants";
 import { definePropType, makeSlots, stringUtil, useExpose, useProps, useRender } from "@fast-china/utils";
-import { isArray, isNull, isString } from "lodash-unified";
+import { isArray, isNull } from "lodash-unified";
 import type { UploadFile, UploadInstance, UploadProps, UploadUserFile, uploadListTypes } from "element-plus";
 
 export const faUploadImagesProps = {
@@ -30,7 +30,7 @@ export const faUploadImagesProps = {
 		default: 9,
 	},
 	/** @description v-model绑定值 */
-	modelValue: definePropType<string | string[]>([String, Array]),
+	modelValue: definePropType<string[]>([Array]),
 	/** @description 大小限制，单位kb */
 	maxSize: {
 		type: [String, Number],
@@ -46,11 +46,11 @@ export const faUploadImagesProps = {
 
 export const faUploadImagesEmits = {
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | string[]): boolean => isString(value) || isArray(value) || isNull(value),
+	"update:modelValue": (value: string[]): boolean => isArray(value) || isNull(value),
 	/** @description v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
 	/** @description 改变 */
-	change: (value: string | string[]): boolean => isString(value) || isArray(value) || isNull(value),
+	change: (value: string[]): boolean => isArray(value) || isNull(value),
 };
 
 type FaUploadImagesSlots = {
@@ -75,7 +75,7 @@ export default defineComponent({
 			handleOnError,
 			handleOnExceed,
 			handleOnUpload,
-		} = useUpload("FaUploadImages", "图片", props, emit, {
+		} = useUpload<string[]>("FaUploadImages", "图片", props, emit, {
 			maxSize: props.maxSize,
 			uploadApi: props.uploadApi,
 			uploadUrl: props.uploadUrl,
