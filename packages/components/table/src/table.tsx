@@ -1036,7 +1036,7 @@ export default defineComponent({
 											fixed="right"
 											width={state.operationColumnWidth}
 											headerAlign="center"
-											align="center"
+											align="left"
 											showOverflowTooltip={false}
 											className="fa-table__operation-column"
 											resizable={false}
