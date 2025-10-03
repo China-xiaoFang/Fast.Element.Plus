@@ -456,6 +456,8 @@ export default defineComponent({
 					state.loading = false;
 				}
 			} else {
+				// 这里不允许回显了
+				state.echo = false;
 				state.selectorData = props.data;
 			}
 		};

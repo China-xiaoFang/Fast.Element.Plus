@@ -364,6 +364,7 @@ const Select = /* @__PURE__ */ defineComponent({
           state.loading = false;
         }
       } else {
+        state.echo = false;
         state.selectorData = handleData(props.data);
       }
     };
