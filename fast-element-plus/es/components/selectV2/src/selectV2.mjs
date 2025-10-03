@@ -404,6 +404,7 @@ const SelectV2 = /* @__PURE__ */ defineComponent({
           state.loading = false;
         }
       } else {
+        state.echo = false;
         state.selectorData = props.data;
       }
     };
