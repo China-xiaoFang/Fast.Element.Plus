@@ -5,7 +5,7 @@
 	border: none;
 	.el-dropdown-menu {
 		.el-dropdown-menu__item {
-			font-size: var(--el-font-size-extra-small);
+			font-size: var(--el-font-size-small);
 			.fa-icon {
 				margin-right: 5px;
 			}
@@ -25,7 +25,7 @@
 .fa-context-menu-small {
 	.el-dropdown-menu {
 		.el-dropdown-menu__item {
-			font-size: calc(var(--el-font-size-extra-small) - 1px);
+			font-size: var(--el-font-size-extra-small);
 			.fa-icon {
 				margin-right: 3px;
 			}

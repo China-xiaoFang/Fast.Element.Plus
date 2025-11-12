@@ -303,7 +303,7 @@ const Tree = /* @__PURE__ */ defineComponent({
         }, [createVNode("span", null, [slots.label ? slots.label({
           node,
           data
-        }) : data?.all ? data.label : node.label]), node.key && data.showNum ? createVNode("span", null, [createTextVNode("["), data.quantity, createTextVNode("]")]) : null, slots.default && createVNode("span", null, [slots.default({
+        }) : data?.all ? data.label : node.label]), node.key && data.showQuantity ? createVNode("span", null, [createTextVNode("["), data.quantity, createTextVNode("]")]) : null, slots.default && createVNode("span", null, [slots.default({
           node,
           data
         })])]),

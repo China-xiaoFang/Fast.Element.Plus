@@ -27,7 +27,7 @@ export type ElTreeOutput<T = any> = T extends string | number | boolean | object
     /**
      * 是否显示数量
      */
-    showNum?: boolean;
+    showQuantity?: boolean;
     /**
      * 数量
      */

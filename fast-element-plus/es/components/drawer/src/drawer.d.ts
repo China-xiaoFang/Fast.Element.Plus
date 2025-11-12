@@ -54,110 +54,26 @@ export declare const faDrawerProps: {
     afterOpen: {
         type: import('vue').PropType<() => void>;
     };
-    direction: {
-        readonly type: import('vue').PropType<"ltr" | "rtl" | "ttb" | "btt">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "rtl";
-    };
+    direction: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "ltr" | "rtl" | "ttb" | "btt", unknown, "rtl", boolean>;
     resizable: BooleanConstructor;
-    size: {
-        readonly type: import('vue').PropType<string | number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "30%";
-    };
-    withHeader: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    modalFade: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    headerAriaLevel: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "2";
-    };
-    appendTo: {
-        readonly type: import('vue').PropType<string | HTMLElement>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "body";
-    };
+    size: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "30%", boolean>;
+    withHeader: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    modalFade: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    headerAriaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown, "body", boolean>;
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    closeOnClickModal: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    closeOnPressEscape: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    lockScroll: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    modal: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    closeOnClickModal: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    lockScroll: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    modal: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     modalPenetrable: BooleanConstructor;
-    openDelay: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
-    closeDelay: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
+    openDelay: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
+    closeDelay: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
     top: {
         readonly type: import('vue').PropType<string>;
         readonly required: false;
@@ -170,7 +86,7 @@ export declare const faDrawerProps: {
     bodyClass: StringConstructor;
     footerClass: StringConstructor;
     width: {
-        readonly type: import('vue').PropType<string | number>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -182,62 +98,20 @@ export declare const faDrawerProps: {
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    transition: {
-        readonly type: import('vue').PropType<unknown>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | ((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition))[], unknown, unknown, undefined, boolean>;
     center: BooleanConstructor;
-    alignCenter: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    alignCenter: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     closeIcon: {
-        readonly type: import('vue').PropType<unknown>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | ((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    overflow: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    overflow: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     fullscreen: BooleanConstructor;
-    showClose: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    title: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    ariaLevel: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "2";
-    };
+    showClose: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    title: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    ariaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
 };
 export declare const faDrawerEmits: {
     /** @description v-model 回调 */
@@ -323,110 +197,26 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     afterOpen: {
         type: import('vue').PropType<() => void>;
     };
-    direction: {
-        readonly type: import('vue').PropType<"ltr" | "rtl" | "ttb" | "btt">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "rtl";
-    };
+    direction: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "ltr" | "rtl" | "ttb" | "btt", unknown, "rtl", boolean>;
     resizable: BooleanConstructor;
-    size: {
-        readonly type: import('vue').PropType<string | number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "30%";
-    };
-    withHeader: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    modalFade: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    headerAriaLevel: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "2";
-    };
-    appendTo: {
-        readonly type: import('vue').PropType<string | HTMLElement>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "body";
-    };
+    size: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "30%", boolean>;
+    withHeader: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    modalFade: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    headerAriaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown, "body", boolean>;
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    closeOnClickModal: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    closeOnPressEscape: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    lockScroll: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    modal: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    closeOnClickModal: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    lockScroll: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    modal: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     modalPenetrable: BooleanConstructor;
-    openDelay: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
-    closeDelay: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
+    openDelay: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
+    closeDelay: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
     top: {
         readonly type: import('vue').PropType<string>;
         readonly required: false;
@@ -439,7 +229,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     bodyClass: StringConstructor;
     footerClass: StringConstructor;
     width: {
-        readonly type: import('vue').PropType<string | number>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -451,62 +241,20 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    transition: {
-        readonly type: import('vue').PropType<unknown>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | ((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition))[], unknown, unknown, undefined, boolean>;
     center: BooleanConstructor;
-    alignCenter: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    alignCenter: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     closeIcon: {
-        readonly type: import('vue').PropType<unknown>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | ((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    overflow: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    overflow: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     fullscreen: BooleanConstructor;
-    showClose: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    title: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    ariaLevel: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "2";
-    };
+    showClose: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    title: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    ariaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
 }>, {
     /** @description 用于关闭 Drawer, 该方法会调用传入的 before-close 方法 */
     handleClose: import('vue').ComputedRef<() => void>;
@@ -593,110 +341,26 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     afterOpen: {
         type: import('vue').PropType<() => void>;
     };
-    direction: {
-        readonly type: import('vue').PropType<"ltr" | "rtl" | "ttb" | "btt">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "rtl";
-    };
+    direction: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "ltr" | "rtl" | "ttb" | "btt", unknown, "rtl", boolean>;
     resizable: BooleanConstructor;
-    size: {
-        readonly type: import('vue').PropType<string | number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "30%";
-    };
-    withHeader: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    modalFade: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    headerAriaLevel: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "2";
-    };
-    appendTo: {
-        readonly type: import('vue').PropType<string | HTMLElement>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "body";
-    };
+    size: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "30%", boolean>;
+    withHeader: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    modalFade: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    headerAriaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown, "body", boolean>;
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    closeOnClickModal: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    closeOnPressEscape: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    lockScroll: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    modal: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    closeOnClickModal: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    lockScroll: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    modal: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     modalPenetrable: BooleanConstructor;
-    openDelay: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
-    closeDelay: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
+    openDelay: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
+    closeDelay: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
     top: {
         readonly type: import('vue').PropType<string>;
         readonly required: false;
@@ -709,7 +373,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     bodyClass: StringConstructor;
     footerClass: StringConstructor;
     width: {
-        readonly type: import('vue').PropType<string | number>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -721,62 +385,20 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    transition: {
-        readonly type: import('vue').PropType<unknown>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | ((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition))[], unknown, unknown, undefined, boolean>;
     center: BooleanConstructor;
-    alignCenter: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    alignCenter: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     closeIcon: {
-        readonly type: import('vue').PropType<unknown>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | ((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    overflow: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    overflow: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     fullscreen: BooleanConstructor;
-    showClose: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    title: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    ariaLevel: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "2";
-    };
+    showClose: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    title: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    ariaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
 }>> & Readonly<{
     "onUpdate:modelValue"?: (value: boolean) => any;
     onOpen?: () => any;
@@ -787,19 +409,19 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     onOpenAutoFocus?: () => any;
     onCloseAutoFocus?: () => any;
 }>, {
-    size: string | number;
+    size: import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>;
     title: string;
     center: boolean;
-    showClose: boolean;
-    appendTo: string | HTMLElement;
+    showClose: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown>;
     modelValue: boolean;
     transition: undefined;
     fullscreen: boolean;
-    alignCenter: boolean;
+    alignCenter: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     appendToBody: boolean;
     draggable: boolean;
     destroyOnClose: boolean;
-    overflow: boolean;
+    overflow: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     showRefresh: boolean;
     showFullscreen: boolean;
     showCloseButton: boolean;
@@ -809,19 +431,19 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     confirmButtonText: string;
     hideFooter: boolean;
     showBeforeClose: boolean;
-    closeOnClickModal: boolean;
-    closeOnPressEscape: boolean;
-    lockScroll: boolean;
-    modal: boolean;
+    closeOnClickModal: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
+    lockScroll: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
+    modal: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     modalPenetrable: boolean;
     openDelay: number;
     closeDelay: number;
     trapFocus: boolean;
     headerAriaLevel: string;
     ariaLevel: string;
-    direction: "ltr" | "rtl" | "ttb" | "btt";
+    direction: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "ltr" | "rtl" | "ttb" | "btt", unknown>;
     resizable: boolean;
-    withHeader: boolean;
-    modalFade: boolean;
+    withHeader: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
+    modalFade: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaDrawerSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

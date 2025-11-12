@@ -147,14 +147,7 @@ export declare const faTreeSelectProps: {
     };
     ariaLabel: StringConstructor;
     emptyValues: ArrayConstructor;
-    valueOnClear: {
-        readonly type: import('vue').PropType<string | number | boolean | Function>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown, undefined, boolean>;
     name: StringConstructor;
     id: StringConstructor;
     autocomplete: {
@@ -163,7 +156,7 @@ export declare const faTreeSelectProps: {
     };
     automaticDropdown: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -209,14 +202,7 @@ export declare const faTreeSelectProps: {
         type: NumberConstructor;
         default: number;
     };
-    teleported: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    teleported: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     persistent: {
         type: BooleanConstructor;
         default: boolean;
@@ -232,14 +218,14 @@ export declare const faTreeSelectProps: {
     };
     tagType: {
         default: string;
-        type: import('vue').PropType<"primary" | "success" | "warning" | "info" | "danger">;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     tagEffect: {
         default: string;
-        type: import('vue').PropType<"plain" | "dark" | "light">;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -478,14 +464,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     ariaLabel: StringConstructor;
     emptyValues: ArrayConstructor;
-    valueOnClear: {
-        readonly type: import('vue').PropType<string | number | boolean | Function>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown, undefined, boolean>;
     name: StringConstructor;
     id: StringConstructor;
     autocomplete: {
@@ -494,7 +473,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     automaticDropdown: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -540,14 +519,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: NumberConstructor;
         default: number;
     };
-    teleported: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    teleported: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     persistent: {
         type: BooleanConstructor;
         default: boolean;
@@ -563,14 +535,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     tagType: {
         default: string;
-        type: import('vue').PropType<"primary" | "success" | "warning" | "info" | "danger">;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     tagEffect: {
         default: string;
-        type: import('vue').PropType<"plain" | "dark" | "light">;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -834,14 +806,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     ariaLabel: StringConstructor;
     emptyValues: ArrayConstructor;
-    valueOnClear: {
-        readonly type: import('vue').PropType<string | number | boolean | Function>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown, undefined, boolean>;
     name: StringConstructor;
     id: StringConstructor;
     autocomplete: {
@@ -850,7 +815,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     automaticDropdown: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -896,14 +861,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: NumberConstructor;
         default: number;
     };
-    teleported: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    teleported: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     persistent: {
         type: BooleanConstructor;
         default: boolean;
@@ -919,14 +877,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     tagType: {
         default: string;
-        type: import('vue').PropType<"primary" | "success" | "warning" | "info" | "danger">;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     tagEffect: {
         default: string;
-        type: import('vue').PropType<"plain" | "dark" | "light">;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -1050,6 +1008,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     placement: Placement;
     loading: boolean;
     disabled: boolean;
+    lazy: boolean;
     modelValue: string | number | boolean | object | (string | number | boolean | object)[];
     autocomplete: string;
     clearable: boolean;
@@ -1059,12 +1018,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     popperOptions: Options;
     popperClass: string;
     effect: string | (string & {});
-    teleported: boolean;
+    teleported: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     width: string | number;
     persistent: boolean;
     draggable: boolean;
     fallbackPlacements: Placement[];
-    lazy: boolean;
     moreDetail: boolean;
     loadingText: string;
     noMatchText: string;
@@ -1072,7 +1030,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     collapseTags: boolean;
     collapseTagsTooltip: boolean;
     defaultSelected: boolean;
-    valueOnClear: string | number | boolean | Function;
+    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown>;
     automaticDropdown: boolean;
     filterable: boolean;
     allowCreate: boolean;
@@ -1084,8 +1042,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     valueKey: string;
     maxCollapseTags: number;
     fitInputWidth: boolean;
-    tagType: "primary" | "success" | "warning" | "info" | "danger";
-    tagEffect: "plain" | "dark" | "light";
+    tagType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>;
+    tagEffect: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>;
     remoteShowSuffix: boolean;
     nodeKey: string;
     defaultExpandAll: boolean;

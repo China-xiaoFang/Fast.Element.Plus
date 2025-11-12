@@ -22,7 +22,7 @@ export declare const tableProps: {
      * @description size of Table
      */
     size: {
-        readonly type: PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -333,7 +333,7 @@ export declare const faTableProps: {
      * @description size of Table
      */
     size: {
-        readonly type: PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -727,7 +727,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description size of Table
      */
     size: {
-        readonly type: PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -1141,7 +1141,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description size of Table
      */
     size: {
-        readonly type: PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -1345,8 +1345,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     fit: boolean;
     data: any[];
     style: CSSProperties;
-    className: string;
     lazy: boolean;
+    className: string;
     columns: FaTableColumnCtx[];
     scrollbarAlwaysOn: boolean;
     defaultExpandAll: boolean;

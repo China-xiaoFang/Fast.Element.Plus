@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from "vue";
+import { ExtractPropTypes } from "vue";
 import { TSXWithInstall } from "@fast-china/utils";
 import { default as Avatar, faAvatarEmits, faAvatarProps } from "./src/avatar";
 

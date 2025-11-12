@@ -1,7 +1,7 @@
-import type { ExtractPropTypes } from "vue";
 import { withInstall } from "@fast-china/utils";
-import type { faAvatarEmits, faAvatarProps } from "./src/avatar";
 import Avatar from "./src/avatar";
+import type { faAvatarEmits, faAvatarProps } from "./src/avatar";
+import type { ExtractPropTypes } from "vue";
 
 export const FaAvatar = withInstall(Avatar);
 export default FaAvatar;
