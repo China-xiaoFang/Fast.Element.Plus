@@ -1,7 +1,7 @@
-import type { ExtractPropTypes } from "vue";
 import { TSXWithInstall } from "@fast-china/utils";
 import { default as Button } from "./src/button";
 import type { faButtonEmits, faButtonProps } from "./src/button";
+import type { ExtractPropTypes } from "vue";
 
 export declare const FaButton: TSXWithInstall<typeof Button>;
 export default Button;

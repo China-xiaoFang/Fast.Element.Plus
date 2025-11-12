@@ -93,7 +93,7 @@ const newPackageJson = {
 	unpkg: "dist/index.iife.min.js",
 	jsdelivr: "dist/index.iife.min.js",
 	publishConfig: packageJson.publishConfig,
-	peerDependencies: {},
+	peerDependencies: {} as Record<string, string>,
 	dependencies: packageJson.dependencies,
 	devDependencies: {},
 	browserslist: packageJson.browserslist,
@@ -105,7 +105,7 @@ Object.keys(packageJson.devDependencies ?? {}).forEach((needKey) => {
 	}
 });
 
-newPackageJson.devDependencies = Object.keys(packageJson.devDependencies ?? {}).reduce((acc, key) => {
+newPackageJson.devDependencies = Object.keys(packageJson.devDependencies ?? {}).reduce<Record<string, string>>((acc, key) => {
 	if (!key.startsWith("@fast-element-plus/") || key === "@fast-element-plus/icons-vue") {
 		acc[key] = packageJson.devDependencies[key];
 	}

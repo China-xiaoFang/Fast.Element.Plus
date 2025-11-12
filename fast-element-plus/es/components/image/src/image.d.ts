@@ -27,107 +27,37 @@ export declare const faImageProps: {
         type: BooleanConstructor;
         default: boolean;
     };
-    src: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    fit: {
-        readonly type: import('vue').PropType<"" | "fill" | "cover" | "contain" | "none" | "scale-down">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
+    src: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    fit: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "fill" | "contain" | "none" | "cover" | "scale-down", unknown, "", boolean>;
     loading: {
-        readonly type: import('vue').PropType<"lazy" | "eager">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "lazy" | "eager", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     scrollContainer: {
-        readonly type: import('vue').PropType<string | HTMLElement>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement | undefined) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement | undefined))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    previewSrcList: {
-        readonly type: import('vue').PropType<string[]>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: () => [];
-    };
+    previewSrcList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string[]) | (() => string[]) | ((new (...args: any[]) => string[]) | (() => string[]))[], unknown, unknown, () => [], boolean>;
     zIndex: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    initialIndex: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
-    infinite: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    closeOnPressEscape: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    zoomRate: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 1.2;
-    };
-    scale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 1;
-    };
-    minScale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0.2;
-    };
-    maxScale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 7;
-    };
+    initialIndex: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
+    infinite: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    zoomRate: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 1.2, boolean>;
+    scale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 1, boolean>;
+    minScale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0.2, boolean>;
+    maxScale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 7, boolean>;
     showProgress: BooleanConstructor;
     crossorigin: {
-        readonly type: import('vue').PropType<"" | "anonymous" | "use-credentials">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -172,107 +102,37 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    src: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    fit: {
-        readonly type: import('vue').PropType<"" | "fill" | "cover" | "contain" | "none" | "scale-down">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
+    src: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    fit: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "fill" | "contain" | "none" | "cover" | "scale-down", unknown, "", boolean>;
     loading: {
-        readonly type: import('vue').PropType<"lazy" | "eager">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "lazy" | "eager", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     scrollContainer: {
-        readonly type: import('vue').PropType<string | HTMLElement>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement | undefined) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement | undefined))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    previewSrcList: {
-        readonly type: import('vue').PropType<string[]>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: () => [];
-    };
+    previewSrcList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string[]) | (() => string[]) | ((new (...args: any[]) => string[]) | (() => string[]))[], unknown, unknown, () => [], boolean>;
     zIndex: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    initialIndex: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
-    infinite: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    closeOnPressEscape: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    zoomRate: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 1.2;
-    };
-    scale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 1;
-    };
-    minScale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0.2;
-    };
-    maxScale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 7;
-    };
+    initialIndex: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
+    infinite: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    zoomRate: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 1.2, boolean>;
+    scale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 1, boolean>;
+    minScale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0.2, boolean>;
+    maxScale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 7, boolean>;
     showProgress: BooleanConstructor;
     crossorigin: {
-        readonly type: import('vue').PropType<"" | "anonymous" | "use-credentials">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -306,107 +166,37 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    src: {
-        readonly type: import('vue').PropType<string>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    fit: {
-        readonly type: import('vue').PropType<"" | "fill" | "cover" | "contain" | "none" | "scale-down">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
+    src: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
+    fit: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "fill" | "contain" | "none" | "cover" | "scale-down", unknown, "", boolean>;
     loading: {
-        readonly type: import('vue').PropType<"lazy" | "eager">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "lazy" | "eager", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     scrollContainer: {
-        readonly type: import('vue').PropType<string | HTMLElement>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement | undefined) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement | undefined))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    previewSrcList: {
-        readonly type: import('vue').PropType<string[]>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: () => [];
-    };
+    previewSrcList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string[]) | (() => string[]) | ((new (...args: any[]) => string[]) | (() => string[]))[], unknown, unknown, () => [], boolean>;
     zIndex: {
         readonly type: import('vue').PropType<number>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    initialIndex: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0;
-    };
-    infinite: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    closeOnPressEscape: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
-    zoomRate: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 1.2;
-    };
-    scale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 1;
-    };
-    minScale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 0.2;
-    };
-    maxScale: {
-        readonly type: import('vue').PropType<number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: 7;
-    };
+    initialIndex: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
+    infinite: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
+    zoomRate: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 1.2, boolean>;
+    scale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 1, boolean>;
+    minScale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 0.2, boolean>;
+    maxScale: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 7, boolean>;
     showProgress: BooleanConstructor;
     crossorigin: {
-        readonly type: import('vue').PropType<"" | "anonymous" | "use-credentials">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -417,15 +207,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     normal: boolean;
     thumb: boolean;
     src: string;
-    fit: "" | "fill" | "cover" | "contain" | "none" | "scale-down";
-    closeOnPressEscape: boolean;
+    fit: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "fill" | "cover" | "contain" | "none" | "scale-down", unknown>;
+    lazy: boolean;
+    closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     hideOnClickModal: boolean;
     previewTeleported: boolean;
-    lazy: boolean;
     preview: boolean;
     previewSrcList: string[];
     initialIndex: number;
-    infinite: boolean;
+    infinite: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     zoomRate: number;
     scale: number;
     minScale: number;

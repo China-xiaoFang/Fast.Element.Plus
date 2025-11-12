@@ -48,7 +48,7 @@ const ContextMenu = /* @__PURE__ */ defineComponent({
       useEventListener(document, "click", close);
     });
     useRender(() => createVNode(Transition, {
-      "name": "el-zoom-in-center"
+      "name": "el-zoom-in-top"
     }, {
       default: () => [withDirectives(createVNode("div", {
         "class": ["fa-context-menu", `fa-context-menu-${_globalSize.value}`, "el-popper el-dropdown__popper"],

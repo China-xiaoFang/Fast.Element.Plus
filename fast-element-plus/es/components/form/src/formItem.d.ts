@@ -18,68 +18,33 @@ export declare const faFormItemProps: {
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
     label: StringConstructor;
-    labelWidth: {
-        readonly type: import('vue').PropType<string | number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    labelPosition: {
-        readonly type: import('vue').PropType<"" | "top" | "left" | "right">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
+    labelWidth: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
     prop: {
-        readonly type: import('vue').PropType<import('element-plus').FormItemProp>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    required: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    required: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     rules: {
-        readonly type: import('vue').PropType<unknown>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | ((new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     error: StringConstructor;
     validateStatus: {
-        readonly type: import('vue').PropType<"" | "error" | "success" | "validating">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "error" | "success" | "validating", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     for: StringConstructor;
-    inlineMessage: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
-    showMessage: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    inlineMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
+    showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -117,68 +82,33 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
     label: StringConstructor;
-    labelWidth: {
-        readonly type: import('vue').PropType<string | number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    labelPosition: {
-        readonly type: import('vue').PropType<"" | "top" | "left" | "right">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
+    labelWidth: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
     prop: {
-        readonly type: import('vue').PropType<import('element-plus').FormItemProp>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    required: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    required: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     rules: {
-        readonly type: import('vue').PropType<unknown>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | ((new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     error: StringConstructor;
     validateStatus: {
-        readonly type: import('vue').PropType<"" | "error" | "success" | "validating">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "error" | "success" | "validating", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     for: StringConstructor;
-    inlineMessage: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
-    showMessage: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    inlineMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
+    showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -216,79 +146,44 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
     label: StringConstructor;
-    labelWidth: {
-        readonly type: import('vue').PropType<string | number>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
-    labelPosition: {
-        readonly type: import('vue').PropType<"" | "top" | "left" | "right">;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: "";
-    };
+    labelWidth: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
     prop: {
-        readonly type: import('vue').PropType<import('element-plus').FormItemProp>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    required: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
+    required: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     rules: {
-        readonly type: import('vue').PropType<unknown>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | ((new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     error: StringConstructor;
     validateStatus: {
-        readonly type: import('vue').PropType<"" | "error" | "success" | "validating">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "error" | "success" | "validating", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     for: StringConstructor;
-    inlineMessage: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: undefined;
-    };
-    showMessage: {
-        readonly type: import('vue').PropType<boolean>;
-        readonly required: false;
-        readonly validator: ((val: unknown) => boolean) | undefined;
-        __epPropKey: true;
-    } & {
-        readonly default: true;
-    };
+    inlineMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
+    showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<"" | "small" | "default" | "large">;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
 }>> & Readonly<{}>, {
-    required: boolean;
+    required: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     offset: string | number;
-    labelPosition: "" | "top" | "left" | "right";
-    labelWidth: string | number;
-    inlineMessage: boolean;
-    showMessage: boolean;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "top" | "left" | "right", unknown>;
+    labelWidth: import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>;
+    inlineMessage: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
+    showMessage: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     grid: boolean;
     row: boolean;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaFormItemSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;

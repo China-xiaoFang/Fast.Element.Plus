@@ -50,7 +50,7 @@ export default defineComponent({
 		});
 
 		useRender(() => (
-			<Transition name="el-zoom-in-center">
+			<Transition name="el-zoom-in-top">
 				<div
 					class={["fa-context-menu", `fa-context-menu-${_globalSize.value}`, "el-popper el-dropdown__popper"]}
 					style={{ top: `${state.axis.y + 5}px`, left: `${state.axis.x + 14}px` }}

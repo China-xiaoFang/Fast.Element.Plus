@@ -633,7 +633,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     showOverflowTooltip: any;
     reserveSelection: boolean;
     filterMultiple: boolean;
-    sortOrders: ("ascending" | "descending")[];
+    sortOrders: import('element-plus/es/components/table/src/table/defaults.mjs').TableSortOrder[];
     autoWidth: boolean;
     dateFix: boolean;
     submitInfoField: {

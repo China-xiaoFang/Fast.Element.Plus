@@ -1,11 +1,11 @@
-import type { Component, VNode } from "vue";
 import { computed, defineComponent, reactive, ref, watch, withModifiers } from "vue";
+import { ElButton, buttonEmits, buttonProps } from "element-plus";
 import { Eleme } from "@element-plus/icons-vue";
 import { useOverlay } from "@fast-element-plus/hooks";
-import { definePropType, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
-import type { ButtonInstance } from "element-plus";
-import { ElButton, buttonEmits, buttonProps } from "element-plus";
+import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
 import { isFunction } from "lodash-unified";
+import type { ButtonInstance } from "element-plus";
+import type { Component, VNode } from "vue";
 
 export const faButtonProps = {
 	...buttonProps,
@@ -27,8 +27,8 @@ export const faButtonEmits = {
 	 * @description 点击事件
 	 * @param done 需要手动隐藏Loading
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/explicit-function-return-type
-	click: (event: MouseEvent, done: () => void = () => {}) => event instanceof MouseEvent && isFunction(done),
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	click: (event: MouseEvent, done: () => void = () => {}): boolean => event instanceof MouseEvent && isFunction(done),
 };
 
 type FaButtonSlots = {
@@ -61,6 +61,18 @@ export default defineComponent({
 		const hideLoading = (): void => {
 			state.loading = false;
 			useOverlay.hide();
+		};
+
+		const handleLoading = (loadingFunction: () => void | Promise<void>): void => {
+			state.loading = true;
+			execFunction(loadingFunction)
+				.then()
+				.catch((error) => {
+					consoleError("FaButton", error);
+				})
+				.finally(() => {
+					state.loading = false;
+				});
 		};
 
 		const handleClick = (event: MouseEvent): void => {
@@ -123,6 +135,8 @@ export default defineComponent({
 			shouldAddSpace: computed(() => buttonRef.value?.shouldAddSpace),
 			/** @description 加载状态 */
 			loading: computed(() => state.loading),
+			/** @description 按钮加载 */
+			doLoading: handleLoading,
 		});
 	},
 });

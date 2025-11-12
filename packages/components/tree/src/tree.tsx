@@ -355,7 +355,7 @@ export default defineComponent({
 									style={{ paddingLeft: fold.value ? "3px" : "" }}
 								>
 									<span>{slots.label ? slots.label({ node, data }) : data?.all ? data.label : node.label}</span>
-									{node.key && data.showNum ? <span>[{data.quantity}]</span> : null}
+									{node.key && data.showQuantity ? <span>[{data.quantity}]</span> : null}
 									{slots.default && <span>{slots.default({ node, data })}</span>}
 								</span>
 							),

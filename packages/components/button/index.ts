@@ -1,6 +1,6 @@
-import type { ExtractPropTypes } from "vue";
 import { withInstall } from "@fast-china/utils";
 import Button, { faButtonEmits, faButtonProps } from "./src/button";
+import type { ExtractPropTypes } from "vue";
 
 export const FaButton = withInstall(Button);
 export default Button;

@@ -37,7 +37,7 @@ export const useUpload = <T extends string | string[]>(
 	const maxSizeMB = maxSizeKB.div(mbNum);
 
 	onMounted(() => {
-		if (!data.uploadApi && !data.uploadUrl) {
+		if (props.autoUpload && !data.uploadApi && !data.uploadUrl) {
 			consoleWarn(componentName, "['uploadApi', 'uploadUrl'] 属性必须二选一。");
 		}
 	});

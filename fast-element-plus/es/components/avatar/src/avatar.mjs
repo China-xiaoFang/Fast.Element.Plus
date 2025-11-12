@@ -1,13 +1,12 @@
 import { defineComponent, reactive, computed, createVNode, mergeProps } from "vue";
+import { avatarProps, avatarEmits, ElAvatar } from "element-plus";
 import { Picture } from "@element-plus/icons-vue";
 import { definePropType, useProps, useRender, useExpose, makeSlots } from "@fast-china/utils";
-import { avatarProps, avatarEmits, ElAvatar } from "element-plus";
 const faAvatarProps = {
   ...avatarProps,
   /** @description representation type to icon, more info on icon component. */
   icon: {
     type: definePropType([String, Object, Function]),
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     default: () => Picture
   },
   /**
