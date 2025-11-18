@@ -1,27 +1,2 @@
-import * as FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
-import FastElementPlusComponents from "./component.mjs";
-import FastElementPlusDirectives from "./directive.mjs";
-import { installElementPlus } from "./element-plus.mjs";
-import { version } from "./version.mjs";
-const INSTALLED_KEY = Symbol("INSTALLED_KEY");
-const makeInstaller = () => {
-  const install = (app) => {
-    if (app[INSTALLED_KEY]) return;
-    app[INSTALLED_KEY] = true;
-    installElementPlus(app);
-    for (const [key, component] of Object.entries(FastElementPlusIconsVue)) {
-      app.component(`fa-icon-${key}`, component);
-    }
-    FastElementPlusComponents.forEach((c) => app.use(c));
-    FastElementPlusDirectives.forEach((d) => app.use(d));
-  };
-  return {
-    version,
-    install
-  };
-};
-export {
-  INSTALLED_KEY,
-  makeInstaller
-};
+import*as o from"@fast-element-plus/icons-vue";import e from"./component.mjs";import m from"./directive.mjs";import{installElementPlus as r}from"./element-plus.mjs";import{version as s}from"./version.mjs";const t=Symbol("INSTALLED_KEY"),i=()=>({version:s,install:s=>{if(!s[t]){s[t]=!0,r(s);for(const[e,m]of Object.entries(o))s.component(`fa-icon-${e}`,m);e.forEach(o=>s.use(o)),m.forEach(o=>s.use(o))}}});export{t as INSTALLED_KEY,i as makeInstaller};
 //# sourceMappingURL=make-installer.mjs.map

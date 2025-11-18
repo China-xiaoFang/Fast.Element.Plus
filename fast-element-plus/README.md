@@ -1,4 +1,4 @@
-[中](https://gitee.com/China-xiaoFang/fast.element.plus) | **En**
+[中](https://gitee.com/FastDotnet/Fast.Element.Plus) | **En**
 
 <h1 align="center">Fast.Element.Plus</h1>
 
@@ -10,7 +10,7 @@
   <a href="https://www.npmjs.com/package/fast-element-plus">
     <img src="https://img.shields.io/npm/v/fast-element-plus?color=orange&label=" alt="version" />
   </a>
-  <a href="https://gitee.com/China-xiaoFang/fast.element.plus/blob/master/LICENSE">
+  <a href="https://gitee.com/FastDotnet/Fast.Element.Plus/blob/master/LICENSE">
     <img src="https://img.shields.io/npm/l/fast-element-plus" alt="license" />
   </a>
 </p>
@@ -115,11 +115,11 @@ If you use Volar, specify the global component type via `compilerOptions.type` i
 
 ## Update log
 
-Update log [Click to view](https://gitee.com/China-xiaoFang/fast.element.plus/commits/master)
+Update log [Click to view](https://gitee.com/FastDotnet/Fast.Element.Plus/commits/master)
 
 ## Protocol
 
-[Fast.Element.Plus](https://gitee.com/China-xiaoFang/fast.element.plus) complies with the [Apache-2.0](https://gitee.com/China-xiaoFang/fast.element.plus/blob/master/LICENSE) open source agreement. Welcome to submit `PR` or `Issue`.
+[Fast.Element.Plus](https://gitee.com/FastDotnet/Fast.Element.Plus) complies with the [Apache-2.0](https://gitee.com/FastDotnet/Fast.Element.Plus/blob/master/LICENSE) open source agreement. Welcome to submit `PR` or `Issue`.
 
 ```
 Apache Open Source License

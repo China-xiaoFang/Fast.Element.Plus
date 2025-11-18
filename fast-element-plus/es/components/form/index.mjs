@@ -1,19 +1,2 @@
-import { withInstall, withNoopInstall } from "@fast-china/utils";
-import Form from "./src/form.mjs";
-import { faFormProps } from "./src/form.mjs";
-import FormItem from "./src/formItem.mjs";
-import { faFormItemProps } from "./src/formItem.mjs";
-import { formUtil } from "./utils/form.mjs";
-const FaForm = withInstall(Form, {
-  FormItem
-});
-const FaFormItem = withNoopInstall(FormItem);
-export {
-  FaForm,
-  FaFormItem,
-  FaForm as default,
-  faFormItemProps,
-  faFormProps,
-  formUtil
-};
+import{withInstall as m,withNoopInstall as r}from"@fast-china/utils";import o from"./src/form.mjs";import{faFormProps as t}from"./src/form.mjs";import s from"./src/formItem.mjs";import{faFormItemProps as f}from"./src/formItem.mjs";import{formUtil as i}from"./utils/form.mjs";const p=m(o,{FormItem:s}),c=r(s);export{p as FaForm,c as FaFormItem,p as default,f as faFormItemProps,t as faFormProps,i as formUtil};
 //# sourceMappingURL=index.mjs.map

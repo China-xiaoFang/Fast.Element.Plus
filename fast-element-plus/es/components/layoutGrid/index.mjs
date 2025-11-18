@@ -1,14 +1,2 @@
-import { withInstall, withNoopInstall } from "@fast-china/utils";
-import LayoutGrid from "./src/layoutGrid.mjs";
-import LayoutGridItem from "./src/layoutGridItem.mjs";
-import "./src/layoutGrid.type.mjs";
-const FaLayoutGrid = withInstall(LayoutGrid, {
-  LayoutGridItem
-});
-const FaLayoutGridItem = withNoopInstall(LayoutGridItem);
-export {
-  FaLayoutGrid,
-  FaLayoutGridItem,
-  FaLayoutGrid as default
-};
+import{withInstall as t,withNoopInstall as r}from"@fast-china/utils";import o from"./src/layoutGrid.mjs";import m from"./src/layoutGridItem.mjs";import"./src/layoutGrid.type.mjs";const i=t(o,{LayoutGridItem:m}),s=r(m);export{i as FaLayoutGrid,s as FaLayoutGridItem,i as default};
 //# sourceMappingURL=index.mjs.map

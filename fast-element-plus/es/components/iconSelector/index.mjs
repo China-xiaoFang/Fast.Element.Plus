@@ -1,8 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import IconSelector from "./src/iconSelector.mjs";
-const FaIconSelector = withInstall(IconSelector);
-export {
-  FaIconSelector,
-  FaIconSelector as default
-};
+import{withInstall as o}from"@fast-china/utils";import t from"./src/iconSelector.mjs";const r=o(t);export{r as FaIconSelector,r as default};
 //# sourceMappingURL=index.mjs.map

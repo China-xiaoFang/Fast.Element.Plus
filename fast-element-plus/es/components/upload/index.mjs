@@ -1,11 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import Upload from "./src/upload.mjs";
-import { faUploadEmits, faUploadProps } from "./src/upload.mjs";
-const FaUpload = withInstall(Upload);
-export {
-  FaUpload,
-  FaUpload as default,
-  faUploadEmits,
-  faUploadProps
-};
+import{withInstall as o}from"@fast-china/utils";import r from"./src/upload.mjs";import{faUploadEmits as m,faUploadProps as s}from"./src/upload.mjs";const t=o(r);export{t as FaUpload,t as default,m as faUploadEmits,s as faUploadProps};
 //# sourceMappingURL=index.mjs.map

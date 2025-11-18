@@ -118,6 +118,9 @@ export declare const faDrawerEmits: {
     "update:modelValue": (value: boolean) => boolean;
     /** @description 确认按钮点击事件 */
     confirmClick: () => boolean;
+    'resize-start': (evt: MouseEvent, size: number) => boolean;
+    resize: (evt: MouseEvent, size: number) => boolean;
+    'resize-end': (evt: MouseEvent, size: number) => boolean;
     open: () => boolean;
     opened: () => boolean;
     close: () => boolean;
@@ -279,6 +282,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     "update:modelValue": (value: boolean) => boolean;
     /** @description 确认按钮点击事件 */
     confirmClick: () => boolean;
+    'resize-start': (evt: MouseEvent, size: number) => boolean;
+    resize: (evt: MouseEvent, size: number) => boolean;
+    'resize-end': (evt: MouseEvent, size: number) => boolean;
     open: () => boolean;
     opened: () => boolean;
     close: () => boolean;
@@ -401,6 +407,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     ariaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
 }>> & Readonly<{
     "onUpdate:modelValue"?: (value: boolean) => any;
+    onResize?: (evt: MouseEvent, size: number) => any;
     onOpen?: () => any;
     onClose?: () => any;
     onConfirmClick?: () => any;
@@ -408,6 +415,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     onClosed?: () => any;
     onOpenAutoFocus?: () => any;
     onCloseAutoFocus?: () => any;
+    "onResize-start"?: (evt: MouseEvent, size: number) => any;
+    "onResize-end"?: (evt: MouseEvent, size: number) => any;
 }>, {
     size: import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>;
     title: string;

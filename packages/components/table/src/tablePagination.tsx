@@ -1,5 +1,5 @@
 import { defineComponent, inject } from "vue";
-import { ElMessageBox, ElPagination } from "element-plus";
+import { ElNotification, ElPagination } from "element-plus";
 import { definePropType, useRender } from "@fast-china/utils";
 import { isNull, isNumber } from "lodash-unified";
 import { tableStateKey } from "./useTable";
@@ -24,15 +24,14 @@ export default defineComponent({
 
 		const handleSizeChange = (pageSize: number): void => {
 			if (pageSize > 100) {
-				ElMessageBox.confirm("当前页码已经超过100条/页，可能会造成页面卡顿，是否继续？", {
-					confirmButtonText: "继续",
+				ElNotification({
+					title: "欢迎",
+					message: "当前页码已经超过100条/页，可能会造成页面卡顿。",
 					type: "warning",
-				}).then(() => {
-					emit("sizeChange", pageSize);
+					duration: 1000,
 				});
-			} else {
-				emit("sizeChange", pageSize);
 			}
+			emit("sizeChange", pageSize);
 		};
 
 		useRender(() => (

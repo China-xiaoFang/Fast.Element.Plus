@@ -1,10 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import Image from "./src/image.mjs";
-import { faImageProps } from "./src/image.mjs";
-const FaImage = withInstall(Image);
-export {
-  FaImage,
-  FaImage as default,
-  faImageProps
-};
+import{withInstall as m}from"@fast-china/utils";import r from"./src/image.mjs";import{faImageProps as o}from"./src/image.mjs";const s=m(r);export{s as FaImage,s as default,o as faImageProps};
 //# sourceMappingURL=index.mjs.map

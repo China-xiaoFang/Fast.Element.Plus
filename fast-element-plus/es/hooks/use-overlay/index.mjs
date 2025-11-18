@@ -1,26 +1,2 @@
-import { nextTick } from "vue";
-const useOverlay = {
-  show: (transparent = 0) => {
-    if (!window.overlay) {
-      const bodyEl = document.body;
-      const div = document.createElement("div");
-      div.className = "__fa-overlay";
-      div.style.backgroundColor = `rgba(0, 0, 0, ${transparent})`;
-      bodyEl.insertBefore(div, bodyEl.childNodes[0]);
-      window.overlay = true;
-    }
-  },
-  hide: () => {
-    if (window.overlay) {
-      nextTick(() => {
-        const loadingEl = document.querySelector(".__fa-overlay");
-        loadingEl && loadingEl.parentNode?.removeChild(loadingEl);
-        window.overlay = false;
-      });
-    }
-  }
-};
-export {
-  useOverlay
-};
+import{nextTick as e}from"vue";const o={show:(e=0)=>{if(!window.overlay){const o=document.body,r=document.createElement("div");r.className="__fa-overlay",r.style.backgroundColor=`rgba(0, 0, 0, ${e})`,o.insertBefore(r,o.childNodes[0]),window.overlay=!0}},hide:()=>{window.overlay&&e(()=>{const e=document.querySelector(".__fa-overlay");e&&e.parentNode?.removeChild(e),window.overlay=!1})}};export{o as useOverlay};
 //# sourceMappingURL=index.mjs.map

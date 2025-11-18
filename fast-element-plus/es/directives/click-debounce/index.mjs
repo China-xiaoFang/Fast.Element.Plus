@@ -1,20 +1,2 @@
-import { withInstallDirective } from "@fast-china/utils";
-const DebounceDirective = {
-  created(el, binding, vNode) {
-    el.__debounce_originClick__ = vNode.props.onClick;
-    vNode.props.onClick = () => {
-      if (el.__debounce_timer__) {
-        clearInterval(el.__debounce_timer__);
-      }
-      el.__debounce_timer__ = setTimeout(() => {
-        el.__debounce_originClick__();
-      }, 500);
-    };
-  }
-};
-const vDebounce = withInstallDirective(DebounceDirective, "debounce");
-export {
-  vDebounce as default,
-  vDebounce
-};
+import{withInstallDirective as _}from"@fast-china/utils";const e=_({created(_,e,o){_.__debounce_originClick__=o.props.onClick,o.props.onClick=()=>{_.__debounce_timer__&&clearInterval(_.__debounce_timer__),_.__debounce_timer__=setTimeout(()=>{_.__debounce_originClick__()},500)}}},"debounce");export{e as default,e as vDebounce};
 //# sourceMappingURL=index.mjs.map

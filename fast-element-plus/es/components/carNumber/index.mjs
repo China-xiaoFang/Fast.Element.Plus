@@ -1,12 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import CarNumber from "./src/carNumber.mjs";
-import { CarNumberArea, CarNumberDigit, CarNumberLetter } from "./src/common.mjs";
-const FaCarNumber = withInstall(CarNumber);
-export {
-  CarNumberArea,
-  CarNumberDigit,
-  CarNumberLetter,
-  FaCarNumber,
-  CarNumber as default
-};
+import{withInstall as m}from"@fast-china/utils";import r from"./src/carNumber.mjs";import{CarNumberArea as o,CarNumberDigit as s,CarNumberLetter as t}from"./src/common.mjs";const c=m(r);export{o as CarNumberArea,s as CarNumberDigit,t as CarNumberLetter,c as FaCarNumber,r as default};
 //# sourceMappingURL=index.mjs.map

@@ -1,11 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import SelectV2 from "./src/selectV2.mjs";
-import { SelectV2Props, faSelectV2Props } from "./src/selectV2.mjs";
-const FaSelectV2 = withInstall(SelectV2);
-export {
-  FaSelectV2,
-  SelectV2Props,
-  FaSelectV2 as default,
-  faSelectV2Props
-};
+import{withInstall as s}from"@fast-china/utils";import t from"./src/selectV2.mjs";import{SelectV2Props as r,faSelectV2Props as m}from"./src/selectV2.mjs";const o=s(t);export{o as FaSelectV2,r as SelectV2Props,o as default,m as faSelectV2Props};
 //# sourceMappingURL=index.mjs.map

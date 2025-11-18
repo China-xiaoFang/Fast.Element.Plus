@@ -1,12 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import Tree from "./src/tree.mjs";
-import { faTreeEmits, faTreeProps } from "./src/tree.mjs";
-import "./src/tree.type.mjs";
-const FaTree = withInstall(Tree);
-export {
-  FaTree,
-  FaTree as default,
-  faTreeEmits,
-  faTreeProps
-};
+import{withInstall as r}from"@fast-china/utils";import t from"./src/tree.mjs";import{faTreeEmits as m,faTreeProps as s}from"./src/tree.mjs";import"./src/tree.type.mjs";const e=r(t);export{e as FaTree,e as default,m as faTreeEmits,s as faTreeProps};
 //# sourceMappingURL=index.mjs.map
