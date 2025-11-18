@@ -1,7 +1,2 @@
-import { FaMimeType } from "./mime.mjs";
-import { RegExps } from "./regex.mjs";
-export {
-  FaMimeType,
-  RegExps
-};
+import{FaMimeType as m}from"./mime.mjs";import{RegExps as r}from"./regex.mjs";export{m as FaMimeType,r as RegExps};
 //# sourceMappingURL=index.mjs.map

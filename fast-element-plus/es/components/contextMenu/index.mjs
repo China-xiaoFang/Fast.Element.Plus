@@ -1,9 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import ContextMenu from "./src/contextMenu.mjs";
-import "./src/contextMenu.type.mjs";
-const FaContextMenu = withInstall(ContextMenu);
-export {
-  FaContextMenu,
-  FaContextMenu as default
-};
+import{withInstall as t}from"@fast-china/utils";import o from"./src/contextMenu.mjs";import"./src/contextMenu.type.mjs";const r=t(o);export{r as FaContextMenu,r as default};
 //# sourceMappingURL=index.mjs.map

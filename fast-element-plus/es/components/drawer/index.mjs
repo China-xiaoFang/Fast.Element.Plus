@@ -1,8 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import Drawer from "./src/drawer.mjs";
-const FaDrawer = withInstall(Drawer);
-export {
-  FaDrawer,
-  FaDrawer as default
-};
+import{withInstall as r}from"@fast-china/utils";import t from"./src/drawer.mjs";const o=r(t);export{o as FaDrawer,o as default};
 //# sourceMappingURL=index.mjs.map

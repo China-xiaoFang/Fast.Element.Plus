@@ -1120,7 +1120,7 @@ export default defineComponent({
 						) : (
 							<Fragment>
 								{props.pagination ? (
-									<FaTablePagination sizeChange={handleSizeChange} currentChange={handlePaginationChange} />
+									<FaTablePagination onSizeChange={handleSizeChange} onCurrentChange={handlePaginationChange} />
 								) : (
 									<ElPagination class="fa-table-pagination" size="small" layout="total" total={state.tableData.length} />
 								)}

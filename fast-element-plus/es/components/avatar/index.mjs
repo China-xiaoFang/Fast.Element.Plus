@@ -1,8 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import Avatar from "./src/avatar.mjs";
-const FaAvatar = withInstall(Avatar);
-export {
-  FaAvatar,
-  FaAvatar as default
-};
+import{withInstall as t}from"@fast-china/utils";import a from"./src/avatar.mjs";const r=t(a);export{r as FaAvatar,r as default};
 //# sourceMappingURL=index.mjs.map

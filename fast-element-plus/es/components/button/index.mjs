@@ -1,11 +1,2 @@
-import { withInstall } from "@fast-china/utils";
-import Button from "./src/button.mjs";
-import { faButtonEmits, faButtonProps } from "./src/button.mjs";
-const FaButton = withInstall(Button);
-export {
-  FaButton,
-  Button as default,
-  faButtonEmits,
-  faButtonProps
-};
+import{withInstall as t}from"@fast-china/utils";import o from"./src/button.mjs";import{faButtonEmits as r,faButtonProps as m}from"./src/button.mjs";const s=t(o);export{s as FaButton,o as default,r as faButtonEmits,m as faButtonProps};
 //# sourceMappingURL=index.mjs.map
