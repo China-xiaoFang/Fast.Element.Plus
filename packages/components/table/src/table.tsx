@@ -3,6 +3,7 @@ import {
 	ElButton,
 	ElDatePicker,
 	ElDropdown,
+	ElDropdownItem,
 	ElDropdownMenu,
 	ElIcon,
 	ElImageViewer,
@@ -22,7 +23,7 @@ import FaTableColumnsSettingDialog from "./tableColumnSettingDialog";
 import FaTablePagination from "./tablePagination";
 import FaTableSearchForm from "./tableSearchForm";
 import { useTable } from "./useTable";
-import type { FaTableChangeColumnsCtx, FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from "./table.type";
+import type { FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from "./table.type";
 import type { PagedInput, PagedResult, PagedSortInput } from "../src/page.type";
 import type { FaLayoutGridBreakPoint } from "@fast-element-plus/components/layoutGrid";
 import type { TableColumnCtx, TableProps } from "element-plus";
@@ -284,12 +285,22 @@ export const faTableProps = {
 	},
 	/** @description 表格列改变 */
 	columnsChange: {
-		type: definePropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>(Function),
+		type: definePropType<(columns: FaTableColumnCtx[]) => Promise<void>>(Function),
 	},
 	/** @description 搜索表单 Grid布局列配置 */
 	searchFormCols: {
 		type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
 		default: (): string | number | Record<FaLayoutGridBreakPoint, number> => ({ xs: 3, sm: 3, md: 4, lg: 5, xl: 6 }),
+	},
+	/** @description 折叠搜素 */
+	collapsedSearch: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 高级搜素抽屉 */
+	advancedSearchDrawer: {
+		type: Boolean,
+		default: false,
 	},
 	/** @description 搜索表单 */
 	searchForm: {
@@ -451,6 +462,8 @@ export type FaTableSlots = {
 	};
 	/** @description 表格页脚插槽 */
 	footer: FaTableDefaultSlotsResult;
+	/** @description 列配置 */
+	columnSetting: never;
 } & {
 	[key: string]: FaTableDefaultSlotsResult & {
 		/** @description slots为表格内容的时候才会返回 */
@@ -821,7 +834,7 @@ export default defineComponent({
 
 		const tableColumnSlotNames = computed(() => state.tableColumns.filter((f) => f.slot).map((m) => m.slot));
 
-		const tableColumnOmitNames = ["multiOrder", "columnID", "order", "sortableField", "disabledSortable", "spanProp", "pureSearch", "search"];
+		const tableColumnOmitNames = ["multiOrder", "columnId", "order", "sortableField", "disabledSortable", "spanProp", "pureSearch", "search"];
 
 		const elTableProps = useProps(props, tableProps, ["data", "spanMethod", "headerCellClassName", "cellClassName"]);
 
@@ -840,8 +853,10 @@ export default defineComponent({
 				}}
 			>
 				<FaTableSearchForm
-					show={props.searchForm && state.searchForm}
 					vSlots={pick(slots, searchFormSlotNames.value)}
+					show={props.searchForm && state.searchForm}
+					collapsedSearch={props.collapsedSearch}
+					advancedSearchDrawer={props.advancedSearchDrawer}
 					cols={props.searchFormCols}
 					search={tableSearch}
 					reset={tableReset}
@@ -896,7 +911,6 @@ export default defineComponent({
 												onChange={() => tableSearch()}
 											/>
 										)}
-										{slots.toolButton && slots.toolButton({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
 										{props.refreshBtn && (
 											<ElButton
 												loading={state.loading}
@@ -918,15 +932,21 @@ export default defineComponent({
 											/>
 										)}
 										{props.columnSettingBtn && !props.columns && (
-											<ElButton
-												loading={state.loading}
-												loadingIcon={Eleme}
-												title="表格列配置"
-												circle
-												icon={Setting}
-												onClick={() => columnSettingRef.value.open()}
-											/>
+											<ElDropdown title="表格列配置" trigger="click">
+												{{
+													default: () => <ElButton loading={state.loading} loadingIcon={Eleme} circle icon={Setting} />,
+													dropdown: () => (
+														<ElDropdownMenu>
+															{slots.columnSetting && slots.columnSetting()}
+															<ElDropdownItem title="表格列配置" divided onClick={() => columnSettingRef.value.open()}>
+																表格列配置
+															</ElDropdownItem>
+														</ElDropdownMenu>
+													),
+												}}
+											</ElDropdown>
 										)}
+										{slots.toolButton && slots.toolButton({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
 										{slots.toolButtonAdv && (
 											<ElDropdown title="高级操作" trigger="click">
 												{{
@@ -1094,6 +1114,7 @@ export default defineComponent({
 															<FaTableColumn
 																vSlots={pick(slots, tableColumnSlotNames.value)}
 																{...omit(col, tableColumnOmitNames)}
+																hideImage={props.hideImage}
 																resizable={true}
 																onImagePreview={handleImagePreview}
 																onCustomCellClick={handleCustomCellClick}

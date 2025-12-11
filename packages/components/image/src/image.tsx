@@ -21,6 +21,8 @@ export const faImageProps = {
 		type: Boolean,
 		default: true,
 	},
+	/** @description Base64图片 */
+	base64: Boolean,
 	/** @description 原图 */
 	original: Boolean,
 	/** @description 标准 */
@@ -53,7 +55,9 @@ export default defineComponent({
 		const state = reactive({
 			src: computed(() => {
 				if (!props.src) return undefined;
-				if (props.original) {
+				if (props.base64) {
+					return `data:image/png;base64,${props.src}`;
+				} else if (props.original) {
 					return props.src;
 				} else if (props.normal) {
 					return `${props.src}@!normal`;
@@ -66,7 +70,7 @@ export default defineComponent({
 					return `${props.src}@!thumb`;
 				}
 			}),
-			previewList: computed(() => (props.preview ? [props.src] : [])),
+			previewList: computed(() => (props.preview ? [props.base64 ? `data:image/png;base64,${props.src}` : props.src] : [])),
 		});
 
 		const bindProps = useProps(props, imageProps, ["src", "previewSrcList"]);

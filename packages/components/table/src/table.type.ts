@@ -181,10 +181,10 @@ export type FaTableColumnCtx<T = any> = Partial<Omit<TableColumnCtx<T>, "order" 
 	 */
 	multiOrder?: "" | "ascending" | "descending";
 	/**
-	 * 列ID
+	 * 列Id
 	 * @description FaTable
 	 */
-	columnID?: number;
+	columnId?: number;
 	/**
 	 * 排序
 	 * @description FaTable
@@ -215,7 +215,7 @@ export type FaTableColumnCtx<T = any> = Partial<Omit<TableColumnCtx<T>, "order" 
 	 * @description FaTable
 	 */
 	search?: FaTableSearchColumnCtx;
-	/** 上面所有属性，全部非 FaTableColumns props，均为计算属性 */
+	/** 上面所有属性，全部非 FaTableColumn props，均为计算属性 */
 	/**
 	 * 对应列的类型
 	 */
@@ -302,64 +302,4 @@ export type FaTableColumnCtx<T = any> = Partial<Omit<TableColumnCtx<T>, "order" 
 	 * 提交信息字段
 	 */
 	submitInfoField?: { submitClerkName?: string; submitTime?: string };
-};
-
-/** @description FaTable 表格列改变上下文 */
-export type FaTableChangeColumnsCtx = {
-	/**
-	 * 列ID
-	 */
-	columnID?: number;
-	/**
-	 * 名称
-	 */
-	label?: string;
-	/**
-	 * 固定(可空)
-	 * left：左侧
-	 * right：右侧
-	 */
-	fixed?: any;
-	/**
-	 * 宽度
-	 */
-	width?: string | number;
-	/**
-	 * 小的宽度
-	 */
-	smallWidth?: string | number;
-	/**
-	 * 顺序
-	 */
-	order?: number;
-	/**
-	 * 是否排序
-	 */
-	sortable?: boolean;
-	/**
-	 * 复制
-	 */
-	copy?: boolean;
-	/**
-	 * 自动宽度
-	 */
-	autoWidth?: boolean;
-	/**
-	 * 是否显示
-	 */
-	show?: boolean;
-	/**
-	 * 搜索项配置
-	 * @description FaTable
-	 */
-	search?: {
-		/**
-		 * 名称
-		 */
-		label?: string;
-		/**
-		 * 顺序
-		 */
-		order?: number;
-	};
 };

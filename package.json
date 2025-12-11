@@ -62,7 +62,7 @@
 		"@fast-element-plus/hooks": "workspace:*",
 		"@fast-element-plus/icons-vue": "^1.0.17",
 		"@rollup/plugin-terser": "^0.4",
-		"@types/node": "^24",
+		"@types/node": "^25",
 		"@vitejs/plugin-vue": "^6",
 		"@vitejs/plugin-vue-jsx": "^5",
 		"@vue/tsconfig": "^0.8",

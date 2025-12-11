@@ -11,9 +11,9 @@ export const faAvatarProps = {
 		type: definePropType<string | Component>([String, Object, Function]),
 		default: (): string | Component => Picture,
 	},
-	/**
-	 * @description 原图
-	 */
+	/** @description Base64图片 */
+	base64: Boolean,
+	/** @description 原图 */
 	original: Boolean,
 	/** @description 标准 */
 	normal: Boolean,
@@ -40,21 +40,21 @@ export default defineComponent({
 	setup(props, { attrs, slots, emit, expose }) {
 		const state = reactive({
 			src: computed(() => {
-				if (props.src) {
-					if (props.original) {
-						return props.src;
-					} else if (props.normal) {
-						return `${props.src}@!normal`;
-					} else if (props.small) {
-						return `${props.src}@!small`;
-					} else if (props.thumb) {
-						return `${props.src}@!thumb`;
-					} else {
-						// 默认使用缩略图
-						return `${props.src}@!thumb`;
-					}
+				if (!props.src) return undefined;
+				if (props.base64) {
+					return `data:image/png;base64,${props.src}`;
+				} else if (props.original) {
+					return props.src;
+				} else if (props.normal) {
+					return `${props.src}@!normal`;
+				} else if (props.small) {
+					return `${props.src}@!small`;
+				} else if (props.thumb) {
+					return `${props.src}@!thumb`;
+				} else {
+					// 默认使用缩略图
+					return `${props.src}@!thumb`;
 				}
-				return undefined;
 			}),
 		});
 
