@@ -240,6 +240,8 @@ export default defineComponent({
 		_children: {
 			type: definePropType<FaTableColumnCtx[]>(Array),
 		},
+		/** @description 隐藏图片 */
+		hideImage: Boolean,
 		/** @description 复制 */
 		copy: Boolean,
 		/** @description 是否为 Link Button */
@@ -601,7 +603,7 @@ export default defineComponent({
 								header: ({ column, $index }: { column: TableColumnCtx<any>; $index: number }) => headerRender({ column, $index }),
 								default: ({ row }: { row: any; column: TableColumnCtx<any>; $index: number }) =>
 									row[props.prop] ? (
-										tableState.hideImage ? (
+										props.hideImage ? (
 											<ElImage
 												class="fa-image"
 												lazy

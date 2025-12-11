@@ -89,7 +89,6 @@ export const useTable = (props: ExtractPropTypes<typeof faTableProps>, slots: Ta
 		searchParam: {},
 		searchValueUpdate: "",
 		searchForm: props.searchForm,
-		hideImage: computed(() => props.hideImage),
 		selected: false,
 		selectedList: [],
 		selectedListIds: computed(() => state.selectedList.map((item) => (isFunction(props.rowKey) ? props.rowKey(item) : item[props.rowKey]))),

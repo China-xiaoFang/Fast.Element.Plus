@@ -4,7 +4,7 @@ import { FaDialog } from "@fast-element-plus/components/dialog";
 import { definePropType, stringUtil, useExpose, useRender } from "@fast-china/utils";
 import Sortable from "sortablejs";
 import { tableStateKey } from "./useTable";
-import type { FaTableChangeColumnsCtx, FaTableColumnCtx } from "./table.type";
+import type { FaTableColumnCtx } from "./table.type";
 import type { FaDialogInstance } from "@fast-element-plus/components/dialog";
 import type { TableColumnCtx } from "element-plus";
 
@@ -13,7 +13,7 @@ export default defineComponent({
 	props: {
 		/** @description 改变 */
 		change: {
-			type: definePropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>(Function),
+			type: definePropType<(columns: FaTableColumnCtx[]) => Promise<void>>(Function),
 		},
 	},
 	setup(props, { expose }) {
@@ -85,30 +85,10 @@ export default defineComponent({
 		};
 
 		const handleChange = async (): Promise<void> => {
-			if (props.change) {
-				if (state.change) {
-					await props.change(
-						tableState.orgColumns.map((m) => ({
-							columnID: m.columnID,
-							label: m.label,
-							fixed: m.fixed,
-							width: m.width,
-							smallWidth: m.smallWidth,
-							order: m.order,
-							sortable: m.sortable,
-							copy: m.copy,
-							autoWidth: m.autoWidth,
-							show: m.show,
-							search: {
-								label: m.search?.label,
-								order: m.search?.order,
-							},
-						}))
-					);
-					ElMessage.success("保存列配置成功");
-				} else {
-					ElMessage.info("列配置未发生变化");
-				}
+			if (state.change && props.change) {
+				await props.change(tableState.orgColumns);
+			} else {
+				ElMessage.info("列配置未发生变化");
 			}
 		};
 

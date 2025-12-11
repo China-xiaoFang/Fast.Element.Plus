@@ -5,7 +5,7 @@ import TableColumnsSettingDialog from "./src/tableColumnSettingDialog";
 import TablePagination from "./src/tablePagination";
 import TableSearchForm from "./src/tableSearchForm";
 import TableSearchFormItem from "./src/tableSearchFormItem";
-import type { faTableEmits, faTableProps } from "./src/table";
+import type { FaTableSlots, faTableEmits, faTableProps } from "./src/table";
 import type { ExtractPropTypes } from "vue";
 
 export const FaTable = withInstall(Table, {
@@ -23,7 +23,7 @@ export * from "./src/page.type";
 export * from "./src/table.state";
 export * from "./src/table.type";
 
-export { tableProps, tableColumnProps, faTableProps, faTableEmits };
+export { tableProps, tableColumnProps, faTableProps, faTableEmits, FaTableSlots };
 
 export type FaTableInstance = InstanceType<typeof Table>;
 

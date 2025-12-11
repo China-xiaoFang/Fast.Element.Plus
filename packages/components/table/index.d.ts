@@ -1,6 +1,6 @@
 import { ExtractPropTypes } from "vue";
 import { TSXWithInstall } from "@fast-china/utils";
-import { default as Table, faTableEmits, faTableProps, tableProps } from "./src/table";
+import { FaTableSlots, default as Table, faTableEmits, faTableProps, tableProps } from "./src/table";
 import { default as TableColumn, tableColumnProps } from "./src/tableColumn";
 import { default as TableColumnsSettingDialog } from "./src/tableColumnSettingDialog";
 import { default as TablePagination } from "./src/tablePagination";
@@ -22,7 +22,7 @@ export * from "./src/page.type";
 export * from "./src/table.state";
 export * from "./src/table.type";
 
-export { tableProps, tableColumnProps, faTableProps, faTableEmits };
+export { tableProps, tableColumnProps, faTableProps, faTableEmits, FaTableSlots };
 
 export declare type FaTableInstance = InstanceType<typeof Table>;
 
