@@ -133,7 +133,7 @@ export declare const faUploadProps: {
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
 };
 export declare const faUploadEmits: {
     /** @description v-model 回调 */
@@ -290,7 +290,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
 }>, {
     /** @description 取消上传请求 */
     abort: import('vue').ComputedRef<(file: import('element-plus/es/components/upload/src/upload.mjs').UploadFile) => void>;
@@ -491,7 +491,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
 }>> & Readonly<{
     "onUpdate:modelValue"?: (value: string | string[]) => any;
     onChange?: (value: string | string[]) => any;
@@ -500,7 +500,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     name: string;
     onError: (error: Error, uploadFile: UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
     data: import('element-plus/es/utils/typescript.mjs').Mutable<{}>;
-    disabled: boolean;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     onChange: (uploadFile: UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
     drag: boolean;
     onProgress: (evt: import('element-plus').UploadProgressEvent, uploadFile: UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;

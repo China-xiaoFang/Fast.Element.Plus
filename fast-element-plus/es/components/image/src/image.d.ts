@@ -14,6 +14,8 @@ export declare const faImageProps: {
         type: BooleanConstructor;
         default: boolean;
     };
+    /** @description Base64图片 */
+    base64: BooleanConstructor;
     /** @description 原图 */
     original: BooleanConstructor;
     /** @description 标准 */
@@ -89,6 +91,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    /** @description Base64图片 */
+    base64: BooleanConstructor;
     /** @description 原图 */
     original: BooleanConstructor;
     /** @description 标准 */
@@ -153,6 +157,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    /** @description Base64图片 */
+    base64: BooleanConstructor;
     /** @description 原图 */
     original: BooleanConstructor;
     /** @description 标准 */
@@ -203,6 +209,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
 }>> & Readonly<{}>, {
     small: boolean;
+    base64: boolean;
     original: boolean;
     normal: boolean;
     thumb: boolean;

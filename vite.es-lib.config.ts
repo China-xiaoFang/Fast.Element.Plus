@@ -2,21 +2,13 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 // 打包优化插件
 import vitePluginDts from "vite-plugin-dts";
-import { globalDependenciesMapping, peerDependencies } from "./vite.build.config";
+import packageJson from "./package.json";
+import { peerDependencies } from "./vite.build.config";
 import type { ConfigEnv, UserConfig } from "vite";
 
 /** 配置项文档：https://cn.vitejs.dev/config */
 const ViteConfig = (_: ConfigEnv): UserConfig => {
-	const dependencies = { ...peerDependencies, ...globalDependenciesMapping };
 	return {
-		// 修复因sass版本过高警告的问题 https://github.com/sass/dart-sass/issues/2352
-		css: {
-			preprocessorOptions: {
-				scss: {
-					api: "modern",
-				},
-			},
-		},
 		build: {
 			/** Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效 */
 			minify: "terser",
@@ -35,7 +27,7 @@ const ViteConfig = (_: ConfigEnv): UserConfig => {
 			/** 静态资源打包处理 */
 			rollupOptions: {
 				// 确保外部化处理那些你不想打包进库的依赖
-				external: Object.keys(dependencies),
+				external: Object.keys({ ...peerDependencies, ...(packageJson?.dependencies ?? {}) }),
 				// 禁用 Tree-shaking
 				treeshake: false,
 				output: [
@@ -52,7 +44,6 @@ const ViteConfig = (_: ConfigEnv): UserConfig => {
 						assetFileNames: "[name].[ext]",
 						chunkFileNames: "[name].js",
 						dir: "./fast-element-plus/lib",
-						globals: dependencies,
 					},
 					{
 						format: "es",
@@ -65,7 +56,6 @@ const ViteConfig = (_: ConfigEnv): UserConfig => {
 						assetFileNames: "[name].[ext]",
 						chunkFileNames: "[name].mjs",
 						dir: "./fast-element-plus/es",
-						globals: dependencies,
 					},
 				],
 			},

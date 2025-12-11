@@ -8,15 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/lodash':
-        specifier: ^4.17
-        version: 4.17.21
-      '@types/lodash-es':
-        specifier: ^4.17
-        version: 4.17.12
-      '@types/sortablejs':
-        specifier: ^1.15
-        version: 1.15.9
       '@vueuse/core':
         specifier: ^14
         version: 14.1.0(vue@3.5.25(typescript@5.9.3))
@@ -66,9 +57,18 @@ importers:
       '@rollup/plugin-terser':
         specifier: ^0.4
         version: 0.4.4(rollup@4.53.3)
+      '@types/lodash':
+        specifier: ^4.17
+        version: 4.17.21
+      '@types/lodash-es':
+        specifier: ^4.17
+        version: 4.17.12
       '@types/node':
-        specifier: ^25
+        specifier: ^25.0.0
         version: 25.0.0
+      '@types/sortablejs':
+        specifier: ^1.15
+        version: 1.15.9
       '@vitejs/plugin-vue':
         specifier: ^6
         version: 6.0.2(vite@7.2.7(@types/node@25.0.0)(sass@1.96.0)(terser@5.44.1))(vue@3.5.25(typescript@5.9.3))
