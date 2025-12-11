@@ -8,14 +8,6 @@ import type { ConfigEnv, UserConfig } from "vite";
 /** 配置项文档：https://cn.vitejs.dev/config */
 const ViteConfig = (_: ConfigEnv): UserConfig => {
 	return {
-		// 修复因sass版本过高警告的问题 https://github.com/sass/dart-sass/issues/2352
-		css: {
-			preprocessorOptions: {
-				scss: {
-					api: "modern",
-				},
-			},
-		},
 		build: {
 			minify: false,
 			// 生成 source maps 文件

@@ -18,7 +18,12 @@ export declare const faFormItemProps: {
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
     label: StringConstructor;
-    labelWidth: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "", boolean>;
+    labelWidth: {
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    };
     labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
     prop: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
@@ -82,7 +87,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
     label: StringConstructor;
-    labelWidth: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "", boolean>;
+    labelWidth: {
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    };
     labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
     prop: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
@@ -146,7 +156,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
     label: StringConstructor;
-    labelWidth: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, "", boolean>;
+    labelWidth: {
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
+        readonly required: false;
+        readonly validator: ((val: unknown) => boolean) | undefined;
+        __epPropKey: true;
+    };
     labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
     prop: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
@@ -181,7 +196,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     required: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     offset: string | number;
     labelPosition: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "top" | "left" | "right", unknown>;
-    labelWidth: import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>;
     inlineMessage: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     showMessage: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     grid: boolean;

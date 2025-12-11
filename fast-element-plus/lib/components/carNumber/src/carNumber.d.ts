@@ -14,7 +14,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     modelValue: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number) | (() => string | number | null | undefined) | ((new (...args: any[]) => string | number) | (() => string | number | null | undefined))[], unknown, unknown, "", boolean>;
     modelModifiers: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers) | ((new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers))[], unknown, unknown, () => {}, boolean>;
     maxlength: {
@@ -112,7 +112,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     modelValue: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number) | (() => string | number | null | undefined) | ((new (...args: any[]) => string | number) | (() => string | number | null | undefined))[], unknown, unknown, "", boolean>;
     modelModifiers: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers) | ((new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers))[], unknown, unknown, () => {}, boolean>;
     maxlength: {
@@ -195,7 +195,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>, {
     type: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string) | (() => import('element-plus').InputType) | ((new (...args: any[]) => string) | (() => import('element-plus').InputType))[], unknown, unknown>;
     id: string;
-    disabled: boolean;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     autofocus: boolean;
     placeholder: string;
     inputmode: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal") | (() => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal" | undefined) | ((new (...args: any[]) => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal") | (() => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal" | undefined))[], unknown, unknown>;

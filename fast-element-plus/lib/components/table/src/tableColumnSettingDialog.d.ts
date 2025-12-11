@@ -1,8 +1,8 @@
-import { FaTableChangeColumnsCtx } from './table.type';
+import { FaTableColumnCtx } from './table.type';
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     /** @description 改变 */
     change: {
-        type: import('vue').PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
+        type: import('vue').PropType<(columns: FaTableColumnCtx[]) => Promise<void>>;
     };
 }>, {
     /** @description 打开 */
@@ -12,7 +12,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description 改变 */
     change: {
-        type: import('vue').PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
+        type: import('vue').PropType<(columns: FaTableColumnCtx[]) => Promise<void>>;
     };
 }>> & Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

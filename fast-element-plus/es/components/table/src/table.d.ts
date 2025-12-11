@@ -1,4 +1,4 @@
-import { FaTableChangeColumnsCtx, FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from './table.type';
+import { FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from './table.type';
 import { PagedInput, PagedResult } from '../src/page.type';
 import { FaLayoutGridBreakPoint } from '../../layoutGrid';
 import { TableColumnCtx, TableProps } from 'element-plus';
@@ -251,12 +251,22 @@ export declare const faTableProps: {
     };
     /** @description 表格列改变 */
     columnsChange: {
-        type: PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
+        type: PropType<(columns: FaTableColumnCtx[]) => Promise<void>>;
     };
     /** @description 搜索表单 Grid布局列配置 */
     searchFormCols: {
         type: PropType<string | number | Record<FaLayoutGridBreakPoint, number>>;
         default: () => string | number | Record<FaLayoutGridBreakPoint, number>;
+    };
+    /** @description 折叠搜素 */
+    collapsedSearch: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    /** @description 高级搜素抽屉 */
+    advancedSearchDrawer: {
+        type: BooleanConstructor;
+        default: boolean;
     };
     /** @description 搜索表单 */
     searchForm: {
@@ -585,6 +595,8 @@ export type FaTableSlots = {
     };
     /** @description 表格页脚插槽 */
     footer: FaTableDefaultSlotsResult;
+    /** @description 列配置 */
+    columnSetting: never;
 } & {
     [key: string]: FaTableDefaultSlotsResult & {
         /** @description slots为表格内容的时候才会返回 */
@@ -645,12 +657,22 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 表格列改变 */
     columnsChange: {
-        type: PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
+        type: PropType<(columns: FaTableColumnCtx[]) => Promise<void>>;
     };
     /** @description 搜索表单 Grid布局列配置 */
     searchFormCols: {
         type: PropType<string | number | Record<FaLayoutGridBreakPoint, number>>;
         default: () => string | number | Record<FaLayoutGridBreakPoint, number>;
+    };
+    /** @description 折叠搜素 */
+    collapsedSearch: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    /** @description 高级搜素抽屉 */
+    advancedSearchDrawer: {
+        type: BooleanConstructor;
+        default: boolean;
     };
     /** @description 搜索表单 */
     searchForm: {
@@ -1059,12 +1081,22 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 表格列改变 */
     columnsChange: {
-        type: PropType<(columns: FaTableChangeColumnsCtx[]) => Promise<void>>;
+        type: PropType<(columns: FaTableColumnCtx[]) => Promise<void>>;
     };
     /** @description 搜索表单 Grid布局列配置 */
     searchFormCols: {
         type: PropType<string | number | Record<FaLayoutGridBreakPoint, number>>;
         default: () => string | number | Record<FaLayoutGridBreakPoint, number>;
+    };
+    /** @description 折叠搜素 */
+    collapsedSearch: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    /** @description 高级搜素抽屉 */
+    advancedSearchDrawer: {
+        type: BooleanConstructor;
+        default: boolean;
     };
     /** @description 搜索表单 */
     searchForm: {
@@ -1358,6 +1390,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     highlightCurrentRow: boolean;
     tableKey: string;
     searchFormCols: string | number | Record<FaLayoutGridBreakPoint, number>;
+    collapsedSearch: boolean;
+    advancedSearchDrawer: boolean;
     searchForm: boolean;
     headerCard: boolean;
     refreshBtn: boolean;

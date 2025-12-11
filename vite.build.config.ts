@@ -9,17 +9,4 @@ const peerDependencies = {
 	vue: "Vue",
 };
 
-/**
- * 构建全局包
- */
-const globalDependenciesMapping = {
-	"@vueuse/core": "VueUse",
-	"decimal.js": "Decimal",
-	lodash: "_",
-	"lodash-es": "_",
-	"lodash-unified": "_",
-	screenfull: "screenfull",
-	sortablejs: "Sortable",
-};
-
-export { peerDependencies, globalDependenciesMapping };
+export { peerDependencies };

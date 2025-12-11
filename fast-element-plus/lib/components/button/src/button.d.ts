@@ -16,7 +16,7 @@ export declare const faButtonProps: {
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "text" | "default" | "primary" | "success" | "warning" | "info" | "danger", unknown, "", boolean>;
     icon: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown>>;
@@ -70,7 +70,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "text" | "default" | "primary" | "success" | "warning" | "info" | "danger", unknown, "", boolean>;
     icon: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown>>;
@@ -129,7 +129,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "text" | "default" | "primary" | "success" | "warning" | "info" | "danger", unknown, "", boolean>;
     icon: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown>>;
@@ -161,7 +161,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     loading: boolean;
     loadingIcon: string | Component;
     disabledLoading: boolean;
-    disabled: boolean;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     nativeType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "button" | "reset" | "submit", unknown>;
     bg: boolean;
     autofocus: boolean;

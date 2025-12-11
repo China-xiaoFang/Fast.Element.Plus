@@ -5,9 +5,9 @@ export declare const faAvatarProps: {
         type: import('vue').PropType<string | Component>;
         default: () => string | Component;
     };
-    /**
-     * @description 原图
-     */
+    /** @description Base64图片 */
+    base64: BooleanConstructor;
+    /** @description 原图 */
     original: BooleanConstructor;
     /** @description 标准 */
     normal: BooleanConstructor;
@@ -37,9 +37,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<string | Component>;
         default: () => string | Component;
     };
-    /**
-     * @description 原图
-     */
+    /** @description Base64图片 */
+    base64: BooleanConstructor;
+    /** @description 原图 */
     original: BooleanConstructor;
     /** @description 标准 */
     normal: BooleanConstructor;
@@ -64,9 +64,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<string | Component>;
         default: () => string | Component;
     };
-    /**
-     * @description 原图
-     */
+    /** @description Base64图片 */
+    base64: BooleanConstructor;
+    /** @description 原图 */
     original: BooleanConstructor;
     /** @description 标准 */
     normal: BooleanConstructor;
@@ -86,6 +86,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     small: boolean;
     size: import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [NumberConstructor, StringConstructor], "" | "small" | "default" | "large", number>;
     icon: string | Component;
+    base64: boolean;
     original: boolean;
     normal: boolean;
     thumb: boolean;

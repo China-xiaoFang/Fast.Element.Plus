@@ -65,10 +65,6 @@ export type FaTableState = {
      */
     searchForm: boolean;
     /**
-     * 隐藏图片
-     */
-    hideImage: boolean;
-    /**
      * 是否选中数据
      */
     selected: boolean;

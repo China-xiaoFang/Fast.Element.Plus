@@ -228,6 +228,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     _children: {
         type: PropType<FaTableColumnCtx[]>;
     };
+    /** @description 隐藏图片 */
+    hideImage: BooleanConstructor;
     /** @description 复制 */
     copy: BooleanConstructor;
     /** @description 是否为 Link Button */
@@ -452,6 +454,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     _children: {
         type: PropType<FaTableColumnCtx[]>;
     };
+    /** @description 隐藏图片 */
+    hideImage: BooleanConstructor;
     /** @description 复制 */
     copy: BooleanConstructor;
     /** @description 是否为 Link Button */
@@ -634,6 +638,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     reserveSelection: boolean;
     filterMultiple: boolean;
     sortOrders: import('element-plus/es/components/table/src/table/defaults.mjs').TableSortOrder[];
+    hideImage: boolean;
     autoWidth: boolean;
     dateFix: boolean;
     submitInfoField: {

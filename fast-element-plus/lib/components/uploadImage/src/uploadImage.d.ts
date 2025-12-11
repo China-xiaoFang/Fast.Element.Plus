@@ -150,7 +150,7 @@ export declare const faUploadImageProps: {
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
 };
 export declare const faUploadImageEmits: {
@@ -316,7 +316,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
 }>, {
     /** @description 取消上传请求 */
@@ -539,7 +539,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
-    disabled: BooleanConstructor;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
 }>> & Readonly<{
     "onUpdate:modelValue"?: (value: string | string[]) => any;
@@ -549,7 +549,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     name: string;
     onError: (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
     data: import('element-plus/es/utils/typescript.mjs').Mutable<{}>;
-    disabled: boolean;
+    disabled: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     onChange: (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
     width: string | number;
     drag: boolean;

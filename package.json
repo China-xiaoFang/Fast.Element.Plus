@@ -1,6 +1,6 @@
 {
 	"name": "fast-element-plus",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Fast 组件库.",
 	"type": "module",
 	"keywords": [
@@ -41,9 +41,6 @@
 		"lint": "pnpm lint:eslint && pnpm lint:prettier"
 	},
 	"dependencies": {
-		"@types/lodash": "^4.17",
-		"@types/lodash-es": "^4.17",
-		"@types/sortablejs": "^1.15",
 		"@vueuse/core": "^14",
 		"decimal.js": "^10",
 		"lodash": "^4.17",
@@ -62,7 +59,10 @@
 		"@fast-element-plus/hooks": "workspace:*",
 		"@fast-element-plus/icons-vue": "^1.0.17",
 		"@rollup/plugin-terser": "^0.4",
-		"@types/node": "^25",
+		"@types/lodash": "^4.17",
+		"@types/lodash-es": "^4.17",
+		"@types/node": "*",
+		"@types/sortablejs": "^1.15",
 		"@vitejs/plugin-vue": "^6",
 		"@vitejs/plugin-vue-jsx": "^5",
 		"@vue/tsconfig": "^0.8",
