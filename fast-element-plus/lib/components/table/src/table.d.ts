@@ -246,8 +246,8 @@ export declare const faTableProps: {
     initParam: PropType<any>;
     /** @description 列配置 */
     columns: {
-        type: PropType<FaTableColumnCtx[]>;
-        default: () => FaTableColumnCtx[];
+        type: PropType<false | FaTableColumnCtx[]>;
+        default: () => FaTableColumnCtx[] | false;
     };
     /** @description 表格列改变 */
     columnsChange: {
@@ -652,8 +652,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     initParam: PropType<any>;
     /** @description 列配置 */
     columns: {
-        type: PropType<FaTableColumnCtx[]>;
-        default: () => FaTableColumnCtx[];
+        type: PropType<false | FaTableColumnCtx[]>;
+        default: () => FaTableColumnCtx[] | false;
     };
     /** @description 表格列改变 */
     columnsChange: {
@@ -1076,8 +1076,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     initParam: PropType<any>;
     /** @description 列配置 */
     columns: {
-        type: PropType<FaTableColumnCtx[]>;
-        default: () => FaTableColumnCtx[];
+        type: PropType<false | FaTableColumnCtx[]>;
+        default: () => FaTableColumnCtx[] | false;
     };
     /** @description 表格列改变 */
     columnsChange: {
@@ -1379,7 +1379,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     style: CSSProperties;
     lazy: boolean;
     className: string;
-    columns: FaTableColumnCtx[];
+    columns: false | FaTableColumnCtx[];
     scrollbarAlwaysOn: boolean;
     defaultExpandAll: boolean;
     indent: number;

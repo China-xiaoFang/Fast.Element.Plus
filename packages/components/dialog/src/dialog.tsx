@@ -1,7 +1,7 @@
 import { Fragment, computed, defineComponent, nextTick, reactive, ref, watch } from "vue";
 import { ElButton, ElDialog, ElIcon, ElMessage, ElMessageBox, ElScrollbar, dialogEmits, dialogProps, useGlobalSize } from "element-plus";
-import { Close, Eleme, FullScreen, Refresh } from "@element-plus/icons-vue";
-import { FullScreenExit } from "@fast-element-plus/icons-vue";
+import { Close, Eleme, Refresh } from "@element-plus/icons-vue";
+import { FullScreen, FullScreenExit } from "@fast-element-plus/icons-vue";
 import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
 import { isBoolean } from "lodash-unified";
 import type { DialogInstance } from "element-plus";

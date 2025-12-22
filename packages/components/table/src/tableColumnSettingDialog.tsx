@@ -85,8 +85,8 @@ export default defineComponent({
 		};
 
 		const handleChange = async (): Promise<void> => {
-			if (state.change && props.change) {
-				await props.change(tableState.orgColumns);
+			if (state.change) {
+				props.change && (await props.change(tableState.orgColumns));
 			} else {
 				ElMessage.info("列配置未发生变化");
 			}

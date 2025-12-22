@@ -52,7 +52,7 @@ export const tableUtil = {
 			filterData = enumData.find((item: any) => item[value] === callValue);
 		}
 		if (type === "tag") {
-			return filterData?.type ?? "primary";
+			return filterData?.type ?? "info";
 		}
 		// return filterData ? filterData[label] : "--";
 		return filterData ? filterData[label] : null;

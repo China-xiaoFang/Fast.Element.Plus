@@ -280,8 +280,8 @@ export const faTableProps = {
 	initParam: definePropType<string | number | any>([String, Number, Object]),
 	/** @description 列配置 */
 	columns: {
-		type: definePropType<FaTableColumnCtx[]>([Array, Boolean]),
-		default: (): FaTableColumnCtx[] => [],
+		type: definePropType<FaTableColumnCtx[] | false>([Array, Boolean]),
+		default: (): FaTableColumnCtx[] | false => false,
 	},
 	/** @description 表格列改变 */
 	columnsChange: {
@@ -774,13 +774,20 @@ export default defineComponent({
 
 		onMounted(async () => {
 			state.initParam = props.initParam;
-			loadTableColumns();
 			defaultSearchTime();
 			// 初始化搜索表单的时候，如果有默认搜索参数，则重置默认的搜索参数
 			Object.keys(props.initParam ?? {}).forEach((key) => {
 				state.searchParam[key] = props.initParam[key];
 			});
 			await tableSearch();
+
+			watch(
+				() => props.columns,
+				async () => {
+					loadTableColumns();
+				},
+				{ deep: true, immediate: true }
+			);
 
 			watch(
 				() => props.initParam,
@@ -931,7 +938,7 @@ export default defineComponent({
 												onClick={() => (state.searchForm = !state.searchForm)}
 											/>
 										)}
-										{props.columnSettingBtn && !props.columns && (
+										{props.columnSettingBtn && props.columns && (
 											<ElDropdown title="表格列配置" trigger="click">
 												{{
 													default: () => <ElButton loading={state.loading} loadingIcon={Eleme} circle icon={Setting} />,
@@ -1158,7 +1165,7 @@ export default defineComponent({
 						urlList={state.previewList}
 					/>
 				)}
-				{<FaTableColumnsSettingDialog ref={columnSettingRef} save={props.columnsChange} />}
+				{props.columnSettingBtn && <FaTableColumnsSettingDialog ref={columnSettingRef} change={props.columnsChange} />}
 			</div>
 		));
 
