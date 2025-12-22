@@ -264,7 +264,7 @@ export const useTable = (props: ExtractPropTypes<typeof faTableProps>, slots: Ta
 	};
 
 	const loadTableColumns = (): void => {
-		let columns: FaTableColumnCtx[] = props.columns;
+		let columns: FaTableColumnCtx[] = props.columns ? props.columns : [];
 		// 默认值处理
 		columns.forEach((col) => {
 			// 处理搜索项的 key 和 label

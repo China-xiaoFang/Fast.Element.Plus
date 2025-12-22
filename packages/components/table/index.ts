@@ -1,11 +1,10 @@
 import { withInstall, withNoopInstall } from "@fast-china/utils";
-import Table, { tableProps } from "./src/table";
+import Table, { type FaTableSlots, faTableEmits, faTableProps, tableProps } from "./src/table";
 import TableColumn, { tableColumnProps } from "./src/tableColumn";
 import TableColumnsSettingDialog from "./src/tableColumnSettingDialog";
 import TablePagination from "./src/tablePagination";
 import TableSearchForm from "./src/tableSearchForm";
 import TableSearchFormItem from "./src/tableSearchFormItem";
-import type { FaTableSlots, faTableEmits, faTableProps } from "./src/table";
 import type { ExtractPropTypes } from "vue";
 
 export const FaTable = withInstall(Table, {

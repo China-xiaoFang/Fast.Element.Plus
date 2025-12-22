@@ -171,6 +171,10 @@ type FaTableColumnSlots = {
     filterIcon: FaTableDefaultSlotsResult & {
         filterOpened: boolean;
     };
+    /** @description 展开列的自定义内容 */
+    expand: FaTableDefaultSlotsResult & {
+        expanded: boolean;
+    };
 } & FaTableColumnDefaultSlots;
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     /**

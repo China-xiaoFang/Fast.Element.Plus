@@ -182,6 +182,8 @@ type FaTableColumnSlots = {
 	header: FaTableDefaultSlotsResult & { column: FaTableColumnCtx; $index: number };
 	/** @description 自定义 filter 图标 */
 	filterIcon: FaTableDefaultSlotsResult & { filterOpened: boolean };
+	/** @description 展开列的自定义内容 */
+	expand: FaTableDefaultSlotsResult & { expanded: boolean };
 } & FaTableColumnDefaultSlots;
 
 export default defineComponent({
@@ -633,9 +635,18 @@ export default defineComponent({
 							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && props.type == "default"}
 						>
 							{{
-								header: ({ column, $index }: { column: TableColumnCtx<any>; $index: number }) => headerRender({ column, $index }),
+								header: ({ column, $index }: { column: TableColumnCtx<any>; $index: number }) =>
+									slots.header
+										? slots.header({ column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) })
+										: headerRender({ column, $index }),
 								default: ({ row, column, $index }: { row: any; column: TableColumnCtx<any>; $index: number }) =>
-									defaultRender({ row, column, $index }),
+									slots.default
+										? slots.default({ row, column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) })
+										: defaultRender({ row, column, $index }),
+								filterIcon: ({ filterOpened }: { filterOpened: boolean }) =>
+									slots.filterIcon && slots.filterIcon({ filterOpened, ...getTableDefaultSlots(tableState) }),
+								expand: ({ expanded }: { expanded: boolean }) =>
+									slots.expand && slots.expand({ expanded, ...getTableDefaultSlots(tableState) }),
 							}}
 						</ElTableColumn>
 					)
