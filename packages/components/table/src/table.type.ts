@@ -137,7 +137,7 @@ export type FaTableSearchColumnCtx = Partial<Record<FaLayoutGridBreakPoint, FaLa
  * @property gd2         数值列，保留 2 位小数，带千分位
  * @property gd4         数值列，保留 4 位小数，带千分位
  * @property gd6         数值列，保留 6 位小数，带千分位
- * @property submitInfo  提交信息列
+ * @property timeInfo  时间信息列
  */
 export type FaTableColumnType =
 	| "default"
@@ -154,7 +154,7 @@ export type FaTableColumnType =
 	| "gd2"
 	| "gd4"
 	| "gd6"
-	| "submitInfo";
+	| "timeInfo";
 
 /** @description FaTable 表格列日期格式化 */
 export type FaTableColumnDateFormat =
@@ -299,7 +299,7 @@ export type FaTableColumnCtx<T = any> = Partial<Omit<TableColumnCtx<T>, "order" 
 	 */
 	dataDeleteField?: string;
 	/**
-	 * 提交信息字段
+	 * 时间信息字段
 	 */
-	submitInfoField?: { submitClerkName?: string; submitTime?: string };
+	timeInfoField?: { userName?: string; time?: string };
 };

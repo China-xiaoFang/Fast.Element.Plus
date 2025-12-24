@@ -143,7 +143,7 @@ export default defineComponent({
 						result.disabled = true;
 						result.placeholder = "时间/日期列无需配置";
 						break;
-					case "submitInfo":
+					case "timeInfo":
 						result.disabled = true;
 						result.placeholder = "当前列无需配置";
 						break;

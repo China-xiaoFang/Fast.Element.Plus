@@ -270,12 +270,12 @@ export default defineComponent({
 		},
 		/** @description 数据删除字段，如果为 true 会显示遮罩层 */
 		dataDeleteField: String,
-		/** @description 制单信息计算 */
-		submitInfoField: {
-			type: definePropType<{ submitClerkName?: string; submitTime?: string }>(Object),
+		/** @description 时间信息字段 */
+		timeInfoField: {
+			type: definePropType<{ userName?: string; time?: string }>(Object),
 			default: () => ({
-				submitClerkName: "createdUserName",
-				submitTime: "createdTime",
+				userName: "createdUserName",
+				time: "createdTime",
 			}),
 		},
 	},
@@ -398,18 +398,18 @@ export default defineComponent({
 		};
 
 		const defaultRender = ({ row, column, $index }: { row: any; column: TableColumnCtx<any>; $index: number }): VNode[] => {
-			if (props.type === "submitInfo") {
-				const submitClerkName = row[props.submitInfoField?.submitClerkName ?? "createdUserName"];
-				const submitTime = row[props.submitInfoField?.submitTime ?? "createdTime"];
+			if (props.type === "timeInfo") {
+				const userName = row[props.timeInfoField?.userName ?? "createdUserName"];
+				const time = row[props.timeInfoField?.time ?? "createdTime"];
 				return (
 					<Fragment>
-						<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title={submitTime}>
-							{submitClerkName && <span style="margin-right: 5px;">{submitClerkName}</span>}
-							<span>{submitTime}</span>
+						<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title={time}>
+							{userName && <span style="margin-right: 5px;">{userName}</span>}
+							<span>{time}</span>
 						</div>
-						{submitTime && (
+						{time && (
 							<ElTag type="info" round effect="light" size="small">
-								{dateUtil.dateTimeFix(String(submitTime))}
+								{dateUtil.dateTimeFix(String(time))}
 							</ElTag>
 						)}
 					</Fragment>
