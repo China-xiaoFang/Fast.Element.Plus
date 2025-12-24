@@ -674,7 +674,7 @@ export default defineComponent({
 					}
 				}
 			}
-			if (columnInfo?.type === "submitInfo") {
+			if (columnInfo?.type === "timeInfo") {
 				if (localCellClassName) {
 					localCellClassName += " fa-table__line-height-normal-column";
 				} else {

@@ -263,15 +263,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 数据删除字段，如果为 true 会显示遮罩层 */
     dataDeleteField: StringConstructor;
-    /** @description 制单信息计算 */
-    submitInfoField: {
+    /** @description 时间信息字段 */
+    timeInfoField: {
         type: PropType<{
-            submitClerkName?: string;
-            submitTime?: string;
+            userName?: string;
+            time?: string;
         }>;
         default: () => {
-            submitClerkName: string;
-            submitTime: string;
+            userName: string;
+            time: string;
         };
     };
     /**
@@ -489,15 +489,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 数据删除字段，如果为 true 会显示遮罩层 */
     dataDeleteField: StringConstructor;
-    /** @description 制单信息计算 */
-    submitInfoField: {
+    /** @description 时间信息字段 */
+    timeInfoField: {
         type: PropType<{
-            submitClerkName?: string;
-            submitTime?: string;
+            userName?: string;
+            time?: string;
         }>;
         default: () => {
-            submitClerkName: string;
-            submitTime: string;
+            userName: string;
+            time: string;
         };
     };
     /**
@@ -645,9 +645,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     hideImage: boolean;
     autoWidth: boolean;
     dateFix: boolean;
-    submitInfoField: {
-        submitClerkName?: string;
-        submitTime?: string;
+    timeInfoField: {
+        userName?: string;
+        time?: string;
     };
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaTableColumnSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

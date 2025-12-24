@@ -1,1 +1,1 @@
-{"version":3,"file":"version.js","sources":["../../packages/version.ts"],"sourcesContent":["export const version = \"1.0.4\";\n"],"names":[],"mappings":"gGAAuB"}
+{"version":3,"file":"version.js","sources":["../../packages/version.ts"],"sourcesContent":["export const version = \"1.0.5\";\n"],"names":[],"mappings":"gGAAuB"}
