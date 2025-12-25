@@ -28,7 +28,7 @@ export default defineComponent({
 					title: "欢迎",
 					message: "当前页码已经超过100条/页，可能会造成页面卡顿。",
 					type: "warning",
-					duration: 1000,
+					duration: 2000,
 				});
 			}
 			emit("sizeChange", pageSize);

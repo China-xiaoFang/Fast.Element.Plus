@@ -249,6 +249,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 点击Emits事件回调 */
     clickEmit: StringConstructor;
+    /** @description 图片列是否显示为原图，默认 false 显示缩略图 */
+    originalImage: BooleanConstructor;
     /** @description 显示时间格式化字符串 */
     dateFix: BooleanConstructor;
     /** @description 显示在页面中的日期格式 */
@@ -475,6 +477,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 点击Emits事件回调 */
     clickEmit: StringConstructor;
+    /** @description 图片列是否显示为原图，默认 false 显示缩略图 */
+    originalImage: BooleanConstructor;
     /** @description 显示时间格式化字符串 */
     dateFix: BooleanConstructor;
     /** @description 显示在页面中的日期格式 */
@@ -644,6 +648,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     sortOrders: import('element-plus/es/components/table/src/table/defaults.mjs').TableSortOrder[];
     hideImage: boolean;
     autoWidth: boolean;
+    originalImage: boolean;
     dateFix: boolean;
     timeInfoField: {
         userName?: string;
