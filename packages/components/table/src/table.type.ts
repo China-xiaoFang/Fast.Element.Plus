@@ -279,6 +279,10 @@ export type FaTableColumnCtx<T = any> = Partial<Omit<TableColumnCtx<T>, "order" 
 	 */
 	clickEmit?: string;
 	/**
+	 * 图片列是否显示为原图，默认 false 显示缩略图
+	 */
+	originalImage?: boolean;
+	/**
 	 * 显示时间格式化字符串，默认 false
 	 */
 	dateFix?: boolean;

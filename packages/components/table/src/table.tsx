@@ -16,7 +16,7 @@ import {
 import { Eleme, More, Refresh, Search, Setting } from "@element-plus/icons-vue";
 import { NotData } from "@fast-element-plus/icons-vue";
 import { clickUtil, consoleWarn, dateUtil, definePropType, makeSlots, stringUtil, useExpose, useProps, useRender } from "@fast-china/utils";
-import { isArray, isBoolean, isFunction, isNull, isNumber, isObject, isString, omit, pick } from "lodash-unified";
+import { isArray, isBoolean, isFunction, isNil, isNull, isNumber, isObject, isString, omit, pick } from "lodash-unified";
 import { getTableDefaultSlots } from "./table.type";
 import FaTableColumn from "./tableColumn";
 import FaTableColumnsSettingDialog from "./tableColumnSettingDialog";
@@ -428,7 +428,7 @@ export const faTableEmits = {
 	customCellClick: (
 		emitName: string,
 		{ row, column, $index }: { row: any; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult
-	): boolean => isString(emitName) && isObject(row) && isObject(column) && isNumber($index),
+	): boolean => (isNil(emitName) || isString(emitName)) && isObject(row) && isObject(column) && isNumber($index),
 };
 
 export type FaTableSlots = {
@@ -764,7 +764,8 @@ export default defineComponent({
 				}
 			});
 			emit("headerDragend", newWidth, oldWidth, column, event);
-			await clickUtil.debounceAsync(columnSettingRef.value.change, 500);
+			if (!props.columnsChange) return;
+			await clickUtil.debounceAsync(() => props.columnsChange(state.orgColumns), 500);
 		};
 
 		const handleImagePreview = (url: string): void => {

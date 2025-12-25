@@ -3,7 +3,7 @@ import { ElIcon, ElImage, ElMessage, ElTableColumn, ElTag, ElText, dayjs, useGlo
 import { CopyDocument } from "@element-plus/icons-vue";
 import FaImage from "@fast-element-plus/components/image";
 import { consoleError, dateUtil, definePropType, makeSlots, stringUtil, useProps, useRender } from "@fast-china/utils";
-import { isNumber, isObject, isString } from "lodash-unified";
+import { isNil, isNumber, isObject, isString } from "lodash-unified";
 import artwork from "../images/artwork.png";
 import notImage from "../images/notImage.png";
 import { tableUtil } from "../utils/table";
@@ -256,6 +256,8 @@ export default defineComponent({
 		},
 		/** @description 点击Emits事件回调 */
 		clickEmit: String,
+		/** @description 图片列是否显示为原图，默认 false 显示缩略图 */
+		originalImage: Boolean,
 		/** @description 显示时间格式化字符串 */
 		dateFix: Boolean,
 		/** @description 显示在页面中的日期格式 */
@@ -284,7 +286,7 @@ export default defineComponent({
 		imagePreview: (url: string): boolean => isString(url),
 		/** @description 自定义单元格点击事件 */
 		customCellClick: (emitName: string, { row, column, $index }: { row: any; column: FaTableColumnCtx; $index: number }): boolean =>
-			isString(emitName) && isObject(row) && isObject(column) && isNumber($index),
+			(isNil(emitName) || isString(emitName)) && isObject(row) && isObject(column) && isNumber($index),
 	},
 	slots: makeSlots<FaTableColumnSlots>(),
 	setup(props, { slots, emit }) {
@@ -617,7 +619,7 @@ export default defineComponent({
 												previewTeleported
 											/>
 										) : (
-											<FaImage lazy src={row[props.prop]} fit="cover" original />
+											<FaImage lazy src={row[props.prop]} fit="cover" original={props.originalImage} thumb />
 										)
 									) : (
 										<ElImage class="fa-image" lazy src={notImage} fit="cover" />
