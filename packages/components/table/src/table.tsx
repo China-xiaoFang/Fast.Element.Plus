@@ -325,7 +325,7 @@ export const faTableProps = {
 	/** @description 列配置按钮 */
 	columnSettingBtn: {
 		type: Boolean,
-		default: true,
+		default: false,
 	},
 	/** @description 头部卡片右侧功能按钮 */
 	toolBtn: {
