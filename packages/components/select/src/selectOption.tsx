@@ -35,7 +35,7 @@ export default defineComponent({
 		/** @description 默认内容插槽 */
 		default: ElSelectorOutput | any;
 	}>(),
-	setup(props, { slots }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const state = reactive({
 			value: computed(() => (isUndefined(props.value) ? props.data.value : props.value)),
 			label: computed(() => (isUndefined(props.label) ? props.data.label : props.label)),
@@ -60,7 +60,7 @@ export default defineComponent({
 					</ElOptionGroup>
 				) : (
 					<ElOption
-						class={{ "fa-select-page-dropdown__selector__more-detail": props.moreDetail && slots.default }}
+						class={{ "fa-select-dropdown__selector__more-detail": props.moreDetail && slots.default }}
 						value={state.value}
 						label={state.label}
 						disabled={state.disabled}

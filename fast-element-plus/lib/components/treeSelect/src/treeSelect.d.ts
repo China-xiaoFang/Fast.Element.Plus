@@ -1,8 +1,12 @@
 import { SelectComponentProps } from '../../select/src/select';
 import { ElSelectorOutput } from '../../select';
-import { NodeDropType, TreeKey } from '../../tree/src/tree.props';
 import { ComponentInternalInstance } from 'vue';
 export declare const faTreeSelectProps: {
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** @description displayed text while loading data from server, default is 'Loading' */
     loadingText: {
         type: StringConstructor;
@@ -57,8 +61,16 @@ export declare const faTreeSelectProps: {
      * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
      */
     cacheData: {
-        type: ArrayConstructor;
-        default: () => [];
+        type: import('vue').PropType<{
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[]>;
+        default: {
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[];
     };
     /** @description v-model绑定值 */
     modelValue: {
@@ -121,9 +133,9 @@ export declare const faTreeSelectProps: {
         type: BooleanConstructor;
         default: boolean;
     };
-    defaultCheckedKeys: import('vue').PropType<TreeKey[]>;
-    defaultExpandedKeys: import('vue').PropType<TreeKey[]>;
-    currentNodeKey: import('vue').PropType<TreeKey>;
+    defaultCheckedKeys: import('vue').PropType<import('../../tree/src/tree.props').TreeKey[]>;
+    defaultExpandedKeys: import('vue').PropType<import('../../tree/src/tree.props').TreeKey[]>;
+    currentNodeKey: import('vue').PropType<import('../../tree/src/tree.props').TreeKey>;
     renderContent: FunctionConstructor;
     showCheckbox: {
         type: BooleanConstructor;
@@ -165,7 +177,6 @@ export declare const faTreeSelectProps: {
         type: import('vue').PropType<string | (string & {})>;
         default: string;
     };
-    disabled: BooleanConstructor;
     clearable: BooleanConstructor;
     filterable: BooleanConstructor;
     allowCreate: BooleanConstructor;
@@ -253,47 +264,28 @@ export declare const faTreeSelectEmits: {
     dataChangeCallBack: (data: ElSelectorOutput[] | any[]) => boolean;
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
-    /** @description 下拉框出现/隐藏时触发 */
-    visibleChange: (visible: boolean) => boolean;
-    /** @description 多选模式下移除tag时触发 */
-    removeTag: (tagValue: any) => boolean;
-    /** @description 可清空的单选模式下用户点击清空按钮时触发 */
-    clear: () => boolean;
-    /** @description 当 input 失去焦点时触发 */
-    blur: (event: FocusEvent) => boolean;
-    /** @description 当 input 获得焦点时触发 */
-    focus: (event: FocusEvent) => boolean;
-    /** @description 当节点被点击的时候触发 */
-    nodeClick: (data: ElSelectorOutput, node?: any, instance?: ComponentInternalInstance) => boolean;
-    /** @description 当某一节点被鼠标右键点击时会触发该事件 */
-    nodeContextmenu: (event: Event, data: ElSelectorOutput, node?: any, instance?: ComponentInternalInstance) => boolean;
-    /** @description 当复选框被点击的时候触发 */
-    checkChange: (data: ElSelectorOutput, checked: boolean, indeterminate: boolean) => boolean;
-    /** @description 点击节点复选框之后触发 */
-    check: (data: ElSelectorOutput, node: {
-        checkedNodes: ElSelectorOutput[];
-        checkedKeys: TreeKey[];
-        halfCheckedNodes: ElSelectorOutput[];
-        halfCheckedKeys: TreeKey[];
+    'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'popup-scroll': ({ scrollTop, scrollLeft, }: {
+        scrollTop: number;
+        scrollLeft: number;
     }) => boolean;
-    /** @description 当前选中节点变化时触发的事件 */
-    currentChange: (data: ElSelectorOutput, node: any) => boolean;
-    /** @description 节点被展开时触发的事件 */
-    nodeExpand: (data: ElSelectorOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点被关闭时触发的事件 */
-    nodeCollapse: (data: ElSelectorOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点开始拖拽时触发的事件 */
-    nodeDragStart: (node: any, event: DragEvent) => boolean;
-    /** @description 拖拽进入其他节点时触发的事件 */
-    nodeDragEnter: (node: any, enterNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽离开某个节点时触发的事件 */
-    nodeDragLeave: (node: any, leaveNode: any, event: DragEvent) => boolean;
-    /** @description 在拖拽节点时触发的事件（类似浏览器的 mouseover 事件） */
-    nodeDragOver: (node: any, dropNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽结束时（可能未成功）触发的事件 */
-    nodeDragEnd: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
-    /** @description 拖拽成功完成时触发的事件 */
-    nodeDrop: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
+    'remove-tag': (val: unknown) => boolean;
+    'visible-change': (visible: boolean) => boolean;
+    focus: (evt: FocusEvent) => boolean;
+    blur: (evt: FocusEvent) => boolean;
+    clear: () => boolean;
 };
 type FaTreeSelectSlots = {
     /** @description 默认内容插槽 */
@@ -320,6 +312,11 @@ type FaTreeSelectSlots = {
     };
 };
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** @description displayed text while loading data from server, default is 'Loading' */
     loadingText: {
         type: StringConstructor;
@@ -374,8 +371,16 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
      */
     cacheData: {
-        type: ArrayConstructor;
-        default: () => [];
+        type: import('vue').PropType<{
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[]>;
+        default: {
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[];
     };
     /** @description v-model绑定值 */
     modelValue: {
@@ -438,9 +443,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    defaultCheckedKeys: import('vue').PropType<TreeKey[]>;
-    defaultExpandedKeys: import('vue').PropType<TreeKey[]>;
-    currentNodeKey: import('vue').PropType<TreeKey>;
+    defaultCheckedKeys: import('vue').PropType<import('../../tree/src/tree.props').TreeKey[]>;
+    defaultExpandedKeys: import('vue').PropType<import('../../tree/src/tree.props').TreeKey[]>;
+    currentNodeKey: import('vue').PropType<import('../../tree/src/tree.props').TreeKey>;
     renderContent: FunctionConstructor;
     showCheckbox: {
         type: BooleanConstructor;
@@ -482,7 +487,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<string | (string & {})>;
         default: string;
     };
-    disabled: BooleanConstructor;
     clearable: BooleanConstructor;
     filterable: BooleanConstructor;
     allowCreate: BooleanConstructor;
@@ -561,48 +565,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: string[];
     };
 }>, {
-    /** @description 使选择器的输入框获取焦点 */
-    focus: import('vue').ComputedRef<any>;
-    /** @description 使选择器的输入框失去焦点，并隐藏下拉框 */
-    blur: import('vue').ComputedRef<any>;
-    /** @description 获取当前选中的标签 */
-    selectedLabel: import('vue').ComputedRef<any>;
-    /** @description 过滤所有树节点，过滤后的节点将被隐藏 */
-    filter: import('vue').ComputedRef<any>;
-    /** @description 为节点设置新数据，只有当设置 node-key 属性的时候才可用 */
-    updateKeyChildren: import('vue').ComputedRef<any>;
-    /** @description 如果节点可以被选中，(show-checkbox 为 true), 本方法将返回当前选中节点的数组 */
-    getCheckedNodes: import('vue').ComputedRef<any>;
-    /** @description 设置目前勾选的节点，使用此方法必须提前设置 node-key 属性 */
-    setCheckedNodes: import('vue').ComputedRef<any>;
-    /** @description 若节点可用被选中 (show-checkbox 为 true), 它将返回当前选中节点 key 的数组 */
-    getCheckedKeys: import('vue').ComputedRef<any>;
-    /** @description 设置目前选中的节点，使用此方法必须设置 node-key 属性 */
-    setCheckedKeys: import('vue').ComputedRef<any>;
-    /** @description 设置节点是否被选中, 使用此方法必须设置 node-key 属性 */
-    setChecked: import('vue').ComputedRef<any>;
-    /** @description 如果节点可用被选中 (show-checkbox 为 true), 它将返回当前半选中的节点组成的数组 */
-    getHalfCheckedNodes: import('vue').ComputedRef<any>;
-    /** @description 若节点可被选中(show-checkbox 为 true)，则返回目前半选中的节点的 key 所组成的数组 */
-    getHalfCheckedKeys: import('vue').ComputedRef<any>;
-    /** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
-    getCurrentKey: import('vue').ComputedRef<any>;
-    /** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
-    getCurrentNode: import('vue').ComputedRef<any>;
-    /** @description 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key 属性 */
-    setCurrentKey: import('vue').ComputedRef<any>;
-    /** @description 设置节点为选中状态，使用此方法必须设置 node-key 属性 */
-    setCurrentNode: import('vue').ComputedRef<any>;
-    /** @description 根据 data 或者 key 拿到 Tree 组件中的 node */
-    getNode: import('vue').ComputedRef<any>;
-    /** @description 删除 Tree 中的一个节点，使用此方法必须设置 node-key 属性 */
-    remove: import('vue').ComputedRef<any>;
-    /** @description 为 Tree 中的一个节点追加一个子节点 */
-    append: import('vue').ComputedRef<any>;
-    /** @description 在 Tree 中给定节点前插入一个节点 */
-    insertBefore: import('vue').ComputedRef<any>;
-    /** @description 在 Tree 中给定节点后插入一个节点 */
-    insertAfter: import('vue').ComputedRef<any>;
     /** @description 加载状态 */
     loading: import('vue').ComputedRef<boolean>;
     /** @description 刷新 */
@@ -620,48 +582,34 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataChangeCallBack: (data: ElSelectorOutput[] | any[]) => boolean;
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
-    /** @description 下拉框出现/隐藏时触发 */
-    visibleChange: (visible: boolean) => boolean;
-    /** @description 多选模式下移除tag时触发 */
-    removeTag: (tagValue: any) => boolean;
-    /** @description 可清空的单选模式下用户点击清空按钮时触发 */
-    clear: () => boolean;
-    /** @description 当 input 失去焦点时触发 */
-    blur: (event: FocusEvent) => boolean;
-    /** @description 当 input 获得焦点时触发 */
-    focus: (event: FocusEvent) => boolean;
-    /** @description 当节点被点击的时候触发 */
-    nodeClick: (data: ElSelectorOutput, node?: any, instance?: ComponentInternalInstance) => boolean;
-    /** @description 当某一节点被鼠标右键点击时会触发该事件 */
-    nodeContextmenu: (event: Event, data: ElSelectorOutput, node?: any, instance?: ComponentInternalInstance) => boolean;
-    /** @description 当复选框被点击的时候触发 */
-    checkChange: (data: ElSelectorOutput, checked: boolean, indeterminate: boolean) => boolean;
-    /** @description 点击节点复选框之后触发 */
-    check: (data: ElSelectorOutput, node: {
-        checkedNodes: ElSelectorOutput[];
-        checkedKeys: TreeKey[];
-        halfCheckedNodes: ElSelectorOutput[];
-        halfCheckedKeys: TreeKey[];
+    'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'popup-scroll': ({ scrollTop, scrollLeft, }: {
+        scrollTop: number;
+        scrollLeft: number;
     }) => boolean;
-    /** @description 当前选中节点变化时触发的事件 */
-    currentChange: (data: ElSelectorOutput, node: any) => boolean;
-    /** @description 节点被展开时触发的事件 */
-    nodeExpand: (data: ElSelectorOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点被关闭时触发的事件 */
-    nodeCollapse: (data: ElSelectorOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点开始拖拽时触发的事件 */
-    nodeDragStart: (node: any, event: DragEvent) => boolean;
-    /** @description 拖拽进入其他节点时触发的事件 */
-    nodeDragEnter: (node: any, enterNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽离开某个节点时触发的事件 */
-    nodeDragLeave: (node: any, leaveNode: any, event: DragEvent) => boolean;
-    /** @description 在拖拽节点时触发的事件（类似浏览器的 mouseover 事件） */
-    nodeDragOver: (node: any, dropNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽结束时（可能未成功）触发的事件 */
-    nodeDragEnd: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
-    /** @description 拖拽成功完成时触发的事件 */
-    nodeDrop: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
+    'remove-tag': (val: unknown) => boolean;
+    'visible-change': (visible: boolean) => boolean;
+    focus: (evt: FocusEvent) => boolean;
+    blur: (evt: FocusEvent) => boolean;
+    clear: () => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** @description displayed text while loading data from server, default is 'Loading' */
     loadingText: {
         type: StringConstructor;
@@ -716,8 +664,16 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
      */
     cacheData: {
-        type: ArrayConstructor;
-        default: () => [];
+        type: import('vue').PropType<{
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[]>;
+        default: {
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[];
     };
     /** @description v-model绑定值 */
     modelValue: {
@@ -780,9 +736,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    defaultCheckedKeys: import('vue').PropType<TreeKey[]>;
-    defaultExpandedKeys: import('vue').PropType<TreeKey[]>;
-    currentNodeKey: import('vue').PropType<TreeKey>;
+    defaultCheckedKeys: import('vue').PropType<import('../../tree/src/tree.props').TreeKey[]>;
+    defaultExpandedKeys: import('vue').PropType<import('../../tree/src/tree.props').TreeKey[]>;
+    currentNodeKey: import('vue').PropType<import('../../tree/src/tree.props').TreeKey>;
     renderContent: FunctionConstructor;
     showCheckbox: {
         type: BooleanConstructor;
@@ -824,7 +780,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: import('vue').PropType<string | (string & {})>;
         default: string;
     };
-    disabled: BooleanConstructor;
     clearable: BooleanConstructor;
     filterable: BooleanConstructor;
     allowCreate: BooleanConstructor;
@@ -906,8 +861,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     onClear?: () => any;
     "onUpdate:modelValue"?: (value: string | number | boolean | object | (string | number | boolean | object)[]) => any;
     onChange?: (data: any, value?: string | number | boolean | object | (string | number | boolean | object)[]) => any;
-    onFocus?: (event: FocusEvent) => any;
-    onBlur?: (event: FocusEvent) => any;
+    onFocus?: (evt: FocusEvent) => any;
+    onBlur?: (evt: FocusEvent) => any;
     "onUpdate:label"?: (value: string | string[]) => any;
     onDataChangeCallBack?: (data: any[] | {
         [key: string]: any;
@@ -918,82 +873,25 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         disabled?: boolean;
         children?: /*elided*/ any[];
     }[]) => any;
-    onVisibleChange?: (visible: boolean) => any;
-    onRemoveTag?: (tagValue: any) => any;
-    onNodeClick?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-    }, node?: any, instance?: ComponentInternalInstance) => any;
-    onNodeContextmenu?: (event: Event, data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-    }, node?: any, instance?: ComponentInternalInstance) => any;
-    onCheckChange?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-    }, checked: boolean, indeterminate: boolean) => any;
-    onCheck?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-    }, node: {
-        checkedNodes: ElSelectorOutput[];
-        checkedKeys: TreeKey[];
-        halfCheckedNodes: ElSelectorOutput[];
-        halfCheckedKeys: TreeKey[];
+    "onPopup-scroll"?: (args_0: {
+        scrollTop: number;
+        scrollLeft: number;
     }) => any;
-    onCurrentChange?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-    }, node: any) => any;
-    onNodeExpand?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-    }, node: any, instance: ComponentInternalInstance) => any;
-    onNodeCollapse?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-    }, node: any, instance: ComponentInternalInstance) => any;
-    onNodeDragStart?: (node: any, event: DragEvent) => any;
-    onNodeDragEnter?: (node: any, enterNode: any, event: DragEvent) => any;
-    onNodeDragLeave?: (node: any, leaveNode: any, event: DragEvent) => any;
-    onNodeDragOver?: (node: any, dropNode: any, event: DragEvent) => any;
-    onNodeDragEnd?: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => any;
-    onNodeDrop?: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => any;
+    "onRemove-tag"?: (val: unknown) => any;
+    "onVisible-change"?: (visible: boolean) => any;
+    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
+    "onCheck-change"?: (data: any, checked: boolean, indeterminate: boolean) => any;
+    "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
+    "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-expand"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    onCheck?: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
+    "onNode-drag-start"?: (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-end"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: import('element-plus').NodeDropType, evt: DragEvent) => any;
+    "onNode-drop"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: "before" | "after" | "inner", evt: DragEvent) => any;
+    "onNode-drag-leave"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-enter"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-over"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
 }>, {
     props: SelectComponentProps;
     data: any[] | {
@@ -1045,8 +943,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     tagType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>;
     tagEffect: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>;
     remoteShowSuffix: boolean;
-    nodeKey: string;
     defaultExpandAll: boolean;
+    indent: number;
+    nodeKey: string;
     checkOnClickNode: boolean;
     highlightCurrent: boolean;
     collapseOnClickNode: boolean;
@@ -1057,7 +956,10 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     autoExpandParent: boolean;
     showCheckbox: boolean;
     accordion: boolean;
-    indent: number;
-    cacheData: unknown[];
+    cacheData: {
+        value: string | number | boolean | object;
+        currentLabel: string | number;
+        isDisabled: boolean;
+    }[];
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaTreeSelectSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

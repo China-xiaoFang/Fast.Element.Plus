@@ -1,16 +1,22 @@
-import { Fragment, computed, defineComponent, inject, reactive, ref, watch } from "vue";
+import { Fragment, computed, defineComponent, inject, reactive, ref } from "vue";
 import { ElButton, ElInput, ElMessage, ElPopover, formContextKey, formItemContextKey, inputProps } from "element-plus";
 import { Back } from "@element-plus/icons-vue";
 import { RegExps } from "@fast-element-plus/constants";
-import { useProps, useRender, withDefineType } from "@fast-china/utils";
+import { useProps, useRender } from "@fast-china/utils";
 import { isNull, isString } from "lodash-unified";
 import { CarNumberArea, CarNumberDigit, CarNumberLetter } from "./common";
 import type { PopoverInstance } from "element-plus";
+import { useVModel } from "@vueuse/core";
 
 export default defineComponent({
 	name: "FaCarNumber",
 	props: {
 		...inputProps,
+		/** @description v-model绑定值 */
+		modelValue: {
+			type: String,
+			default: undefined,
+		},
 		/** @description placeholder */
 		placeholder: {
 			type: String,
@@ -23,17 +29,18 @@ export default defineComponent({
 		/** @description 改变 */
 		change: (value: string) => isString(value) || isNull(value),
 	},
-	setup(props, { attrs, emit }) {
+	setup(props, { attrs, slots, emit, expose }) {
+		const modelValue = useVModel(props, "modelValue", emit);
+
 		const state = reactive({
-			value: withDefineType<string>(),
 			switchLetter: computed(() => {
-				if (state.value?.length >= 1) {
+				if (modelValue.value?.length >= 1) {
 					return true;
 				}
 				return false;
 			}),
 			disabledButton: computed(() => {
-				if (state.value?.length >= 8) {
+				if (modelValue.value?.length >= 8) {
 					return true;
 				}
 				return false;
@@ -57,31 +64,29 @@ export default defineComponent({
 		};
 
 		const handleSelectCarNumber = (value: string): void => {
-			state.value ??= "";
-			state.value += value;
+			modelValue.value ??= "";
+			modelValue.value += value;
 		};
 
 		const handleBackClick = (): void => {
-			if (state.value?.length === 0) return;
-			state.value = state.value.substring(0, state.value.length - 1);
+			if (modelValue.value?.length === 0) return;
+			modelValue.value = modelValue.value.substring(0, modelValue.value.length - 1);
 		};
 
 		const handleConfirmClick = (): void => {
 			let success = false;
-			if (state.value.length === 7) {
-				success = RegExps.CarNumber.test(state.value);
-			} else if (state.value.length === 8) {
-				success = RegExps.NewEnergyCarNumber.test(state.value);
+			if (modelValue.value.length === 7) {
+				success = RegExps.CarNumber.test(modelValue.value);
+			} else if (modelValue.value.length === 8) {
+				success = RegExps.NewEnergyCarNumber.test(modelValue.value);
 			}
 			if (success) {
-				emit("update:modelValue", state.value);
-				emit("change", state.value);
+				emit("change", modelValue.value);
 				// 调用 el-form 内部的校验方法（可自动校验）
 				formItemContext?.prop && formContext?.validateField([formItemContext.prop]);
 			} else {
 				if (formItemContext?.prop && formContext) {
-					emit("update:modelValue", state.value);
-					emit("change", state.value);
+					emit("change", modelValue.value);
 					// 调用 el-form 内部的校验方法（可自动校验）
 					formContext.validateField([formItemContext.prop]);
 				} else {
@@ -92,22 +97,11 @@ export default defineComponent({
 		};
 
 		const handleClearClick = (): void => {
-			state.value = null;
-			emit("update:modelValue", null);
+			modelValue.value = null;
 			emit("change", null);
 			// 调用 el-form 内部的校验方法（可自动校验）
 			formItemContext?.prop && formContext?.validateField([formItemContext.prop]);
 		};
-
-		watch(
-			() => props.modelValue,
-			(newValue) => {
-				state.value = newValue.toString();
-			},
-			{
-				immediate: true,
-			}
-		);
 
 		const elInputProps = useProps(props, inputProps, ["modelValue", "readonly", "formatter"]);
 
@@ -126,7 +120,7 @@ export default defineComponent({
 						<ElInput
 							{...elInputProps.value}
 							class="fa-car-number__input"
-							vModel={state.value}
+							vModel={modelValue.value}
 							readonly
 							formatter={handleInputFormatter}
 						/>
@@ -155,7 +149,7 @@ export default defineComponent({
 							<div class="fa-car-number__popover__btn">
 								<ElButton
 									class="fa-car-number__popover__btn__clear"
-									disabled={state.value === null || state.value.length === 0}
+									disabled={modelValue.value === null || modelValue.value.length === 0}
 									onClick={handleClearClick}
 								>
 									清除
@@ -164,13 +158,13 @@ export default defineComponent({
 									class="fa-car-number__popover__btn__back"
 									type="danger"
 									icon={Back}
-									disabled={state.value === null || state.value.length === 0}
+									disabled={modelValue.value === null || modelValue.value.length === 0}
 									onClick={handleBackClick}
 								/>
 								<ElButton
 									class="fa-car-number__popover__btn__confirm"
 									type="primary"
-									disabled={state.value === null || state.value.length < 7}
+									disabled={modelValue.value === null || modelValue.value.length < 7}
 									onClick={handleConfirmClick}
 								>
 									确认

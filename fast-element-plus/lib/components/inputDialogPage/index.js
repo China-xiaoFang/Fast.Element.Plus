@@ -1,0 +1,2 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/inputDialogPage.js"),a=e.withInstall(t.default);exports.faInputDialogPageEmits=t.faInputDialogPageEmits,exports.faInputDialogPageProps=t.faInputDialogPageProps,exports.FaInputDialogPage=a,exports.default=a;
+//# sourceMappingURL=index.js.map

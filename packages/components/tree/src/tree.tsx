@@ -1,16 +1,21 @@
 import { computed, defineComponent, nextTick, onMounted, reactive, ref, watch } from "vue";
-import { ElIcon, ElInput, ElScrollbar, ElTree, useGlobalSize } from "element-plus";
+import { ElIcon, ElInput, ElScrollbar, ElTree, treeEmits, useGlobalSize } from "element-plus";
 import { Expand, Fold } from "@element-plus/icons-vue";
-import { addUnit, consoleError, definePropType, makeSlots, useExpose, useProps, useRender, withDefineType } from "@fast-china/utils";
+import { addUnit, consoleError, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "@fast-china/utils";
 import { useVModel } from "@vueuse/core";
 import { isArray, isBoolean, isNull, isNumber, isObject, isString } from "lodash-unified";
 import { treeProps } from "./tree.props";
-import type { FilterValue, NodeDropType, TreeKey, TreeNodeData } from "./tree.props";
+import type { FilterValue, TreeNodeData } from "./tree.props";
 import type { ElTreeOutput } from "./tree.type";
 import type { ComponentInternalInstance, VNode } from "vue";
 
 export const faTreeProps = {
 	...treeProps,
+	/** @description whether Select is disabled 重载使其支持 ElForm*/
+	disabled: {
+		type: Boolean,
+		default: undefined,
+	},
 	/** 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的 */
 	nodeKey: {
 		type: String,
@@ -74,57 +79,16 @@ export const faTreeProps = {
 };
 
 export const faTreeEmits = {
+	...treeEmits,
 	/** @description v-model 回调 */
 	"update:modelValue": (value: string | number | boolean | object): boolean =>
 		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isNull(value),
 	/** @description v-model:label 回调 */
 	"update:label": (value: string): boolean => isString(value) || isNull(value),
 	/** @description 数据改变 */
-	dataChangeCallBack: (data: ElTreeOutput[], orgData: ElTreeOutput[]): boolean => isArray(data) && isArray(orgData),
+	dataChangeCallBack: (data: ElTreeOutput[]): boolean => isArray(data),
 	/** @description 改变 */
-	change: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance, event: MouseEvent): boolean =>
-		isObject(data) && isObject(node) && isObject(instance) && event instanceof MouseEvent,
-	/** @description 当节点被点击的时候触发 */
-	nodeClick: (data: ElTreeOutput, node?: any, instance?: ComponentInternalInstance, event?: MouseEvent): boolean =>
-		isObject(data) && isObject(node) && isObject(instance) && event instanceof MouseEvent,
-	/** @description 当某一节点被鼠标右键点击时会触发该事件 */
-	nodeContextmenu: (event: Event, data: ElTreeOutput, node?: any, instance?: ComponentInternalInstance): boolean =>
-		event instanceof Event && isObject(data) && isObject(node) && isObject(instance),
-	/** @description 当复选框被点击的时候触发 */
-	checkChange: (data: ElTreeOutput, checked: boolean, indeterminate: boolean): boolean =>
-		isObject(data) && isBoolean(checked) && isBoolean(indeterminate),
-	/** @description 点击节点复选框之后触发 */
-	check: (
-		data: ElTreeOutput,
-		node: {
-			checkedNodes: ElTreeOutput[];
-			checkedKeys: TreeKey[];
-			halfCheckedNodes: ElTreeOutput[];
-			halfCheckedKeys: TreeKey[];
-		}
-	): boolean => isObject(data) && isObject(node),
-	/** @description 当前选中节点变化时触发的事件 */
-	currentChange: (data: ElTreeOutput, node: any): boolean => isObject(data) && isObject(node),
-	/** @description 节点被展开时触发的事件 */
-	nodeExpand: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance): boolean =>
-		isObject(data) && isObject(node) && isObject(instance),
-	/** @description 节点被关闭时触发的事件 */
-	nodeCollapse: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance): boolean =>
-		isObject(data) && isObject(node) && isObject(instance),
-	/** @description 节点开始拖拽时触发的事件 */
-	nodeDragStart: (node: any, event: DragEvent): boolean => isObject(node) && event instanceof DragEvent,
-	/** @description 拖拽进入其他节点时触发的事件 */
-	nodeDragEnter: (node: any, enterNode: any, event: DragEvent): boolean => isObject(node) && isObject(enterNode) && event instanceof DragEvent,
-	/** @description 拖拽离开某个节点时触发的事件 */
-	nodeDragLeave: (node: any, leaveNode: any, event: DragEvent): boolean => isObject(node) && isObject(leaveNode) && event instanceof DragEvent,
-	/** @description 在拖拽节点时触发的事件（类似浏览器的 mouseover 事件） */
-	nodeDragOver: (node: any, dropNode: any, event: DragEvent): boolean => isObject(node) && isObject(dropNode) && event instanceof DragEvent,
-	/** @description 拖拽结束时（可能未成功）触发的事件 */
-	nodeDragEnd: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent): boolean =>
-		isObject(node) && isObject(dropNode) && isString(dropType) && event instanceof DragEvent,
-	/** @description 拖拽成功完成时触发的事件 */
-	nodeDrop: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent): boolean =>
-		isObject(node) && isObject(dropNode) && isString(dropType) && event instanceof DragEvent,
+	change: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance, event: MouseEvent): boolean => true,
 };
 
 type FaTreeSlots = {
@@ -142,7 +106,7 @@ export default defineComponent({
 	emits: faTreeEmits,
 	slots: makeSlots<FaTreeSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit, { passive: true });
+		const selectedLabel = useVModel(props, "label", emit);
 		const _globalSize = useGlobalSize();
 
 		const state = reactive({
@@ -151,9 +115,9 @@ export default defineComponent({
 			searchValue: withDefineType<string>(),
 			orgTreeData: withDefineType<ElTreeOutput[]>([]),
 			treeData: withDefineType<ElTreeOutput[]>([]),
-			hamburger: false,
+			hamburger: props.hamburger || false,
 			width: computed(() => {
-				if (props.hamburger || state.hamburger) {
+				if (state.hamburger) {
 					return "130px";
 				} else {
 					const width = addUnit(props.width);
@@ -171,39 +135,33 @@ export default defineComponent({
 
 		const treeRef = ref<InstanceType<typeof ElTree>>();
 
-		const setTreeData = (treeData: ElTreeOutput[] | any[]): void => {
-			if (!props.hideAll) {
-				treeData.unshift({ [props.nodeKey]: props.allValue, label: "全部", all: true } as any);
-			}
-			state.treeData = treeData;
-		};
-
 		const loadData = async (): Promise<void> => {
 			let curSelectedData;
 			if (props.nodeKey) {
 				// 记录原本选中的值
 				curSelectedData = treeRef.value.getCurrentKey();
 			}
+			let treeData: ElTreeOutput[] = [];
 			// 判断是否需要自动请求
 			if (props.requestApi) {
 				state.loading = true;
 				const params = { ...(props.initParam ?? {}), searchValue: state.searchValue };
 				try {
-					const resData = await props.requestApi(params);
-					state.orgTreeData = resData;
-					setTreeData(resData);
+					treeData = await props.requestApi(params);
 				} catch (error) {
 					consoleError("FaTree", error);
-					state.orgTreeData = [];
-					setTreeData([]);
-					emit("dataChangeCallBack", state.treeData, state.orgTreeData);
 				} finally {
 					state.loading = false;
 				}
 			} else {
-				state.orgTreeData = props.data;
-				setTreeData(props.data);
+				treeData = props.data;
 			}
+			if (!props.hideAll) {
+				treeData.unshift({ [props.nodeKey]: props.allValue, label: "全部", value: null, all: true } as any);
+			}
+			state.orgTreeData = treeData;
+			state.treeData = treeData;
+			emit("dataChangeCallBack", state.treeData);
 			if (props.nodeKey && curSelectedData) {
 				nextTick(() => {
 					// 设置原本选中的值
@@ -219,8 +177,8 @@ export default defineComponent({
 		};
 
 		const handleHamburgerClick = (): void => {
-			if (props.hamburger || state.hamburger) {
-				setTreeData(state.orgTreeData);
+			if (state.hamburger) {
+				state.treeData = state.orgTreeData;
 			} else {
 				// 折叠只显示一级数据
 				state.treeData = state.orgTreeData.map((m) => ({ ...m, [props.props.children]: [] }));
@@ -258,7 +216,7 @@ export default defineComponent({
 			selectedLabel.value = node.label;
 			emit("update:modelValue", state.value);
 			emit("change", data, node, instance, event);
-			emit("nodeClick", data, node, instance, event);
+			emit("node-click", data, node, instance, event);
 		};
 
 		onMounted(async () => {
@@ -275,10 +233,11 @@ export default defineComponent({
 		});
 
 		const elTreeProps = useProps(props, treeProps, ["data", "expandOnClickNode", "filterNodeMethod"]);
+		const elTreeEmits = useEmits(treeEmits, emit, ["node-click"]);
 
 		useRender(() => (
 			<div
-				class={["el-card fa-tree", `fa-tree-${_globalSize.value}`, { "fa-tree__fold": (props.hamburger && state.hamburger) || fold.value }]}
+				class={["el-card fa-tree", `fa-tree-${_globalSize.value}`, { "fa-tree__fold": state.hamburger || fold.value }]}
 				style={{ width: state.width }}
 				vLoading={state.loading}
 			>
@@ -301,7 +260,7 @@ export default defineComponent({
 					<ElInput
 						class="fa-tree__search-input"
 						vModel_trim={state.searchValue}
-						placeholder={props.hamburger || state.hamburger ? "关键字过滤" : "输入关键字进行过滤"}
+						placeholder={state.hamburger ? "关键字过滤" : "输入关键字进行过滤"}
 						clearable
 						onInput={(value) => treeRef.value.filter(value)}
 					/>
@@ -309,43 +268,12 @@ export default defineComponent({
 				<ElScrollbar class="fa-tree__scrollbar">
 					<ElTree
 						{...elTreeProps.value}
+						{...elTreeEmits.value}
 						ref={treeRef}
 						data={state.treeData}
 						expandOnClickNode={props.checkOnClickNode ? false : props.expandOnClickNode}
 						filterNodeMethod={handleFilterNode}
 						onNodeClick={handleNodeClick}
-						onNodeContextmenu={(event: Event, data: ElTreeOutput, node?: any, instance?: ComponentInternalInstance) =>
-							emit("nodeContextmenu", event, data, node, instance)
-						}
-						onCheckChange={(data: ElTreeOutput, checked: boolean, indeterminate: boolean) =>
-							emit("checkChange", data, checked, indeterminate)
-						}
-						onCheck={(
-							data: ElTreeOutput,
-							node: {
-								checkedNodes: ElTreeOutput[];
-								checkedKeys: TreeKey[];
-								halfCheckedNodes: ElTreeOutput[];
-								halfCheckedKeys: TreeKey[];
-							}
-						) => emit("check", data, node)}
-						onCurrentChange={(data: ElTreeOutput, node: any) => emit("currentChange", data, node)}
-						onNodeExpand={(data: ElTreeOutput, node: any, instance: ComponentInternalInstance) =>
-							emit("nodeExpand", data, node, instance)
-						}
-						onNodeCollapse={(data: ElTreeOutput, node: any, instance: ComponentInternalInstance) =>
-							emit("nodeCollapse", data, node, instance)
-						}
-						onNodeDragStart={(node: any, event: DragEvent) => emit("nodeDragStart", node, event)}
-						onNodeDragEnter={(node: any, enterNode: any, event: DragEvent) => emit("nodeDragEnter", node, enterNode, event)}
-						onNodeDragLeave={(node: any, leaveNode: any, event: DragEvent) => emit("nodeDragLeave", node, leaveNode, event)}
-						onNodeDragOver={(node: any, dropNode: any, event: DragEvent) => emit("nodeDragOver", node, dropNode, event)}
-						onNodeDragEnd={(node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) =>
-							emit("nodeDragEnd", node, dropNode, dropType, event)
-						}
-						onNodeDrop={(node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) =>
-							emit("nodeDrop", node, dropNode, dropType, event)
-						}
 					>
 						{{
 							default: ({ node, data }: { node: any; data: ElTreeOutput }) => (
@@ -354,9 +282,9 @@ export default defineComponent({
 									title={data?.all ? data.label : node.label}
 									style={{ paddingLeft: fold.value ? "3px" : "" }}
 								>
-									<span>{slots.label ? slots.label({ node, data }) : data?.all ? data.label : node.label}</span>
+									<div>{data?.all ? data.label : slots.label ? slots.label({ node, data }) : node.label}</div>
 									{node.key && data.showQuantity ? <span>[{data.quantity}]</span> : null}
-									{slots.default && <span>{slots.default({ node, data })}</span>}
+									{!data?.all && slots.default && <span>{slots.default({ node, data })}</span>}
 								</span>
 							),
 							...(slots.empty && { empty: (): VNode[] => slots.empty() }),

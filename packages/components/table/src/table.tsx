@@ -606,7 +606,7 @@ export default defineComponent({
 
 			// 去原来的列中查找表格的列数据
 			const orgColumn = state.orgColumns.find((f) => f.prop === prop);
-			const enField = orgColumn.sortableField ?? orgColumn.prop ?? orgColumn.property;
+			const enField = orgColumn?.sortableField ?? orgColumn?.prop ?? column.property;
 			const fieldIndex = state.searchParam.sortList.findIndex((f: PagedSortInput) => f.enField === enField);
 			if (!column.multiOrder) {
 				// 如果是空的，删除排序
@@ -614,7 +614,7 @@ export default defineComponent({
 			} else if (fieldIndex === -1) {
 				state.searchParam.sortList.push({
 					enField,
-					cnField: orgColumn.label,
+					cnField: column.label,
 					mode: column.multiOrder,
 				});
 			} else {
@@ -671,22 +671,6 @@ export default defineComponent({
 						localCellClassName += " fa-table__data-delete-column";
 					} else {
 						localCellClassName = "fa-table__data-delete-column";
-					}
-				}
-			}
-			if (columnInfo?.type === "timeInfo") {
-				if (localCellClassName) {
-					localCellClassName += " fa-table__line-height-normal-column";
-				} else {
-					localCellClassName = "fa-table__line-height-normal-column";
-				}
-			}
-			if (columnInfo?.type === "date" || columnInfo?.type === "time" || columnInfo?.type === "dateTime") {
-				if (columnInfo?.dateFix) {
-					if (localCellClassName) {
-						localCellClassName += " fa-table__line-height-normal-column";
-					} else {
-						localCellClassName = "fa-table__line-height-normal-column";
 					}
 				}
 			}

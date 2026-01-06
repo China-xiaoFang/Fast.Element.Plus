@@ -21,7 +21,7 @@ export const faIconProps = {
 export default defineComponent({
 	name: "FaIcon",
 	props: faIconProps,
-	setup(props, { attrs }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const state = reactive({
 			isUrl: computed(() => RegExps.External.test(props.name)),
 			style: computed((): CSSProperties => {

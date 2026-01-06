@@ -35,7 +35,7 @@ export default defineComponent({
 		breakPointChange: ({ breakPoint }: { breakPoint: FaLayoutGridBreakPoint }) => true,
 	},
 	slots: makeSlots<FaLayoutGridSlots>(),
-	setup(props, { slots, emit, expose }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const divElRef = ref<HTMLElement>();
 
 		// 注入 gap 间距

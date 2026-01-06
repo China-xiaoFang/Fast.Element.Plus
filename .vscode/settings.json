@@ -43,7 +43,7 @@
 	"explorer.fileNesting.patterns": {
 		".env": ".env.*",
 		".prettierrc.cjs": ".prettierignore, .eslintignore, .eslintrc.cjs, eslint.config.mjs",
-		"package.json": ".npmrc, .nvmrc, pnpm-lock.yaml, pnpm-workspace.yaml",
+		"package.json": ".npmrc, .nvmrc, package-*.json, pnpm-*.yaml",
 		"vite.build.config.*": "vite.*"
 	}
 }

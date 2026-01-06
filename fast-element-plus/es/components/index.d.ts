@@ -9,6 +9,7 @@ export * from './formItemTip';
 export * from './icon';
 export * from './iconSelector';
 export * from './image';
+export * from './inputDialogPage';
 export * from './layoutGrid';
 export * from './select';
 export * from './selectPage';

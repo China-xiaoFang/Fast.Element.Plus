@@ -51,7 +51,7 @@ export default defineComponent({
 	name: "FaImage",
 	props: faImageProps,
 	slots: makeSlots<FaImageSlots>(),
-	setup(props, { attrs, slots, expose }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const state = reactive({
 			src: computed(() => {
 				if (!props.src) return undefined;

@@ -69,7 +69,7 @@ export declare const faDialogProps: {
     /** @description 隐藏底部操作 */
     hideFooter: BooleanConstructor;
     /** @description 撑满高度 */
-    fillHeight: BooleanConstructor;
+    fullHeight: BooleanConstructor;
     /** @description 显示关闭回调 */
     showBeforeClose: BooleanConstructor;
     /** @description 打开之后 */
@@ -215,7 +215,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 隐藏底部操作 */
     hideFooter: BooleanConstructor;
     /** @description 撑满高度 */
-    fillHeight: BooleanConstructor;
+    fullHeight: BooleanConstructor;
     /** @description 显示关闭回调 */
     showBeforeClose: BooleanConstructor;
     /** @description 打开之后 */
@@ -360,7 +360,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 隐藏底部操作 */
     hideFooter: BooleanConstructor;
     /** @description 撑满高度 */
-    fillHeight: BooleanConstructor;
+    fullHeight: BooleanConstructor;
     /** @description 显示关闭回调 */
     showBeforeClose: BooleanConstructor;
     /** @description 打开之后 */
@@ -438,7 +438,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     closeButtonText: string;
     confirmButtonText: string;
     hideFooter: boolean;
-    fillHeight: boolean;
+    fullHeight: boolean;
     showBeforeClose: boolean;
     closeOnClickModal: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;

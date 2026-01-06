@@ -3,6 +3,7 @@ import { definePropType, makeSlots, useExpose, useRender } from "@fast-china/uti
 import type { FaLayoutGridItemResponsive } from "./layoutGrid.type";
 import type { FaLayoutGridBreakPoint } from "@fast-element-plus/components/layoutGrid";
 import type { Ref } from "vue";
+import { isNumber } from "lodash-unified";
 
 type FaLayoutGridItemSlots = {
 	/** @description 默认内容插槽 */
@@ -13,9 +14,15 @@ export default defineComponent({
 	name: "FaLayoutGridItem",
 	props: {
 		/** @description 偏移 */
-		offset: { type: Number, default: 0 },
+		offset: {
+			type: [String, Number],
+			default: 0,
+		},
 		/** @description 占位 */
-		span: { type: Number, default: 1 },
+		span: {
+			type: [String, Number],
+			default: 1,
+		},
 		/** @description 后缀 */
 		suffix: { type: Boolean, default: false },
 		/** @description 响应式，小于480px屏幕配置 */
@@ -71,8 +78,8 @@ export default defineComponent({
 
 		const style = computed(() => {
 			const breakPointObk = props[breakPoint.value] as FaLayoutGridItemResponsive;
-			const span = breakPointObk?.span ?? props.span;
-			const offset = breakPointObk?.offset ?? props.offset;
+			const span = breakPointObk?.span ?? (isNumber(props.span) ? props.span : Number(props.span));
+			const offset = breakPointObk?.offset ?? (isNumber(props.offset) ? props.offset : Number(props.offset));
 			if (props.suffix) {
 				return {
 					gridColumnStart: cols.value - span - offset + 1,

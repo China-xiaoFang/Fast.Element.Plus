@@ -42,7 +42,7 @@ export default defineComponent({
 	name: "FaFormItem",
 	props: faFormItemProps,
 	slots: makeSlots<FaFormItemSlots>(),
-	setup(props, { attrs, slots, expose }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const formItemRef = ref<FormItemInstance>();
 
 		const cols = inject<Ref<number>>("cols", ref(4));

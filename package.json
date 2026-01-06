@@ -1,6 +1,6 @@
 {
 	"name": "fast-element-plus",
-	"version": "1.0.7",
+	"version": "1.0.9",
 	"description": "Fast 组件库.",
 	"type": "module",
 	"keywords": [
@@ -26,9 +26,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"workspaces": [
-		"packages/*"
-	],
+	"main": "packages/index.ts",
 	"scripts": {
 		"check": "vue-tsc",
 		"update:version": "tsx scripts/update-version.ts",
@@ -57,7 +55,7 @@
 		"@fast-element-plus/constants": "workspace:*",
 		"@fast-element-plus/directives": "workspace:*",
 		"@fast-element-plus/hooks": "workspace:*",
-		"@fast-element-plus/icons-vue": "^1.0.17",
+		"@fast-element-plus/icons-vue": "^1",
 		"@rollup/plugin-terser": "^0.4",
 		"@types/lodash": "^4.17",
 		"@types/lodash-es": "^4.17",

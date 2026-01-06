@@ -13,12 +13,12 @@
 import { withInstallDirective } from "@fast-china/utils";
 import type { Directive } from "vue";
 
-interface ElType extends HTMLElement {
+interface DraggableElement extends HTMLElement {
 	parentNode: any;
 }
 
 const DraggableDirective: Directive = {
-	mounted(el: ElType) {
+	mounted(el: DraggableElement) {
 		el.style.cursor = "move";
 		el.style.position = "absolute";
 		el.onmousedown = (e): void => {

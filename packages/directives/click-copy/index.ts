@@ -7,13 +7,13 @@ import { ElMessage } from "element-plus";
 import { stringUtil, withInstallDirective } from "@fast-china/utils";
 import type { Directive, DirectiveBinding } from "vue";
 
-interface ElType extends HTMLElement {
+interface CopyElement extends HTMLElement {
 	copyData: string | number;
 	__handleClick__: () => void;
 }
 
 const CopyDirective: Directive = {
-	mounted(el: ElType, binding: DirectiveBinding) {
+	mounted(el: CopyElement, binding: DirectiveBinding<string | number>) {
 		el.copyData = binding.value;
 
 		el.__handleClick__ = async (): Promise<void> => {
@@ -34,10 +34,10 @@ const CopyDirective: Directive = {
 		};
 		el.addEventListener("click", el.__handleClick__);
 	},
-	updated(el: ElType, binding: DirectiveBinding) {
+	updated(el: CopyElement, binding: DirectiveBinding) {
 		el.copyData = binding.value;
 	},
-	beforeUnmount(el: ElType) {
+	beforeUnmount(el: CopyElement) {
 		el.removeEventListener("click", el.__handleClick__);
 	},
 };

@@ -297,6 +297,11 @@ export type SelectComponentProps = {
     children?: string;
 };
 export declare const faSelectV2Props: {
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** @description displayed text while loading data from server, default is 'Loading' */
     loadingText: {
         type: StringConstructor;
@@ -411,10 +416,6 @@ export declare const faSelectV2Props: {
      * @description
      */
     defaultFirstOption: BooleanConstructor;
-    /**
-     * @description is disabled
-     */
-    disabled: BooleanConstructor;
     /**
      * @description
      */
@@ -624,16 +625,11 @@ export declare const faSelectV2Emits: {
     dataChangeCallBack: (data: ElSelectorOutput[] | any[]) => boolean;
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
-    /** @description 下拉框出现/隐藏时触发 */
-    visibleChange: (visible: boolean) => boolean;
-    /** @description 多选模式下移除tag时触发 */
-    removeTag: (tagValue: any) => boolean;
-    /** @description 可清空的单选模式下用户点击清空按钮时触发 */
+    'remove-tag': (val: unknown) => boolean;
+    'visible-change': (visible: boolean) => boolean;
+    focus: (evt: FocusEvent) => boolean;
+    blur: (evt: FocusEvent) => boolean;
     clear: () => boolean;
-    /** @description 当 input 失去焦点时触发 */
-    blur: (event: FocusEvent) => boolean;
-    /** @description 当 input 获得焦点时触发 */
-    focus: (event: FocusEvent) => boolean;
 };
 type FaSelectV2Slots = {
     /** @description FaSelectOption 默认内容插槽 */
@@ -661,6 +657,11 @@ type FaSelectV2Slots = {
     };
 };
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** @description displayed text while loading data from server, default is 'Loading' */
     loadingText: {
         type: StringConstructor;
@@ -775,10 +776,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description
      */
     defaultFirstOption: BooleanConstructor;
-    /**
-     * @description is disabled
-     */
-    disabled: BooleanConstructor;
     /**
      * @description
      */
@@ -1002,17 +999,17 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataChangeCallBack: (data: ElSelectorOutput[] | any[]) => boolean;
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
-    /** @description 下拉框出现/隐藏时触发 */
-    visibleChange: (visible: boolean) => boolean;
-    /** @description 多选模式下移除tag时触发 */
-    removeTag: (tagValue: any) => boolean;
-    /** @description 可清空的单选模式下用户点击清空按钮时触发 */
+    'remove-tag': (val: unknown) => boolean;
+    'visible-change': (visible: boolean) => boolean;
+    focus: (evt: FocusEvent) => boolean;
+    blur: (evt: FocusEvent) => boolean;
     clear: () => boolean;
-    /** @description 当 input 失去焦点时触发 */
-    blur: (event: FocusEvent) => boolean;
-    /** @description 当 input 获得焦点时触发 */
-    focus: (event: FocusEvent) => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** @description displayed text while loading data from server, default is 'Loading' */
     loadingText: {
         type: StringConstructor;
@@ -1127,10 +1124,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description
      */
     defaultFirstOption: BooleanConstructor;
-    /**
-     * @description is disabled
-     */
-    disabled: BooleanConstructor;
     /**
      * @description
      */
@@ -1334,8 +1327,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     onClear?: () => any;
     "onUpdate:modelValue"?: (value: string | number | boolean | object | (string | number | boolean | object)[]) => any;
     onChange?: (data: any, value?: string | number | boolean | object | (string | number | boolean | object)[]) => any;
-    onFocus?: (event: FocusEvent) => any;
-    onBlur?: (event: FocusEvent) => any;
+    onFocus?: (evt: FocusEvent) => any;
+    onBlur?: (evt: FocusEvent) => any;
     "onUpdate:label"?: (value: string | string[]) => any;
     onDataChangeCallBack?: (data: any[] | {
         [key: string]: any;
@@ -1346,8 +1339,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         disabled?: boolean;
         children?: /*elided*/ any[];
     }[]) => any;
-    onVisibleChange?: (visible: boolean) => any;
-    onRemoveTag?: (tagValue: any) => any;
+    "onRemove-tag"?: (val: unknown) => any;
+    "onVisible-change"?: (visible: boolean) => any;
 }>, {
     props: Props;
     data: {
@@ -1399,9 +1392,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     maxCollapseTags: number;
     tagType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>;
     tagEffect: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>;
+    scrollbarAlwaysOn: boolean;
     pageResult: boolean;
     estimatedOptionHeight: number;
     itemHeight: number;
-    scrollbarAlwaysOn: boolean;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaSelectV2Slots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

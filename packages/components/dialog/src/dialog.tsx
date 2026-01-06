@@ -2,7 +2,7 @@ import { Fragment, computed, defineComponent, nextTick, reactive, ref, watch } f
 import { ElButton, ElDialog, ElIcon, ElMessage, ElMessageBox, ElScrollbar, dialogEmits, dialogProps, useGlobalSize } from "element-plus";
 import { Close, Eleme, Refresh } from "@element-plus/icons-vue";
 import { FullScreen, FullScreenExit } from "@fast-element-plus/icons-vue";
-import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
+import { consoleError, definePropType, execFunction, makeSlots, useEmits, useExpose, useProps, useRender } from "@fast-china/utils";
 import { isBoolean } from "lodash-unified";
 import type { DialogInstance } from "element-plus";
 import type { VNode } from "vue";
@@ -79,7 +79,7 @@ export const faDialogProps = {
 	/** @description 隐藏底部操作 */
 	hideFooter: Boolean,
 	/** @description 撑满高度 */
-	fillHeight: Boolean,
+	fullHeight: Boolean,
 	/** @description 显示关闭回调 */
 	showBeforeClose: Boolean,
 	/** @description 打开之后 */
@@ -230,24 +230,22 @@ export default defineComponent({
 		);
 
 		const elDialogProps = useProps(props, dialogProps, ["modelValue", "fullscreen", "showClose", "beforeClose"]);
+		const elDialogEmits = useEmits(dialogEmits, emit, ["update:modelValue"]);
 
 		useRender(() => (
 			<ElDialog
 				{...elDialogProps.value}
+				{...elDialogEmits.value}
 				ref={dialogRef}
 				class={[
 					"fa-dialog",
 					`fa-dialog-${_globalSize.value}`,
-					{ "fa-dialog__fill-height": props.fillHeight, "fa-dialog__fullscreen": state.fullscreen },
+					{ "fa-dialog__full-height": props.fullHeight, "fa-dialog__fullscreen": state.fullscreen },
 				]}
 				vModel={state.visible}
 				fullscreen={state.fullscreen}
 				showClose={false}
 				beforeClose={handleBeforeClose}
-				onOpened={() => emit("opened")}
-				onClosed={() => emit("closed")}
-				onOpenAutoFocus={() => emit("openAutoFocus")}
-				onCloseAutoFocus={() => emit("closeAutoFocus")}
 			>
 				{{
 					header: () => (

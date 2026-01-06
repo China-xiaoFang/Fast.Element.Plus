@@ -6,12 +6,12 @@ type FaLayoutGridItemSlots = {
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     /** @description 偏移 */
     offset: {
-        type: NumberConstructor;
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     /** @description 占位 */
     span: {
-        type: NumberConstructor;
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     /** @description 后缀 */
@@ -49,12 +49,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description 偏移 */
     offset: {
-        type: NumberConstructor;
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     /** @description 占位 */
     span: {
-        type: NumberConstructor;
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     /** @description 后缀 */
@@ -88,8 +88,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: FaLayoutGridItemResponsive;
     };
 }>> & Readonly<{}>, {
-    span: number;
-    offset: number;
+    span: string | number;
+    offset: string | number;
     xs: FaLayoutGridItemResponsive;
     sm: FaLayoutGridItemResponsive;
     md: FaLayoutGridItemResponsive;
