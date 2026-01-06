@@ -1,3 +1,9 @@
+html.dark {
+	.fa-tree {
+		--el-input-bg-color: transparent;
+		--el-fill-color-blank: transparent;
+	}
+}
 .fa-tree {
 	display: flex;
 	flex-direction: column;
@@ -58,10 +64,19 @@
 							font-size: var(--el-font-size-medium);
 						}
 					}
-					span:first-child {
+					> div {
+						display: flex;
+						align-items: center;
+						flex: 1;
+						overflow: hidden;
+						.el-avatar {
+							flex-shrink: 0;
+						}
+					}
+					> :first-child {
 						flex: 1;
 					}
-					span:nth-child(2) {
+					> :nth-child(2) {
 						margin-left: 10px;
 						.el-icon:nth-child(n + 2) {
 							margin-left: 5px;

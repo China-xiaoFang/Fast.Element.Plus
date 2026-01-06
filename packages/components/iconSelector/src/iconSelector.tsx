@@ -3,7 +3,7 @@ import { ElIcon, ElInput, ElPopover, ElScrollbar } from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { ChromeFilled, RefreshRight } from "@element-plus/icons-vue";
 import { FaIcon } from "@fast-element-plus/components/icon";
-import FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
+import * as FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
 import { definePropType, useExpose, useRender, withDefineType } from "@fast-china/utils";
 import { isNull, isString } from "lodash-unified";
 

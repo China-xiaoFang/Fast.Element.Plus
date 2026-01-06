@@ -11,13 +11,13 @@
 import { withInstallDirective } from "@fast-china/utils";
 import type { Directive, DirectiveBinding } from "vue";
 
-interface ElType extends HTMLElement {
+interface ThrottleElement extends HTMLElement {
 	__handleClick__: () => any;
 	disabled: boolean;
 }
 
 const ThrottleDirective: Directive = {
-	mounted(el: ElType, binding: DirectiveBinding) {
+	mounted(el: ThrottleElement, binding: DirectiveBinding<(...args: any[]) => void>) {
 		if (typeof binding.value !== "function") {
 			throw "callback must be a function";
 		}
@@ -36,7 +36,7 @@ const ThrottleDirective: Directive = {
 		};
 		el.addEventListener("click", el.__handleClick__);
 	},
-	beforeUnmount(el: ElType) {
+	beforeUnmount(el: ThrottleElement) {
 		el.removeEventListener("click", el.__handleClick__);
 	},
 };

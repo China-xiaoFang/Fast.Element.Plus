@@ -19,7 +19,7 @@ export default defineComponent({
 	name: "FaFormItemTip",
 	props: faFormItemTipProps,
 	slots: makeSlots<FaFormItemTipSlots>(),
-	setup(props, { slots }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		useRender(() => (
 			<div class="fa-form-item-tip">
 				<ElTooltip effect="dark" rawContent content={props.tips} placement="top">

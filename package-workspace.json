@@ -1,0 +1,5 @@
+{
+	"name": "fast-element-plus-workspaces",
+	"private": true,
+	"workspaces": ["packages/*"]
+}

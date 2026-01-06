@@ -1,7 +1,11 @@
-import { NodeDropType, TreeKey } from './tree.props';
 import { ElTreeOutput } from './tree.type';
 import { ComponentInternalInstance } from 'vue';
 export declare const faTreeProps: {
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的 */
     nodeKey: {
         type: StringConstructor;
@@ -92,9 +96,9 @@ export declare const faTreeProps: {
         type: BooleanConstructor;
         default: boolean;
     };
-    defaultCheckedKeys: import('vue').PropType<TreeKey[]>;
-    defaultExpandedKeys: import('vue').PropType<TreeKey[]>;
-    currentNodeKey: import('vue').PropType<TreeKey>;
+    defaultCheckedKeys: import('vue').PropType<import('./tree.props').TreeKey[]>;
+    defaultExpandedKeys: import('vue').PropType<import('./tree.props').TreeKey[]>;
+    currentNodeKey: import('vue').PropType<import('./tree.props').TreeKey>;
     renderContent: FunctionConstructor;
     showCheckbox: {
         type: BooleanConstructor;
@@ -131,40 +135,22 @@ export declare const faTreeEmits: {
     /** @description v-model:label 回调 */
     "update:label": (value: string) => boolean;
     /** @description 数据改变 */
-    dataChangeCallBack: (data: ElTreeOutput[], orgData: ElTreeOutput[]) => boolean;
+    dataChangeCallBack: (data: ElTreeOutput[]) => boolean;
     /** @description 改变 */
     change: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance, event: MouseEvent) => boolean;
-    /** @description 当节点被点击的时候触发 */
-    nodeClick: (data: ElTreeOutput, node?: any, instance?: ComponentInternalInstance, event?: MouseEvent) => boolean;
-    /** @description 当某一节点被鼠标右键点击时会触发该事件 */
-    nodeContextmenu: (event: Event, data: ElTreeOutput, node?: any, instance?: ComponentInternalInstance) => boolean;
-    /** @description 当复选框被点击的时候触发 */
-    checkChange: (data: ElTreeOutput, checked: boolean, indeterminate: boolean) => boolean;
-    /** @description 点击节点复选框之后触发 */
-    check: (data: ElTreeOutput, node: {
-        checkedNodes: ElTreeOutput[];
-        checkedKeys: TreeKey[];
-        halfCheckedNodes: ElTreeOutput[];
-        halfCheckedKeys: TreeKey[];
-    }) => boolean;
-    /** @description 当前选中节点变化时触发的事件 */
-    currentChange: (data: ElTreeOutput, node: any) => boolean;
-    /** @description 节点被展开时触发的事件 */
-    nodeExpand: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点被关闭时触发的事件 */
-    nodeCollapse: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点开始拖拽时触发的事件 */
-    nodeDragStart: (node: any, event: DragEvent) => boolean;
-    /** @description 拖拽进入其他节点时触发的事件 */
-    nodeDragEnter: (node: any, enterNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽离开某个节点时触发的事件 */
-    nodeDragLeave: (node: any, leaveNode: any, event: DragEvent) => boolean;
-    /** @description 在拖拽节点时触发的事件（类似浏览器的 mouseover 事件） */
-    nodeDragOver: (node: any, dropNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽结束时（可能未成功）触发的事件 */
-    nodeDragEnd: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
-    /** @description 拖拽成功完成时触发的事件 */
-    nodeDrop: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
+    'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
 };
 type FaTreeSlots = {
     /** @description 默认内容插槽 */
@@ -181,6 +167,11 @@ type FaTreeSlots = {
     };
 };
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的 */
     nodeKey: {
         type: StringConstructor;
@@ -271,9 +262,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    defaultCheckedKeys: import('vue').PropType<TreeKey[]>;
-    defaultExpandedKeys: import('vue').PropType<TreeKey[]>;
-    currentNodeKey: import('vue').PropType<TreeKey>;
+    defaultCheckedKeys: import('vue').PropType<import('./tree.props').TreeKey[]>;
+    defaultExpandedKeys: import('vue').PropType<import('./tree.props').TreeKey[]>;
+    currentNodeKey: import('vue').PropType<import('./tree.props').TreeKey>;
     renderContent: FunctionConstructor;
     showCheckbox: {
         type: BooleanConstructor;
@@ -350,41 +341,28 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description v-model:label 回调 */
     "update:label": (value: string) => boolean;
     /** @description 数据改变 */
-    dataChangeCallBack: (data: ElTreeOutput[], orgData: ElTreeOutput[]) => boolean;
+    dataChangeCallBack: (data: ElTreeOutput[]) => boolean;
     /** @description 改变 */
     change: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance, event: MouseEvent) => boolean;
-    /** @description 当节点被点击的时候触发 */
-    nodeClick: (data: ElTreeOutput, node?: any, instance?: ComponentInternalInstance, event?: MouseEvent) => boolean;
-    /** @description 当某一节点被鼠标右键点击时会触发该事件 */
-    nodeContextmenu: (event: Event, data: ElTreeOutput, node?: any, instance?: ComponentInternalInstance) => boolean;
-    /** @description 当复选框被点击的时候触发 */
-    checkChange: (data: ElTreeOutput, checked: boolean, indeterminate: boolean) => boolean;
-    /** @description 点击节点复选框之后触发 */
-    check: (data: ElTreeOutput, node: {
-        checkedNodes: ElTreeOutput[];
-        checkedKeys: TreeKey[];
-        halfCheckedNodes: ElTreeOutput[];
-        halfCheckedKeys: TreeKey[];
-    }) => boolean;
-    /** @description 当前选中节点变化时触发的事件 */
-    currentChange: (data: ElTreeOutput, node: any) => boolean;
-    /** @description 节点被展开时触发的事件 */
-    nodeExpand: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点被关闭时触发的事件 */
-    nodeCollapse: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance) => boolean;
-    /** @description 节点开始拖拽时触发的事件 */
-    nodeDragStart: (node: any, event: DragEvent) => boolean;
-    /** @description 拖拽进入其他节点时触发的事件 */
-    nodeDragEnter: (node: any, enterNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽离开某个节点时触发的事件 */
-    nodeDragLeave: (node: any, leaveNode: any, event: DragEvent) => boolean;
-    /** @description 在拖拽节点时触发的事件（类似浏览器的 mouseover 事件） */
-    nodeDragOver: (node: any, dropNode: any, event: DragEvent) => boolean;
-    /** @description 拖拽结束时（可能未成功）触发的事件 */
-    nodeDragEnd: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
-    /** @description 拖拽成功完成时触发的事件 */
-    nodeDrop: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => boolean;
+    'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+    /** @description whether Select is disabled 重载使其支持 ElForm*/
+    disabled: {
+        type: BooleanConstructor;
+        default: any;
+    };
     /** 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的 */
     nodeKey: {
         type: StringConstructor;
@@ -475,9 +453,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    defaultCheckedKeys: import('vue').PropType<TreeKey[]>;
-    defaultExpandedKeys: import('vue').PropType<TreeKey[]>;
-    currentNodeKey: import('vue').PropType<TreeKey>;
+    defaultCheckedKeys: import('vue').PropType<import('./tree.props').TreeKey[]>;
+    defaultExpandedKeys: import('vue').PropType<import('./tree.props').TreeKey[]>;
+    currentNodeKey: import('vue').PropType<import('./tree.props').TreeKey>;
     renderContent: FunctionConstructor;
     showCheckbox: {
         type: BooleanConstructor;
@@ -531,105 +509,20 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         children?: /*elided*/ any[];
         showQuantity?: boolean;
         quantity?: number;
-    }[], orgData: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
     }[]) => any;
-    onNodeClick?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
-    }, node?: any, instance?: ComponentInternalInstance, event?: MouseEvent) => any;
-    onNodeContextmenu?: (event: Event, data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
-    }, node?: any, instance?: ComponentInternalInstance) => any;
-    onCheckChange?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
-    }, checked: boolean, indeterminate: boolean) => any;
-    onCheck?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
-    }, node: {
-        checkedNodes: ElTreeOutput[];
-        checkedKeys: TreeKey[];
-        halfCheckedNodes: ElTreeOutput[];
-        halfCheckedKeys: TreeKey[];
-    }) => any;
-    onCurrentChange?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
-    }, node: any) => any;
-    onNodeExpand?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
-    }, node: any, instance: ComponentInternalInstance) => any;
-    onNodeCollapse?: (data: {
-        [key: string]: any;
-        label?: string;
-        value?: any;
-        data?: any;
-        hide?: boolean;
-        disabled?: boolean;
-        children?: /*elided*/ any[];
-        showQuantity?: boolean;
-        quantity?: number;
-    }, node: any, instance: ComponentInternalInstance) => any;
-    onNodeDragStart?: (node: any, event: DragEvent) => any;
-    onNodeDragEnter?: (node: any, enterNode: any, event: DragEvent) => any;
-    onNodeDragLeave?: (node: any, leaveNode: any, event: DragEvent) => any;
-    onNodeDragOver?: (node: any, dropNode: any, event: DragEvent) => any;
-    onNodeDragEnd?: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => any;
-    onNodeDrop?: (node: any, dropNode: any, dropType: NodeDropType, event: DragEvent) => any;
+    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
+    "onCheck-change"?: (data: any, checked: boolean, indeterminate: boolean) => any;
+    "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
+    "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-expand"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    onCheck?: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
+    "onNode-drag-start"?: (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-end"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: import('element-plus').NodeDropType, evt: DragEvent) => any;
+    "onNode-drop"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: "before" | "after" | "inner", evt: DragEvent) => any;
+    "onNode-drag-leave"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-enter"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-over"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
 }>, {
     props: import('./tree.props').TreeOptionProps;
     data: {
@@ -643,12 +536,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         showQuantity?: boolean;
         quantity?: number;
     }[];
+    disabled: boolean;
     lazy: boolean;
     modelValue: string | number | boolean | object;
     width: string | number;
     draggable: boolean;
-    nodeKey: string;
     defaultExpandAll: boolean;
+    indent: number;
+    nodeKey: string;
     checkOnClickNode: boolean;
     highlightCurrent: boolean;
     collapseOnClickNode: boolean;
@@ -663,6 +558,5 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     autoExpandParent: boolean;
     showCheckbox: boolean;
     accordion: boolean;
-    indent: number;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaTreeSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

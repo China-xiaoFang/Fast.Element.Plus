@@ -8,13 +8,13 @@ import { ElIcon, ElMessage } from "element-plus";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { stringUtil, withInstallDirective } from "@fast-china/utils";
 
-interface ElType extends HTMLElement {
+interface IconCopyElement extends HTMLElement {
 	copyData: string | number;
 	__iconElement__: Node;
 }
 
 const IconCopyDirective: Directive = {
-	mounted(el: ElType, binding: DirectiveBinding) {
+	mounted(el: IconCopyElement, binding: DirectiveBinding<string | number>) {
 		el.copyData = binding.value;
 
 		if (!el.copyData) return;
@@ -54,10 +54,10 @@ const IconCopyDirective: Directive = {
 		el.__iconElement__ = tempDiv.firstChild;
 		el.parentElement.insertBefore(tempDiv.firstChild, el);
 	},
-	updated(el: ElType, binding: DirectiveBinding) {
+	updated(el: IconCopyElement, binding: DirectiveBinding) {
 		el.copyData = binding.value;
 	},
-	beforeUnmount(el: ElType) {
+	beforeUnmount(el: IconCopyElement) {
 		if (el.__iconElement__) {
 			el.parentElement.removeChild(el.__iconElement__);
 		}

@@ -5,13 +5,21 @@
 import { withInstallDirective } from "@fast-china/utils";
 import type { Directive, DirectiveBinding, VNode } from "vue";
 
-interface ElType extends HTMLElement {
+interface DebounceElement extends HTMLElement {
 	__debounce_timer__: NodeJS.Timeout;
 	__debounce_originClick__: () => any;
 }
 
+interface DebounceVNode extends VNode {
+	props: {
+		/** @description 点击事件 */
+		onClick?: (...args) => any;
+		[key: string]: any;
+	};
+}
+
 const DebounceDirective: Directive = {
-	created(el: ElType, binding: DirectiveBinding, vNode: VNode) {
+	created(el: DebounceElement, binding: DirectiveBinding, vNode: DebounceVNode) {
 		// 记录原来的点击事件方法
 		el.__debounce_originClick__ = vNode.props.onClick;
 

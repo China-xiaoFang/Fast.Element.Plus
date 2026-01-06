@@ -103,9 +103,7 @@ export const tableUtil = {
 	setEnumMap(columnEnum: FaTableEnumColumnType, prop: string, enumMap: Map<string, FaTableEnumColumnCtx[]>): void {
 		if (!columnEnum) return;
 		if (isFunction(columnEnum)) {
-			columnEnum().then((res) => {
-				enumMap.set(prop, res);
-			});
+			enumMap.set(prop, columnEnum());
 		} else if (isArray(columnEnum)) {
 			enumMap.set(prop, columnEnum);
 		}

@@ -27,7 +27,6 @@ export const faButtonEmits = {
 	 * @description 点击事件
 	 * @param done 需要手动隐藏Loading
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	click: (event: MouseEvent, done: () => void = () => {}): boolean => event instanceof MouseEvent && isFunction(done),
 };
 

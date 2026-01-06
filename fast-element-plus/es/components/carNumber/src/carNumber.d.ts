@@ -1,4 +1,9 @@
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
+    /** @description v-model绑定值 */
+    modelValue: {
+        type: StringConstructor;
+        default: any;
+    };
     /** @description placeholder */
     placeholder: {
         type: StringConstructor;
@@ -15,7 +20,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    modelValue: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number) | (() => string | number | null | undefined) | ((new (...args: any[]) => string | number) | (() => string | number | null | undefined))[], unknown, unknown, "", boolean>;
     modelModifiers: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers) | ((new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers))[], unknown, unknown, () => {}, boolean>;
     maxlength: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
@@ -88,7 +92,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     containerRole: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, undefined, boolean>;
     tabindex: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, 0, boolean>;
     validateEvent: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    inputStyle: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue) | ((new (...args: any[]) => string | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue))[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
+    inputStyle: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | false | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue) | ((new (...args: any[]) => string | false | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue))[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
     autofocus: BooleanConstructor;
     rows: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 2, boolean>;
 }>, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
@@ -97,6 +101,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 改变 */
     change: (value: string) => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+    /** @description v-model绑定值 */
+    modelValue: {
+        type: StringConstructor;
+        default: any;
+    };
     /** @description placeholder */
     placeholder: {
         type: StringConstructor;
@@ -113,7 +122,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    modelValue: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number) | (() => string | number | null | undefined) | ((new (...args: any[]) => string | number) | (() => string | number | null | undefined))[], unknown, unknown, "", boolean>;
     modelModifiers: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers) | ((new (...args: any[]) => import('element-plus').InputModelModifiers) | (() => import('element-plus').InputModelModifiers))[], unknown, unknown, () => {}, boolean>;
     maxlength: {
         readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown>>;
@@ -186,7 +194,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     containerRole: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, undefined, boolean>;
     tabindex: import('element-plus/es/utils/index.mjs').EpPropFinalized<readonly [StringConstructor, NumberConstructor], unknown, unknown, 0, boolean>;
     validateEvent: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
-    inputStyle: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue) | ((new (...args: any[]) => string | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue))[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
+    inputStyle: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | false | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue) | ((new (...args: any[]) => string | false | import('vue').CSSProperties | import('vue').StyleValue[]) | (() => import('vue').StyleValue))[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
     autofocus: BooleanConstructor;
     rows: import('element-plus/es/utils/index.mjs').EpPropFinalized<NumberConstructor, unknown, unknown, 2, boolean>;
 }>> & Readonly<{
@@ -197,9 +205,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     id: string;
     disabled: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     autofocus: boolean;
+    modelValue: string;
     placeholder: string;
     inputmode: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal") | (() => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal" | undefined) | ((new (...args: any[]) => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal") | (() => "search" | "text" | "none" | "url" | "email" | "tel" | "numeric" | "decimal" | undefined))[], unknown, unknown>;
-    modelValue: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | number) | (() => string | number | null | undefined) | ((new (...args: any[]) => string | number) | (() => string | number | null | undefined))[], unknown, unknown>;
     modelModifiers: import('element-plus').InputModelModifiers;
     autosize: false;
     autocomplete: AutoFill;

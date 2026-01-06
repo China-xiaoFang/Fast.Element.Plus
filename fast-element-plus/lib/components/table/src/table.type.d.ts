@@ -49,7 +49,7 @@ export type FaTableEnumColumnCtx = {
     type?: "primary" | "success" | "info" | "warning" | "danger";
 };
 /** @description FaTable 表格枚举列类型 */
-export type FaTableEnumColumnType = FaTableEnumColumnCtx[] | ((...args: any[]) => Promise<FaTableEnumColumnCtx[]>);
+export type FaTableEnumColumnType = string | FaTableEnumColumnCtx[] | ((...args: any[]) => FaTableEnumColumnCtx[]);
 /** @description FaTable 表格搜素列组件 */
 export type FaTableSearchColumnEl = "" | "el-input" | "el-input-number" | "el-select" | "el-select-v2" | "el-tree-select" | "el-cascader" | "el-date-picker" | "el-time-picker" | "el-time-select" | "el-switch" | "el-slider" | "slot";
 /** @description FaTable 表格搜素列上下文 */

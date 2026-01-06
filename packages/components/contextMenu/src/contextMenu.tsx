@@ -19,7 +19,7 @@ export default defineComponent({
 		/** @description 点击事件 */
 		click: (event: MouseEvent, data: FaContextMenuData) => event instanceof MouseEvent && isObject(data),
 	},
-	setup(props, { emit, expose }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const _globalSize = useGlobalSize();
 
 		const state = reactive({

@@ -1,13 +1,14 @@
 import { computed, defineComponent, onMounted, reactive, ref, watch } from "vue";
 import { ElSelectV2, tagProps, useAriaProps, useEmptyValuesProps, useGlobalSize, useSizeProp, useTooltipContentProps } from "element-plus";
 import { CircleClose } from "@element-plus/icons-vue";
-import { addUnit, consoleError, definePropType, makeSlots, useExpose, useProps, useRender, withDefineType } from "@fast-china/utils";
+import { addUnit, consoleError, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "@fast-china/utils";
 import { useVModel } from "@vueuse/core";
 import { isArray, isBoolean, isEqual, isNil, isNull, isNumber, isObject, isString } from "lodash-unified";
 import type { ElSelectorOutput } from "@fast-element-plus/components/select/src/select.type";
 import type { PagedInput, PagedResult } from "@fast-element-plus/components/table";
 import type { Options, Placement, PopperEffect } from "element-plus";
 import type { Component, VNode } from "vue";
+import { selectV2Emits } from "element-plus/es/components/select-v2/src/defaults.mjs";
 
 type Props = {
 	label?: string;
@@ -301,6 +302,11 @@ export type SelectComponentProps = {
 
 export const faSelectV2Props = {
 	...SelectV2Props,
+	/** @description whether Select is disabled 重载使其支持 ElForm*/
+	disabled: {
+		type: Boolean,
+		default: undefined,
+	},
 	/** @description displayed text while loading data from server, default is 'Loading' */
 	loadingText: {
 		type: String,
@@ -365,6 +371,7 @@ export const faSelectV2Props = {
 };
 
 export const faSelectV2Emits = {
+	...selectV2Emits,
 	/** @description v-model 回调 */
 	"update:modelValue": (value: string | number | boolean | object | (string | number | boolean | object)[]): boolean =>
 		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNull(value),
@@ -376,19 +383,7 @@ export const faSelectV2Emits = {
 	change: (
 		data: ElSelectorOutput | ElSelectorOutput[] | any | any[],
 		value?: string | number | boolean | object | (string | number | boolean | object)[]
-	): boolean =>
-		(isObject(data) || isArray(data) || isNull(data)) &&
-		(isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNull(value)),
-	/** @description 下拉框出现/隐藏时触发 */
-	visibleChange: (visible: boolean): boolean => isBoolean(visible),
-	/** @description 多选模式下移除tag时触发 */
-	removeTag: (tagValue: any): boolean => isString(tagValue) || isNumber(tagValue) || isBoolean(tagValue) || isObject(tagValue) || isArray(tagValue),
-	/** @description 可清空的单选模式下用户点击清空按钮时触发 */
-	clear: (): boolean => true,
-	/** @description 当 input 失去焦点时触发 */
-	blur: (event: FocusEvent): boolean => event instanceof FocusEvent,
-	/** @description 当 input 获得焦点时触发 */
-	focus: (event: FocusEvent): boolean => event instanceof FocusEvent,
+	): boolean => true,
 };
 
 type FaSelectV2Slots = {
@@ -416,7 +411,7 @@ export default defineComponent({
 	emits: faSelectV2Emits,
 	slots: makeSlots<FaSelectV2Slots>(),
 	setup(props, { attrs, slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit, { passive: true });
+		const selectedLabel = useVModel(props, "label", emit);
 		const _globalSize = useGlobalSize();
 
 		const state = reactive({
@@ -499,6 +494,7 @@ export default defineComponent({
 		const handleClear = (): void => {
 			state.value = null;
 			selectedLabel.value = null;
+			emit("update:modelValue", null);
 			emit("clear");
 		};
 
@@ -517,7 +513,7 @@ export default defineComponent({
 					}
 				}
 			}
-			emit("visibleChange", visible);
+			emit("visible-change", visible);
 		};
 
 		watch(
@@ -606,13 +602,22 @@ export default defineComponent({
 		});
 
 		const elSelectV2Props = useProps(props, SelectV2Props, ["modelValue", "popperClass", "loading", "options", "itemHeight"]);
+		const elSelectV2Emits = useEmits(faSelectV2Emits, emit, ["update:modelValue", "change", "clear", "visible-change"]);
+		const elPopperClass = computed(() => {
+			let localClass = `fa-select-v2-dropdown ${props.popperClass}`;
+			if (props.moreDetail) {
+				localClass += ` fa-select-dropdown__more-detail fa-select-dropdown__more-detail-${_globalSize.value}`;
+			}
+			return localClass;
+		});
 
 		useRender(() => (
 			<ElSelectV2
 				{...elSelectV2Props.value}
+				{...elSelectV2Emits.value}
 				ref={selectV2Ref}
 				class="fa-select-v2"
-				popperClass={`${props.moreDetail && `fa-select-v2-dropdown__more-detail`} ${props.popperClass}`}
+				popperClass={elPopperClass.value}
 				style={{ width: addUnit(props.width) }}
 				vModel={state.value}
 				loading={state.loading}
@@ -621,9 +626,6 @@ export default defineComponent({
 				onChange={handleChange}
 				onClear={handleClear}
 				onVisibleChange={handleVisibleChange}
-				onRemoveTag={(tagValue: any) => emit("removeTag", tagValue)}
-				onBlur={(event: FocusEvent) => emit("blur", event)}
-				onFocus={(event: FocusEvent) => emit("focus", event)}
 			>
 				{{
 					...(slots.default && {

@@ -2,7 +2,7 @@ import { Fragment, computed, defineComponent, nextTick, reactive, ref, watch } f
 import { ElButton, ElDrawer, ElIcon, ElMessage, ElMessageBox, ElScrollbar, drawerEmits, drawerProps, useGlobalSize } from "element-plus";
 import { Close, Eleme, Refresh } from "@element-plus/icons-vue";
 import { FullScreen, FullScreenExit } from "@fast-element-plus/icons-vue";
-import { consoleError, definePropType, execFunction, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
+import { consoleError, definePropType, execFunction, makeSlots, useEmits, useExpose, useProps, useRender } from "@fast-china/utils";
 import { isBoolean } from "lodash-unified";
 import type { VNode } from "vue";
 
@@ -226,20 +226,18 @@ export default defineComponent({
 		};
 
 		const elDrawerProps = useProps(props, drawerProps, ["modelValue", "size", "showClose", "beforeClose"]);
+		const elDrawerEmits = useEmits(drawerEmits, emit, ["update:modelValue"]);
 
 		useRender(() => (
 			<ElDrawer
 				{...elDrawerProps.value}
+				{...elDrawerEmits.value}
 				ref={drawerRef}
 				class={["fa-drawer", `fa-drawer-${_globalSize.value}`, { "fa-drawer__fullscreen": state.fullscreen }]}
 				vModel={state.visible}
 				size={state.size}
 				showClose={false}
 				beforeClose={handleBeforeClose}
-				onOpened={() => emit("opened")}
-				onClosed={() => emit("closed")}
-				onOpenAutoFocus={() => emit("openAutoFocus")}
-				onCloseAutoFocus={() => emit("closeAutoFocus")}
 			>
 				{{
 					header: () => (

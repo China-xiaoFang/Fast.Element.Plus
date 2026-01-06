@@ -63,7 +63,7 @@ export type FaTableEnumColumnCtx = {
 };
 
 /** @description FaTable 表格枚举列类型 */
-export type FaTableEnumColumnType = FaTableEnumColumnCtx[] | ((...args) => Promise<FaTableEnumColumnCtx[]>);
+export type FaTableEnumColumnType = string | FaTableEnumColumnCtx[] | ((...args) => FaTableEnumColumnCtx[]);
 
 /** @description FaTable 表格搜素列组件 */
 export type FaTableSearchColumnEl =

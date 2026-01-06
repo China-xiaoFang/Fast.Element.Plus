@@ -3,13 +3,20 @@ import { ElIcon, ElImage, ElMessage, ElTableColumn, ElTag, ElText, dayjs, useGlo
 import { CopyDocument } from "@element-plus/icons-vue";
 import FaImage from "@fast-element-plus/components/image";
 import { consoleError, dateUtil, definePropType, makeSlots, stringUtil, useProps, useRender } from "@fast-china/utils";
-import { isNil, isNumber, isObject, isString } from "lodash-unified";
+import { isArray, isFunction, isNil, isNumber, isObject, isString } from "lodash-unified";
 import artwork from "../images/artwork.png";
 import notImage from "../images/notImage.png";
 import { tableUtil } from "../utils/table";
 import { getTableDefaultSlots } from "./table.type";
 import { enumMapKey, tableStateKey } from "./useTable";
-import type { FaTableColumnCtx, FaTableColumnDateFormat, FaTableColumnType, FaTableDefaultSlotsResult, FaTableEnumColumnType } from "./table.type";
+import type {
+	FaTableColumnCtx,
+	FaTableColumnDateFormat,
+	FaTableColumnType,
+	FaTableDefaultSlotsResult,
+	FaTableEnumColumnCtx,
+	FaTableEnumColumnType,
+} from "./table.type";
 import type { TableColumnCtx } from "element-plus";
 import type { ComputedRef, PropType, VNode } from "vue";
 
@@ -296,28 +303,24 @@ export default defineComponent({
 
 		const columnCtx = computed(() => props as unknown as FaTableColumnCtx);
 
-		const renderCellData = ({ row }: { row: any }): any => {
-			let enumKey = props.prop;
-			if (isString(props.enum)) {
-				enumKey = props.enum;
+		/** 获取ClassName */
+		const getClassName = (): string => {
+			let className = "";
+			if (props.type === "timeInfo") {
+				className += "fa-table__line-height-normal-column";
 			}
-			const enumData = enumMap.get(enumKey);
-			if (enumData) {
-				return tableUtil.filterEnum(tableUtil.handleRowAccordingToProp(row, props.prop), enumData);
-			} else {
-				return tableUtil.formatValue(tableUtil.handleRowAccordingToProp(row, props.prop));
+			if (props.type === "date" || props.type === "time" || props.type === "dateTime") {
+				if (props.dateFix) {
+					className += "fa-table__line-height-normal-column";
+				}
 			}
+			if (props.className) {
+				return `${className} ${props.className}`;
+			}
+			return className ? className : undefined;
 		};
 
-		const getTagType = ({ row }: { row: any }): any => {
-			let enumKey = props.prop;
-			if (isString(props.enum)) {
-				enumKey = props.enum;
-			}
-			const enumData = enumMap.get(enumKey);
-			return tableUtil.filterEnum(tableUtil.handleRowAccordingToProp(row, props.prop), enumData, null, "tag") as any;
-		};
-
+		/** 获取宽度 */
 		const getWidth = (defAttr: string): string | number => {
 			if (props.autoWidth) {
 				return computed(() => {
@@ -334,6 +337,7 @@ export default defineComponent({
 			return props.width ?? props.minWidth ?? defAttr ?? "auto";
 		};
 
+		/** 表头自动宽度渲染 */
 		const autoWidthHeaderRender = (el: VNode[]): VNode[] => {
 			if (props.autoWidth) {
 				return (
@@ -344,6 +348,16 @@ export default defineComponent({
 			}
 		};
 
+		/** 自动宽度渲染 */
+		const autoWidthRender = (el: VNode[]): VNode[] => {
+			if (props.autoWidth) {
+				return <div class={["fa-table__auto-width-column__cell", `__fa-table__auto-width-column__cell__${props.prop}`]}>{el}</div>;
+			} else {
+				return el;
+			}
+		};
+
+		/** 表头渲染 */
 		const headerRender = ({ column, $index }: { column: TableColumnCtx<any>; $index: number }): VNode[] => {
 			if (props.headerRender) {
 				return autoWidthHeaderRender(props.headerRender({ column, $index, ...getTableDefaultSlots(tableState) }));
@@ -356,41 +370,60 @@ export default defineComponent({
 			}
 		};
 
-		const autoWidthRender = (el: VNode[]): VNode[] => {
-			if (props.autoWidth) {
-				return <div class={["fa-table__auto-width-column__cell", `__fa-table__auto-width-column__cell__${props.prop}`]}>{el}</div>;
-			} else {
-				return el;
-			}
-		};
-
-		const handleCopyClick = async (value): Promise<void> => {
-			try {
-				await stringUtil.copy(String(value));
-				ElMessage({
-					type: "success",
-					message: "复制成功",
-				});
-			} catch (error) {
-				consoleError("FaTableColumn", error);
-				ElMessage({
-					type: "error",
-					message: "复制失败",
-				});
-			}
-		};
-
+		/** 复制渲染 */
 		const copyRender = (value, copy?: boolean): VNode[] => {
 			return (
 				(props.copy || copy) &&
 				value && (
-					<ElIcon class="fa__copy-icon" title="复制" onClick={() => handleCopyClick(value)}>
+					<ElIcon
+						class="fa__copy-icon"
+						title="复制"
+						onClick={async () => {
+							try {
+								await stringUtil.copy(String(value));
+								ElMessage({
+									type: "success",
+									message: "复制成功",
+								});
+							} catch (error) {
+								consoleError("FaTableColumn", error);
+								ElMessage({
+									type: "error",
+									message: "复制失败",
+								});
+							}
+						}}
+					>
 						<CopyDocument />
 					</ElIcon>
 				)
 			);
 		};
 
+		/** 渲染单元格数据 */
+		const renderCellData = ({ row }: { row: any }): any => {
+			const cellValue = tableUtil.handleRowAccordingToProp(row, props.prop);
+
+			let enumKey = props.prop;
+			let enumData: FaTableEnumColumnCtx[];
+
+			if (isString(props.enum)) {
+				enumKey = props.enum;
+				enumData = enumMap.get(enumKey);
+			} else if (isArray(props.enum)) {
+				enumData = props.enum;
+			} else if (isFunction(props.enum)) {
+				enumData = props.enum({ row });
+			}
+
+			if (enumData) {
+				return tableUtil.filterEnum(cellValue, enumData);
+			} else {
+				return tableUtil.formatValue(cellValue);
+			}
+		};
+
+		/** 格式化渲染 */
 		const formatterRender = (row: any, column: TableColumnCtx<any>, cellValue: any, index: number): any => {
 			if (column.formatter) {
 				return column.formatter(row, column, cellValue, index);
@@ -399,62 +432,160 @@ export default defineComponent({
 			}
 		};
 
+		/** 时间信息列渲染 */
+		const timeInfoRender = (row: any, column: TableColumnCtx<any>, $index: number): VNode[] => {
+			const userName = row[props.timeInfoField?.userName ?? "createdUserName"];
+			const time = row[props.timeInfoField?.time ?? "createdTime"];
+			return (
+				<Fragment>
+					<div style="white-space: nowrap; overflow: hidden; text-overflow:  ellipsis;" title={time}>
+						{userName && <span style="margin-right: 5px;">{userName}</span>}
+						<span>{time}</span>
+					</div>
+					{time && (
+						<ElTag type="info" round effect="light" size="small">
+							{dateUtil.dateTimeFix(String(time))}
+						</ElTag>
+					)}
+				</Fragment>
+			);
+		};
+
+		/** 标签列渲染 */
+		const tagRender = (row: any, column: TableColumnCtx<any>, $index: number): VNode[] => {
+			const renderValue = formatterRender(row, column, renderCellData({ row }), $index);
+			let enumKey = props.prop;
+			if (isString(props.enum)) {
+				enumKey = props.enum;
+			}
+			const enumData = enumMap.get(enumKey);
+			const type = tableUtil.filterEnum(tableUtil.handleRowAccordingToProp(row, props.prop), enumData, null, "tag");
+			return (
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue ? <ElTag type={type}>{renderValue}</ElTag> : null}
+				</Fragment>
+			);
+		};
+
+		/** 时间列渲染 */
+		const dateRender = (row: any, column: TableColumnCtx<any>, $index: number): VNode[] => {
+			let dateFormat;
+			switch (props.type) {
+				case "date":
+					dateFormat = "YYYY-MM-DD";
+					break;
+				case "time":
+					dateFormat = "HH:mm:ss";
+					break;
+				case "dateTime":
+					dateFormat = "YYYY-MM-DD HH:mm:ss";
+					break;
+			}
+			const renderValue = row[props.prop]
+				? formatterRender(row, column, dayjs(row[props.prop]).format(props.dateFormat ?? dateFormat), $index)
+				: null;
+			return (
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue}
+					{props.dateFix && renderValue && (
+						<Fragment>
+							<br />
+							<ElTag type="info" round effect="light" size="small">
+								{dateUtil.dateTimeFix(String(renderValue))}
+							</ElTag>
+						</Fragment>
+					)}
+				</Fragment>
+			);
+		};
+
+		/** 数值列渲染 */
+		const numberRender = (row: any, column: TableColumnCtx<any>, $index: number): VNode[] => {
+			const renderValue = row[props.prop];
+			if (!renderValue || !isNumber(renderValue)) {
+				return formatterRender(row, column, renderValue, $index);
+			}
+			let useGrouping = false;
+			let maximumFractionDigits: number;
+			switch (props.type) {
+				case "d2":
+					maximumFractionDigits = 2;
+					break;
+				case "d4":
+					maximumFractionDigits = 4;
+					break;
+				case "d6":
+					maximumFractionDigits = 6;
+					break;
+				case "gd2":
+					maximumFractionDigits = 2;
+					useGrouping = true;
+					break;
+				case "gd4":
+					maximumFractionDigits = 4;
+					useGrouping = true;
+					break;
+				case "gd6":
+					maximumFractionDigits = 6;
+					useGrouping = true;
+					break;
+			}
+
+			return formatterRender(
+				row,
+				column,
+				renderValue.toLocaleString("zh-CN", {
+					minimumFractionDigits: 2,
+					maximumFractionDigits,
+					useGrouping,
+				}),
+				$index
+			);
+		};
+
+		/** 链接列渲染 */
+		const linkRender = (row: any, column: TableColumnCtx<any>, $index: number): VNode[] => {
+			const renderValue = formatterRender(row, column, row[props.prop], $index);
+			return autoWidthRender(
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue && (
+						<ElText
+							class={"el-link is-hover-underline fa-table__link-column__text"}
+							onClick={() => {
+								// 数据删除拦截点击
+								if (props.dataDeleteField && row[props.dataDeleteField] === true) return;
+								if (props.click) {
+									props.click({ row, $index });
+								} else {
+									emit("customCellClick", props.clickEmit, {
+										row,
+										column: columnCtx.value,
+										$index,
+									});
+								}
+							}}
+						>
+							{renderValue}
+						</ElText>
+					)}
+				</Fragment>
+			);
+		};
+
 		const defaultRender = ({ row, column, $index }: { row: any; column: TableColumnCtx<any>; $index: number }): VNode[] => {
 			if (props.type === "timeInfo") {
-				const userName = row[props.timeInfoField?.userName ?? "createdUserName"];
-				const time = row[props.timeInfoField?.time ?? "createdTime"];
-				return (
-					<Fragment>
-						<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title={time}>
-							{userName && <span style="margin-right: 5px;">{userName}</span>}
-							<span>{time}</span>
-						</div>
-						{time && (
-							<ElTag type="info" round effect="light" size="small">
-								{dateUtil.dateTimeFix(String(time))}
-							</ElTag>
-						)}
-					</Fragment>
-				);
-			} else if (props.tag) {
-				const renderValue = formatterRender(row, column, renderCellData({ row }), $index);
-				return (
-					<Fragment>
-						{copyRender(renderValue)}
-						{renderValue ? <ElTag type={getTagType({ row })}>{renderValue}</ElTag> : null}
-					</Fragment>
-				);
-			} else if (props.type === "date" || props.type === "time" || props.type === "dateTime") {
-				let dateFormat;
-				switch (props.type) {
-					case "date":
-						dateFormat = "YYYY-MM-DD";
-						break;
-					case "time":
-						dateFormat = "HH:mm:ss";
-						break;
-					case "dateTime":
-						dateFormat = "YYYY-MM-DD HH:mm:ss";
-						break;
-				}
-				const renderValue = row[props.prop]
-					? formatterRender(row, column, dayjs(row[props.prop]).format(props.dateFormat ?? dateFormat), $index)
-					: null;
-				return (
-					<Fragment>
-						{copyRender(renderValue)}
-						{renderValue}
-						{props.dateFix && renderValue && (
-							<Fragment>
-								<br />
-								<ElTag type="info" round effect="light" size="small">
-									{dateUtil.dateTimeFix(String(renderValue))}
-								</ElTag>
-							</Fragment>
-						)}
-					</Fragment>
-				);
-			} else if (
+				return timeInfoRender(row, column, $index);
+			}
+			if (props.tag) {
+				return tagRender(row, column, $index);
+			}
+			if (props.type === "date" || props.type === "time" || props.type === "dateTime") {
+				return dateRender(row, column, $index);
+			}
+			if (
 				props.type === "d2" ||
 				props.type === "d4" ||
 				props.type === "d6" ||
@@ -462,84 +593,26 @@ export default defineComponent({
 				props.type === "gd4" ||
 				props.type === "gd6"
 			) {
-				const renderValue = row[props.prop];
-				if (renderValue) {
-					if (isNumber(renderValue)) {
-						let useGrouping = false;
-						let maximumFractionDigits: number;
-						switch (props.type) {
-							case "d2":
-								maximumFractionDigits = 2;
-								break;
-							case "d4":
-								maximumFractionDigits = 4;
-								break;
-							case "d6":
-								maximumFractionDigits = 6;
-								break;
-							case "gd2":
-								maximumFractionDigits = 2;
-								useGrouping = true;
-								break;
-							case "gd4":
-								maximumFractionDigits = 4;
-								useGrouping = true;
-								break;
-							case "gd6":
-								maximumFractionDigits = 6;
-								useGrouping = true;
-								break;
-						}
-						return renderValue.toLocaleString("zh-CN", {
-							minimumFractionDigits: 2,
-							maximumFractionDigits,
-							useGrouping,
-						}) as any;
-					}
-				}
-				return renderValue;
-			} else if (props.link) {
-				const renderValue = formatterRender(row, column, row[props.prop], $index);
-				return autoWidthRender(
-					<Fragment>
-						{copyRender(renderValue)}
-						{renderValue && (
-							<ElText
-								class={"el-link is-hover-underline fa-table__link-column__text"}
-								onClick={() => {
-									// 数据删除拦截点击
-									if (props.dataDeleteField && row[props.dataDeleteField] === true) return;
-									if (props.click) {
-										props.click({ row, $index });
-									} else {
-										emit("customCellClick", props.clickEmit, {
-											row,
-											column: columnCtx.value,
-											$index,
-										});
-									}
-								}}
-							>
-								{renderValue}
-							</ElText>
-						)}
-					</Fragment>
-				);
-			} else if (props.render) {
+				return numberRender(row, column, $index);
+			}
+			if (props.link) {
+				return linkRender(row, column, $index);
+			}
+			if (props.render) {
 				return autoWidthRender(props.render({ row, column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) }));
-			} else if (props.slot) {
+			}
+			if (props.slot) {
 				return autoWidthRender(
 					slots[props.slot] && slots[props.slot]({ row, column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) })
 				);
-			} else {
-				const renderValue = formatterRender(row, column, row[props.prop], $index);
-				return autoWidthRender(
-					<Fragment>
-						{copyRender(renderValue)}
-						{renderValue}
-					</Fragment>
-				);
 			}
+			const renderValue = formatterRender(row, column, row[props.prop], $index);
+			return autoWidthRender(
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue}
+				</Fragment>
+			);
 		};
 
 		let elTableColumnProps: ComputedRef<TableColumnCtx<any>> = useProps(props, tableColumnProps, [
@@ -557,6 +630,7 @@ export default defineComponent({
 			() => {
 				elTableColumnProps = useProps(props, tableColumnProps, [
 					"type",
+					"className",
 					"minWidth",
 					"sortable",
 					"sortOrders",
@@ -573,6 +647,7 @@ export default defineComponent({
 					props._children?.length ? (
 						<ElTableColumn
 							{...elTableColumnProps.value}
+							className={getClassName()}
 							minWidth={getWidth("auto")}
 							sortable={props.sortable ? "custom" : false}
 							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}
@@ -630,6 +705,7 @@ export default defineComponent({
 						// 其他正常的列
 						<ElTableColumn
 							{...elTableColumnProps.value}
+							className={getClassName()}
 							minWidth={getWidth("auto")}
 							sortable={props.sortable ? "custom" : false}
 							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}

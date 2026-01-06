@@ -206,7 +206,7 @@ export default defineComponent({
 				onConfirmClick={handleConfirmClick}
 				showFullscreen={false}
 				confirmButtonText={state.change ? "保存更改" : "确认"}
-				fillHeight
+				fullHeight
 			>
 				{{
 					header: () => (
@@ -277,7 +277,11 @@ export default defineComponent({
 														{...autoWidthDisabled(row)}
 														{...pureSearchDisabled(row)}
 														onChange={handleColumnChange}
-													/>
+													>
+														{{
+															suffix: () => <span>px</span>,
+														}}
+													</ElInputNumber>
 												),
 											}}
 										</ElTableColumn>
@@ -295,7 +299,11 @@ export default defineComponent({
 														{...autoWidthDisabled(row)}
 														{...pureSearchDisabled(row)}
 														onChange={handleColumnChange}
-													/>
+													>
+														{{
+															suffix: () => <span>px</span>,
+														}}
+													</ElInputNumber>
 												),
 											}}
 										</ElTableColumn>
@@ -303,6 +311,7 @@ export default defineComponent({
 											{{
 												default: ({ row }: { row: FaTableColumnCtx; column: TableColumnCtx<any>; $index: number }) => (
 													<ElInputNumber
+														style="width: auto;"
 														vModel={row.order}
 														min={1}
 														max={999}

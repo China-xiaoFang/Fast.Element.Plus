@@ -262,12 +262,12 @@
 					vertical-align: middle !important;
 					.cell {
 						padding: 0;
-						line-height: 0;
 					}
 				}
 				.fa-table__image-column {
 					vertical-align: middle !important;
 					.cell {
+						line-height: 0;
 						.fa-table__image-column__button {
 							[class*="el-icon"] + span {
 								margin-left: 0;

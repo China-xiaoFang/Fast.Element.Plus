@@ -47,7 +47,7 @@ export default defineComponent({
 	name: "FaForm",
 	props: faFormProps,
 	slots: makeSlots<FaFormSlots>(),
-	setup(props, { attrs, slots, expose }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const _globalSize = useGlobalSize();
 
 		const state = reactive({

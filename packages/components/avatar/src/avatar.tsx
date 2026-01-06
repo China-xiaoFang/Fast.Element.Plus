@@ -1,7 +1,7 @@
 import { computed, defineComponent, reactive } from "vue";
 import { ElAvatar, avatarEmits, avatarProps } from "element-plus";
 import { Picture } from "@element-plus/icons-vue";
-import { definePropType, makeSlots, useExpose, useProps, useRender } from "@fast-china/utils";
+import { definePropType, makeSlots, useEmits, useExpose, useProps, useRender } from "@fast-china/utils";
 import type { Component } from "vue";
 
 export const faAvatarProps = {
@@ -59,9 +59,10 @@ export default defineComponent({
 		});
 
 		const elAvatarProps = useProps(props, avatarProps, ["src"]);
+		const elAvatarEmits = useEmits(avatarEmits, emit);
 
 		useRender(() => (
-			<ElAvatar {...elAvatarProps.value} class="fa-avatar" src={state.src} onError={(evt: Event) => emit("error", evt)}>
+			<ElAvatar {...elAvatarProps.value} {...elAvatarEmits.value} class="fa-avatar" src={state.src}>
 				{slots.default && slots.default({ src: state.src })}
 			</ElAvatar>
 		));

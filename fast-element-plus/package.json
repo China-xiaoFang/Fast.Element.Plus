@@ -1,6 +1,6 @@
 {
 	"name": "fast-element-plus",
-	"version": "1.0.7",
+	"version": "1.0.9",
 	"description": "Fast 组件库.",
 	"type": "module",
 	"keywords": [
@@ -89,7 +89,7 @@
 	"peerDependencies": {
 		"@element-plus/icons-vue": "^2.3",
 		"@fast-china/utils": "^1",
-		"@fast-element-plus/icons-vue": "^1.0.17",
+		"@fast-element-plus/icons-vue": "^1",
 		"element-plus": "^2",
 		"vue": "^3.5"
 	},
@@ -106,7 +106,7 @@
 		"@element-plus/icons-vue": "^2.3",
 		"@fast-china/eslint-config": "^1",
 		"@fast-china/utils": "^1",
-		"@fast-element-plus/icons-vue": "^1.0.17",
+		"@fast-element-plus/icons-vue": "^1",
 		"@rollup/plugin-terser": "^0.4",
 		"@types/lodash": "^4.17",
 		"@types/lodash-es": "^4.17",

@@ -6,7 +6,7 @@ import { withInstallDirective } from "@fast-china/utils";
 import type { Directive, DirectiveBinding } from "vue";
 
 const LongpressDirective: Directive = {
-	mounted(el: HTMLElement, binding: DirectiveBinding) {
+	mounted(el: HTMLElement, binding: DirectiveBinding<(event: MouseEvent | TouchEvent) => void>) {
 		if (typeof binding.value !== "function") {
 			throw "callback must be a function";
 		}
