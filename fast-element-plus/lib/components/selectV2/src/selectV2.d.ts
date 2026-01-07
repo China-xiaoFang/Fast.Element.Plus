@@ -286,15 +286,14 @@ export declare const SelectV2Props: {
      */
     appendTo: StringConstructor;
 };
-export type SelectComponentProps = {
-    /** @description 指定标签为节点的某个属性值 */
-    label?: string | ((data: any) => string);
-    /** @description 指定是否隐藏为节点的某个属性值 */
-    hide?: string | ((data: any) => boolean);
-    /** @description 指定是否禁用为节点的某个属性值 */
-    disabled?: string | ((data: any) => boolean);
-    /** @description 指定子节点对象为节点的某个属性值 */
-    children?: string;
+export declare const selectV2Emits: {
+    "update:modelValue": (value: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
+    change: (val: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
+    "remove-tag": (val: unknown) => boolean;
+    "visible-change": (visible: boolean) => boolean;
+    focus: (evt: FocusEvent) => boolean;
+    blur: (evt: FocusEvent) => boolean;
+    clear: () => boolean;
 };
 export declare const faSelectV2Props: {
     /** @description whether Select is disabled 重载使其支持 ElForm*/
@@ -625,8 +624,8 @@ export declare const faSelectV2Emits: {
     dataChangeCallBack: (data: ElSelectorOutput[] | any[]) => boolean;
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
-    'remove-tag': (val: unknown) => boolean;
-    'visible-change': (visible: boolean) => boolean;
+    "remove-tag": (val: unknown) => boolean;
+    "visible-change": (visible: boolean) => boolean;
     focus: (evt: FocusEvent) => boolean;
     blur: (evt: FocusEvent) => boolean;
     clear: () => boolean;
@@ -999,8 +998,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     dataChangeCallBack: (data: ElSelectorOutput[] | any[]) => boolean;
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
-    'remove-tag': (val: unknown) => boolean;
-    'visible-change': (visible: boolean) => boolean;
+    "remove-tag": (val: unknown) => boolean;
+    "visible-change": (visible: boolean) => boolean;
     focus: (evt: FocusEvent) => boolean;
     blur: (evt: FocusEvent) => boolean;
     clear: () => boolean;

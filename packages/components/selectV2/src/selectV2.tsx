@@ -8,7 +8,6 @@ import type { ElSelectorOutput } from "@fast-element-plus/components/select/src/
 import type { PagedInput, PagedResult } from "@fast-element-plus/components/table";
 import type { Options, Placement, PopperEffect } from "element-plus";
 import type { Component, VNode } from "vue";
-import { selectV2Emits } from "element-plus/es/components/select-v2/src/defaults.mjs";
 
 type Props = {
 	label?: string;
@@ -289,15 +288,14 @@ export const SelectV2Props = {
 	...useAriaProps(["ariaLabel"]),
 };
 
-export type SelectComponentProps = {
-	/** @description 指定标签为节点的某个属性值 */
-	label?: string | ((data: any) => string);
-	/** @description 指定是否隐藏为节点的某个属性值 */
-	hide?: string | ((data: any) => boolean);
-	/** @description 指定是否禁用为节点的某个属性值 */
-	disabled?: string | ((data: any) => boolean);
-	/** @description 指定子节点对象为节点的某个属性值 */
-	children?: string;
+export const selectV2Emits = {
+	"update:modelValue": (value: string | number | boolean | object | (string | number | boolean | object)[]): boolean => true,
+	change: (val: string | number | boolean | object | (string | number | boolean | object)[]): boolean => true,
+	"remove-tag": (val: unknown): boolean => true,
+	"visible-change": (visible: boolean): boolean => true,
+	focus: (evt: FocusEvent): boolean => true,
+	blur: (evt: FocusEvent): boolean => true,
+	clear: (): boolean => true,
 };
 
 export const faSelectV2Props = {
