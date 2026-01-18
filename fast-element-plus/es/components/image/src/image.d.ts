@@ -208,13 +208,13 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
 }>> & Readonly<{}>, {
-    small: boolean;
     base64: boolean;
     original: boolean;
     normal: boolean;
+    small: boolean;
     thumb: boolean;
     src: string;
-    fit: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "fill" | "cover" | "contain" | "none" | "scale-down", unknown>;
+    fit: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "cover" | "fill" | "contain" | "none" | "scale-down", unknown>;
     lazy: boolean;
     closeOnPressEscape: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     hideOnClickModal: boolean;

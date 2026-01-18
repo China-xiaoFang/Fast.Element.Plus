@@ -8,7 +8,7 @@ export declare const faInputDialogPageProps: {
         default: string;
     };
     /** @description v-model绑定值 */
-    modelValue: (NumberConstructor | StringConstructor)[];
+    modelValue: (StringConstructor | NumberConstructor)[];
     /** @description v-model:label绑定值 */
     label: StringConstructor;
     /** @description 输入框占位文本 */
@@ -51,7 +51,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: string;
     };
     /** @description v-model绑定值 */
-    modelValue: (NumberConstructor | StringConstructor)[];
+    modelValue: (StringConstructor | NumberConstructor)[];
     /** @description v-model:label绑定值 */
     label: StringConstructor;
     /** @description 输入框占位文本 */
@@ -95,7 +95,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: string;
     };
     /** @description v-model绑定值 */
-    modelValue: (NumberConstructor | StringConstructor)[];
+    modelValue: (StringConstructor | NumberConstructor)[];
     /** @description v-model:label绑定值 */
     label: StringConstructor;
     /** @description 输入框占位文本 */

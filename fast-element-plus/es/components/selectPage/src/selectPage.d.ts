@@ -41,7 +41,7 @@ export declare const faSelectPageProps: {
     label: import('vue').PropType<string | string[]>;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description 更多细节，只有使用slot的时候有用 */
@@ -235,7 +235,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     label: import('vue').PropType<string | string[]>;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description 更多细节，只有使用slot的时候有用 */
@@ -431,7 +431,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     label: import('vue').PropType<string | string[]>;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description 更多细节，只有使用slot的时候有用 */

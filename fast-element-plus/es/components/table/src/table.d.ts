@@ -27,15 +27,15 @@ export declare const tableProps: {
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    width: (NumberConstructor | StringConstructor)[];
+    width: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's height. By default it has an `auto` height. If its value is a number, the height is measured in pixels; if its value is a string, the value will be assigned to element's style.height, the height is affected by external styles
      */
-    height: (NumberConstructor | StringConstructor)[];
+    height: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's max-height. The legal value is a number or the height in px
      */
-    maxHeight: (NumberConstructor | StringConstructor)[];
+    maxHeight: (StringConstructor | NumberConstructor)[];
     /**
      * @description whether width of column automatically fits its container
      */
@@ -113,7 +113,7 @@ export declare const tableProps: {
     /**
      * @description key of current row, a set only prop
      */
-    currentRowKey: (NumberConstructor | StringConstructor)[];
+    currentRowKey: (StringConstructor | NumberConstructor)[];
     /**
      * @description displayed text when data is empty. You can customize this area with `#empty`
      */
@@ -199,7 +199,7 @@ export declare const tableProps: {
      */
     showOverflowTooltip: PropType<TableProps<DefaultRow>["showOverflowTooltip"]>;
     scrollbarTabindex: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: any;
     };
 };
@@ -300,6 +300,8 @@ export declare const faTableProps: {
     };
     /** @description 隐藏搜索时间 */
     hideSearchTime: BooleanConstructor;
+    /** @description 未来搜索时间 */
+    futureSearchTime: BooleanConstructor;
     /** @description 搜索时间范围 */
     dataSearchRange: {
         type: PropType<FaTableDataRange>;
@@ -348,15 +350,15 @@ export declare const faTableProps: {
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    width: (NumberConstructor | StringConstructor)[];
+    width: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's height. By default it has an `auto` height. If its value is a number, the height is measured in pixels; if its value is a string, the value will be assigned to element's style.height, the height is affected by external styles
      */
-    height: (NumberConstructor | StringConstructor)[];
+    height: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's max-height. The legal value is a number or the height in px
      */
-    maxHeight: (NumberConstructor | StringConstructor)[];
+    maxHeight: (StringConstructor | NumberConstructor)[];
     /**
      * @description whether width of column automatically fits its container
      */
@@ -422,7 +424,7 @@ export declare const faTableProps: {
     /**
      * @description key of current row, a set only prop
      */
-    currentRowKey: (NumberConstructor | StringConstructor)[];
+    currentRowKey: (StringConstructor | NumberConstructor)[];
     /**
      * @description displayed text when data is empty. You can customize this area with `#empty`
      */
@@ -504,7 +506,7 @@ export declare const faTableProps: {
      */
     showOverflowTooltip: PropType<TableProps<DefaultRow>["showOverflowTooltip"]>;
     scrollbarTabindex: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: any;
     };
 };
@@ -706,6 +708,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 隐藏搜索时间 */
     hideSearchTime: BooleanConstructor;
+    /** @description 未来搜索时间 */
+    futureSearchTime: BooleanConstructor;
     /** @description 搜索时间范围 */
     dataSearchRange: {
         type: PropType<FaTableDataRange>;
@@ -754,15 +758,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    width: (NumberConstructor | StringConstructor)[];
+    width: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's height. By default it has an `auto` height. If its value is a number, the height is measured in pixels; if its value is a string, the value will be assigned to element's style.height, the height is affected by external styles
      */
-    height: (NumberConstructor | StringConstructor)[];
+    height: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's max-height. The legal value is a number or the height in px
      */
-    maxHeight: (NumberConstructor | StringConstructor)[];
+    maxHeight: (StringConstructor | NumberConstructor)[];
     /**
      * @description whether width of column automatically fits its container
      */
@@ -828,7 +832,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /**
      * @description key of current row, a set only prop
      */
-    currentRowKey: (NumberConstructor | StringConstructor)[];
+    currentRowKey: (StringConstructor | NumberConstructor)[];
     /**
      * @description displayed text when data is empty. You can customize this area with `#empty`
      */
@@ -910,7 +914,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     showOverflowTooltip: PropType<TableProps<DefaultRow>["showOverflowTooltip"]>;
     scrollbarTabindex: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: any;
     };
 }>, {
@@ -1130,6 +1134,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 隐藏搜索时间 */
     hideSearchTime: BooleanConstructor;
+    /** @description 未来搜索时间 */
+    futureSearchTime: BooleanConstructor;
     /** @description 搜索时间范围 */
     dataSearchRange: {
         type: PropType<FaTableDataRange>;
@@ -1178,15 +1184,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    width: (NumberConstructor | StringConstructor)[];
+    width: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's height. By default it has an `auto` height. If its value is a number, the height is measured in pixels; if its value is a string, the value will be assigned to element's style.height, the height is affected by external styles
      */
-    height: (NumberConstructor | StringConstructor)[];
+    height: (StringConstructor | NumberConstructor)[];
     /**
      * @description table's max-height. The legal value is a number or the height in px
      */
-    maxHeight: (NumberConstructor | StringConstructor)[];
+    maxHeight: (StringConstructor | NumberConstructor)[];
     /**
      * @description whether width of column automatically fits its container
      */
@@ -1252,7 +1258,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /**
      * @description key of current row, a set only prop
      */
-    currentRowKey: (NumberConstructor | StringConstructor)[];
+    currentRowKey: (StringConstructor | NumberConstructor)[];
     /**
      * @description displayed text when data is empty. You can customize this area with `#empty`
      */
@@ -1334,7 +1340,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      */
     showOverflowTooltip: PropType<TableProps<DefaultRow>["showOverflowTooltip"]>;
     scrollbarTabindex: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: any;
     };
 }>> & Readonly<{
@@ -1394,6 +1400,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     columnSettingBtn: boolean;
     toolBtn: boolean;
     hideSearchTime: boolean;
+    futureSearchTime: boolean;
     dataSearchRange: FaTableDataRange;
     pagination: boolean;
     hideImage: boolean;

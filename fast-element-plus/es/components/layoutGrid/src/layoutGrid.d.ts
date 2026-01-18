@@ -13,7 +13,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     collapsed: BooleanConstructor;
     /** @description 折叠行数 */
     collapsedRows: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 间距，偏移 */
@@ -39,7 +39,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     collapsed: BooleanConstructor;
     /** @description 折叠行数 */
     collapsedRows: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 间距，偏移 */

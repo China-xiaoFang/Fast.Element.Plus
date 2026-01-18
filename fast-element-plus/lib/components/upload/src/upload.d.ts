@@ -134,6 +134,7 @@ export declare const faUploadProps: {
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
+    directory: BooleanConstructor;
 };
 export declare const faUploadEmits: {
     /** @description v-model 回调 */
@@ -291,6 +292,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
+    directory: BooleanConstructor;
 }>, {
     /** @description 取消上传请求 */
     abort: import('vue').ComputedRef<(file: import('element-plus/es/components/upload/src/upload.mjs').UploadFile) => void>;
@@ -306,6 +308,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     loading: import('vue').Ref<boolean, boolean>;
     /** @description 文件集合 */
     fileList: import('vue').Ref<{
+        size?: number;
+        name: string;
         raw?: {
             uid: number;
             isDirectory?: boolean;
@@ -320,14 +324,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
-        size?: number;
-        name: string;
         url?: string;
         percentage?: number;
         response?: unknown;
         status?: import('element-plus').UploadStatus;
         uid?: number;
     }[], {
+        size?: number;
+        name: string;
         raw?: {
             uid: number;
             isDirectory?: boolean;
@@ -342,8 +346,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
-        size?: number;
-        name: string;
         url?: string;
         percentage?: number;
         response?: unknown;
@@ -492,6 +494,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly prototype: any;
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
+    directory: BooleanConstructor;
 }>> & Readonly<{
     "onUpdate:modelValue"?: (value: string | string[]) => any;
     onChange?: (value: string | string[]) => any;
@@ -520,6 +523,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     listType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "picture" | "text" | "picture-card", unknown>;
     httpRequest: import('element-plus').UploadRequestHandler;
     limit: number;
+    directory: boolean;
     maxSize: string | number;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaUploadSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

@@ -31,7 +31,7 @@ export declare const faDialogProps: {
     };
     /** @description width of Dialog, default is 50% */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description 显示刷新按钮 */
@@ -177,7 +177,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description width of Dialog, default is 50% */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description 显示刷新按钮 */
@@ -322,7 +322,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description width of Dialog, default is 50% */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description 显示刷新按钮 */

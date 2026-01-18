@@ -6,12 +6,12 @@ type FaLayoutGridItemSlots = {
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     /** @description 偏移 */
     offset: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 占位 */
     span: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 后缀 */
@@ -49,12 +49,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description 偏移 */
     offset: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 占位 */
     span: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 后缀 */

@@ -8,6 +8,8 @@ export declare const useUpload: <T extends string | string[]>(componentName: str
     uploadUrl?: string;
 }) => {
     fileList: import('vue').Ref<{
+        size?: number;
+        name: string;
         raw?: {
             uid: number;
             isDirectory?: boolean;
@@ -22,14 +24,14 @@ export declare const useUpload: <T extends string | string[]>(componentName: str
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
-        size?: number;
-        name: string;
         url?: string;
         percentage?: number;
         response?: unknown;
         status?: import('element-plus').UploadStatus;
         uid?: number;
     }[], {
+        size?: number;
+        name: string;
         raw?: {
             uid: number;
             isDirectory?: boolean;
@@ -44,8 +46,6 @@ export declare const useUpload: <T extends string | string[]>(componentName: str
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
-        size?: number;
-        name: string;
         url?: string;
         percentage?: number;
         response?: unknown;

@@ -24,7 +24,7 @@ export declare const faUploadImageProps: {
     modelValue: import('vue').PropType<string | string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 图片上传接口，优先级最高 */
@@ -35,12 +35,12 @@ export declare const faUploadImageProps: {
     uploadUrl: StringConstructor;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 高度 */
     height: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     beforeUpload: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
@@ -152,6 +152,7 @@ export declare const faUploadImageProps: {
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
+    directory: BooleanConstructor;
 };
 export declare const faUploadImageEmits: {
     /** @description v-model 回调 */
@@ -190,7 +191,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     modelValue: import('vue').PropType<string | string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 图片上传接口，优先级最高 */
@@ -201,12 +202,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     uploadUrl: StringConstructor;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 高度 */
     height: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     beforeUpload: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
@@ -318,6 +319,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
+    directory: BooleanConstructor;
 }>, {
     /** @description 取消上传请求 */
     abort: import('vue').ComputedRef<(file: import('element-plus').UploadFile) => void>;
@@ -333,6 +335,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     loading: import('vue').Ref<boolean, boolean>;
     /** @description 文件集合 */
     fileList: import('vue').Ref<{
+        size?: number;
+        name: string;
         raw?: {
             uid: number;
             isDirectory?: boolean;
@@ -347,14 +351,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
-        size?: number;
-        name: string;
         url?: string;
         percentage?: number;
         response?: unknown;
         status?: import('element-plus').UploadStatus;
         uid?: number;
     }[], {
+        size?: number;
+        name: string;
         raw?: {
             uid: number;
             isDirectory?: boolean;
@@ -369,8 +373,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
-        size?: number;
-        name: string;
         url?: string;
         percentage?: number;
         response?: unknown;
@@ -413,7 +415,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     modelValue: import('vue').PropType<string | string[]>;
     /** @description 大小限制，单位kb */
     maxSize: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 图片上传接口，优先级最高 */
@@ -424,12 +426,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     uploadUrl: StringConstructor;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 高度 */
     height: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     beforeUpload: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
@@ -541,6 +543,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
+    directory: BooleanConstructor;
 }>> & Readonly<{
     "onUpdate:modelValue"?: (value: string | string[]) => any;
     onChange?: (value: string | string[]) => any;
@@ -570,6 +573,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     autoUpload: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     listType: "picture" | "text" | "picture-card";
     httpRequest: import('element-plus').UploadRequestHandler;
+    directory: boolean;
     maxSize: string | number;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaUploadImageSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

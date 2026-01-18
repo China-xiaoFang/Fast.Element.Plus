@@ -3,7 +3,7 @@ import { FormItemContext, FormValidationResult } from 'element-plus';
 export declare const faFormProps: {
     /** @description Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported. */
     labelWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description Suffix of the label. */
@@ -59,7 +59,7 @@ type FaFormSlots = {
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     /** @description Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported. */
     labelWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description Suffix of the label. */
@@ -125,7 +125,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported. */
     labelWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description Suffix of the label. */

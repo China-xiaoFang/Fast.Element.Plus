@@ -6,7 +6,7 @@ export declare const faIconProps: {
     };
     /** @description 大小 */
     size: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 颜色*/
     color: StringConstructor;
@@ -19,7 +19,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 大小 */
     size: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 颜色*/
     color: StringConstructor;
@@ -31,7 +31,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 大小 */
     size: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 颜色*/
     color: StringConstructor;
