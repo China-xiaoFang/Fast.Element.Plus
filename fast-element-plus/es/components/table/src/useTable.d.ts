@@ -9,7 +9,7 @@ export declare const tableStateKey: InjectionKey<FaTableState>;
 export declare const enumMapKey: InjectionKey<Map<string, FaTableEnumColumnCtx[]>>;
 type TableSetupContext = SetupContext<typeof faTableEmits, ReturnType<typeof makeSlots<FaTableSlots>>>;
 export declare const useTable: (props: ExtractPropTypes<typeof faTableProps>, slots: TableSetupContext["slots"], emit: TableSetupContext["emit"]) => {
-    _globalSize: import('vue').ComputedRef<"" | "small" | "default" | "large">;
+    _globalSize: import('vue').ComputedRef<"" | "default" | "small" | "large">;
     state: FaTableState;
     elementRef: import('vue').Ref<HTMLElement, HTMLElement>;
     tableRef: import('vue').Ref<TableInstance, TableInstance>;

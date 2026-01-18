@@ -37,11 +37,11 @@ export declare const faTreeProps: {
     label: StringConstructor;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 默认选择 */
-    defaultSelection: (NumberConstructor | StringConstructor)[];
+    defaultSelection: (StringConstructor | NumberConstructor)[];
     /** @description 标题 */
     title: StringConstructor;
     /** @description 折叠 */
@@ -203,11 +203,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     label: StringConstructor;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 默认选择 */
-    defaultSelection: (NumberConstructor | StringConstructor)[];
+    defaultSelection: (StringConstructor | NumberConstructor)[];
     /** @description 标题 */
     title: StringConstructor;
     /** @description 折叠 */
@@ -394,11 +394,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     label: StringConstructor;
     /** @description 宽度 */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 默认选择 */
-    defaultSelection: (NumberConstructor | StringConstructor)[];
+    defaultSelection: (StringConstructor | NumberConstructor)[];
     /** @description 标题 */
     title: StringConstructor;
     /** @description 折叠 */

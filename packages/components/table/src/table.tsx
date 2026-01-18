@@ -334,6 +334,8 @@ export const faTableProps = {
 	},
 	/** @description 隐藏搜索时间 */
 	hideSearchTime: Boolean,
+	/** @description 未来搜索时间 */
+	futureSearchTime: Boolean,
 	/** @description 搜索时间范围 */
 	dataSearchRange: {
 		type: definePropType<FaTableDataRange>(String),
@@ -893,8 +895,8 @@ export default defineComponent({
 												disabled={state.loading}
 												type="daterange"
 												vModel={state.searchParam.searchTimeList}
-												defaultTime={dateUtil.getDefaultTime()}
-												shortcuts={dateUtil.getShortcuts()}
+												defaultTime={dateUtil.getDefaultTime(props.futureSearchTime)}
+												shortcuts={dateUtil.getShortcuts(props.futureSearchTime)}
 												valueFormat="YYYY-MM-DD HH:mm:ss"
 												clearable={false}
 												teleported={false}

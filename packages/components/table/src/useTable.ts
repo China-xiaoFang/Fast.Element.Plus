@@ -324,31 +324,60 @@ export const useTable = (props: ExtractPropTypes<typeof faTableProps>, slots: Ta
 		} else {
 			const end = new Date();
 			const start = new Date();
-			switch (props.dataSearchRange) {
-				case "Past1D":
-					start.setDate(start.getDate() - 1);
-					break;
-				case "Past3D":
-					start.setDate(start.getDate() - 3);
-					break;
-				case "Past1W":
-					start.setDate(start.getDate() - 7);
-					break;
-				case "Past1M":
-					start.setMonth(start.getMonth() - 1);
-					break;
-				case "Past3M":
-					start.setMonth(start.getMonth() - 3);
-					break;
-				case "Past6M":
-					start.setMonth(start.getMonth() - 6);
-					break;
-				case "Past1Y":
-					start.setFullYear(start.getFullYear() - 1);
-					break;
-				case "Past3Y":
-					start.setFullYear(start.getFullYear() - 3);
-					break;
+			if (props.futureSearchTime) {
+				switch (props.dataSearchRange) {
+					case "Past1D":
+						end.setDate(end.getDate() + 1);
+						break;
+					case "Past3D":
+						end.setDate(end.getDate() + 3);
+						break;
+					case "Past1W":
+						end.setDate(end.getDate() + 7);
+						break;
+					case "Past1M":
+						end.setMonth(end.getMonth() + 1);
+						break;
+					case "Past3M":
+						end.setMonth(end.getMonth() + 3);
+						break;
+					case "Past6M":
+						end.setMonth(end.getMonth() + 6);
+						break;
+					case "Past1Y":
+						end.setFullYear(end.getFullYear() + 1);
+						break;
+					case "Past3Y":
+						end.setFullYear(end.getFullYear() + 3);
+						break;
+				}
+			} else {
+				switch (props.dataSearchRange) {
+					case "Past1D":
+						start.setDate(start.getDate() - 1);
+						break;
+					case "Past3D":
+						start.setDate(start.getDate() - 3);
+						break;
+					case "Past1W":
+						start.setDate(start.getDate() - 7);
+						break;
+					case "Past1M":
+						start.setMonth(start.getMonth() - 1);
+						break;
+					case "Past3M":
+						start.setMonth(start.getMonth() - 3);
+						break;
+					case "Past6M":
+						start.setMonth(start.getMonth() - 6);
+						break;
+					case "Past1Y":
+						start.setFullYear(start.getFullYear() - 1);
+						break;
+					case "Past3Y":
+						start.setFullYear(start.getFullYear() - 3);
+						break;
+				}
 			}
 			state.searchParam.searchTimeList = [dayjs(start).format("YYYY-MM-DD 00:00:00"), dayjs(end).format("YYYY-MM-DD 23:59:59")];
 		}

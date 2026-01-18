@@ -95,7 +95,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 按钮 html 元素 */
     ref: import('vue').ComputedRef<HTMLButtonElement>;
     /** @description 按钮尺寸 */
-    size: import('vue').ComputedRef<"" | "small" | "default" | "large">;
+    size: import('vue').ComputedRef<"" | "default" | "small" | "large">;
     /** @description 按钮类型 */
     type: import('vue').ComputedRef<"" | "default" | "text" | "primary" | "success" | "warning" | "info" | "danger">;
     /** @description 按钮已禁用 */

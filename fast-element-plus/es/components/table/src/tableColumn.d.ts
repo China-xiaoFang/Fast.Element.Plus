@@ -34,14 +34,14 @@ export declare const tableColumnProps: {
      * @description column width
      */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /**
      * @description column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion
      */
     minWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /**
@@ -188,7 +188,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description column width
      */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description alignment, the value should be 'left' \/ 'center' \/ 'right' */
@@ -205,7 +205,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     show: BooleanConstructor;
     /** @description 小页面的宽度，如果为空，则继承默认宽度 */
     smallWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 自适应宽度 */
     autoWidth: BooleanConstructor;
@@ -300,7 +300,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion
      */
     minWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /**
@@ -416,7 +416,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description column width
      */
     width: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /** @description alignment, the value should be 'left' \/ 'center' \/ 'right' */
@@ -433,7 +433,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     show: BooleanConstructor;
     /** @description 小页面的宽度，如果为空，则继承默认宽度 */
     smallWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 自适应宽度 */
     autoWidth: BooleanConstructor;
@@ -528,7 +528,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion
      */
     minWidth: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
     /**

@@ -8,12 +8,12 @@ export declare const faFormItemProps: {
     };
     /** @description 偏移量 */
     offset: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 栅格跨度 */
     span: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
@@ -77,12 +77,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 偏移量 */
     offset: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 栅格跨度 */
     span: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
@@ -125,7 +125,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
 }>, {
     /** @description 表单项大小 */
-    size: import('vue').ComputedRef<"" | "small" | "default" | "large">;
+    size: import('vue').ComputedRef<"" | "default" | "small" | "large">;
     /** @description 校验消息 */
     validateMessage: import('vue').ComputedRef<string>;
     /** @description 校验状态 */
@@ -146,12 +146,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     /** @description 偏移量 */
     offset: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
     /** @description 栅格跨度 */
     span: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
     };
     /** @description 独占一行。如果设置 span 则无效 */
     row: BooleanConstructor;
