@@ -2,6 +2,22 @@ import { SelectComponentProps } from '../../select/src/select';
 import { ElSelectorOutput } from '../../select';
 import { ComponentInternalInstance } from 'vue';
 export declare const faTreeSelectProps: {
+    /**
+     * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
+     * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
+     */
+    cacheData: {
+        type: import('vue').PropType<{
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[]>;
+        default: {
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[];
+    };
     /** @description whether Select is disabled 重载使其支持 ElForm*/
     disabled: {
         type: BooleanConstructor;
@@ -56,22 +72,6 @@ export declare const faTreeSelectProps: {
     expandOnClickNode: BooleanConstructor;
     /** @description 点击折叠节点，需要开启 'expandOnClickNode' */
     collapseOnClickNode: BooleanConstructor;
-    /**
-     * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
-     * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
-     */
-    cacheData: {
-        type: import('vue').PropType<{
-            value: string | number | boolean | object;
-            currentLabel: string | number;
-            isDisabled: boolean;
-        }[]>;
-        default: {
-            value: string | number | boolean | object;
-            currentLabel: string | number;
-            isDisabled: boolean;
-        }[];
-    };
     /** @description v-model绑定值 */
     modelValue: {
         type: import('vue').PropType<string | number | boolean | object | (string | number | boolean | object)[]>;
@@ -312,6 +312,22 @@ type FaTreeSelectSlots = {
     };
 };
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
+    /**
+     * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
+     * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
+     */
+    cacheData: {
+        type: import('vue').PropType<{
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[]>;
+        default: {
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[];
+    };
     /** @description whether Select is disabled 重载使其支持 ElForm*/
     disabled: {
         type: BooleanConstructor;
@@ -366,22 +382,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     expandOnClickNode: BooleanConstructor;
     /** @description 点击折叠节点，需要开启 'expandOnClickNode' */
     collapseOnClickNode: BooleanConstructor;
-    /**
-     * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
-     * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
-     */
-    cacheData: {
-        type: import('vue').PropType<{
-            value: string | number | boolean | object;
-            currentLabel: string | number;
-            isDisabled: boolean;
-        }[]>;
-        default: {
-            value: string | number | boolean | object;
-            currentLabel: string | number;
-            isDisabled: boolean;
-        }[];
-    };
     /** @description v-model绑定值 */
     modelValue: {
         type: import('vue').PropType<string | number | boolean | object | (string | number | boolean | object)[]>;
@@ -605,6 +605,22 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     blur: (evt: FocusEvent) => boolean;
     clear: () => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+    /**
+     * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
+     * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
+     */
+    cacheData: {
+        type: import('vue').PropType<{
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[]>;
+        default: {
+            value: string | number | boolean | object;
+            currentLabel: string | number;
+            isDisabled: boolean;
+        }[];
+    };
     /** @description whether Select is disabled 重载使其支持 ElForm*/
     disabled: {
         type: BooleanConstructor;
@@ -659,22 +675,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     expandOnClickNode: BooleanConstructor;
     /** @description 点击折叠节点，需要开启 'expandOnClickNode' */
     collapseOnClickNode: BooleanConstructor;
-    /**
-     * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
-     * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
-     */
-    cacheData: {
-        type: import('vue').PropType<{
-            value: string | number | boolean | object;
-            currentLabel: string | number;
-            isDisabled: boolean;
-        }[]>;
-        default: {
-            value: string | number | boolean | object;
-            currentLabel: string | number;
-            isDisabled: boolean;
-        }[];
-    };
     /** @description v-model绑定值 */
     modelValue: {
         type: import('vue').PropType<string | number | boolean | object | (string | number | boolean | object)[]>;
