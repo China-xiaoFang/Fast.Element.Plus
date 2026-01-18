@@ -896,7 +896,6 @@ export default defineComponent({
 												defaultTime={dateUtil.getDefaultTime()}
 												shortcuts={dateUtil.getShortcuts()}
 												valueFormat="YYYY-MM-DD HH:mm:ss"
-												disabledDate={dateUtil.getDisabledDate}
 												clearable={false}
 												teleported={false}
 												unlinkPanels

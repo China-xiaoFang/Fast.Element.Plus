@@ -12,6 +12,24 @@ import type { ComponentInternalInstance, VNode } from "vue";
 export const faTreeSelectProps = {
 	...SelectProps,
 	...treeProps,
+	/**
+	 * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
+	 * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
+	 */
+	cacheData: {
+		type: definePropType<
+			{
+				value: string | number | boolean | object;
+				currentLabel: string | number;
+				isDisabled: boolean;
+			}[]
+		>(Array),
+		default: [] as {
+			value: string | number | boolean | object;
+			currentLabel: string | number;
+			isDisabled: boolean;
+		}[],
+	},
 	/** @description whether Select is disabled 重载使其支持 ElForm*/
 	disabled: {
 		type: Boolean,
@@ -66,24 +84,6 @@ export const faTreeSelectProps = {
 	expandOnClickNode: Boolean,
 	/** @description 点击折叠节点，需要开启 'expandOnClickNode' */
 	collapseOnClickNode: Boolean,
-	/**
-	 * 懒加载节点的缓存数据，结构与数据相同，用于获取未加载数据的标签
-	 * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
-	 */
-	cacheData: {
-		type: definePropType<
-			{
-				value: string | number | boolean | object;
-				currentLabel: string | number;
-				isDisabled: boolean;
-			}[]
-		>(Array),
-		default: [] as {
-			value: string | number | boolean | object;
-			currentLabel: string | number;
-			isDisabled: boolean;
-		}[],
-	},
 	/** @description v-model绑定值 */
 	modelValue: {
 		type: definePropType<string | number | boolean | object | (string | number | boolean | object)[]>([String, Number, Boolean, Object, Array]),
@@ -418,6 +418,7 @@ export default defineComponent({
 		const elTreeSelectProps = useProps(props, { ...SelectProps, ...treeProps }, [
 			"modelValue",
 			"popperClass",
+			"lazy",
 			"loading",
 			"expandOnClickNode",
 			"filterNodeMethod",
@@ -433,6 +434,7 @@ export default defineComponent({
 				popperClass={`fa-tree-select-dropdown ${props.popperClass}`}
 				style={{ width: addUnit(props.width) }}
 				vModel={state.value}
+				lazy={false}
 				loading={state.loading}
 				data={state.selectorData}
 				expandOnClickNode={props.checkOnClickNode ? false : props.expandOnClickNode}

@@ -275,7 +275,7 @@ export default defineComponent({
 		tag: Boolean,
 		/** @description 枚举类型（渲染值的字典） */
 		enum: {
-			type: definePropType<FaTableEnumColumnType>([Array, Function]),
+			type: definePropType<FaTableEnumColumnType>([String, Array, Function]),
 		},
 		/** @description 数据删除字段，如果为 true 会显示遮罩层 */
 		dataDeleteField: String,
@@ -454,11 +454,19 @@ export default defineComponent({
 		/** 标签列渲染 */
 		const tagRender = (row: any, column: TableColumnCtx<any>, $index: number): VNode[] => {
 			const renderValue = formatterRender(row, column, renderCellData({ row }), $index);
+
 			let enumKey = props.prop;
+			let enumData: FaTableEnumColumnCtx[];
+
 			if (isString(props.enum)) {
 				enumKey = props.enum;
+				enumData = enumMap.get(enumKey);
+			} else if (isArray(props.enum)) {
+				enumData = props.enum;
+			} else if (isFunction(props.enum)) {
+				enumData = props.enum({ row });
 			}
-			const enumData = enumMap.get(enumKey);
+
 			const type = tableUtil.filterEnum(tableUtil.handleRowAccordingToProp(row, props.prop), enumData, null, "tag");
 			return (
 				<Fragment>

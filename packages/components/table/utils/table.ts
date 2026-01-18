@@ -11,9 +11,7 @@ export const tableUtil = {
 	 */
 	formatValue(callValue: any): any {
 		// 如果当前值为数组,使用 / 拼接（根据需求自定义）
-		// if (isArray(callValue)) return callValue.length ? callValue.join(" / ") : "--";
 		if (isArray(callValue)) return callValue.length ? callValue.join(` , `) : null;
-		// return callValue ?? "--";
 		return callValue;
 	},
 	/**
@@ -22,9 +20,7 @@ export const tableUtil = {
 	 * @param {String} prop 当前 prop
 	 */
 	handleRowAccordingToProp(row: any, prop: string): any {
-		// if (!prop.includes(".")) return row[prop] ?? "--";
-		if (!prop.includes(".")) return row[prop] ?? null;
-		// prop.split(".").forEach((item) => (row = row[item] ?? "--"));
+		if (!prop.includes(".")) return row[prop];
 		prop.split(".").forEach((item) => (row = row[item]));
 		return row;
 	},
@@ -54,7 +50,6 @@ export const tableUtil = {
 		if (type === "tag") {
 			return filterData?.type ?? "info";
 		}
-		// return filterData ? filterData[label] : "--";
 		return filterData ? filterData[label] : null;
 	},
 	/**
