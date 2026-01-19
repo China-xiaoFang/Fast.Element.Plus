@@ -4,7 +4,7 @@ import type { faButtonEmits, faButtonProps } from "./src/button";
 import type { ExtractPropTypes } from "vue";
 
 export declare const FaButton: TSXWithInstall<typeof Button>;
-export default Button;
+export default FaButton;
 
 export { faButtonProps, faButtonEmits };
 

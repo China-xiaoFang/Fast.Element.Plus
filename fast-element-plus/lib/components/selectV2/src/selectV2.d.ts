@@ -1371,6 +1371,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     persistent: boolean;
     height: number;
     fallbackPlacements: Placement[];
+    filterable: boolean;
     moreDetail: boolean;
     loadingText: string;
     noMatchText: string;
@@ -1380,7 +1381,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     defaultSelected: boolean;
     valueOnClear: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown>;
     automaticDropdown: boolean;
-    filterable: boolean;
     allowCreate: boolean;
     remote: boolean;
     multiple: boolean;
@@ -1391,9 +1391,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     maxCollapseTags: number;
     tagType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>;
     tagEffect: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>;
-    scrollbarAlwaysOn: boolean;
     pageResult: boolean;
     estimatedOptionHeight: number;
     itemHeight: number;
+    scrollbarAlwaysOn: boolean;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaSelectV2Slots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

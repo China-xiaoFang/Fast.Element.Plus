@@ -106,7 +106,7 @@ export default defineComponent({
 	emits: faTreeEmits,
 	slots: makeSlots<FaTreeSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit);
+		const selectedLabel = useVModel(props, "label", emit, { passive: true });
 		const _globalSize = useGlobalSize();
 
 		const state = reactive({

@@ -510,8 +510,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         showQuantity?: boolean;
         quantity?: number;
     }[]) => any;
-    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
     "onCheck-change"?: (data: any, checked: boolean, indeterminate: boolean) => any;
+    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
     "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
     "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
     "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
@@ -541,9 +541,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     modelValue: string | number | boolean | object;
     width: string | number;
     draggable: boolean;
-    defaultExpandAll: boolean;
-    indent: number;
     nodeKey: string;
+    defaultExpandAll: boolean;
     checkOnClickNode: boolean;
     highlightCurrent: boolean;
     collapseOnClickNode: boolean;
@@ -558,5 +557,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     autoExpandParent: boolean;
     showCheckbox: boolean;
     accordion: boolean;
+    indent: number;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaTreeSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

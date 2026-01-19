@@ -9,6 +9,7 @@ import { FaFormItemTip } from "@fast-element-plus/components/formItemTip";
 import { FaIcon } from "@fast-element-plus/components/icon";
 import { FaIconSelector } from "@fast-element-plus/components/iconSelector";
 import { FaImage } from "@fast-element-plus/components/image";
+import { FaInputDialogPage } from "@fast-element-plus/components/inputDialogPage";
 import { FaLayoutGrid, FaLayoutGridItem } from "@fast-element-plus/components/layoutGrid";
 import { FaSelect, FaSelectOption } from "@fast-element-plus/components/select";
 import { FaSelectPage } from "@fast-element-plus/components/selectPage";
@@ -34,6 +35,7 @@ export default [
 	FaIcon,
 	FaIconSelector,
 	FaImage,
+	FaInputDialogPage,
 	FaLayoutGrid,
 	FaLayoutGridItem,
 	FaSelect,

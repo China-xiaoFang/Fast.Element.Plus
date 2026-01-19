@@ -8,6 +8,7 @@ import type { PropType } from "vue";
 import { FaTable, type FaTableInstance, type PagedInput, type PagedResult } from "@fast-element-plus/components/table";
 import { useVModel } from "@vueuse/core";
 import FaDialog, { FaDialogInstance } from "@fast-element-plus/components/dialog";
+import { ElSelectorOutput } from "@fast-element-plus/components/select/src/select.type";
 
 export const faInputDialogPageProps = {
 	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
@@ -47,7 +48,10 @@ export const faInputDialogPageEmits = {
 	/** @description v-model:label 回调 */
 	"update:label": (value: string) => isString(value) || isNull(value),
 	/** @description 改变 */
-	change: (value: string | number) => isString(value) || isNumber(value) || isNull(value),
+	change: (
+		data: ElSelectorOutput | ElSelectorOutput[] | any | any[],
+		value?: string | number | boolean | object | (string | number | boolean | object)[]
+	): boolean => true,
 };
 
 type FaInputDialogPageSlots = {
@@ -61,8 +65,8 @@ export default defineComponent({
 	emits: faInputDialogPageEmits,
 	slots: makeSlots<FaInputDialogPageSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
-		const modelValue = useVModel(props, "modelValue", emit);
-		const selectedLabel = useVModel(props, "label", emit);
+		const modelValue = useVModel(props, "modelValue", emit, { passive: true });
+		const selectedLabel = useVModel(props, "label", emit, { passive: true });
 
 		const state = reactive({
 			selectionRow: withDefineType<unknown>(),
@@ -95,13 +99,13 @@ export default defineComponent({
 			faDialogRef.value.close(() => {
 				if (faTableRef.value.selected) {
 					const selectedData = faTableRef.value.selectedList[0];
-					modelValue.value = selectedData[isFunction(props.rowKey) ? props.rowKey(selectedData) : selectedData[props.rowKey]];
+					modelValue.value = isFunction(props.rowKey) ? props.rowKey(selectedData) : selectedData[props.rowKey];
 					selectedLabel.value = selectedData[props.labelKey];
-					emit("change", selectedData);
+					emit("change", selectedData, modelValue.value);
 				} else {
 					modelValue.value = null;
 					selectedLabel.value = null;
-					emit("change", null);
+					emit("change", null, null);
 				}
 			});
 		};
@@ -130,7 +134,7 @@ export default defineComponent({
 					style="--height: 70%;"
 					width="50%"
 					title={props.title}
-					fillHeight
+					fullHeight
 					disabledConfirmButton={!faTableRef.value?.selected}
 					onConfirmClick={handleConfirmClick}
 				>
@@ -142,7 +146,6 @@ export default defineComponent({
 						single
 						rowClickSelection
 						hideSearchTime
-						exportBtn={false}
 						onRowDblclick={handleTableRowDblclick}
 					>
 						{{
