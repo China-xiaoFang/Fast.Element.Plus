@@ -30,7 +30,7 @@ export default defineComponent({
 		change: (value: string) => isString(value) || isNull(value),
 	},
 	setup(props, { attrs, slots, emit, expose }) {
-		const modelValue = useVModel(props, "modelValue", emit);
+		const modelValue = useVModel(props, "modelValue", emit, { passive: true });
 
 		const state = reactive({
 			switchLetter: computed(() => {

@@ -3,7 +3,7 @@ import Button, { faButtonEmits, faButtonProps } from "./src/button";
 import type { ExtractPropTypes } from "vue";
 
 export const FaButton = withInstall(Button);
-export default Button;
+export default FaButton;
 
 export { faButtonProps, faButtonEmits };
 

@@ -350,7 +350,7 @@ export default defineComponent({
 	emits: faSelectEmits,
 	slots: makeSlots<FaSelectSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit);
+		const selectedLabel = useVModel(props, "label", emit, { passive: true });
 		const _globalSize = useGlobalSize();
 
 		const state = reactive({

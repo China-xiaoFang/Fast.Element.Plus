@@ -1,6 +1,7 @@
 import { TableProps } from 'element-plus';
 import { PropType } from 'vue';
 import { PagedInput, PagedResult } from '../../table';
+import { ElSelectorOutput } from '../../select/src/select.type';
 export declare const faInputDialogPageProps: {
     /** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
     rowKey: {
@@ -38,7 +39,7 @@ export declare const faInputDialogPageEmits: {
     /** @description v-model:label 回调 */
     "update:label": (value: string) => boolean;
     /** @description 改变 */
-    change: (value: string | number) => boolean;
+    change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
 };
 type FaInputDialogPageSlots = {
     /** @description 默认内容插槽 */
@@ -87,7 +88,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description v-model:label 回调 */
     "update:label": (value: string) => boolean;
     /** @description 改变 */
-    change: (value: string | number) => boolean;
+    change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
     rowKey: {
@@ -120,7 +121,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
 }>> & Readonly<{
     "onUpdate:modelValue"?: (value: string | number) => any;
-    onChange?: (value: string | number) => any;
+    onChange?: (data: any, value?: string | number | boolean | object | (string | number | boolean | object)[]) => any;
     "onUpdate:label"?: (value: string) => any;
 }>, {
     disabled: boolean;

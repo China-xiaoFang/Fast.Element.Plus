@@ -1180,6 +1180,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     width: string | number;
     persistent: boolean;
     fallbackPlacements: Placement[];
+    filterable: boolean;
     moreDetail: boolean;
     loadingText: string;
     noMatchText: string;
@@ -1189,7 +1190,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     defaultSelected: boolean;
     valueOnClear: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown>;
     automaticDropdown: boolean;
-    filterable: boolean;
     allowCreate: boolean;
     remote: boolean;
     multiple: boolean;

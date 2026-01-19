@@ -2,7 +2,7 @@ import { withInstall } from "@fast-china/utils";
 import CarNumber from "./src/carNumber";
 
 export const FaCarNumber = withInstall(CarNumber);
-export default CarNumber;
+export default FaCarNumber;
 
 export * from "./src/common";
 

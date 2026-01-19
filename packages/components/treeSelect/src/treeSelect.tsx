@@ -172,7 +172,7 @@ export default defineComponent({
 	emits: faTreeSelectEmits,
 	slots: makeSlots<FaTreeSelectSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit);
+		const selectedLabel = useVModel(props, "label", emit, { passive: true });
 
 		const state = reactive({
 			value: withDefineType<string | number | boolean | object | (string | number | boolean | object)[]>(),

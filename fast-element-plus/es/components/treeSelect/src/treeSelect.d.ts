@@ -879,8 +879,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     }) => any;
     "onRemove-tag"?: (val: unknown) => any;
     "onVisible-change"?: (visible: boolean) => any;
-    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
     "onCheck-change"?: (data: any, checked: boolean, indeterminate: boolean) => any;
+    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
     "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
     "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
     "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
@@ -921,6 +921,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     persistent: boolean;
     draggable: boolean;
     fallbackPlacements: Placement[];
+    filterable: boolean;
     moreDetail: boolean;
     loadingText: string;
     noMatchText: string;
@@ -930,7 +931,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     defaultSelected: boolean;
     valueOnClear: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown>;
     automaticDropdown: boolean;
-    filterable: boolean;
     allowCreate: boolean;
     remote: boolean;
     multiple: boolean;
@@ -943,9 +943,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     tagType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>;
     tagEffect: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>;
     remoteShowSuffix: boolean;
-    defaultExpandAll: boolean;
-    indent: number;
     nodeKey: string;
+    defaultExpandAll: boolean;
     checkOnClickNode: boolean;
     highlightCurrent: boolean;
     collapseOnClickNode: boolean;
@@ -956,6 +955,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     autoExpandParent: boolean;
     showCheckbox: boolean;
     accordion: boolean;
+    indent: number;
     cacheData: {
         value: string | number | boolean | object;
         currentLabel: string | number;
