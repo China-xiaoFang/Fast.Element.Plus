@@ -225,22 +225,22 @@
 	.el-table__body-wrapper {
 		.el-table__body {
 			.fa-table__primary-row {
-				--el-table-tr-bfa-color: var(--el-color-primary-light-9);
+				--el-table-tr-bg-color: var(--el-color-primary-light-9);
 			}
 			.fa-table__success-row {
-				--el-table-tr-bfa-color: var(--el-color-success-light-9);
+				--el-table-tr-bg-color: var(--el-color-success-light-9);
 			}
 			.fa-table__warning-row {
-				--el-table-tr-bfa-color: var(--el-color-warning-light-9);
+				--el-table-tr-bg-color: var(--el-color-warning-light-9);
 			}
 			.fa-table__danger-row {
-				--el-table-tr-bfa-color: var(--el-color-danger-light-9);
+				--el-table-tr-bg-color: var(--el-color-danger-light-9);
 			}
 			.fa-table__error-row {
-				--el-table-tr-bfa-color: var(--el-color-error-light-9);
+				--el-table-tr-bg-color: var(--el-color-error-light-9);
 			}
 			.fa-table__info-row {
-				--el-table-tr-bfa-color: var(--el-color-info-light-9);
+				--el-table-tr-bg-color: var(--el-color-info-light-9);
 			}
 			.el-table__row {
 				.el-table__cell {
