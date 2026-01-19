@@ -100,7 +100,6 @@ export default defineComponent({
 
 		const state = reactive({
 			enumDict: withDefineType<FaTableEnumColumnCtx[]>([]),
-			oldValue: undefined,
 		});
 
 		const handleUpdateModelValue = (value: any): void => {
@@ -108,15 +107,11 @@ export default defineComponent({
 				// 如果是字符串，则去除前后空格
 				value = value.trim();
 			}
-			state.oldValue = tableState.searchParam[props.column?.search?.key ?? props.column.prop];
 			tableState.searchParam[props.column?.search?.key ?? props.column.prop] = value;
 		};
 
 		const handleChange = (value: any): void => {
-			// 改变触发的时候只有不等于的时候才会去刷新
-			// if (!isEqual(value, state.oldValue)) {
 			props.search();
-			// }
 		};
 
 		const handleDefaultProps = (): any => {
