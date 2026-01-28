@@ -3,10 +3,10 @@ import { ElButton, ElInput, ElMessage, ElPopover, formContextKey, formItemContex
 import { Back } from "@element-plus/icons-vue";
 import { RegExps } from "@fast-element-plus/constants";
 import { useProps, useRender } from "@fast-china/utils";
+import { useVModel } from "@vueuse/core";
 import { isNull, isString } from "lodash-unified";
 import { CarNumberArea, CarNumberDigit, CarNumberLetter } from "./common";
 import type { PopoverInstance } from "element-plus";
-import { useVModel } from "@vueuse/core";
 
 export default defineComponent({
 	name: "FaCarNumber",
