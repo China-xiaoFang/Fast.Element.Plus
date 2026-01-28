@@ -1147,6 +1147,7 @@ export default defineComponent({
 						closeOnPressEscape
 						hideOnClickModal
 						teleported
+						showProgress
 						onClose={() => (state.imagePreview = false)}
 						urlList={state.previewList}
 					/>
