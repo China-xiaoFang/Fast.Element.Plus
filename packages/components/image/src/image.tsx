@@ -53,11 +53,13 @@ export default defineComponent({
 	slots: makeSlots<FaImageSlots>(),
 	setup(props, { attrs, slots, emit, expose }) {
 		const state = reactive({
+			/** 图片加载错误 */
+			loadError: false,
 			src: computed(() => {
 				if (!props.src) return undefined;
 				if (props.base64) {
 					return `data:image/png;base64,${props.src}`;
-				} else if (props.original) {
+				} else if (props.original || state.loadError) {
 					return props.src;
 				} else if (props.normal) {
 					return `${props.src}@!normal`;
@@ -76,7 +78,15 @@ export default defineComponent({
 		const bindProps = useProps(props, imageProps, ["src", "previewSrcList"]);
 
 		useRender(() => (
-			<ElImage {...bindProps.value} class="fa-image" src={state.src} previewSrcList={state.previewList}>
+			<ElImage
+				{...bindProps.value}
+				class="fa-image"
+				src={state.src}
+				previewSrcList={state.previewList}
+				onError={() => {
+					if (!state.loadError) state.loadError = true;
+				}}
+			>
 				{{
 					error: () =>
 						slots.error ? (
