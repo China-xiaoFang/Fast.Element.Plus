@@ -1,4 +1,4 @@
-import fastChinaFlat from "@fast-china/eslint-config/flat";
+import fastChina from "@fast-china/eslint-config";
 import { defineConfig } from "eslint/config";
 
-export default defineConfig(...fastChinaFlat);
+export default defineConfig(...fastChina);
