@@ -1,9 +1,9 @@
 import { computed, defineComponent, inject, reactive, ref, watch } from "vue";
 import { definePropType, makeSlots, useExpose, useRender } from "@fast-china/utils";
+import { isNumber } from "lodash-unified";
 import type { FaLayoutGridItemResponsive } from "./layoutGrid.type";
 import type { FaLayoutGridBreakPoint } from "@fast-element-plus/components/layoutGrid";
 import type { Ref } from "vue";
-import { isNumber } from "lodash-unified";
 
 type FaLayoutGridItemSlots = {
 	/** @description 默认内容插槽 */

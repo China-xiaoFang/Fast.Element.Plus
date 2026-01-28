@@ -1,14 +1,15 @@
 import { computed, defineComponent, reactive, ref } from "vue";
 import { ElButton, ElButtonGroup, ElInput } from "element-plus";
 import { Delete, Search } from "@element-plus/icons-vue";
+import FaDialog from "@fast-element-plus/components/dialog";
+import { FaTable, type FaTableInstance, type PagedInput, type PagedResult } from "@fast-element-plus/components/table";
 import { definePropType, makeSlots, useExpose, useRender, withDefineType } from "@fast-china/utils";
+import { useVModel } from "@vueuse/core";
 import { isFunction, isNull, isNumber, isString } from "lodash-unified";
+import type { FaDialogInstance } from "@fast-element-plus/components/dialog";
+import type { ElSelectorOutput } from "@fast-element-plus/components/select/src/select.type";
 import type { TableProps } from "element-plus";
 import type { PropType } from "vue";
-import { FaTable, type FaTableInstance, type PagedInput, type PagedResult } from "@fast-element-plus/components/table";
-import { useVModel } from "@vueuse/core";
-import FaDialog, { FaDialogInstance } from "@fast-element-plus/components/dialog";
-import { ElSelectorOutput } from "@fast-element-plus/components/select/src/select.type";
 
 export const faInputDialogPageProps = {
 	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
@@ -44,9 +45,9 @@ export const faInputDialogPageProps = {
 
 export const faInputDialogPageEmits = {
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | number) => isString(value) || isNumber(value) || isNull(value),
+	"update:modelValue": (value: string | number): boolean => isString(value) || isNumber(value) || isNull(value),
 	/** @description v-model:label 回调 */
-	"update:label": (value: string) => isString(value) || isNull(value),
+	"update:label": (value: string): boolean => isString(value) || isNull(value),
 	/** @description 改变 */
 	change: (
 		data: ElSelectorOutput | ElSelectorOutput[] | any | any[],
