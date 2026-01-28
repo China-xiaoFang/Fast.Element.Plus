@@ -49,7 +49,7 @@
 	},
 	"devDependencies": {
 		"@element-plus/icons-vue": "^2.3",
-		"@fast-china/eslint-config": "^1",
+		"@fast-china/eslint-config": "1.0.39",
 		"@fast-china/utils": "^1",
 		"@fast-element-plus/components": "workspace:*",
 		"@fast-element-plus/constants": "workspace:*",
