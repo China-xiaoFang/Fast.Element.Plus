@@ -34,11 +34,11 @@ importers:
         specifier: ^2.3
         version: 2.3.2(vue@3.5.27(typescript@5.9.3))
       '@fast-china/eslint-config':
-        specifier: 1.0.42
+        specifier: ^1
         version: 1.0.42(eslint@9.39.2)(prettier@3.8.0)(typescript@5.9.3)
       '@fast-china/utils':
         specifier: ^1
-        version: 1.0.37(vue@3.5.27(typescript@5.9.3))
+        version: 1.0.38(vue@3.5.27(typescript@5.9.3))
       '@fast-element-plus/components':
         specifier: workspace:*
         version: link:packages/components
@@ -470,8 +470,8 @@ packages:
       eslint: ^9
       prettier: ^3
 
-  '@fast-china/utils@1.0.37':
-    resolution: {integrity: sha512-Qb/ZmZ25XdJEIkhNMXVb0tQxvOQD06HsnCuVNvzFavDXNVfZTfATUvFNi5H2rwfAXGLMruYX4eMQTMVTOTk8kg==}
+  '@fast-china/utils@1.0.38':
+    resolution: {integrity: sha512-nhC2WyR7DdeHrSoysu9w2DYJYPOkEY//qmiDdYm1pM2x1rZw4ZVswC8CHZkwD+mvo5H6H+lDKz2KhogsQihE4A==}
     peerDependencies:
       vue: ^2 || ^3
 
@@ -3059,7 +3059,7 @@ snapshots:
       eslint-config-flat-gitignore: 2.1.0(eslint@9.39.2)
       eslint-config-prettier: 10.1.8(eslint@9.39.2)
       eslint-import-resolver-typescript: 4.4.4(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2))(eslint@9.39.2)
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.2)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2))(eslint@9.39.2))(eslint@9.39.2)
       eslint-plugin-jsonc: 2.21.0(eslint@9.39.2)
       eslint-plugin-prettier: 5.5.5(eslint-config-prettier@10.1.8(eslint@9.39.2))(eslint@9.39.2)(prettier@3.8.0)
       eslint-plugin-regexp: 2.10.0(eslint@9.39.2)
@@ -3079,7 +3079,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@fast-china/utils@1.0.37(vue@3.5.27(typescript@5.9.3))':
+  '@fast-china/utils@1.0.38(vue@3.5.27(typescript@5.9.3))':
     dependencies:
       '@types/crypto-js': 4.2.2
       '@types/lodash': 4.17.23
@@ -4213,7 +4213,7 @@ snapshots:
       tinyglobby: 0.2.15
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.2)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2))(eslint@9.39.2))(eslint@9.39.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -4234,7 +4234,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.2):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2))(eslint@9.39.2))(eslint@9.39.2):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
