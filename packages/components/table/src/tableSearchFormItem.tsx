@@ -140,6 +140,7 @@ export default defineComponent({
 				} else {
 					defaultProps.defaultTime = dateUtil.getSimpleTime();
 					defaultProps.shortcuts = dateUtil.getSimpleShortcuts();
+					defaultProps.placeholder = "请选择";
 				}
 			}
 			if (["el-time-picker", "ElTimePicker"].includes(search?.el) && search?.props?.isRange) {
