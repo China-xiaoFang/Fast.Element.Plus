@@ -174,7 +174,9 @@ export type FaTableColumnDateFormat =
 	| "ss";
 
 /** @description FaTable 表格列上下文 */
-export type FaTableColumnCtx<T = any> = Partial<Omit<TableColumnCtx<T>, "order" | "type" | "prop" | "sortable" | "_children">> & {
+export type FaTableColumnCtx<T extends Record<PropertyKey, any> = Record<PropertyKey, any>> = Partial<
+	Omit<TableColumnCtx<T>, "order" | "type" | "prop" | "sortable" | "_children">
+> & {
 	/**
 	 * 内部的计算属性，一般不做使用
 	 * @description FaTable
