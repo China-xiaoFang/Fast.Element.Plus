@@ -346,6 +346,11 @@ export const faTableProps = {
 		type: Boolean,
 		default: true,
 	},
+	/** @description 页码 */
+	pageSizes: {
+		type: definePropType<number[]>(Array),
+		default: [20, 30, 50, 100],
+	},
 	/** @description 隐藏图片 */
 	hideImage: Boolean,
 	/** @description 单选 */
@@ -1134,7 +1139,11 @@ export default defineComponent({
 						) : (
 							<Fragment>
 								{props.pagination ? (
-									<FaTablePagination onSizeChange={handleSizeChange} onCurrentChange={handlePaginationChange} />
+									<FaTablePagination
+										pageSizes={props.pageSizes}
+										onSizeChange={handleSizeChange}
+										onCurrentChange={handlePaginationChange}
+									/>
 								) : (
 									<ElPagination class="fa-table-pagination" size="small" layout="total" total={state.tableData.length} />
 								)}

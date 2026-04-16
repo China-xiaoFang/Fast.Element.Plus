@@ -133,6 +133,7 @@ export default defineComponent({
 			}
 		);
 
+		// @ts-ignore ts(2589)
 		const searchColumns = computed(() => (props.advancedSearchDrawer ? state.searchColumns : tableState.searchColumns));
 
 		watch(

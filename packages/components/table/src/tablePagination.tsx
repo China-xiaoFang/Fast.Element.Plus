@@ -10,7 +10,7 @@ export default defineComponent({
 		/** @description 页码 */
 		pageSizes: {
 			type: definePropType<number[]>(Array),
-			default: [20, 30, 50, 100, 200, 300, 500, 1000],
+			default: [20, 30, 50, 100],
 		},
 	},
 	emits: {
