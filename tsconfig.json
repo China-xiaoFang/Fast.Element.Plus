@@ -12,13 +12,12 @@
 		"useDefineForClassFields": true,
 		"experimentalDecorators": true,
 		/** baseUrl 用来告诉编译器到哪里去查找模块，使用非相对模块时必须配置此项 */
-		"baseUrl": "./",
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"moduleDetection": "force",
 		/** 非相对模块导入的路径映射配置，根据 baseUrl 配置进行路径计算 */
 		"paths": {
-			"@fast-element-plus/*": ["packages/*"]
+			"@fast-element-plus/*": ["./packages/*"]
 		},
 		"resolveJsonModule": true,
 		"types": [
