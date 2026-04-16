@@ -22,7 +22,7 @@ export declare const tableProps: {
      * @description size of Table
      */
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -312,6 +312,11 @@ export declare const faTableProps: {
         type: BooleanConstructor;
         default: boolean;
     };
+    /** @description 页码 */
+    pageSizes: {
+        type: PropType<number[]>;
+        default: number[];
+    };
     /** @description 隐藏图片 */
     hideImage: BooleanConstructor;
     /** @description 单选 */
@@ -345,7 +350,7 @@ export declare const faTableProps: {
      * @description size of Table
      */
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -720,6 +725,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    /** @description 页码 */
+    pageSizes: {
+        type: PropType<number[]>;
+        default: number[];
+    };
     /** @description 隐藏图片 */
     hideImage: BooleanConstructor;
     /** @description 单选 */
@@ -753,7 +763,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description size of Table
      */
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -1146,6 +1156,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    /** @description 页码 */
+    pageSizes: {
+        type: PropType<number[]>;
+        default: number[];
+    };
     /** @description 隐藏图片 */
     hideImage: BooleanConstructor;
     /** @description 单选 */
@@ -1179,7 +1194,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
      * @description size of Table
      */
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -1386,6 +1401,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     lazy: boolean;
     className: string;
     columns: false | FaTableColumnCtx[];
+    pageSizes: number[];
     scrollbarAlwaysOn: boolean;
     defaultExpandAll: boolean;
     indent: number;

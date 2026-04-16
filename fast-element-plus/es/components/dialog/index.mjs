@@ -1,2 +1,2 @@
-import{withInstall as o}from"@fast-china/utils";import r from"./src/dialog.mjs";import{faDialogEmits as m,faDialogProps as s}from"./src/dialog.mjs";const t=o(r);export{t as FaDialog,t as default,m as faDialogEmits,s as faDialogProps};
+import r,{faDialogEmits as a,faDialogProps as o}from"./src/dialog.mjs";import{withInstall as t}from"@fast-china/utils";var i=t(r);export{i as default};
 //# sourceMappingURL=index.mjs.map

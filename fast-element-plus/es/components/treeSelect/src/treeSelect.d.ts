@@ -159,7 +159,7 @@ export declare const faTreeSelectProps: {
     };
     ariaLabel: StringConstructor;
     emptyValues: ArrayConstructor;
-    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown, undefined, boolean>;
+    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | (((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null)) | null)[], unknown, unknown, undefined, boolean>;
     name: StringConstructor;
     id: StringConstructor;
     autocomplete: {
@@ -168,7 +168,7 @@ export declare const faTreeSelectProps: {
     };
     automaticDropdown: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -186,8 +186,8 @@ export declare const faTreeSelectProps: {
         default: string;
     };
     popperOptions: {
-        type: import('vue').PropType<Options>;
-        default: () => Partial<Options>;
+        type: import('vue').PropType<Partial<import('element-plus').Options>>;
+        default: () => Partial<import('element-plus').Options>;
     };
     remote: BooleanConstructor;
     remoteMethod: FunctionConstructor;
@@ -229,7 +229,7 @@ export declare const faTreeSelectProps: {
     };
     tagType: {
         default: string;
-        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>>;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "info" | "primary" | "success" | "warning" | "danger", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -247,11 +247,11 @@ export declare const faTreeSelectProps: {
     };
     remoteShowSuffix: BooleanConstructor;
     placement: {
-        type: import('vue').PropType<Placement>;
+        type: import('vue').PropType<import('element-plus').Placement>;
         default: string;
     };
     fallbackPlacements: {
-        type: import('vue').PropType<Placement[]>;
+        type: import('vue').PropType<import('element-plus').Placement[]>;
         default: string[];
     };
 };
@@ -265,19 +265,19 @@ export declare const faTreeSelectEmits: {
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
     'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
-    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
-    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
-    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').Node | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
     check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
-    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
-    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
-    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'popup-scroll': ({ scrollTop, scrollLeft, }: {
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'popup-scroll': ({ scrollTop, scrollLeft }: {
         scrollTop: number;
         scrollLeft: number;
     }) => boolean;
@@ -469,7 +469,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     ariaLabel: StringConstructor;
     emptyValues: ArrayConstructor;
-    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown, undefined, boolean>;
+    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | (((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null)) | null)[], unknown, unknown, undefined, boolean>;
     name: StringConstructor;
     id: StringConstructor;
     autocomplete: {
@@ -478,7 +478,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     automaticDropdown: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -496,8 +496,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: string;
     };
     popperOptions: {
-        type: import('vue').PropType<Options>;
-        default: () => Partial<Options>;
+        type: import('vue').PropType<Partial<import('element-plus').Options>>;
+        default: () => Partial<import('element-plus').Options>;
     };
     remote: BooleanConstructor;
     remoteMethod: FunctionConstructor;
@@ -539,7 +539,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     tagType: {
         default: string;
-        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>>;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "info" | "primary" | "success" | "warning" | "danger", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -557,11 +557,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     remoteShowSuffix: BooleanConstructor;
     placement: {
-        type: import('vue').PropType<Placement>;
+        type: import('vue').PropType<import('element-plus').Placement>;
         default: string;
     };
     fallbackPlacements: {
-        type: import('vue').PropType<Placement[]>;
+        type: import('vue').PropType<import('element-plus').Placement[]>;
         default: string[];
     };
 }>, {
@@ -583,19 +583,19 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 改变 */
     change: (data: ElSelectorOutput | ElSelectorOutput[] | any | any[], value?: string | number | boolean | object | (string | number | boolean | object)[]) => boolean;
     'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
-    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
-    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
-    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').Node | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
     check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
-    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
-    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
-    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'popup-scroll': ({ scrollTop, scrollLeft, }: {
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'popup-scroll': ({ scrollTop, scrollLeft }: {
         scrollTop: number;
         scrollLeft: number;
     }) => boolean;
@@ -762,7 +762,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     ariaLabel: StringConstructor;
     emptyValues: ArrayConstructor;
-    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | ((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null))[], unknown, unknown, undefined, boolean>;
+    valueOnClear: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null) | (((new (...args: any[]) => string | number | boolean | Function) | (() => string | number | boolean | Function | null)) | null)[], unknown, unknown, undefined, boolean>;
     name: StringConstructor;
     id: StringConstructor;
     autocomplete: {
@@ -771,7 +771,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     automaticDropdown: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -789,8 +789,8 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         default: string;
     };
     popperOptions: {
-        type: import('vue').PropType<Options>;
-        default: () => Partial<Options>;
+        type: import('vue').PropType<Partial<import('element-plus').Options>>;
+        default: () => Partial<import('element-plus').Options>;
     };
     remote: BooleanConstructor;
     remoteMethod: FunctionConstructor;
@@ -832,7 +832,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     tagType: {
         default: string;
-        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>>;
+        type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "info" | "primary" | "success" | "warning" | "danger", unknown>>;
         required: false;
         validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -850,11 +850,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     remoteShowSuffix: BooleanConstructor;
     placement: {
-        type: import('vue').PropType<Placement>;
+        type: import('vue').PropType<import('element-plus').Placement>;
         default: string;
     };
     fallbackPlacements: {
-        type: import('vue').PropType<Placement[]>;
+        type: import('vue').PropType<import('element-plus').Placement[]>;
         default: string[];
     };
 }>> & Readonly<{
@@ -880,18 +880,18 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     "onRemove-tag"?: (val: unknown) => any;
     "onVisible-change"?: (visible: boolean) => any;
     "onCheck-change"?: (data: any, checked: boolean, indeterminate: boolean) => any;
-    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
-    "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
-    "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
-    "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
-    "onNode-expand"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node) => any;
+    "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
+    "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-expand"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance) => any;
     onCheck?: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
-    "onNode-drag-start"?: (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
-    "onNode-drag-end"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: import('element-plus').NodeDropType, evt: DragEvent) => any;
-    "onNode-drop"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: "before" | "after" | "inner", evt: DragEvent) => any;
-    "onNode-drag-leave"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
-    "onNode-drag-enter"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
-    "onNode-drag-over"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-start"?: (node: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
+    "onNode-drag-end"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: import('element-plus').NodeDropType, evt: DragEvent) => any;
+    "onNode-drop"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: "before" | "after" | "inner", evt: DragEvent) => any;
+    "onNode-drag-leave"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
+    "onNode-drag-enter"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
+    "onNode-drag-over"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
 }>, {
     props: SelectComponentProps;
     data: any[] | {
@@ -903,7 +903,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         disabled?: boolean;
         children?: /*elided*/ any[];
     }[];
-    placement: Placement;
+    placement: import('element-plus').Placement;
     loading: boolean;
     disabled: boolean;
     lazy: boolean;
@@ -913,14 +913,14 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     clearIcon: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     suffixIcon: import('vue').DefineComponent<{}, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
     validateEvent: boolean;
-    popperOptions: Options;
+    popperOptions: Partial<import('element-plus').Options>;
     popperClass: string;
     effect: string | (string & {});
     teleported: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     width: string | number;
     persistent: boolean;
     draggable: boolean;
-    fallbackPlacements: Placement[];
+    fallbackPlacements: import('element-plus').Placement[];
     filterable: boolean;
     moreDetail: boolean;
     loadingText: string;
@@ -940,7 +940,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     valueKey: string;
     maxCollapseTags: number;
     fitInputWidth: boolean;
-    tagType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "primary" | "success" | "warning" | "info" | "danger", unknown>;
+    tagType: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "info" | "primary" | "success" | "warning" | "danger", unknown>;
     tagEffect: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "plain" | "dark" | "light", unknown>;
     remoteShowSuffix: boolean;
     nodeKey: string;

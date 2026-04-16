@@ -1,2 +1,2 @@
-import{withInstall as t}from"@fast-china/utils";import a from"./src/avatar.mjs";const r=t(a);export{r as FaAvatar,r as default};
+import a from"./src/avatar.mjs";import{withInstall as r}from"@fast-china/utils";var t=r(a);export{t as default};
 //# sourceMappingURL=index.mjs.map

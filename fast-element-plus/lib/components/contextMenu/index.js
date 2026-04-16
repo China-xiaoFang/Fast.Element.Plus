@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/contextMenu.js");require("./src/contextMenu.type.js");const s=e.withInstall(t.default);exports.FaContextMenu=s,exports.default=s;
+require("../../_virtual/_rolldown/runtime.js");const e=require("./src/contextMenu.js");require("./src/contextMenu.type.js");var r=(0,require("@fast-china/utils").withInstall)(e.default);exports.default=r;
 //# sourceMappingURL=index.js.map

@@ -1,2 +1,2 @@
-import{withInstall as m}from"@fast-china/utils";import r from"./src/formItemTip.mjs";import{faFormItemTipProps as o}from"./src/formItemTip.mjs";const t=m(r);export{t as FaFormItemTip,t as default,o as faFormItemTipProps};
+import r,{faFormItemTipProps as m}from"./src/formItemTip.mjs";import{withInstall as t}from"@fast-china/utils";var o=t(r);export{o as default};
 //# sourceMappingURL=index.mjs.map

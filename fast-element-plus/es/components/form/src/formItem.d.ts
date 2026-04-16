@@ -24,16 +24,16 @@ export declare const faFormItemProps: {
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "top" | "left" | "right", unknown, "", boolean>;
     prop: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | (((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     required: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     rules: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | ((new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | (((new (... /** @description 对该表单项进行重置，将其值重置为初始值并移除校验结果 */args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -49,7 +49,7 @@ export declare const faFormItemProps: {
     inlineMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -93,16 +93,16 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "top" | "left" | "right", unknown, "", boolean>;
     prop: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | (((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     required: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     rules: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | ((new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | (((new (... /** @description 对该表单项进行重置，将其值重置为初始值并移除校验结果 */args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -118,7 +118,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     inlineMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -162,16 +162,16 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "left" | "right" | "top", unknown, "", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "top" | "left" | "right", unknown, "", boolean>;
     prop: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | ((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp) | (((new (...args: any[]) => string | string[]) | (() => import('element-plus').FormItemProp)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     required: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     rules: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | ((new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>) | (((new (... /** @description 对该表单项进行重置，将其值重置为初始值并移除校验结果 */args: any[]) => import('element-plus').FormItemRule | import('element-plus').FormItemRule[]) | (() => import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -187,7 +187,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     inlineMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -195,10 +195,10 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>> & Readonly<{}>, {
     required: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     offset: string | number;
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "top" | "left" | "right", unknown>;
+    grid: boolean;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "left" | "right" | "top", unknown>;
     inlineMessage: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     showMessage: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
-    grid: boolean;
     row: boolean;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaFormItemSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

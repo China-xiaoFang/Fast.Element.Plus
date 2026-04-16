@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/inputDialogPage.js"),a=e.withInstall(t.default);exports.faInputDialogPageEmits=t.faInputDialogPageEmits,exports.faInputDialogPageProps=t.faInputDialogPageProps,exports.FaInputDialogPage=a,exports.default=a;
+require("../../_virtual/_rolldown/runtime.js");const r=require("./src/inputDialogPage.js");var e=(0,require("@fast-china/utils").withInstall)(r.default);exports.default=e;
 //# sourceMappingURL=index.js.map

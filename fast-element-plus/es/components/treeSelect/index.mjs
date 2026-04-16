@@ -1,2 +1,2 @@
-import{withInstall as t}from"@fast-china/utils";import r from"./src/treeSelect.mjs";import{faTreeSelectEmits as e,faTreeSelectProps as m}from"./src/treeSelect.mjs";const o=t(r);export{o as FaTreeSelect,o as default,e as faTreeSelectEmits,m as faTreeSelectProps};
+import r,{faTreeSelectEmits as t,faTreeSelectProps as e}from"./src/treeSelect.mjs";import{withInstall as a}from"@fast-china/utils";var m=a(r);export{m as default};
 //# sourceMappingURL=index.mjs.map

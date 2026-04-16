@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),r=require("./src/carNumber.js"),t=require("./src/common.js"),a=e.withInstall(r.default);exports.CarNumberArea=t.CarNumberArea,exports.CarNumberDigit=t.CarNumberDigit,exports.CarNumberLetter=t.CarNumberLetter,exports.FaCarNumber=a,exports.default=a;
+require("../../_virtual/_rolldown/runtime.js"),require("./src/common.js");const r=require("./src/carNumber.js");var e=(0,require("@fast-china/utils").withInstall)(r.default);exports.default=e;
 //# sourceMappingURL=index.js.map

@@ -1,2 +1,1 @@
-import{vCopy as i}from"./click-copy/index.mjs";import{vDebounce as o}from"./click-debounce/index.mjs";import{vDraggable as m}from"./click-draggable/index.mjs";import{vIconCopy as c}from"./click-icon-copy/index.mjs";import{vLongpress as r}from"./click-longpress/index.mjs";import{vThrottle as e}from"./click-throttle/index.mjs";export{i as vCopy,o as vDebounce,m as vDraggable,c as vIconCopy,r as vLongpress,e as vThrottle};
-//# sourceMappingURL=index.mjs.map
+import i from"./click-copy/index.mjs";import m from"./click-debounce/index.mjs";import o from"./click-draggable/index.mjs";import c from"./click-icon-copy/index.mjs";import r from"./click-longpress/index.mjs";import e from"./click-throttle/index.mjs";

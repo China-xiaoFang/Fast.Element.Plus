@@ -11,20 +11,20 @@ export declare const faButtonProps: {
     /** @description 禁用加载 */
     disabledLoading: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "text" | "default" | "primary" | "success" | "warning" | "info" | "danger", unknown, "", boolean>;
+    type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "default" | "info" | "primary" | "success" | "warning" | "text" | "danger", unknown, "", boolean>;
     icon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | (((new (...args: any[]) => (string | Component) & {}) | (() => string | Component)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    nativeType: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "button" | "reset" | "submit", unknown, "button", boolean>;
+    nativeType: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "reset" | "submit" | "button", unknown, "button", boolean>;
     loading: BooleanConstructor;
     plain: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     text: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
@@ -33,10 +33,11 @@ export declare const faButtonProps: {
     autofocus: BooleanConstructor;
     round: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     circle: BooleanConstructor;
+    dashed: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     color: StringConstructor;
     dark: BooleanConstructor;
     autoInsertSpace: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    tag: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown, "button", boolean>;
+    tag: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | (((new (...args: any[]) => (string | Component) & {}) | (() => string | Component)) | null)[], unknown, unknown, "button", boolean>;
 };
 export declare const faButtonEmits: {
     /**
@@ -65,20 +66,20 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 禁用加载 */
     disabledLoading: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "text" | "default" | "primary" | "success" | "warning" | "info" | "danger", unknown, "", boolean>;
+    type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "default" | "info" | "primary" | "success" | "warning" | "text" | "danger", unknown, "", boolean>;
     icon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | (((new (...args: any[]) => (string | Component) & {}) | (() => string | Component)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    nativeType: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "button" | "reset" | "submit", unknown, "button", boolean>;
+    nativeType: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "reset" | "submit" | "button", unknown, "button", boolean>;
     loading: BooleanConstructor;
     plain: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     text: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
@@ -87,17 +88,18 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     autofocus: BooleanConstructor;
     round: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     circle: BooleanConstructor;
+    dashed: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     color: StringConstructor;
     dark: BooleanConstructor;
     autoInsertSpace: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    tag: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown, "button", boolean>;
+    tag: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | (((new (...args: any[]) => (string | Component) & {}) | (() => string | Component)) | null)[], unknown, unknown, "button", boolean>;
 }>, {
     /** @description 按钮 html 元素 */
     ref: import('vue').ComputedRef<HTMLButtonElement>;
     /** @description 按钮尺寸 */
     size: import('vue').ComputedRef<"" | "default" | "small" | "large">;
     /** @description 按钮类型 */
-    type: import('vue').ComputedRef<"" | "default" | "text" | "primary" | "success" | "warning" | "info" | "danger">;
+    type: import('vue').ComputedRef<"" | "default" | "text" | "info" | "primary" | "success" | "warning" | "danger">;
     /** @description 按钮已禁用 */
     disabled: import('vue').ComputedRef<boolean>;
     /** @description 是否在两个字符之间插入空格 */
@@ -124,20 +126,20 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 禁用加载 */
     disabledLoading: BooleanConstructor;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", never>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", never>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "text" | "default" | "primary" | "success" | "warning" | "info" | "danger", unknown, "", boolean>;
+    type: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "" | "default" | "info" | "primary" | "success" | "warning" | "text" | "danger", unknown, "", boolean>;
     icon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | (((new (...args: any[]) => (string | Component) & {}) | (() => string | Component)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    nativeType: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "button" | "reset" | "submit", unknown, "button", boolean>;
+    nativeType: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "reset" | "submit" | "button", unknown, "button", boolean>;
     loading: BooleanConstructor;
     plain: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     text: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
@@ -146,14 +148,15 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     autofocus: BooleanConstructor;
     round: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     circle: BooleanConstructor;
+    dashed: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     color: StringConstructor;
     dark: BooleanConstructor;
     autoInsertSpace: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    tag: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown, "button", boolean>;
+    tag: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | (((new (...args: any[]) => (string | Component) & {}) | (() => string | Component)) | null)[], unknown, unknown, "button", boolean>;
 }>> & Readonly<{
     onClick?: (event: MouseEvent, done?: () => void) => any;
 }>, {
-    type: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "text" | "primary" | "success" | "warning" | "info" | "danger", unknown>;
+    type: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "text" | "info" | "primary" | "success" | "warning" | "danger", unknown>;
     circle: boolean;
     link: boolean;
     text: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
@@ -166,6 +169,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     bg: boolean;
     autofocus: boolean;
     round: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
+    dashed: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     dark: boolean;
     autoInsertSpace: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     tag: "button";
