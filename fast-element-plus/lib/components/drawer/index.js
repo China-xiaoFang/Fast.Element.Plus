@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),r=require("./src/drawer.js"),t=e.withInstall(r.default);exports.FaDrawer=t,exports.default=t;
+require("../../_virtual/_rolldown/runtime.js");const r=require("./src/drawer.js");var e=(0,require("@fast-china/utils").withInstall)(r.default);exports.default=e;
 //# sourceMappingURL=index.js.map

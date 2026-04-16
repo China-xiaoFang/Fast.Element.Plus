@@ -1,2 +1,2 @@
-import{withInstall as r}from"@fast-china/utils";import t from"./src/drawer.mjs";const o=r(t);export{o as FaDrawer,o as default};
+import r from"./src/drawer.mjs";import{withInstall as a}from"@fast-china/utils";var t=a(r);export{t as default};
 //# sourceMappingURL=index.mjs.map

@@ -1,2 +1,2 @@
-const o="1.0.20";export{o as version};
+var r="1.0.21";export{r as version};
 //# sourceMappingURL=version.mjs.map

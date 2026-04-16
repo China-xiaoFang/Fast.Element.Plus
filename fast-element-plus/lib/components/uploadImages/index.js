@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/uploadImages.js"),s=e.withInstall(t.default);exports.FaUploadImages=s,exports.default=s;
+require("../../_virtual/_rolldown/runtime.js");const r=require("./src/uploadImages.js");var e=(0,require("@fast-china/utils").withInstall)(r.default);exports.default=e;
 //# sourceMappingURL=index.js.map

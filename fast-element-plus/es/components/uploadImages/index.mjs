@@ -1,2 +1,2 @@
-import{withInstall as o}from"@fast-china/utils";import s from"./src/uploadImages.mjs";const t=o(s);export{t as FaUploadImages,t as default};
+import a from"./src/uploadImages.mjs";import{withInstall as r}from"@fast-china/utils";var m=r(a);export{m as default};
 //# sourceMappingURL=index.mjs.map

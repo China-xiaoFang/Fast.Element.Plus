@@ -1,2 +1,2 @@
-import{withInstall as s}from"@fast-china/utils";import t from"./src/selectPage.mjs";import{faSelectPageEmits as r,faSelectPageProps as e}from"./src/selectPage.mjs";const m=s(t);export{m as FaSelectPage,m as default,r as faSelectPageEmits,e as faSelectPageProps};
+import r,{faSelectPageEmits as t,faSelectPageProps as a}from"./src/selectPage.mjs";import{withInstall as s}from"@fast-china/utils";var e=s(r);export{e as default};
 //# sourceMappingURL=index.mjs.map

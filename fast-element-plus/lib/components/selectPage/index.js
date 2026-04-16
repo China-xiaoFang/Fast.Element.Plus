@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/selectPage.js"),s=e.withInstall(t.default);exports.faSelectPageEmits=t.faSelectPageEmits,exports.faSelectPageProps=t.faSelectPageProps,exports.FaSelectPage=s,exports.default=s;
+require("../../_virtual/_rolldown/runtime.js");const e=require("./src/selectPage.js");var r=(0,require("@fast-china/utils").withInstall)(e.default);exports.default=r;
 //# sourceMappingURL=index.js.map

@@ -1,2 +1,2 @@
-import{withInstall as m,withNoopInstall as r}from"@fast-china/utils";import o from"./src/form.mjs";import{faFormProps as t}from"./src/form.mjs";import s from"./src/formItem.mjs";import{faFormItemProps as f}from"./src/formItem.mjs";import{formUtil as i}from"./utils/form.mjs";const p=m(o,{FormItem:s}),c=r(s);export{p as FaForm,c as FaFormItem,p as default,f as faFormItemProps,t as faFormProps,i as formUtil};
+import{formUtil as m}from"./utils/form.mjs";import r,{faFormProps as o}from"./src/form.mjs";import t,{faFormItemProps as f}from"./src/formItem.mjs";import{withInstall as s,withNoopInstall as i}from"@fast-china/utils";var a=s(r,{FormItem:t}),p=i(t);export{p as FaFormItem,a as default};
 //# sourceMappingURL=index.mjs.map

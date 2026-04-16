@@ -30,12 +30,12 @@ export declare const faFormProps: {
     };
     model: ObjectConstructor;
     rules: {
-        readonly type: import('vue').PropType<Partial<Record<string, import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>>>>;
+        readonly type: import('vue').PropType<Partial<Record<string, Record<string, any> | import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>>>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "left" | "right" | "top", unknown, "right", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "top" | "left" | "right", unknown, "right", boolean>;
     requireAsteriskPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "left" | "right", unknown, "left", boolean>;
     inline: BooleanConstructor;
     inlineMessage: BooleanConstructor;
@@ -43,9 +43,9 @@ export declare const faFormProps: {
     showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     validateOnRuleChange: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     hideRequiredAsterisk: BooleanConstructor;
-    scrollIntoViewOptions: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions) | ((new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions))[], unknown, unknown, true, boolean>;
+    scrollIntoViewOptions: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions) | (((new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions)) | null)[], unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -86,12 +86,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     model: ObjectConstructor;
     rules: {
-        readonly type: import('vue').PropType<Partial<Record<string, import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>>>>;
+        readonly type: import('vue').PropType<Partial<Record<string, Record<string, any> | import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>>>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "left" | "right" | "top", unknown, "right", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "top" | "left" | "right", unknown, "right", boolean>;
     requireAsteriskPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "left" | "right", unknown, "left", boolean>;
     inline: BooleanConstructor;
     inlineMessage: BooleanConstructor;
@@ -99,9 +99,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     validateOnRuleChange: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     hideRequiredAsterisk: BooleanConstructor;
-    scrollIntoViewOptions: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions) | ((new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions))[], unknown, unknown, true, boolean>;
+    scrollIntoViewOptions: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions) | (((new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions)) | null)[], unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -152,12 +152,12 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     };
     model: ObjectConstructor;
     rules: {
-        readonly type: import('vue').PropType<Partial<Record<string, import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>>>>;
+        readonly type: import('vue').PropType<Partial<Record<string, Record<string, any> | import('element-plus/es/utils/typescript.mjs').Arrayable<import('element-plus').FormItemRule>>>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "left" | "right" | "top", unknown, "right", boolean>;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "top" | "left" | "right", unknown, "right", boolean>;
     requireAsteriskPosition: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, "left" | "right", unknown, "left", boolean>;
     inline: BooleanConstructor;
     inlineMessage: BooleanConstructor;
@@ -165,9 +165,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     showMessage: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     validateOnRuleChange: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     hideRequiredAsterisk: BooleanConstructor;
-    scrollIntoViewOptions: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions) | ((new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions))[], unknown, unknown, true, boolean>;
+    scrollIntoViewOptions: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions) | (((new (...args: any[]) => boolean | ScrollIntoViewOptions) | (() => boolean | ScrollIntoViewOptions)) | null)[], unknown, unknown, true, boolean>;
     size: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "small" | "default" | "large", unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "" | "default" | "small" | "large", unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -175,7 +175,9 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     disabled: BooleanConstructor;
 }>> & Readonly<{}>, {
     disabled: boolean;
-    labelPosition: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "top" | "left" | "right", unknown>;
+    cols: string | number | Record<FaLayoutGridBreakPoint, number>;
+    grid: boolean;
+    labelPosition: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "left" | "right" | "top", unknown>;
     requireAsteriskPosition: import('element-plus/es/utils/index.mjs').EpPropMergeType<StringConstructor, "left" | "right", unknown>;
     labelWidth: string | number;
     labelSuffix: string;
@@ -187,8 +189,6 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     hideRequiredAsterisk: boolean;
     scrollToError: boolean;
     scrollIntoViewOptions: true;
-    cols: string | number | Record<FaLayoutGridBreakPoint, number>;
-    grid: boolean;
     detailForm: boolean;
 }, import('vue').SlotsType<Partial<import('@fast-china/utils').MakeSlots<FaFormSlots>>>, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

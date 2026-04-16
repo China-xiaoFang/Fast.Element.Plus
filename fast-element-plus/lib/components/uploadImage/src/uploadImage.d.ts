@@ -47,11 +47,11 @@ export declare const faUploadImageProps: {
         (): (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
+    } | (((new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
         (): (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     beforeRemove: {
         readonly type: import('vue').PropType<(uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => import('element-plus/es/utils/typescript.mjs').Awaitable<boolean>>;
         readonly required: false;
@@ -62,94 +62,94 @@ export declare const faUploadImageProps: {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onChange: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onPreview: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
         (): (uploadFile: import('element-plus').UploadFile) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
         (): (uploadFile: import('element-plus').UploadFile) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onSuccess: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onProgress: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onError: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onExceed: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
         (): (files: File[], uploadFiles: UploadUserFile[]) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
+    } | (((new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
         (): (files: File[], uploadFiles: UploadUserFile[]) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     crossorigin: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | (((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials")) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     action: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "#", boolean>;
     headers: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers) | ((new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers) | (((new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     method: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "post", boolean>;
-    data: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | ((new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)))[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
+    data: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (((new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>))) | null)[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
     multiple: BooleanConstructor;
     name: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "file", boolean>;
     withCredentials: BooleanConstructor;
-    fileList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]) | ((new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]))[], unknown, unknown, () => [], boolean>;
+    fileList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]) | (((new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[])) | null)[], unknown, unknown, () => [], boolean>;
     autoUpload: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     httpRequest: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
         (): import('element-plus').UploadRequestHandler;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
+    } | (((new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
         (): import('element-plus').UploadRequestHandler;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
+    }) | null)[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
     directory: BooleanConstructor;
@@ -214,11 +214,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         (): (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
+    } | (((new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
         (): (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     beforeRemove: {
         readonly type: import('vue').PropType<(uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => import('element-plus/es/utils/typescript.mjs').Awaitable<boolean>>;
         readonly required: false;
@@ -229,100 +229,100 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onChange: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onPreview: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
         (): (uploadFile: import('element-plus').UploadFile) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
         (): (uploadFile: import('element-plus').UploadFile) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onSuccess: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onProgress: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onError: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onExceed: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
         (): (files: File[], uploadFiles: UploadUserFile[]) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
+    } | (((new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
         (): (files: File[], uploadFiles: UploadUserFile[]) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     crossorigin: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | (((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials")) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     action: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "#", boolean>;
     headers: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers) | ((new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers) | (((new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     method: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "post", boolean>;
-    data: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | ((new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)))[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
+    data: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (((new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>))) | null)[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
     multiple: BooleanConstructor;
     name: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "file", boolean>;
     withCredentials: BooleanConstructor;
-    fileList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]) | ((new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]))[], unknown, unknown, () => [], boolean>;
+    fileList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]) | (((new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[])) | null)[], unknown, unknown, () => [], boolean>;
     autoUpload: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     httpRequest: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
         (): import('element-plus').UploadRequestHandler;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
+    } | (((new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
         (): import('element-plus').UploadRequestHandler;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
+    }) | null)[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
     directory: BooleanConstructor;
 }>, {
     /** @description 取消上传请求 */
-    abort: import('vue').ComputedRef<(file: import('element-plus').UploadFile) => void>;
+    abort: import('vue').ComputedRef<(file?: import('element-plus').UploadFile) => void>;
     /** @description 手动上传文件列表 */
     submit: import('vue').ComputedRef<() => void>;
     /** @description 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
@@ -438,11 +438,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         (): (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
+    } | (((new (...args: any[]) => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>) | {
         (): (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     beforeRemove: {
         readonly type: import('vue').PropType<(uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => import('element-plus/es/utils/typescript.mjs').Awaitable<boolean>>;
         readonly required: false;
@@ -453,94 +453,94 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onChange: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onPreview: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
         (): (uploadFile: import('element-plus').UploadFile) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
+    } | (((new (...args: any[]) => (uploadFile: import('element-plus').UploadFile) => void) | (() => (uploadFile: import('element-plus').UploadFile) => void) | {
         (): (uploadFile: import('element-plus').UploadFile) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onSuccess: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onProgress: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onError: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
+    } | (((new (...args: any[]) => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | (() => (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void) | {
         (): (error: Error, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     onExceed: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
         (): (files: File[], uploadFiles: UploadUserFile[]) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
+    } | (((new (...args: any[]) => (files: File[], uploadFiles: UploadUserFile[]) => void) | (() => (files: File[], uploadFiles: UploadUserFile[]) => void) | {
         (): (files: File[], uploadFiles: UploadUserFile[]) => void;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, () => void, boolean>;
+    }) | null)[], unknown, unknown, () => void, boolean>;
     crossorigin: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | (((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials")) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     action: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "#", boolean>;
     headers: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers) | ((new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers) | (((new (...args: any[]) => Record<string, any> | Headers) | (() => Record<string, any> | Headers)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
     method: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "post", boolean>;
-    data: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | ((new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)))[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
+    data: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (((new (...args: any[]) => import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>> | Promise<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>)) | (() => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus/es/utils/typescript.mjs').Mutable<Record<string, any>>> | ((rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<import('element-plus').UploadData>))) | null)[], unknown, unknown, () => import('element-plus/es/utils/typescript.mjs').Mutable<{}>, boolean>;
     multiple: BooleanConstructor;
     name: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "file", boolean>;
     withCredentials: BooleanConstructor;
-    fileList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]) | ((new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]))[], unknown, unknown, () => [], boolean>;
+    fileList: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[]) | (((new (...args: any[]) => UploadUserFile[]) | (() => UploadUserFile[])) | null)[], unknown, unknown, () => [], boolean>;
     autoUpload: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     httpRequest: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
         (): import('element-plus').UploadRequestHandler;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
+    } | (((new (...args: any[]) => import('element-plus').UploadRequestHandler) | (() => import('element-plus').UploadRequestHandler) | {
         (): import('element-plus').UploadRequestHandler;
         new (): any;
         readonly prototype: any;
-    })[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
+    }) | null)[], unknown, unknown, import('element-plus').UploadRequestHandler, boolean>;
     disabled: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     limit: NumberConstructor;
     directory: BooleanConstructor;
@@ -557,19 +557,19 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     width: string | number;
     drag: boolean;
     height: string | number;
+    method: string;
     onProgress: (evt: import('element-plus').UploadProgressEvent, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
     multiple: boolean;
+    fileList: UploadUserFile[];
     beforeUpload: (rawFile: import('element-plus').UploadRawFile) => import('element-plus/es/utils/typescript.mjs').Awaitable<void | undefined | null | boolean | File | Blob>;
     onRemove: (uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
     onPreview: (uploadFile: import('element-plus').UploadFile) => void;
     onSuccess: (response: any, uploadFile: import('element-plus').UploadFile, uploadFiles: import('element-plus').UploadFiles) => void;
     onExceed: (files: File[], uploadFiles: UploadUserFile[]) => void;
     action: string;
-    method: string;
     withCredentials: boolean;
     showFileList: boolean;
     accept: string;
-    fileList: UploadUserFile[];
     autoUpload: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
     listType: "picture" | "text" | "picture-card";
     httpRequest: import('element-plus').UploadRequestHandler;

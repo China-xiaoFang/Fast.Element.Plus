@@ -1,2 +1,0 @@
-"use strict";
-//# sourceMappingURL=select.type.js.map

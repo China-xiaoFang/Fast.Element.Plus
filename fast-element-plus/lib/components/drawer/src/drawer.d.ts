@@ -60,9 +60,7 @@ export declare const faDrawerProps: {
     withHeader: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     modalFade: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     headerAriaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
-    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (
-    /** @description 关闭按钮文字，默认取消 */
-    ...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown, "body", boolean>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>) | (((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>)) | null)[], unknown, unknown, "body", boolean>;
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
@@ -100,11 +98,11 @@ export declare const faDrawerProps: {
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | ((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition))[], unknown, unknown, undefined, boolean>;
+    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | (((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition)) | null)[], unknown, unknown, undefined, boolean>;
     center: BooleanConstructor;
     alignCenter: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     closeIcon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | ((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | (((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -208,9 +206,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     withHeader: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     modalFade: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     headerAriaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
-    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (
-    /** @description 关闭按钮文字，默认取消 */
-    ...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown, "body", boolean>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>) | (((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>)) | null)[], unknown, unknown, "body", boolean>;
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
@@ -248,11 +244,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | ((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition))[], unknown, unknown, undefined, boolean>;
+    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | (((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition)) | null)[], unknown, unknown, undefined, boolean>;
     center: BooleanConstructor;
     alignCenter: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     closeIcon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | ((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | (((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -357,9 +353,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     withHeader: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     modalFade: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     headerAriaLevel: import('element-plus/es/utils/index.mjs').EpPropFinalized<StringConstructor, unknown, unknown, "2", boolean>;
-    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (
-    /** @description 关闭按钮文字，默认取消 */
-    ...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown, "body", boolean>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>) | (((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>)) | null)[], unknown, unknown, "body", boolean>;
     beforeClose: {
         readonly type: import('vue').PropType<import('element-plus').DialogBeforeCloseFn>;
         readonly required: false;
@@ -397,11 +391,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         __epPropKey: true;
     };
     trapFocus: BooleanConstructor;
-    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | ((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition))[], unknown, unknown, undefined, boolean>;
+    transition: import('element-plus/es/utils/index.mjs').EpPropFinalized<(new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition) | (((new (...args: any[]) => string | import('vue').TransitionProps) | (() => import('element-plus').DialogTransition)) | null)[], unknown, unknown, undefined, boolean>;
     center: BooleanConstructor;
     alignCenter: import('element-plus/es/utils/index.mjs').EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     closeIcon: {
-        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | ((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component))[], unknown, unknown>>;
+        readonly type: import('vue').PropType<import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component) | (((new (...args: any[]) => (string | import('vue').Component) & {}) | (() => string | import('vue').Component)) | null)[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
@@ -428,9 +422,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     title: string;
     center: boolean;
     showClose: import('element-plus/es/utils/index.mjs').EpPropMergeType<BooleanConstructor, unknown, unknown>;
-    appendTo: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | ((new (
-    /** @description 关闭按钮文字，默认取消 */
-    ...args: any[]) => string | HTMLElement) | (() => string | HTMLElement))[], unknown, unknown>))[], unknown, unknown>;
+    appendTo: import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>) | ((new (...args: any[]) => string | HTMLElement) | (() => import('element-plus/es/utils/index.mjs').EpPropMergeType<(new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement) | (((new (...args: any[]) => string | HTMLElement) | (() => string | HTMLElement)) | null)[], unknown, unknown>))[], unknown, unknown>;
     modelValue: boolean;
     transition: undefined;
     fullscreen: boolean;

@@ -1,2 +1,2 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});exports.version="1.0.20";
+exports.version="1.0.21";
 //# sourceMappingURL=version.js.map

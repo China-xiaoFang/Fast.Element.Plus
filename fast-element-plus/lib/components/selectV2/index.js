@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("@fast-china/utils"),t=require("./src/selectV2.js"),s=e.withInstall(t.default);exports.SelectV2Props=t.SelectV2Props,exports.faSelectV2Props=t.faSelectV2Props,exports.FaSelectV2=s,exports.default=s;
+require("../../_virtual/_rolldown/runtime.js");const e=require("./src/selectV2.js");var r=(0,require("@fast-china/utils").withInstall)(e.default);exports.default=r;
 //# sourceMappingURL=index.js.map

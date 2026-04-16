@@ -139,18 +139,18 @@ export declare const faTreeEmits: {
     /** @description 改变 */
     change: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance, event: MouseEvent) => boolean;
     'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
-    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
-    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
-    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').Node | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
     check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
-    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
-    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
-    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
 };
 type FaTreeSlots = {
     /** @description 默认内容插槽 */
@@ -302,7 +302,7 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 如果节点可以被选中，(show-checkbox 为 true), 本方法将返回当前选中节点的数组 */
     getCheckedNodes: import('vue').ComputedRef<(leafOnly?: boolean, includeHalfChecked?: boolean) => import('element-plus').TreeNodeData[]>;
     /** @description 设置目前勾选的节点，使用此方法必须提前设置 node-key 属性 */
-    setCheckedNodes: import('vue').ComputedRef<(nodes: import('element-plus/es/components/tree/src/model/node.mjs').default[], leafOnly?: boolean) => void>;
+    setCheckedNodes: import('vue').ComputedRef<(nodes: import('element-plus/es/components/tree/src/model/node.mjs').Node[], leafOnly?: boolean) => void>;
     /** @description 	若节点可用被选中 (show-checkbox 为 true), 它将返回当前选中节点 key 的数组 */
     getCheckedKeys: import('vue').ComputedRef<(leafOnly?: boolean) => import('element-plus').TreeKey[]>;
     /** @description 设置目前选中的节点，使用此方法必须设置 node-key 属性 */
@@ -320,17 +320,17 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key  属性 */
     setCurrentKey: import('vue').ComputedRef<(key?: import('element-plus').TreeKey | null, shouldAutoExpandParent?: boolean) => void>;
     /** @description 设置节点为选中状态，使用此方法必须设置 node-key 属性 */
-    setCurrentNode: import('vue').ComputedRef<(node: import('element-plus/es/components/tree/src/model/node.mjs').default, shouldAutoExpandParent?: boolean) => void>;
+    setCurrentNode: import('vue').ComputedRef<(node: import('element-plus/es/components/tree/src/model/node.mjs').Node, shouldAutoExpandParent?: boolean) => void>;
     /** @description 根据 data 或者 key 拿到 Tree 组件中的 node */
-    getNode: import('vue').ComputedRef<(data: import('element-plus').TreeKey | import('element-plus').TreeNodeData) => import('element-plus/es/components/tree/src/model/node.mjs').default>;
+    getNode: import('vue').ComputedRef<(data: import('element-plus').TreeKey | import('element-plus').TreeNodeData) => import('element-plus/es/components/tree/src/model/node.mjs').Node>;
     /** @description 删除 Tree 中的一个节点，使用此方法必须设置 node-key 属性 */
-    remove: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData | import('element-plus/es/components/tree/src/model/node.mjs').default) => void>;
+    remove: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData | import('element-plus/es/components/tree/src/model/node.mjs').Node) => void>;
     /** @description 为 Tree 中的一个节点追加一个子节点 */
-    append: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData, parentNode: import('element-plus').TreeNodeData | import('element-plus').TreeKey | import('element-plus/es/components/tree/src/model/node.mjs').default) => void>;
+    append: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData, parentNode: import('element-plus').TreeNodeData | import('element-plus').TreeKey | import('element-plus/es/components/tree/src/model/node.mjs').Node) => void>;
     /** @description 在 Tree 中给定节点前插入一个节点 */
-    insertBefore: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData, refNode: import('element-plus').TreeKey | import('element-plus').TreeNodeData | import('element-plus/es/components/tree/src/model/node.mjs').default) => void>;
+    insertBefore: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData, refNode: import('element-plus').TreeKey | import('element-plus').TreeNodeData | import('element-plus/es/components/tree/src/model/node.mjs').Node) => void>;
     /** @description 在 Tree 中给定节点后插入一个节点 */
-    insertAfter: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData, refNode: import('element-plus').TreeKey | import('element-plus').TreeNodeData | import('element-plus/es/components/tree/src/model/node.mjs').default) => void>;
+    insertAfter: import('vue').ComputedRef<(data: import('element-plus').TreeNodeData, refNode: import('element-plus').TreeKey | import('element-plus').TreeNodeData | import('element-plus/es/components/tree/src/model/node.mjs').Node) => void>;
     /** @description 加载状态 */
     loading: import('vue').ComputedRef<boolean>;
     /** @description 刷新 */
@@ -345,18 +345,18 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     /** @description 改变 */
     change: (data: ElTreeOutput, node: any, instance: ComponentInternalInstance, event: MouseEvent) => boolean;
     'check-change': (data: any, checked: boolean, indeterminate: boolean) => any;
-    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').default | null) => boolean;
-    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
-    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
-    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance | null) => any;
+    'current-change': (data: any | null, node: import('element-plus/es/components/tree/src/model/node.mjs').Node | null) => boolean;
+    'node-click': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null, evt: MouseEvent) => any;
+    'node-contextmenu': (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-collapse': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
+    'node-expand': (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance | null) => any;
     check: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
-    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
-    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
-    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
-    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => DragEvent;
+    'node-drag-start': (node: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-end': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node | null, dropType: import('element-plus').NodeDropType, evt: DragEvent) => DragEvent;
+    'node-drop': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: Exclude<import('element-plus').NodeDropType, "none">, evt: DragEvent) => DragEvent;
+    'node-drag-leave': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-enter': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
+    'node-drag-over': (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => DragEvent;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     /** @description whether Select is disabled 重载使其支持 ElForm*/
     disabled: {
@@ -511,18 +511,18 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
         quantity?: number;
     }[]) => any;
     "onCheck-change"?: (data: any, checked: boolean, indeterminate: boolean) => any;
-    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default) => any;
-    "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
-    "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
-    "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
-    "onNode-expand"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').default, nodeInstance: ComponentInternalInstance) => any;
+    "onCurrent-change"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node) => any;
+    "onNode-click"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance, evt: MouseEvent) => any;
+    "onNode-contextmenu"?: (evt: Event, data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-collapse"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance) => any;
+    "onNode-expand"?: (data: any, node: import('element-plus/es/components/tree/src/model/node.mjs').Node, nodeInstance: ComponentInternalInstance) => any;
     onCheck?: (data: any, checkedInfo: import('element-plus').CheckedInfo) => any;
-    "onNode-drag-start"?: (node: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
-    "onNode-drag-end"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: import('element-plus').NodeDropType, evt: DragEvent) => any;
-    "onNode-drop"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropType: "before" | "after" | "inner", evt: DragEvent) => any;
-    "onNode-drag-leave"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
-    "onNode-drag-enter"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
-    "onNode-drag-over"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').default, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').default, evt: DragEvent) => any;
+    "onNode-drag-start"?: (node: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
+    "onNode-drag-end"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: import('element-plus').NodeDropType, evt: DragEvent) => any;
+    "onNode-drop"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropType: "before" | "after" | "inner", evt: DragEvent) => any;
+    "onNode-drag-leave"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, oldDropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
+    "onNode-drag-enter"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
+    "onNode-drag-over"?: (draggingNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, dropNode: import('element-plus/es/components/tree/src/model/node.mjs').Node, evt: DragEvent) => any;
 }>, {
     props: import('./tree.props').TreeOptionProps;
     data: {

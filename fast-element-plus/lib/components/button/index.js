@@ -1,2 +1,2 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const t=require("@fast-china/utils"),e=require("./src/button.js"),o=t.withInstall(e.default);exports.faButtonEmits=e.faButtonEmits,exports.faButtonProps=e.faButtonProps,exports.FaButton=o,exports.default=o;
+require("../../_virtual/_rolldown/runtime.js");const r=require("./src/button.js");var t=(0,require("@fast-china/utils").withInstall)(r.default);exports.default=t;
 //# sourceMappingURL=index.js.map

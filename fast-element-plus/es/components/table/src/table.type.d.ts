@@ -113,7 +113,7 @@ export type FaTableColumnType = "default" | "selection" | "index" | "expand" | "
 /** @description FaTable 表格列日期格式化 */
 export type FaTableColumnDateFormat = "YYYY-MM-DD HH:mm:ss" | "YYYY-MM-DD HH:mm" | "YYYY-MM-DD" | "YYYY-MM" | "YYYY" | "MM" | "DD" | "MM-DD" | "HH:mm:ss" | "HH:mm" | "HH" | "mm:ss" | "mm" | "ss";
 /** @description FaTable 表格列上下文 */
-export type FaTableColumnCtx<T = any> = Partial<Omit<TableColumnCtx<T>, "order" | "type" | "prop" | "sortable" | "_children">> & {
+export type FaTableColumnCtx<T extends Record<PropertyKey, any> = Record<PropertyKey, any>> = Partial<Omit<TableColumnCtx<T>, "order" | "type" | "prop" | "sortable" | "_children">> & {
     /**
      * 内部的计算属性，一般不做使用
      * @description FaTable
