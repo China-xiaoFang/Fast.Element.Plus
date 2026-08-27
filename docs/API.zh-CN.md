@@ -4,16 +4,15 @@ Fast.Element.Plus 提供一个具名导出的 ESM 根入口、一个 Vue 全局�
 
 这是遵循 Fast 团队约定的业务 SDK，不是 Element Plus 原生组件的无差异替代品。封装可以有意改变默认值、事件参数和业务流程，具体以 Fast.Element.Plus 类型与文档为准。
 
-## 插件与命名空间
+## 插件
 
 ```ts
-import FastElementPlus, { FastElementPlus as components, install, version } from "fast-element-plus";
+import FastElementPlus, { install, version } from "fast-element-plus";
 ```
 
 - 默认导出是包含 `install(app)` 和 `version` 的 Vue 插件。
 - `install` 会注册 Element Plus、两套强制安装的图标、全部组件和全部指令；同一 Vue 应用重复安装不会再次注册。
 - `version` 是当前包版本。
-- `FastElementPlus` 是包含全部具名组件导出的命名空间。
 - `INSTALLED_KEY` 是完整插件用于标记 Vue 应用已完成安装的内部约定键；仅在自定义安装集成时需要使用。
 
 导入根入口时会应用 Fast 团队约定的 Element Plus 默认 Props，并增强 `ElMessageBox.alert`、`ElMessageBox.confirm`、`ElMessageBox.prompt` 单例方法；调用 `app.use(FastElementPlus)` 还会注册 Element Plus 与两套图标。这些行为属于公开运行时契约。

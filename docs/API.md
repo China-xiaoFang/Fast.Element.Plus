@@ -4,16 +4,15 @@ Fast.Element.Plus exposes one named-export ESM root entry, one Vue global-type e
 
 This is a business SDK built around Fast team conventions, not a drop-in replacement for native Element Plus components. Wrappers may intentionally change defaults, event payloads, and business flows; the Fast.Element.Plus types and documentation define their contract.
 
-## Plugin and namespace
+## Plugin
 
 ```ts
-import FastElementPlus, { FastElementPlus as components, install, version } from "fast-element-plus";
+import FastElementPlus, { install, version } from "fast-element-plus";
 ```
 
 - The default export is a Vue plugin with `install(app)` and `version`.
 - `install` registers Element Plus, both required icon sets, all components, and all directives. Reinstalling into the same Vue application is a no-op.
 - `version` is the package version.
-- `FastElementPlus` is a namespace containing all named component exports.
 - `INSTALLED_KEY` is the convention key used by the full plugin to mark a Vue application as installed. It is only needed by custom installer integrations.
 
 Importing the root entry applies the Fast Element Plus default Props and enhances the `ElMessageBox.alert`, `ElMessageBox.confirm`, and `ElMessageBox.prompt` singleton methods. Calling `app.use(FastElementPlus)` additionally registers Element Plus and both icon sets. These behaviors are part of the public runtime contract.

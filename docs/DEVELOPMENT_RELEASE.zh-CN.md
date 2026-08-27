@@ -54,6 +54,7 @@ pnpm install --frozen-lockfile
 
 - Vue、Element Plus、Element Plus Icons 和 Fast.Element.Plus.Icons 均为强制 Peer Dependency。
 - Element Plus Icons 与 Fast.Element.Plus.Icons 同时作为本地开发依赖，发布产物保留静态外部引用，不内联其运行时代码。
+- `dependencies` 中的 Runtime Dependency 由包管理器自动安装；ESM 只保留包名导入，不得在 `dist/node_modules` 复制依赖源码，CDN IIFE 继续内联这些依赖。
 - `src/utils/` 只保留组件真实使用的内部工具，不从根入口导出，也不依赖 Fast.Utils。
 - Runtime Dependency 必须证明无法由平台能力或现有依赖替代。
 - 依赖升级后使用当前 pnpm 11 更新 Lockfile，并通过 Frozen Lockfile 安装与 Peer 检查。

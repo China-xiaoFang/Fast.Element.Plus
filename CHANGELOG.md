@@ -2,6 +2,16 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.1] - 2026-08-28
+
+### Changed
+
+- Externalized declared runtime dependencies from the ESM build so package managers resolve the installed dependency graph without copying third-party modules into `dist/node_modules`; the CDN IIFE remains self-contained.
+
+### Removed
+
+- Removed the redundant named `FastElementPlus` component namespace export; components remain available as tree-shakable named exports and the default export remains the complete Vue plugin.
+
 ## [2.0.0] - 2026-08-28
 
 ### Added
@@ -33,4 +43,5 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.1]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.1
 [2.0.0]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.0

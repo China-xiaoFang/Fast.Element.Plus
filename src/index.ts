@@ -2,8 +2,6 @@ import { makeInstaller } from "./make-installer";
 
 /** 用于标记已经安装 Fast.Element.Plus 的 Vue 应用。 */
 export { INSTALLED_KEY } from "./make-installer";
-/** Fast.Element.Plus 的全部公开组件。 */
-export * as FastElementPlus from "./components";
 
 export * from "./components";
 export * from "./constants";

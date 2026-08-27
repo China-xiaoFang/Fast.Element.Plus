@@ -15,7 +15,6 @@ import FastElementPlus, {
 	type FaTreeInstance,
 	type FaTreeSelectInstance,
 	type FaUploadSlots,
-	FastElementPlus as components,
 	install,
 	useLoading,
 	useOverlay,
@@ -66,7 +65,6 @@ void imageSlots.toolbar;
 void imageSlots["viewer-error"];
 void uploadSlots.file;
 
-void components.FaUpload;
 void tableColumnsSettingDialog;
 void tablePagination;
 void tableSearchForm;

@@ -65,6 +65,8 @@ test("build output is complete and does not expose unpublished source paths", as
 		"dist/index.global.min.js.map",
 	];
 	await Promise.all(requiredFiles.map((file) => access(new URL(file, root))));
+	await assert.rejects(access(new URL("dist/node_modules/", root)), (error) => error?.code === "ENOENT");
+	await assert.rejects(access(new URL("dist/_virtual/", root)), (error) => error?.code === "ENOENT");
 
 	const declarationFiles = (await collectFiles(new URL("dist/", root))).filter((file) => file.pathname.endsWith(".d.ts"));
 	const declarations = await Promise.all(declarationFiles.map((file) => readFile(file, "utf8")));
@@ -91,6 +93,10 @@ test("build output is complete and does not expose unpublished source paths", as
 	const esmFiles = (await collectFiles(new URL("dist/", root))).filter((file) => file.pathname.endsWith(".mjs"));
 	const esmOutput = (await Promise.all(esmFiles.map((file) => readFile(file, "utf8")))).join("\n");
 	assert.doesNotMatch(esmOutput, /@fast-china\/utils/u);
+	assert.doesNotMatch(esmOutput, /(?:^|[\\/])node_modules[\\/]/u);
+	for (const dependencyName of ["@vueuse/core", "decimal.js", "lodash-unified", "screenfull", "sortablejs"]) {
+		assert.match(esmOutput, new RegExp(`from\\s+["']${dependencyName.replaceAll(".", "\\.")}(?:/|["'])`, "u"));
+	}
 	// 两套强制 Peer 图标包只保留静态外部引用，不内联到发布产物。
 	assert.match(esmOutput, /from\s+["']@element-plus\/icons-vue["']/u);
 	assert.match(esmOutput, /from\s+["']@fast-element-plus\/icons-vue["']/u);

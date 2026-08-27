@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const detail = {
 	name: "Fast.Element.Plus",
-	version: "2.0.0",
+	version: "2.0.1",
 	license: "Apache-2.0",
 	description: "Fast 系列内部业务组件库",
 };
