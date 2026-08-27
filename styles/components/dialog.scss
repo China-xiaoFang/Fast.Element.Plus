@@ -1,18 +1,29 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-dialog {
 	--height: 90%;
+	--el-dialog-title-font-size: var(--el-font-size-base);
 	--fa-dialog-header-height: 40px;
 	--fa-dialog-footer-height: 45px;
+	box-sizing: border-box;
 	padding: 0 8px;
 	margin-bottom: 0;
 	display: flex;
 	flex-direction: column;
-	width: var(--el-dialog-width, 90%);
+	width: min(var(--el-dialog-width, 90%), calc(100vw - 32px));
 	max-height: var(--height);
+	border: 1px solid var(--el-border-color-lighter);
+	border-radius: calc(var(--el-border-radius-base) * 2);
+	background-color: var(--el-bg-color-overlay);
+	box-shadow: var(--el-box-shadow);
+	color: var(--el-text-color-regular);
 	font-size: var(--el-font-size-base);
+	overflow: hidden;
 	transition:
 		width var(--el-transition-duration),
 		height var(--el-transition-duration);
 	.el-dialog__header {
+		flex-shrink: 0;
 		height: var(--fa-dialog-header-height);
 		border-bottom: 1px solid var(--el-border-color-lighter);
 		padding: 0;
@@ -20,6 +31,13 @@
 		align-items: center;
 		.fa-dialog__header-title {
 			flex: 1;
+			min-width: 0;
+			padding-inline: 4px;
+			overflow: hidden;
+			color: var(--el-text-color-primary);
+			font-weight: var(--el-font-weight-primary);
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 		.fa-dialog__header-icon {
 			width: 30px;
@@ -27,12 +45,19 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			border-radius: var(--el-border-radius-base);
 			cursor: pointer;
+			transition: background-color var(--el-transition-duration-fast);
+
+			&:hover {
+				background-color: var(--el-fill-color-light);
+			}
+
 			.el-icon {
 				width: 100%;
 				height: 100%;
 				font-size: var(--el-font-size-large);
-				color: var(--el-color-info);
+				color: var(--el-text-color-secondary);
 			}
 		}
 	}
@@ -40,6 +65,7 @@
 		overflow: hidden;
 		padding: 8px;
 		flex: 1;
+		min-height: 0;
 		display: flex;
 		flex-direction: row;
 		> .el-scrollbar {
@@ -53,12 +79,18 @@
 		}
 	}
 	.el-dialog__footer {
+		flex-shrink: 0;
 		height: var(--fa-dialog-footer-height);
 		padding: 0;
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
+		gap: 8px;
 		border-top: 1px solid var(--el-border-color-lighter);
+
+		.el-button + .el-button {
+			margin-left: 0;
+		}
 	}
 	// 撑满
 	&.fa-dialog__full-height {
@@ -69,10 +101,15 @@
 		--el-dialog-width: 100% !important;
 		--height: 100% !important;
 		height: var(--height);
+		max-height: var(--height);
+		max-width: 100%;
+		border: 0;
+		border-radius: 0;
 	}
 }
 
 .fa-dialog-small {
+	--el-dialog-title-font-size: var(--el-font-size-extra-small);
 	--fa-dialog-header-height: 35px;
 	--fa-dialog-footer-height: 40px;
 	padding: 0 6px;
@@ -82,6 +119,51 @@
 			width: 25px;
 			.el-icon {
 				font-size: var(--el-font-size-medium);
+			}
+		}
+	}
+}
+
+@include bp.tablet {
+	.fa-dialog:not(.fa-dialog__fullscreen) {
+		width: min(var(--el-dialog-width, 90%), calc(100vw - 48px));
+		max-height: calc(100dvh - 48px);
+	}
+}
+
+@include bp.mobile {
+	.fa-dialog:not(.fa-dialog__fullscreen) {
+		--height: calc(100dvh - 24px);
+		--fa-dialog-header-height: 44px;
+		--fa-dialog-footer-height: auto;
+		width: calc(100vw - 24px) !important;
+		max-height: var(--height);
+		margin-top: max(12px, env(safe-area-inset-top)) !important;
+		padding: 0 6px;
+		border-radius: calc(var(--el-border-radius-base) * 2);
+
+		&.fa-dialog__full-height {
+			height: var(--height);
+		}
+
+		.el-dialog__header {
+			.fa-dialog__header-icon {
+				width: 44px;
+			}
+		}
+
+		.el-dialog__body {
+			padding: 8px 4px;
+		}
+
+		.el-dialog__footer {
+			height: var(--fa-dialog-footer-height);
+			min-height: 52px;
+			padding: 8px 4px max(8px, env(safe-area-inset-bottom));
+
+			> .el-button {
+				flex: 1 1 0;
+				min-width: 0;
 			}
 		}
 	}

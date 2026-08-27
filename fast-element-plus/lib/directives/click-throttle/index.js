@@ -1,2 +1,0 @@
-require("../../_virtual/_rolldown/runtime.js");let e=require("@fast-china/utils");var l={mounted(e,l){if("function"!=typeof l.value)throw"callback must be a function";let t=null;e.__handleClick__=()=>{t&&clearTimeout(t),e.disabled||(e.disabled=!0,l.value(),t=setTimeout(()=>{e.disabled=!1},1e3))},e.addEventListener("click",e.__handleClick__)},beforeUnmount(e){e.removeEventListener("click",e.__handleClick__)}},t=(0,e.withInstallDirective)(l,"throttle");exports.default=t;
-//# sourceMappingURL=index.js.map

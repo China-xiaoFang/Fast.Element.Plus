@@ -1,2 +1,0 @@
-import{withInstallDirective as e}from"@fast-china/utils";var o=e({mounted(e){e.style.cursor="move",e.style.position="absolute",e.onmousedown=o=>{const t=o.pageX-e.offsetLeft,s=o.pageY-e.offsetTop;document.onmousemove=o=>{let n=o.pageX-t,f=o.pageY-s;const u=e.parentNode.offsetWidth-e.offsetWidth,m=e.parentNode.offsetHeight-e.offsetHeight;n<0?n=0:n>u&&(n=u),f<0?f=0:f>m&&(f=m),e.style.left=`${n}px`,e.style.top=`${f}px`},document.onmouseup=()=>{document.onmousemove=document.onmouseup=null}}}},"draggable");export{o as default};
-//# sourceMappingURL=index.mjs.map

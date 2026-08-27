@@ -1,2 +1,0 @@
-require("../../_virtual/_rolldown/runtime.js");let e=require("@fast-china/utils");var _={created(e,_,i){e.__debounce_originClick__=i.props.onClick,i.props.onClick=()=>{e.__debounce_timer__&&clearInterval(e.__debounce_timer__),e.__debounce_timer__=setTimeout(()=>{e.__debounce_originClick__()},500)}}},i=(0,e.withInstallDirective)(_,"debounce");exports.default=i;
-//# sourceMappingURL=index.js.map

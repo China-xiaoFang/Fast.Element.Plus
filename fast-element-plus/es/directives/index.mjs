@@ -1,1 +1,0 @@
-import i from"./click-copy/index.mjs";import m from"./click-debounce/index.mjs";import o from"./click-draggable/index.mjs";import c from"./click-icon-copy/index.mjs";import r from"./click-longpress/index.mjs";import e from"./click-throttle/index.mjs";

@@ -1,2 +1,0 @@
-require("../../_virtual/_rolldown/runtime.js");const e=require("./src/selectOption.js"),t=require("./src/select.js");require("./src/select.type.js");let r=require("@fast-china/utils");var l=(0,r.withInstall)(t.default,{SelectOption:e.default}),s=(0,r.withNoopInstall)(e.default);exports.FaSelectOption=s,exports.default=l;
-//# sourceMappingURL=index.js.map

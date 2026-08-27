@@ -1,15 +1,17 @@
-html.dark {
-	.fa-tree {
-		--el-input-bg-color: transparent;
-		--el-fill-color-blank: transparent;
-	}
-}
+@use "../common/breakpoints.scss" as bp;
+
 .fa-tree {
+	--el-input-bg-color: transparent;
+	--el-fill-color-blank: transparent;
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
-	box-sizing: border-box;
 	height: 100%;
+	min-width: 0;
 	padding: 10px 10px 0;
+	border-color: var(--el-border-color-lighter);
+	background-color: var(--el-bg-color-overlay);
+	color: var(--el-text-color-regular);
 	// 折叠样式
 	&.fa-tree__fold {
 		.el-tree-node__expand-icon {
@@ -28,7 +30,7 @@ html.dark {
 			margin: 0;
 			font-size: var(--el-font-size-large);
 			font-weight: bold;
-			color: var(--el-color-info-dark-2);
+			color: var(--el-text-color-primary);
 			letter-spacing: 0.5px;
 		}
 		.el-icon {
@@ -41,10 +43,12 @@ html.dark {
 	}
 	.fa-tree__scrollbar {
 		flex: 1;
+		min-height: 0;
 		padding-right: 10px;
 		.el-tree {
 			font-size: var(--el-font-size-base);
 			.el-tree-node__content {
+				border-radius: var(--el-border-radius-base);
 				height: 30px;
 				padding: 0 3px;
 				.el-tree-node__expand-icon {
@@ -109,6 +113,44 @@ html.dark {
 			font-size: var(--el-font-size-extra-small);
 			.el-tree-node__content {
 				height: 26px;
+			}
+		}
+	}
+}
+
+@include bp.tablet {
+	.fa-tree {
+		padding: 10px 8px 0;
+
+		.fa-tree__scrollbar {
+			padding-right: 6px;
+		}
+	}
+}
+
+@include bp.mobile {
+	.fa-tree {
+		min-height: 280px;
+		padding: 8px 6px 0;
+		border-radius: var(--el-border-radius-base);
+
+		.fa-tree__title {
+			min-height: 44px;
+
+			.el-icon {
+				padding: 10px;
+			}
+		}
+
+		.fa-tree__search-input {
+			margin: 4px 0 8px;
+		}
+
+		.fa-tree__scrollbar {
+			padding-right: 2px;
+
+			.el-tree .el-tree-node__content {
+				min-height: 44px;
 			}
 		}
 	}

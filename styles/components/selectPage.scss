@@ -1,17 +1,28 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-select-page-dropdown {
+	max-width: calc(100vw - 32px);
+
 	.el-select-dropdown__header {
 		padding: 5px;
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
 		.fa-select-page-dropdown__default-selector {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
 			list-style: none;
 			padding: 0 8px 0 5px;
 			> :first-child {
-				float: left;
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 			> :nth-child(2) {
-				float: right;
+				flex-shrink: 0;
 				color: var(--el-text-color-secondary);
 				font-size: var(--el-font-size-extra-small);
 			}
@@ -27,8 +38,26 @@
 		align-items: flex-end;
 		gap: 5px;
 		.fa-select-page-dropdown__pagination {
+			max-width: 100%;
 			height: 24px;
 			padding-right: 5px;
+			overflow-x: auto;
+		}
+	}
+}
+
+@include bp.mobile {
+	.fa-select-page-dropdown {
+		max-width: calc(100vw - 24px);
+
+		.el-select-dropdown__header,
+		.el-select-dropdown__footer {
+			padding: 6px;
+		}
+
+		.el-select-dropdown__footer .fa-select-page-dropdown__pagination {
+			width: 100%;
+			justify-content: flex-start;
 		}
 	}
 }

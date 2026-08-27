@@ -1,2 +1,0 @@
-const e=require("./directives/click-copy/index.js"),i=require("./directives/click-debounce/index.js"),c=require("./directives/click-draggable/index.js"),r=require("./directives/click-icon-copy/index.js"),d=require("./directives/click-longpress/index.js"),t=require("./directives/click-throttle/index.js");var l=[e.default,i.default,c.default,r.default,d.default,t.default];exports.default=l;
-//# sourceMappingURL=directive.js.map

@@ -1,4 +1,8 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-select-v2-dropdown__more-detail {
+	max-width: calc(100vw - 32px);
+
 	.el-select-dropdown {
 		.el-vl__wrapper {
 			.el-select-dropdown__list {
@@ -6,6 +10,7 @@
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
+					min-height: 44px;
 					> :first-child {
 						line-height: normal;
 					}
@@ -18,5 +23,11 @@
 				}
 			}
 		}
+	}
+}
+
+@include bp.mobile {
+	.fa-select-v2-dropdown__more-detail {
+		max-width: calc(100vw - 24px);
 	}
 }

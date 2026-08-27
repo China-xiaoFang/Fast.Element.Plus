@@ -1,1 +1,0 @@
-require("./click-copy/index.js"),require("./click-debounce/index.js"),require("./click-draggable/index.js"),require("./click-icon-copy/index.js"),require("./click-longpress/index.js"),require("./click-throttle/index.js");

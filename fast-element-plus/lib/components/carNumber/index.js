@@ -1,2 +1,0 @@
-require("../../_virtual/_rolldown/runtime.js"),require("./src/common.js");const r=require("./src/carNumber.js");var e=(0,require("@fast-china/utils").withInstall)(r.default);exports.default=e;
-//# sourceMappingURL=index.js.map

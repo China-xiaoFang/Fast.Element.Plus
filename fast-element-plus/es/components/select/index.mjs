@@ -1,2 +1,0 @@
-import t from"./src/selectOption.mjs";import r,{SelectProps as s,faSelectProps as e}from"./src/select.mjs";import"./src/select.type.mjs";import{withInstall as m,withNoopInstall as o}from"@fast-china/utils";var c=m(r,{SelectOption:t}),i=o(t);export{i as FaSelectOption,c as default};
-//# sourceMappingURL=index.mjs.map

@@ -1,0 +1,1298 @@
+import { Fragment, computed, defineComponent, onActivated, onMounted, ref, watch, watchEffect } from "vue";
+import { Eleme, More, Refresh, Search, Setting } from "@element-plus/icons-vue";
+import {
+	ElButton,
+	ElDatePicker,
+	ElDropdown,
+	ElDropdownItem,
+	ElDropdownMenu,
+	ElIcon,
+	ElImageViewer,
+	ElInput,
+	ElPagination,
+	ElTable,
+	ElTableColumn,
+	useSizeProp,
+} from "element-plus";
+import { NotData } from "@fast-element-plus/icons-vue";
+import { isArray, isBoolean, isFunction, isNil, isNull, isNumber, isObject, isString, omit } from "lodash-unified";
+import {
+	createDateRangeShortcuts,
+	createOneMonthRangeFromToday,
+	debounce,
+	definePropType,
+	makeSlots,
+	randomString,
+	useExpose,
+	useProps,
+	useRender,
+} from "../../../utils";
+import { tableUtil } from "../utils/table";
+import { getTableDefaultSlots } from "./table.type";
+import FaTableColumn from "./tableColumn";
+import FaTableColumnsSettingDialog from "./tableColumnSettingDialog";
+import FaTablePagination from "./tablePagination";
+import FaTableSearchForm from "./tableSearchForm";
+import { useTable } from "./useTable";
+import type { FaTableRow } from "./table.state";
+import type { FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from "./table.type";
+import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
+import type { PagedInput, PagedResult, PagedSortInput } from "../src/page.type";
+import type { TableColumnCtx, TableProps } from "element-plus";
+import type { CSSProperties, PropType } from "vue";
+
+type DefaultRow = FaTableRow;
+
+type Layout = "fixed" | "auto";
+
+// type TreeProps = TableProps<DefaultRow>["treeProps"];
+/** FaTable 树形数据的字段配置。 */
+export interface TreeProps {
+	hasChildren?: string;
+	children?: string;
+	checkStrictly?: boolean;
+}
+
+/** Element Plus Table 的透传 Props 定义。 */
+export const tableProps = {
+	/**
+	 * @description table data
+	 */
+	data: {
+		type: Array as PropType<DefaultRow[]>,
+		default: (): DefaultRow[] => [],
+	},
+	/**
+	 * @description size of Table
+	 */
+	size: useSizeProp,
+	width: [String, Number],
+	/**
+	 * @description table's height. By default it has an `auto` height. If its value is a number, the height is measured in pixels; if its value is a string, the value will be assigned to element's style.height, the height is affected by external styles
+	 */
+	height: [String, Number],
+	/**
+	 * @description table's max-height. The legal value is a number or the height in px
+	 */
+	maxHeight: [String, Number],
+	/**
+	 * @description whether width of column automatically fits its container
+	 */
+	fit: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * @description whether Table is striped
+	 */
+	stripe: Boolean,
+	/**
+	 * @description whether Table has vertical border
+	 */
+	border: Boolean,
+	/**
+	 * @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used
+	 */
+	rowKey: [String, Function] as PropType<TableProps<DefaultRow>["rowKey"]>,
+	/**
+	 * @description whether Table header is visible
+	 */
+	showHeader: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * @description whether to display a summary row
+	 */
+	showSummary: Boolean,
+	/**
+	 * @description displayed text for the first column of summary row
+	 */
+	sumText: String,
+	/**
+	 * @description custom summary method
+	 */
+	summaryMethod: Function as PropType<TableProps<DefaultRow>["summaryMethod"]>,
+	/**
+	 * @description function that returns custom class names for a row, or a string assigning class names for every row
+	 */
+	rowClassName: [String, Function] as PropType<TableProps<DefaultRow>["rowClassName"]>,
+	/**
+	 * @description function that returns custom style for a row, or an object assigning custom style for every row
+	 */
+	rowStyle: [Object, Function] as PropType<TableProps<DefaultRow>["rowStyle"]>,
+	/**
+	 * @description function that returns custom class names for a cell, or a string assigning class names for every cell
+	 */
+	cellClassName: [String, Function] as PropType<TableProps<DefaultRow>["cellClassName"]>,
+	/**
+	 * @description function that returns custom style for a cell, or an object assigning custom style for every cell
+	 */
+	cellStyle: [Object, Function] as PropType<TableProps<DefaultRow>["cellStyle"]>,
+	/**
+	 * @description function that returns custom class names for a row in table header, or a string assigning class names for every row in table header
+	 */
+	headerRowClassName: [String, Function] as PropType<TableProps<DefaultRow>["headerRowClassName"]>,
+	/**
+	 * @description function that returns custom style for a row in table header, or an object assigning custom style for every row in table header
+	 */
+	headerRowStyle: [Object, Function] as PropType<TableProps<DefaultRow>["headerRowStyle"]>,
+	/**
+	 * @description function that returns custom class names for a cell in table header, or a string assigning class names for every cell in table header
+	 */
+	headerCellClassName: [String, Function] as PropType<TableProps<DefaultRow>["headerCellClassName"]>,
+	/**
+	 * @description function that returns custom style for a cell in table header, or an object assigning custom style for every cell in table header
+	 */
+	headerCellStyle: [Object, Function] as PropType<TableProps<DefaultRow>["headerCellStyle"]>,
+	/**
+	 * @description whether current row is highlighted
+	 */
+	highlightCurrentRow: Boolean,
+	/**
+	 * @description key of current row, a set only prop
+	 */
+	currentRowKey: [String, Number],
+	/**
+	 * @description displayed text when data is empty. You can customize this area with `#empty`
+	 */
+	emptyText: String,
+	/**
+	 * @description set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop
+	 */
+	expandRowKeys: Array as PropType<TableProps<DefaultRow>["expandRowKeys"]>,
+	/** @description controls whether a row can be expanded */
+	rowExpandable: Function as PropType<TableProps<DefaultRow>["rowExpandable"]>,
+	/**
+	 * @description whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data
+	 */
+	defaultExpandAll: Boolean,
+	/**
+	 * @description set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order
+	 */
+	defaultSort: Object as PropType<TableProps<DefaultRow>["defaultSort"]>,
+	/**
+	 * @description the `effect` of the overflow tooltip
+	 */
+	tooltipEffect: String,
+	/**
+	 * @description the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)
+	 */
+	tooltipOptions: Object as PropType<TableProps<DefaultRow>["tooltipOptions"]>,
+	/**
+	 * @description method that returns rowspan and colspan
+	 */
+	spanMethod: Function as PropType<TableProps<DefaultRow>["spanMethod"]>,
+	/**
+	 * @description controls the behavior of master checkbox in multi-select tables when only some rows are selected (but not all). If true, all rows will be selected, else deselected
+	 */
+	selectOnIndeterminate: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * @description horizontal indentation of tree data
+	 */
+	indent: {
+		type: Number,
+		default: 16,
+	},
+	/**
+	 * @description configuration for rendering nested data
+	 */
+	treeProps: {
+		type: Object as PropType<TreeProps>,
+		default: (): TreeProps => ({
+			hasChildren: "hasChildren",
+			children: "children",
+			checkStrictly: false,
+		}),
+	},
+	/**
+	 * @description whether to lazy loading data
+	 */
+	lazy: Boolean,
+	/**
+	 * @description method for loading child row data, only works when `lazy` is true
+	 */
+	load: Function as PropType<TableProps<DefaultRow>["load"]>,
+	style: {
+		type: Object as PropType<CSSProperties>,
+		default: (): CSSProperties => ({}),
+	},
+	className: {
+		type: String,
+		default: "",
+	},
+	/**
+	 * @description sets the algorithm used to lay out table cells, rows, and columns
+	 */
+	tableLayout: {
+		type: String as PropType<Layout>,
+		default: "fixed",
+	},
+	/**
+	 * @description always show scrollbar
+	 */
+	scrollbarAlwaysOn: Boolean,
+	/**
+	 * @description ensure main axis minimum-size doesn't follow the content
+	 */
+	flexible: Boolean,
+	/**
+	 * @description whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns
+	 */
+	showOverflowTooltip: [Boolean, Object] as PropType<TableProps<DefaultRow>["showOverflowTooltip"]>,
+	/** @description formats overflow tooltip content */
+	tooltipFormatter: Function as PropType<TableProps<DefaultRow>["tooltipFormatter"]>,
+	/** @description element to which the filter panel is appended */
+	appendFilterPanelTo: String,
+	scrollbarTabindex: {
+		type: [Number, String],
+		default: undefined,
+	},
+	/** @description whether the last column can be resized */
+	allowDragLastColumn: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description whether collapsed expanded-row content remains mounted */
+	preserveExpandedContent: Boolean,
+	/** @description whether to use native scrollbars */
+	nativeScrollbar: Boolean,
+};
+
+/** FaTable 的运行时 Props 定义。 */
+export const faTableProps = {
+	...tableProps,
+	/** @description whether Table has vertical border */
+	border: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description whether current row is highlighted */
+	highlightCurrentRow: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
+	rowKey: {
+		type: [String, Function] as PropType<TableProps<DefaultRow>["rowKey"]>,
+		default: "id",
+	},
+	/** @description 组件封装，原生的已经失效 method that returns rowspan and colspan */
+	spanMethod: {
+		type: Function as PropType<TableProps<DefaultRow>["spanMethod"]>,
+		validator: (): boolean => {
+			console.warn("[Fast:FaTable]", "'spanMethod' 属性，组件已经封装，外部使用会失效。");
+			return false;
+		},
+	},
+	/** @description 表格Key */
+	tableKey: {
+		type: String,
+		default: (): string => randomString(8),
+	},
+	/** @description 表格数据 */
+	data: {
+		type: definePropType<DefaultRow[]>(Array),
+		default: (): DefaultRow[] => [],
+	},
+	/** @description 请求api */
+	requestApi: {
+		type: definePropType<(params?: PagedInput) => Promise<PagedResult<DefaultRow> | DefaultRow[]>>(Function),
+	},
+	/** @description 接口请求数据回调 */
+	dataCallback: {
+		type: definePropType<(data: unknown) => void>(Function),
+	},
+	/** 初始化参数 */
+	initParam: definePropType<unknown>([String, Number, Object]),
+	/** @description 列配置 */
+	columns: {
+		type: definePropType<FaTableColumnCtx[] | false>([Array, Boolean]),
+		default: (): FaTableColumnCtx[] | false => false,
+	},
+	/** @description 表格列改变 */
+	columnsChange: {
+		type: definePropType<(columns: FaTableColumnCtx[]) => Promise<void>>(Function),
+	},
+	/** @description 搜索表单 Grid布局列配置 */
+	searchFormCols: {
+		type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
+		default: (): string | number | Record<FaLayoutGridBreakPoint, number> => ({ xs: 1, sm: 2, md: 4, lg: 5, xl: 6 }),
+	},
+	/** @description 折叠搜素 */
+	collapsedSearch: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 高级搜素抽屉 */
+	advancedSearchDrawer: {
+		type: Boolean,
+		default: false,
+	},
+	/** @description 搜索表单 */
+	searchForm: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 头部卡片 */
+	headerCard: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 刷新按钮 */
+	refreshBtn: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 搜索按钮 */
+	searchBtn: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 列配置按钮 */
+	columnSettingBtn: {
+		type: Boolean,
+		default: false,
+	},
+	/** @description 头部卡片右侧功能按钮 */
+	toolBtn: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 隐藏搜索时间 */
+	hideSearchTime: Boolean,
+	/** @description 未来搜索时间 */
+	futureSearchTime: Boolean,
+	/** @description 搜索时间范围 */
+	dataSearchRange: {
+		type: definePropType<FaTableDataRange>(String),
+		default: "Past3D",
+	},
+	/** @description 分页 */
+	pagination: {
+		type: Boolean,
+		default: true,
+	},
+	/** @description 页码 */
+	pageSizes: {
+		type: definePropType<number[]>(Array),
+		default: [20, 30, 50, 100],
+	},
+	/** @description 隐藏图片 */
+	hideImage: Boolean,
+	/** @description 单选 */
+	single: Boolean,
+	/** @description 行点击选择 */
+	rowClickSelection: Boolean,
+	/** @description 将父级数据的 children 展开为表格行，并把父级字段合并到子项；Element Plus 树表无需启用 */
+	treeData: Boolean,
+	/** @description 配置选项 */
+	props: {
+		type: definePropType<{ span?: string; children?: string }>(Object),
+		default: (): { span?: string; children?: string } => ({
+			span: undefined,
+			children: "children",
+		}),
+	},
+	/** @description 自动刷新，当传入 data 时候，如果存在更改则自动刷新 */
+	autoRefresh: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * 等价于 Table-Column 的 selectable
+	 * @description function that determines if a certain row can be selected, works when `type` is 'selection'
+	 */
+	rowSelectable: Function as PropType<TableColumnCtx<DefaultRow>["selectable"]>,
+};
+
+/** FaTable 的运行时 Emits 定义。 */
+export const faTableEmits = {
+	/** @description 当用户手动勾选数据行的 Checkbox 时触发的事件 */
+	select: (selection: DefaultRow[], row: DefaultRow): boolean => isArray(selection) && isObject(row),
+	/** @description 当用户手动勾选全选 Checkbox 时触发的事件 */
+	selectAll: (selection: DefaultRow[]): boolean => isArray(selection),
+	/** @description 当选择项发生变化时会触发该事件 */
+	selectionChange: (newSelection: DefaultRow[]): boolean => isArray(newSelection),
+	/** @description 当单元格 hover 进入时会触发该事件 */
+	cellMouseEnter: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
+		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	/** @description 当单元格 hover 退出时会触发该事件 */
+	cellMouseLeave: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
+		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	/** @description 当某个单元格被点击时会触发该事件 */
+	cellClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
+		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	/** @description 当某个单元格被双击击时会触发该事件 */
+	cellDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
+		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	/** @description 当某个单元格被鼠标右键点击时会触发该事件 */
+	cellContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
+		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	/** @description 当某一行被点击时会触发该事件 */
+	rowClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event): boolean =>
+		isObject(row) && isObject(column) && event instanceof Event,
+	/** @description 当某一行被鼠标右键点击时会触发该事件 */
+	rowContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event): boolean =>
+		isObject(row) && isObject(column) && event instanceof Event,
+	/** @description 当某一行被双击时会触发该事件 */
+	rowDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event): boolean =>
+		isObject(row) && isObject(column) && event instanceof Event,
+	/** @description 当某一列的表头被点击时会触发该事件 */
+	headerClick: (column: TableColumnCtx<DefaultRow>, event: Event): boolean => isObject(column) && event instanceof Event,
+	/** @description 当某一列的表头被鼠标右键点击时触发该事件 */
+	headerContextmenu: (column: TableColumnCtx<DefaultRow>, event: Event): boolean => isObject(column) && event instanceof Event,
+	/** @description 当表格的排序条件发生变化的时候会触发该事件 */
+	sortChange: (data: { column: TableColumnCtx<DefaultRow>; prop: string; order: "" | "ascending" | "descending" }): boolean => isObject(data),
+	/** @description column 的 key， 如果需要使用 filter-change 事件，则需要此属性标识是哪个 column 的筛选条件 */
+	filterChange: (newFilters: unknown): boolean => isString(newFilters) || isNumber(newFilters) || isBoolean(newFilters) || isObject(newFilters),
+	/** @description 当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性 */
+	currentChange: (currentRow: DefaultRow, oldCurrentRow: DefaultRow | null): boolean =>
+		isObject(currentRow) && (isNull(oldCurrentRow) || isObject(oldCurrentRow)),
+	/** @description 当拖动表头改变了列的宽度的时候会触发该事件 */
+	headerDragend: (newWidth: number, oldWidth: number, column: TableColumnCtx<DefaultRow>, event: MouseEvent): boolean =>
+		isNumber(newWidth) && isNumber(oldWidth) && isObject(column) && event instanceof MouseEvent,
+	/** @description 当用户对某一行展开或者关闭的时候会触发该事件（展开行时，回调的第二个参数为 expandedRows；树形表格时第二参数为 expanded） */
+	expandChange: (row: DefaultRow, expanded: boolean | DefaultRow[]): boolean => isObject(row) && (isBoolean(expanded) || isArray(expanded)),
+	/** @description 表格滚动时触发 */
+	scroll: (data: { scrollLeft: number; scrollTop: number }): boolean => isObject(data),
+
+	/** @description 表格刷新事件 */
+	refresh: (params: PagedInput): boolean => isObject(params),
+	/** @description 表格重置事件 */
+	reset: (params: PagedInput): boolean => isObject(params),
+	/** @description 分页页码改变事件 */
+	sizeChange: (pageSize: number): boolean => isNumber(pageSize),
+	/** @description 分页改变事件 */
+	paginationChange: (pageIndex: number, pageSize: number): boolean => isNumber(pageIndex) && isNumber(pageSize),
+	/** @description 自定义单元格点击事件 */
+	customCellClick: (
+		emitName: string,
+		{ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult
+	): boolean => (isNil(emitName) || isString(emitName)) && isObject(row) && isObject(column) && isNumber($index),
+};
+
+/** FaTable 的插槽参数。 */
+export type FaTableSlots = Record<string, unknown> & {
+	/** @description 默认内容插槽 */
+	default: never;
+	/** @description 插入至表格最后一行之后的内容， 如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。 若表格有合计行，该 slot 会位于合计行之上。 */
+	append: never;
+	/** @description 当数据为空时自定义的内容 */
+	empty: never;
+	/** @description 表格顶部插槽 */
+	topHeader: FaTableDefaultSlotsResult;
+	/** @description 表格头部左侧插槽 */
+	header: FaTableDefaultSlotsResult;
+	/** @description 表格头部右侧功能按钮插槽 */
+	toolButton: FaTableDefaultSlotsResult;
+	/** @description 表格头部右侧高级操作按钮插槽，ElDropdownMenuItem 标签 */
+	toolButtonAdv: FaTableDefaultSlotsResult;
+	/** @description 表格操作列插槽 */
+	operation: FaTableDefaultSlotsResult & {
+		row: DefaultRow;
+		column: FaTableColumnCtx;
+		$index: number;
+	};
+	/** @description 表格分页插槽 */
+	pagination: {
+		pageIndex: number;
+		pageSize: number;
+		totalRows: number;
+		handleSizeChange: (val: number) => void;
+		handlePaginationChange: (val: number) => void;
+	};
+	/** @description 表格页脚插槽 */
+	footer: FaTableDefaultSlotsResult;
+	/** @description 列配置 */
+	columnSetting: never;
+} & Record<
+		string,
+		FaTableDefaultSlotsResult & {
+			/** @description slots为表格内容的时候才会返回 */
+			row?: DefaultRow;
+			/** @description slot为表头内容的时候返回 'TableColumnCtx<any>' 否则返回 'FaTableColumnCtx' */
+			column?: TableColumnCtx<DefaultRow> | FaTableColumnCtx;
+			/** @description slot为非搜索项的时候才会返回 */
+			$index?: number;
+			/** @description slot为搜索项的时候才会返回 */
+			search?: () => Promise<void>;
+		}
+	>;
+
+export default defineComponent({
+	name: "FaTable",
+	props: faTableProps,
+	emits: faTableEmits,
+	slots: makeSlots<FaTableSlots>(),
+	setup(props, { slots, emit, expose }) {
+		const {
+			_globalSize,
+			state,
+			elementRef,
+			tableRef,
+			handleTableColumnAutoWidth,
+			loadTableColumns,
+			handleSizeChange,
+			handlePaginationChange,
+			defaultSearchTime,
+			tableSearch,
+			tableReset,
+			doRender,
+			doLoading,
+			handleCustomCellClick,
+		} = useTable(props, slots, emit);
+		const notifyColumnsChange = debounce(() => props.columnsChange?.(state.orgColumns), 500);
+		const resizeTableColumns = debounce(handleTableColumnAutoWidth, 100);
+
+		const columnSettingRef = ref<InstanceType<typeof FaTableColumnsSettingDialog>>();
+		let lastRowIndex = 0;
+		const getInitParam = (): Record<string, unknown> =>
+			typeof props.initParam === "object" && props.initParam !== null ? (props.initParam as Record<string, unknown>) : {};
+		const getRowKey = (row: DefaultRow): string | number | undefined => {
+			const value = isFunction(props.rowKey) ? props.rowKey(row) : tableUtil.handleRowAccordingToProp(row, props.rowKey);
+			return typeof value === "string" || typeof value === "number" ? value : undefined;
+		};
+
+		const indexMethod = (index: number): number => {
+			if (index === 0) {
+				lastRowIndex = 0;
+			}
+			if (state.spanColumns?.length > 0) {
+				const rowspan = Number(state.tableSpanData["__table-index"]?.[index] ?? 0);
+				if (rowspan === 0) {
+					return lastRowIndex + (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize + 1;
+				} else {
+					lastRowIndex++;
+					return lastRowIndex + (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize;
+				}
+			}
+			return index + (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize + 1;
+		};
+
+		const handleSelect = (selection: DefaultRow[], row: DefaultRow): void => {
+			// 判断是否开启了单选
+			if (props.single) {
+				tableRef.value?.clearSelection();
+				if (selection.length > 0 && row) {
+					tableRef.value?.toggleRowSelection(row);
+				}
+			}
+			emit("select", selection, row);
+		};
+
+		const handleSelectAll = (selection: DefaultRow[]): void => {
+			if (props.single) {
+				// 判断是否已经选中数据
+				if (state.selected) {
+					// 默认选中的第一行
+					if (state.tableData.length > 0) {
+						tableRef.value?.clearSelection();
+						const firstRow = state.tableData[0];
+						if (firstRow) tableRef.value?.toggleRowSelection(firstRow);
+					}
+				} else {
+					tableRef.value?.clearSelection();
+				}
+			}
+			emit("selectAll", selection);
+		};
+
+		const handleSelectionChange = (newSelection: DefaultRow[]): void => {
+			newSelection.length === 0 ? (state.selected = false) : (state.selected = true);
+			// 判断是否为单选
+			if (props.single && newSelection.length > 0) {
+				// 这里获取最后一个是因为选中改变的事件会触发多次，会带入旧的数据
+				const lastSelection = newSelection.at(-1);
+				state.selectedList = lastSelection === undefined ? [] : [lastSelection];
+			} else {
+				state.selectedList = newSelection;
+			}
+			// 如果已经取消选择了，那么部分选择也应该要取消
+			state.indeterminateSelectedListIds = state.indeterminateSelectedListIds.filter((f) => state.selectedListIds.some((s) => s === f));
+			emit("selectionChange", state.selectedList);
+		};
+
+		const toggleRowIndeterminateSelection = (row: DefaultRow, selected?: boolean): void => {
+			const rowKey = getRowKey(row);
+			if (rowKey === undefined) return;
+			const curRow = state.tableData.find((item) => getRowKey(item) === rowKey);
+			if (selected === true) {
+				if (!state.indeterminateSelectedListIds.some((s) => s === rowKey)) {
+					state.indeterminateSelectedListIds.push(rowKey);
+				}
+				if (curRow) tableRef.value?.toggleRowSelection(curRow, true);
+			} else if (selected === false) {
+				const fIndex = state.indeterminateSelectedListIds.findIndex((f) => f === rowKey);
+				if (fIndex >= 0) {
+					state.indeterminateSelectedListIds.splice(fIndex, 1);
+				}
+				if (curRow) tableRef.value?.toggleRowSelection(curRow, false);
+			} else {
+				const fIndex = state.indeterminateSelectedListIds.findIndex((f) => f === rowKey);
+				if (fIndex >= 0) {
+					state.indeterminateSelectedListIds.splice(fIndex, 1);
+				} else {
+					state.indeterminateSelectedListIds.push(rowKey);
+				}
+				if (curRow) tableRef.value?.toggleRowSelection(curRow);
+			}
+		};
+
+		const handleSortChange = ({
+			column,
+			prop,
+		}: {
+			column: TableColumnCtx<DefaultRow> & { multiOrder?: "" | "ascending" | "descending" };
+			prop: string | null;
+			order: "" | "ascending" | "descending" | null;
+		}): void => {
+			const normalizedProp = prop ?? column.property;
+			if (!column.multiOrder) {
+				column.multiOrder = "descending";
+			} else if (column.multiOrder === "descending") {
+				column.multiOrder = "ascending";
+			} else {
+				column.multiOrder = undefined;
+			}
+			// 排序集合非空判断
+			const initSortList = getInitParam()["sortList"];
+			state.searchParam.sortList = [
+				...(isArray(initSortList) ? (initSortList as PagedSortInput[]) : []),
+				...(state.searchParam.sortList ?? []),
+			].filter((item, index, list) => list.findIndex((candidate) => candidate.enField === item.enField) === index);
+
+			// 去原来的列中查找表格的列数据
+			const orgColumn = state.orgColumns.find((f) => f.prop === normalizedProp);
+			const enField = orgColumn?.sortableField ?? orgColumn?.prop ?? column.property;
+			const fieldIndex = state.searchParam.sortList.findIndex((f: PagedSortInput) => f.enField === enField);
+			if (!column.multiOrder && fieldIndex >= 0) {
+				// 如果是空的，删除排序
+				state.searchParam.sortList.splice(fieldIndex, 1);
+			} else if (fieldIndex === -1) {
+				state.searchParam.sortList.push({
+					enField,
+					cnField: column.label,
+					mode: column.multiOrder,
+				});
+			} else {
+				const sortItem = state.searchParam.sortList[fieldIndex];
+				if (sortItem) sortItem.mode = column.multiOrder;
+			}
+			// 判断最后的排序集合中是否还存在数据，如果不存在，则删除排序集合
+			if (state.searchParam.sortList.length === 0) {
+				delete state.searchParam.sortList;
+			}
+			emit("sortChange", { column, prop: normalizedProp, order: column.multiOrder ?? "" });
+			void tableSearch();
+		};
+
+		const handleCurrentChange = (currentRow: DefaultRow | null, oldCurrentRow: DefaultRow | null): void => {
+			if (!currentRow) {
+				// 这里为空的时候，会导致 Header 中的不确定状态还是true的状态
+				// tableRef.value.clearSelection();
+				return;
+			}
+			if (props.rowClickSelection) {
+				// 判断是否为单选
+				if (props.single && oldCurrentRow) {
+					tableRef.value?.toggleRowSelection(oldCurrentRow);
+				}
+				tableRef.value?.toggleRowSelection(currentRow);
+			}
+			emit("currentChange", currentRow, oldCurrentRow);
+		};
+
+		const handleCellClassName = ({
+			row,
+			column,
+			rowIndex,
+			columnIndex,
+		}: {
+			row: DefaultRow;
+			column: TableColumnCtx<DefaultRow>;
+			rowIndex: number;
+			columnIndex: number;
+		}): string => {
+			let localCellClassName = "";
+			// 判断是否为选择列
+			if (column.type === "selection") {
+				// 判断是否在部分选中的集合中
+				const rowKey = getRowKey(row);
+				if (state.indeterminateSelectedListIds.some((s) => s === rowKey)) {
+					localCellClassName = "fa-table__selection-column__indeterminate";
+				}
+			}
+			const columnInfo = state.tableColumns.find((f) => f.prop === column.property);
+			if (columnInfo?.dataDeleteField) {
+				if (row?.[columnInfo.dataDeleteField] === true) {
+					if (localCellClassName) {
+						localCellClassName += " fa-table__data-delete-column";
+					} else {
+						localCellClassName = "fa-table__data-delete-column";
+					}
+				}
+			}
+			if (props.cellClassName) {
+				const cellClassName = isString(props.cellClassName)
+					? props.cellClassName
+					: props.cellClassName({ row, column, rowIndex, columnIndex });
+				if (!cellClassName) {
+					return localCellClassName;
+				}
+				if (localCellClassName) {
+					return `${localCellClassName} ${cellClassName}`;
+				} else {
+					return cellClassName;
+				}
+			} else {
+				return localCellClassName;
+			}
+		};
+
+		const handleHeaderCellClassName = ({
+			row,
+			column,
+			rowIndex,
+			columnIndex,
+		}: {
+			row: DefaultRow;
+			column: TableColumnCtx<DefaultRow> & { multiOrder?: "" | "ascending" | "descending" };
+			rowIndex: number;
+			columnIndex: number;
+		}): string => {
+			// TODO：不晓得这里有无问题，EL 更新了还未测试
+			column.order = column.multiOrder === "ascending" || column.multiOrder === "descending" ? column.multiOrder : null;
+			if (props.headerCellClassName) {
+				if (isFunction(props.headerCellClassName)) {
+					return props.headerCellClassName({ row, column, rowIndex, columnIndex });
+				} else {
+					return props.headerCellClassName;
+				}
+			}
+			return "";
+		};
+
+		const handleSpanMethod = ({
+			column,
+			rowIndex,
+		}: {
+			row: DefaultRow;
+			column: TableColumnCtx<DefaultRow>;
+			rowIndex: number;
+			columnIndex: number;
+		}): number[] | { rowspan: number; colspan: number } => {
+			/** @description 原生的 span-method 会失效 */
+			const pKey = column.property ?? column.columnKey;
+			if (state.spanColumns.findIndex((f) => f.prop === pKey) !== -1) {
+				const rowspan = Number(state.tableSpanData[pKey]?.[rowIndex] ?? 0);
+				if (rowspan > 0) {
+					return { rowspan, colspan: 1 };
+				}
+				return { rowspan: 0, colspan: 0 };
+			}
+			return { rowspan: 1, colspan: 1 };
+		};
+
+		const handleHeaderDragend = (newWidth: number, oldWidth: number, column: TableColumnCtx<DefaultRow>, event: MouseEvent): void => {
+			state.orgColumns.forEach((f) => {
+				if (column.property === f.prop) {
+					f.width = newWidth;
+					f.smallWidth = newWidth;
+				}
+			});
+			emit("headerDragend", newWidth, oldWidth, column, event);
+			if (props.columnsChange) void notifyColumnsChange();
+		};
+
+		const handleImagePreview = (url: string): void => {
+			state.previewList = [url];
+			state.imagePreview = true;
+		};
+
+		onMounted(async () => {
+			state.initParam = getInitParam();
+			defaultSearchTime();
+			// 初始化搜索表单的时候，如果有默认搜索参数，则重置默认的搜索参数
+			Object.entries(getInitParam()).forEach(([key, value]) => {
+				state.searchParam[key] = value;
+			});
+			await tableSearch();
+
+			watch(
+				() => props.columns,
+				() => {
+					loadTableColumns();
+				},
+				{ deep: true, immediate: true }
+			);
+
+			watch(
+				() => props.initParam,
+				() => {
+					// 如果初始化参数改变了，则需要改变对应的搜索参数
+					Object.entries(getInitParam()).forEach(([key, value]) => {
+						state.searchParam[key] = value;
+					});
+				},
+				{ deep: true }
+			);
+
+			watch(
+				() => props.data,
+				() => {
+					if (!props.requestApi && props.autoRefresh) {
+						return tableSearch();
+					}
+				},
+				{ deep: true, immediate: true }
+			);
+
+			watchEffect(() => {
+				const element = elementRef.value;
+				if (element) {
+					const observer = new ResizeObserver((entries) => {
+						for (const entry of entries) {
+							const { width, height } = entry.contentRect;
+							state.tableWidth = width;
+							state.tableHeight = height;
+						}
+						void resizeTableColumns();
+					});
+					observer.observe(element);
+
+					return (): void => {
+						observer.disconnect();
+					};
+				}
+			});
+		});
+
+		onActivated(() => {
+			// 解决 keep-alive 后自动列宽失效的问题
+			void handleTableColumnAutoWidth();
+		});
+
+		const tableColumnOmitNames = ["multiOrder", "columnId", "order", "sortableField", "disabledSortable", "spanProp", "pureSearch", "search"];
+		const searchInputClearable = computed(() => {
+			const value = state.searchParam.searchValue;
+			return (value !== undefined && value !== null && value !== "") || state.searchValueUpdate.length > 0;
+		});
+
+		const elTableProps = useProps(props, tableProps, ["data", "spanMethod", "headerCellClassName", "cellClassName"]);
+
+		useRender(() => (
+			<div
+				ref={elementRef}
+				class={[
+					"fa-table",
+					`fa-table-${_globalSize.value}`,
+					`fa-table__${props.tableKey ?? "notFound"}`,
+					{ fa__click__disabled: state.loading },
+				]}
+				style={{
+					"--fa-table-width": `${state.tableWidth ? `${state.tableWidth}px` : ""}`,
+					"--fa-table-height": `${state.tableHeight ? `${state.tableHeight}px` : ""}`,
+				}}
+			>
+				<FaTableSearchForm
+					vSlots={slots}
+					show={props.searchForm && state.searchForm}
+					collapsedSearch={props.collapsedSearch}
+					advancedSearchDrawer={props.advancedSearchDrawer}
+					cols={props.searchFormCols}
+					search={tableSearch}
+					reset={tableReset}
+				/>
+				{slots.topHeader && (
+					<div class="el-card fa-table__header">{slots.topHeader({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}</div>
+				)}
+				<div class="el-card fa-table__main">
+					{props.headerCard && (
+						<div class="fa-table__main-header">
+							<div class="fa-table__main-header-left">
+								{slots.header?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
+							</div>
+							<div class="fa-table__main-header-right">
+								{props.toolBtn && (
+									<Fragment>
+										<div class="fa-table__main-header-right__div-search">
+											<ElInput
+												class="fa-table__main-header-right__input-search"
+												disabled={state.loading}
+												prefixIcon={Search}
+												placeholder="关键字搜索"
+												vModel_trim={state.searchParam.searchValue}
+												clearable={searchInputClearable.value}
+												onCompositionupdate={(e: CompositionEvent) => {
+													state.searchValueUpdate = e.data;
+												}}
+												onCompositionend={() => {
+													state.searchValueUpdate = "";
+												}}
+												onChange={() => {
+													void tableSearch();
+												}}
+											/>
+											<div class="fa-table__main-header-right__div-search__hidden">
+												{state.searchParam.searchValue}
+												{state.searchValueUpdate}
+											</div>
+										</div>
+										{props.requestApi && !props.hideSearchTime && (
+											<ElDatePicker
+												{...{
+													// ElDatePicker 的 JSX 类型未声明 change 事件，运行时由内部 Picker 触发。
+													onChange: () => {
+														void tableSearch();
+													},
+												}}
+												class="fa-table__main-header-right__data-search"
+												popperClass="fa-table__main-header-right__data-search__popper"
+												disabled={state.loading}
+												type="daterange"
+												vModel={state.searchParam.searchTimeList}
+												defaultTime={createOneMonthRangeFromToday(props.futureSearchTime)}
+												shortcuts={createDateRangeShortcuts(props.futureSearchTime)}
+												valueFormat="YYYY-MM-DD HH:mm:ss"
+												clearable={false}
+												unlinkPanels
+											/>
+										)}
+										{props.refreshBtn && (
+											<ElButton
+												loading={state.loading}
+												loadingIcon={Eleme}
+												title="刷新"
+												circle
+												icon={Refresh}
+												onClick={() => {
+													void tableSearch();
+												}}
+											/>
+										)}
+										{props.searchBtn && state.searchColumns.length > 0 && (
+											<ElButton
+												loading={state.loading}
+												loadingIcon={Eleme}
+												title={state.searchForm ? "隐藏搜索栏" : "显示搜索栏"}
+												circle
+												icon={Search}
+												onClick={() => (state.searchForm = !state.searchForm)}
+											/>
+										)}
+										{props.columnSettingBtn && props.columns && (
+											<ElDropdown title="表格列配置" trigger="click">
+												{{
+													default: () => <ElButton loading={state.loading} loadingIcon={Eleme} circle icon={Setting} />,
+													dropdown: () => (
+														<ElDropdownMenu>
+															{slots.columnSetting?.()}
+															<ElDropdownItem title="表格列配置" divided onClick={() => columnSettingRef.value?.open()}>
+																表格列配置
+															</ElDropdownItem>
+														</ElDropdownMenu>
+													),
+												}}
+											</ElDropdown>
+										)}
+										{slots.toolButton?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
+										{slots.toolButtonAdv && (
+											<ElDropdown title="高级操作" trigger="click">
+												{{
+													default: () => (
+														<ElButton loading={state.loading} loadingIcon={Eleme} circle icon={More}></ElButton>
+													),
+													dropdown: () => (
+														<ElDropdownMenu>
+															{slots.toolButtonAdv?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
+														</ElDropdownMenu>
+													),
+												}}
+											</ElDropdown>
+										)}
+									</Fragment>
+								)}
+							</div>
+						</div>
+					)}
+					<ElTable
+						{...elTableProps.value}
+						ref={tableRef}
+						vLoading={state.loading}
+						element-loading-text={state.loadingText}
+						data={state.tableData}
+						spanMethod={handleSpanMethod}
+						headerCellClassName={handleHeaderCellClassName}
+						cellClassName={handleCellClassName}
+						onSelection-change={handleSelectionChange}
+						onSort-change={handleSortChange}
+						onSelect={handleSelect}
+						onSelect-all={handleSelectAll}
+						onCurrent-change={handleCurrentChange}
+						onHeader-dragend={handleHeaderDragend}
+						onCell-mouse-enter={(row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+							emit("cellMouseEnter", row, column, cell, event)
+						}
+						onCell-mouse-leave={(row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+							emit("cellMouseLeave", row, column, cell, event)
+						}
+						onCell-click={(row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+							emit("cellClick", row, column, cell, event)
+						}
+						onCell-dblclick={(row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+							emit("cellDblclick", row, column, cell, event)
+						}
+						onCell-contextmenu={(row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+							emit("cellContextmenu", row, column, cell, event)
+						}
+						onRow-click={(row: DefaultRow, column: TableColumnCtx<DefaultRow> | null, event: Event) => {
+							if (column) emit("rowClick", row, column, event);
+						}}
+						onRow-contextmenu={(row: DefaultRow, column: TableColumnCtx<DefaultRow> | null, event: Event) => {
+							if (column) emit("rowContextmenu", row, column, event);
+						}}
+						onRow-dblclick={(row: DefaultRow, column: TableColumnCtx<DefaultRow> | null, event: Event) => {
+							if (column) emit("rowDblclick", row, column, event);
+						}}
+						onHeader-click={(column: TableColumnCtx<DefaultRow>, event: Event) => emit("headerClick", column, event)}
+						onHeader-contextmenu={(column: TableColumnCtx<DefaultRow>, event: Event) => emit("headerContextmenu", column, event)}
+						onFilter-change={(newFilters: unknown) => emit("filterChange", newFilters)}
+						onExpand-change={(row: DefaultRow, expanded: boolean | DefaultRow[]) => emit("expandChange", row, expanded)}
+						onScroll={(data: { scrollLeft: number; scrollTop: number }) => emit("scroll", data)}
+					>
+						{{
+							append: () => slots.append?.(),
+							empty: () => (
+								<div class="fa-table__empty">
+									{slots.empty ? (
+										slots.empty()
+									) : (
+										<Fragment>
+											<ElIcon>
+												<NotData />
+											</ElIcon>
+											<div>暂无数据</div>
+										</Fragment>
+									)}
+								</div>
+							),
+							default: () => (
+								<Fragment>
+									<ElTableColumn
+										className="fa-table__index-column"
+										type="index"
+										fixed="left"
+										width={
+											state.tablePagination.pageIndex * state.tablePagination.pageSize >= 100
+												? state.tablePagination.pageIndex * state.tablePagination.pageSize >= 1000
+													? 50
+													: 40
+												: 30
+										}
+										align="center"
+										index={indexMethod}
+										showOverflowTooltip={false}
+										resizable={false}
+										columnKey="__table-index"
+									/>
+									<ElTableColumn
+										className="fa-table__selection-column"
+										type="selection"
+										fixed="left"
+										width={35}
+										align="center"
+										reserveSelection
+										showOverflowTooltip={false}
+										resizable={false}
+										columnKey="__table-selection"
+										selectable={props.rowSelectable}
+									/>
+									{slots.operation && (
+										<ElTableColumn
+											fixed="right"
+											width={state.operationColumnWidth}
+											headerAlign="center"
+											align="left"
+											showOverflowTooltip={false}
+											className="fa-table__operation-column"
+											resizable={false}
+											columnKey="__table-operation"
+										>
+											{{
+												header: () => (
+													<div class="fa-table__auto-width-column__cell-header __fa-table__auto-width-column__cell-header____table-operation">
+														<span>操作</span>
+													</div>
+												),
+												default: ({ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) => (
+													<div class="fa-table__auto-width-column__cell __fa-table__auto-width-column__cell____table-operation">
+														{slots.operation?.({
+															row,
+															column,
+															$index,
+															...{ search: tableSearch },
+															...getTableDefaultSlots(state),
+														})}
+													</div>
+												),
+											}}
+										</ElTableColumn>
+									)}
+									{state.tableColumns?.length === 0
+										? slots.default?.()
+										: state.tableColumns.map(
+												(col) =>
+													col.show &&
+													(col.type === "expand" ? (
+														<ElTableColumn {...col} width={35} fixed={col.fixed ?? "left"} resizable={false}>
+															{{
+																default: ({
+																	row,
+																	column,
+																	$index,
+																}: {
+																	row: DefaultRow;
+																	column: FaTableColumnCtx;
+																	$index: number;
+																}) => (
+																	<Fragment>
+																		{col.render?.({ row, column, $index, ...getTableDefaultSlots(state) })}
+																		{col.slot &&
+																			slots[col.slot]?.({
+																				row,
+																				column,
+																				$index,
+																				...getTableDefaultSlots(state),
+																			})}
+																	</Fragment>
+																),
+															}}
+														</ElTableColumn>
+													) : (
+														col.prop && (
+															<FaTableColumn
+																vSlots={slots}
+																{...omit(col, tableColumnOmitNames)}
+																hideImage={props.hideImage}
+																resizable={true}
+																onImagePreview={handleImagePreview}
+																onCustomCellClick={handleCustomCellClick}
+															/>
+														)
+													))
+											)}
+								</Fragment>
+							),
+						}}
+					</ElTable>
+					<div class="fa-table__main-footer">
+						<div class="fa-table__main-footer__left">
+							{slots.footer?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
+						</div>
+						{slots.pagination ? (
+							slots.pagination({
+								pageIndex: state.tablePagination.pageIndex,
+								pageSize: state.tablePagination.pageSize,
+								totalRows: state.tablePagination.totalRows,
+								handleSizeChange,
+								handlePaginationChange,
+							})
+						) : (
+							<Fragment>
+								{props.pagination ? (
+									<FaTablePagination
+										pageSizes={props.pageSizes}
+										onSizeChange={handleSizeChange}
+										onCurrentChange={handlePaginationChange}
+									/>
+								) : (
+									<ElPagination class="fa-table-pagination" size="small" layout="total" total={state.tableData.length} />
+								)}
+							</Fragment>
+						)}
+					</div>
+				</div>
+				{state.imagePreview && (
+					<ElImageViewer
+						closeOnPressEscape
+						hideOnClickModal
+						teleported
+						showProgress
+						onClose={() => (state.imagePreview = false)}
+						urlList={state.previewList}
+					/>
+				)}
+				{props.columnSettingBtn && <FaTableColumnsSettingDialog ref={columnSettingRef} change={props.columnsChange} />}
+			</div>
+		));
+
+		return useExpose(expose, {
+			/** @description 用于多选表格，清空用户的选择 */
+			clearSelection: computed(() => tableRef.value?.clearSelection),
+			/** @description 返回当前选中的行 */
+			getSelectionRows: computed(() => tableRef.value?.getSelectionRows),
+			/** @description 返回当前半选中的行。 */
+			getHalfSelectionRows: computed(() => tableRef.value?.getHalfSelectionRows),
+			/** @description 用于多选表格，切换某一行的选中状态， 如果使用了第二个参数，则可直接设置这一行选中与否 */
+			toggleRowSelection: computed(() => tableRef.value?.toggleRowSelection),
+			/** @description 用于多选表格，切换全选和全不选 */
+			toggleAllSelection: computed(() => tableRef.value?.toggleAllSelection),
+			/** @description 用于可扩展的表格或树表格，如果某行被扩展，则切换。 使用第二个参数，您可以直接设置该行应该被扩展或折叠。 */
+			toggleRowExpansion: computed(() => tableRef.value?.toggleRowExpansion),
+			/** @description 用于单选表格，设定某一行为选中行， 如果调用时不加参数，则会取消目前高亮行的选中状态。 */
+			setCurrentRow: computed(() => tableRef.value?.setCurrentRow),
+			/** @description 用于清空排序条件，数据会恢复成未排序的状态 */
+			clearSort: computed(() => tableRef.value?.clearSort),
+			/** @description 传入由columnKey 组成的数组以清除指定列的过滤条件。 如果没有参数，清除所有过滤器 */
+			clearFilter: computed(() => tableRef.value?.clearFilter),
+			/** @description 对 Table 进行重新布局。 当表格可见性变化时，您可能需要调用此方法以获得正确的布局 */
+			doLayout: computed(() => tableRef.value?.doLayout),
+			/** @description 手动排序表格。 参数 prop 属性指定排序列，order 指定排序顺序。 */
+			sort: computed(() => tableRef.value?.sort),
+			/** @description 滚动到一组特定坐标 */
+			scrollTo: computed(() => tableRef.value?.scrollTo),
+			/** @description 设置垂直滚动位置 */
+			setScrollTop: computed(() => tableRef.value?.setScrollTop),
+			/** @description 设置水平滚动位置 */
+			setScrollLeft: computed(() => tableRef.value?.setScrollLeft),
+			/** @description 获取表列的 context */
+			columns: computed(() => tableRef.value?.columns),
+			/** @description 适用于 lazy Table, 需要设置 rowKey, 更新 key children */
+			updateKeyChildren: computed(() => tableRef.value?.updateKeyChildren),
+			/** @description 加载状态 */
+			loading: computed(() => state.loading),
+			/** @description 表格数据 */
+			tableData: computed(() => state.tableData),
+			/** @description 分页数据 */
+			tablePagination: computed(() => state.tablePagination),
+			/** @description 搜索参数 */
+			searchParam: computed(() => state.searchParam),
+			/** @description 选中状态 */
+			selected: computed(() => state.selected),
+			/** @description 选中数据列表 */
+			selectedList: computed(() => state.selectedList),
+			/** @description 选中数据 rowKey 列表 */
+			selectedListIds: computed(() => state.selectedListIds),
+			/** @description 部分选中数据 rowKey 列表 */
+			indeterminateSelectedListIds: computed(() => state.indeterminateSelectedListIds),
+			/** @description 表格宽度 */
+			tableWidth: computed(() => state.tableWidth),
+			/** @description 表格高度 */
+			tableHeight: computed(() => state.tableHeight),
+			/** @description 部分选中（样式不一样而已），用于多选表格，切换某一行的选中状态， 如果使用了第二个参数，则可直接设置这一行选中与否 */
+			toggleRowIndeterminateSelection,
+			/** @description 异步方法，刷新表格 */
+			refresh: tableSearch,
+			/** @description 异步方法，重置表格 */
+			reset: tableReset,
+			/** @description 对 Table 进行重新渲染。当 TableKey 发生变化的时候可以通过此方法重新渲染表格 */
+			doRender,
+			/** @description Table 加载 */
+			doLoading,
+		});
+	},
+});

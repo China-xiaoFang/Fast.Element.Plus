@@ -1,2 +1,0 @@
-const e=require("./_virtual/_rolldown/runtime.js"),r=require("./component.js"),s=require("./directive.js"),t=require("./element-plus.js"),o=require("./version.js");let n=require("@fast-element-plus/icons-vue");n=e.__toESM(n,1);var i=Symbol("INSTALLED_KEY");exports.INSTALLED_KEY=i,exports.makeInstaller=()=>({version:o.version,install:e=>{if(!e[i]){e[i]=!0,t.installElementPlus(e);for(const[r,s]of Object.entries(n))e.component(`fa-icon-${r}`,s);r.default.forEach(r=>e.use(r)),s.default.forEach(r=>e.use(r))}}});
-//# sourceMappingURL=make-installer.js.map

@@ -1,2 +1,0 @@
-import o from"./component.mjs";import e from"./directive.mjs";import{installElementPlus as m}from"./element-plus.mjs";import{version as r}from"./version.mjs";import*as s from"@fast-element-plus/icons-vue";var t=Symbol("INSTALLED_KEY"),i=()=>({version:r,install:r=>{if(!r[t]){r[t]=!0,m(r);for(const[o,e]of Object.entries(s))r.component(`fa-icon-${o}`,e);o.forEach(o=>r.use(o)),e.forEach(o=>r.use(o))}}});export{t as INSTALLED_KEY,i as makeInstaller};
-//# sourceMappingURL=make-installer.mjs.map

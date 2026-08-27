@@ -1,2 +1,0 @@
-import{stringUtil as e,withInstallDirective as a}from"@fast-china/utils";import{ElMessage as t}from"element-plus";var c=a({mounted(a,c){a.copyData=c.value,a.__handleClick__=async()=>{if(a.copyData)try{await e.copy(String(a.copyData)),t({type:"success",message:"复制成功"})}catch(c){throw t({type:"error",message:"复制失败"}),c}},a.addEventListener("click",a.__handleClick__)},updated(e,a){e.copyData=a.value},beforeUnmount(e){e.removeEventListener("click",e.__handleClick__)}},"copy");export{c as default};
-//# sourceMappingURL=index.mjs.map

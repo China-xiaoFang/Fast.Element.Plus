@@ -1,4 +1,8 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-select-dropdown__more-detail {
+	max-width: calc(100vw - 32px);
+
 	.el-scrollbar {
 		.el-select-dropdown__wrap {
 			.el-select-dropdown__list {
@@ -7,6 +11,7 @@
 					flex-direction: column;
 					justify-content: center;
 					height: 42px;
+					padding-block: 4px;
 					> :first-child {
 						line-height: normal;
 					}
@@ -18,6 +23,17 @@
 					}
 				}
 			}
+		}
+	}
+}
+
+@media (max-width: bp.$fa-mobile-max), (hover: none), (pointer: coarse) {
+	.fa-select-dropdown__more-detail {
+		max-width: calc(100vw - 24px);
+
+		.el-scrollbar .el-select-dropdown__wrap .el-select-dropdown__list .fa-select-dropdown__selector__more-detail {
+			height: auto;
+			min-height: 44px;
 		}
 	}
 }

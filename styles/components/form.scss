@@ -1,8 +1,39 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-form {
+	box-sizing: border-box;
+	min-width: 0;
 	// 滚动条
 	padding-right: 10px;
+	color: var(--el-text-color-regular);
+
+	.el-form-item__content {
+		min-width: 0;
+	}
+
 	.el-form-item__label {
 		padding: 0 6px 0 0;
+	}
+}
+
+@include bp.mobile {
+	.fa-form {
+		padding-right: 0;
+
+		&:not(.fa-form-detail) {
+			.el-select,
+			.el-date-editor,
+			.el-input-number,
+			.el-cascader,
+			.el-autocomplete {
+				width: 100%;
+				min-width: 0;
+			}
+		}
+	}
+
+	.fa-form-detail .el-form-item {
+		padding-block: 2px;
 	}
 }
 

@@ -1,2 +1,0 @@
-import a,{faInputDialogPageEmits as r,faInputDialogPageProps as t}from"./src/inputDialogPage.mjs";import{withInstall as i}from"@fast-china/utils";var o=i(a);export{o as default};
-//# sourceMappingURL=index.mjs.map

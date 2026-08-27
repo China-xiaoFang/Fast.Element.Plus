@@ -1,2 +1,0 @@
-import i from"./directives/click-copy/index.mjs";import e from"./directives/click-debounce/index.mjs";import r from"./directives/click-draggable/index.mjs";import c from"./directives/click-icon-copy/index.mjs";import o from"./directives/click-longpress/index.mjs";import m from"./directives/click-throttle/index.mjs";var t=[i,e,r,c,o,m];export{t as default};
-//# sourceMappingURL=directive.mjs.map

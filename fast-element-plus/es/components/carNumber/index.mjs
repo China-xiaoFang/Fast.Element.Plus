@@ -1,2 +1,0 @@
-import{CarNumberArea as r,CarNumberDigit as m,CarNumberLetter as o}from"./src/common.mjs";import s from"./src/carNumber.mjs";import{withInstall as t}from"@fast-china/utils";var a=t(s);export{a as default};
-//# sourceMappingURL=index.mjs.map
