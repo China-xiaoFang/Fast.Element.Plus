@@ -23,7 +23,7 @@ Fast.Element.Plus 是正式开源的 Fast 系列业务 SDK，面向 Fast 团队�
 - Element Plus Icons `^2.3.2`。
 - Fast.Element.Plus.Icons `^2.0.0`。
 
-Vue、Element Plus、Element Plus Icons 和 Fast.Element.Plus.Icons 均为强制 Peer Dependency。两套图标包保持在构建产物之外，组件内部工具包含在 Fast.Element.Plus 构建产物中。
+Vue、Element Plus、Element Plus Icons 和 Fast.Element.Plus.Icons 均为强制 Peer Dependency。两套图标包保持在构建产物之外。包管理器会自动安装正式 Runtime Dependency，ESM 构建保留这些外部导入，不再将其复制到 `dist/node_modules`；CDN IIFE 仍会内联依赖以支持浏览器直接使用。组件内部工具包含在 Fast.Element.Plus 构建产物中。
 
 当前 Element Plus 人工审计基线为 `2.14.x`。当 Element Plus 次版本号发生变化，例如由 `2.14.x` 升级到 `2.15.x` 或更高时，必须重新核对封装涉及的原生 Props、Emits、Slots、Expose、默认值和内部样式结构，详见 [Element Plus 兼容性与升级核对](./docs/ELEMENT_PLUS_COMPATIBILITY.zh-CN.md)。
 
@@ -91,7 +91,7 @@ useOverlay.show();
 | 指令 | `vCopy`、`vDebounce`、`vDraggable`、`vIconCopy`、`vLongpress`、`vThrottle`                                                                                                                                                                                                                                                                                                               |
 | Hook | `useLoading`、`useOverlay`、`useScreenFull`                                                                                                                                                                                                                                                                                                                                              |
 | 常量 | `FaMimeType`、`RegExps`                                                                                                                                                                                                                                                                                                                                                                  |
-| 工具 | `Decimal`、`install`、`version`、`FastElementPlus` 组件命名空间                                                                                                                                                                                                                                                                                                                          |
+| 工具 | `Decimal`、`install`、`version`                                                                                                                                                                                                                                                                                                                                                          |
 
 包根入口是唯一 JavaScript API 入口；`fast-element-plus/global` 提供 Vue 全局声明，`fast-element-plus/style.css` 提供组件样式。`dist/` 下的其他文件均为实现细节。
 

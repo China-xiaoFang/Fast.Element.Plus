@@ -19,6 +19,7 @@ test("root entry exposes the documented plugin, components, directives, and hook
 	assert.equal(library.version, packageJson.version);
 	assert.equal(FastElementPlus.version, packageJson.version);
 	assert.equal(FastElementPlus.install, library.install);
+	assert.equal("FastElementPlus" in library, false);
 
 	for (const componentName of ["FaButton", "FaDialog", "FaTable", "FaTableColumn", "FaTree", "FaUpload"]) {
 		const component = library[componentName];
@@ -42,44 +43,6 @@ test("root entry exposes the documented plugin, components, directives, and hook
 	assert.equal(typeof library.useOverlay.hide, "function");
 	assert.equal(typeof library.useScreenFull, "object");
 	assert.equal(typeof library.useScreenFull.toggle, "function");
-});
-
-test("component namespace contains every globally installed component", () => {
-	const expectedComponents = [
-		"FaAvatar",
-		"FaButton",
-		"FaCarNumber",
-		"FaContextMenu",
-		"FaDialog",
-		"FaDrawer",
-		"FaForm",
-		"FaFormItem",
-		"FaFormItemTip",
-		"FaIcon",
-		"FaIconSelector",
-		"FaImage",
-		"FaInputDialogPage",
-		"FaLayoutGrid",
-		"FaLayoutGridItem",
-		"FaSelect",
-		"FaSelectOption",
-		"FaSelectPage",
-		"FaSelectV2",
-		"FaTable",
-		"FaTableColumn",
-		"FaTree",
-		"FaTreeSelect",
-		"FaUpload",
-		"FaUploadImage",
-		"FaUploadImages",
-	];
-
-	assert.deepEqual(
-		Object.keys(library.FastElementPlus)
-			.filter((name) => name.startsWith("Fa"))
-			.sort(),
-		expectedComponents.sort()
-	);
 });
 
 test("FaTable installs its documented related components", () => {

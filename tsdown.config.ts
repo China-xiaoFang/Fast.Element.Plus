@@ -58,11 +58,9 @@ export default defineConfig([
 		treeshake: true,
 		// 将 Vue TSX 转换为 Vue 3 渲染函数。
 		plugins: [inlinePngPlugin, VueJsx()],
-		// 全部 Peer Dependency 保留为外部模块，声明构建也不复制第三方类型。
+		// ESM 由包管理器解析 Peer 和 Runtime Dependency，避免在 dist 中复制第三方 node_modules。
 		deps: {
-			alwaysBundle: bundledDependencies,
-			neverBundle: peerDependencies,
-			onlyBundle: bundledDependencies,
+			neverBundle: [...peerDependencies, ...bundledDependencies],
 		},
 		// 将构建警告视为失败，防止带有潜在问题的产物进入发布流程。
 		failOnWarn: true,

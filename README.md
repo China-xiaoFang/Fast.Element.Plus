@@ -23,7 +23,7 @@ The SDK builds business behavior on Element Plus and is not a drop-in replacemen
 - Element Plus Icons `^2.3.2`.
 - Fast.Element.Plus.Icons `^2.0.0`.
 
-Vue, Element Plus, Element Plus Icons, and Fast.Element.Plus.Icons are required peer dependencies. Both icon packages remain external to the build. Component-only utilities are included in the Fast.Element.Plus build.
+Vue, Element Plus, Element Plus Icons, and Fast.Element.Plus.Icons are required peer dependencies. Both icon packages remain external to the build. Package managers install declared runtime dependencies automatically, and the ESM build keeps those imports external instead of copying them into `dist/node_modules`; the CDN IIFE bundles them for direct browser use. Component-only utilities are included in the Fast.Element.Plus build.
 
 The current manually audited Element Plus baseline is `2.14.x`. When the Element Plus minor version changes, for example from `2.14.x` to `2.15.x` or later, native Props, Emits, Slots, exposed methods, defaults, and internal style structures must be audited again. See [Element Plus compatibility and upgrade audit](./docs/ELEMENT_PLUS_COMPATIBILITY.md).
 
@@ -91,7 +91,7 @@ For global component and directive types, add the package type entry to the appl
 | Directives | `vCopy`, `vDebounce`, `vDraggable`, `vIconCopy`, `vLongpress`, `vThrottle`                                                                                                                                                                                                                                                                                                               |
 | Hooks      | `useLoading`, `useOverlay`, `useScreenFull`                                                                                                                                                                                                                                                                                                                                              |
 | Constants  | `FaMimeType`, `RegExps`                                                                                                                                                                                                                                                                                                                                                                  |
-| Utilities  | `Decimal`, `install`, `version`, `FastElementPlus` component namespace                                                                                                                                                                                                                                                                                                                   |
+| Utilities  | `Decimal`, `install`, `version`                                                                                                                                                                                                                                                                                                                                                          |
 
 The package root is the only JavaScript API entry. `fast-element-plus/global` provides Vue global declarations, and `fast-element-plus/style.css` provides the component styles. Files under `dist/` are implementation details.
 
