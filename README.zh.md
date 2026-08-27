@@ -1,164 +1,123 @@
-**中** | [En](https://github.com/China-xiaoFang/Fast.Element.Plus)
+**中文** | [English](./README.md)
 
 <h1 align="center">Fast.Element.Plus</h1>
 
 <p align="center">
-  <code>Fast</code> 平台下基于 <code>Vue3</code>，<code>Vite</code>，<code>TypeScript</code>，<code>Element Plus</code> 构建的组件库。
+	基于 Element Plus 构建的 Vue 3 类型化业务组件、指令与 Hook。
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/fast-element-plus">
-    <img src="https://img.shields.io/npm/v/fast-element-plus?color=orange&label=" alt="version" />
-  </a>
-  <a href="https://gitee.com/FastDotnet/Fast.Element.Plus/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/fast-element-plus" alt="license" />
-  </a>
+	<a href="https://www.npmjs.com/package/fast-element-plus"><img src="https://img.shields.io/npm/v/fast-element-plus?color=orange" alt="npm 版本" /></a>
+	<a href="https://gitee.com/FastDotnet/fast.element.plus/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/fast-element-plus" alt="开源协议" /></a>
 </p>
 
-## 前言
+Fast.Element.Plus 是正式开源的 Fast 系列业务 SDK，面向 Fast 团队以及认同 Fast 团队编码与交互约定的开发者。它提供表单、选择器、表格、树、上传、布局、对话框、抽屉、图片、图标等约定式组件，以及可安装指令、浏览器 UI Hook、共享常量、全局组件类型和完整的 `app.use()` 插件。
 
-#### 为什么又会基于 `Element Plus` 去封装一层组件库呢？
+本 SDK 基于 Element Plus 进行业务增强，不承诺无差异替代 Element Plus 原生组件。部分默认 Props、事件语义、远程数据流程和交互行为会遵循 Fast 团队约定。
 
-  > **前人栽树 后人乘凉**
-  > 因为本人技术有限，导致只能站在巨人的肩膀上去遥望远方。（说白了就是菜）
-  > **开发效率**
-  > 因为在实际的业务开发中，单纯的 `Element Plus` 组件库如果直接使用的话效率会很低。*（但是我并没有说 `Element Plus` 不好用）*
-  > **适合的封装**
-  > 相反，恰恰是因为它好用，所以我才进行了封装，使其对于我来说，或者说对于我们这些每天只会 `CRUD` 的 `工程师/开发者` 来说，才是最合适的，开发效率最快的。
+## 环境要求
+
+- 支持 ES2022 的现代浏览器或 WebView。
+- Vue `^3.5.41`。
+- Element Plus `^2.14.5`。
+- Element Plus Icons `^2.3.2`。
+- Fast.Element.Plus.Icons `^2.0.0`。
+
+Vue、Element Plus、Element Plus Icons 和 Fast.Element.Plus.Icons 均为强制 Peer Dependency。两套图标包保持在构建产物之外，组件内部工具包含在 Fast.Element.Plus 构建产物中。
+
+当前 Element Plus 人工审计基线为 `2.14.x`。当 Element Plus 次版本号发生变化，例如由 `2.14.x` 升级到 `2.15.x` 或更高时，必须重新核对封装涉及的原生 Props、Emits、Slots、Expose、默认值和内部样式结构，详见 [Element Plus 兼容性与升级核对](./docs/ELEMENT_PLUS_COMPATIBILITY.zh-CN.md)。
 
 ## 安装
 
-#### 站在巨人肩膀上 <a href="https://github.com/element-plus/element-plus">`Element Plus`</a>
-
-```
-因框架依赖 Element Plus，所以需要同时安装 Element Plus 才可正常使用。
-```
-
-#### 使用包管理器
-
-```sh
-# 选择一个你喜欢的包管理器
-
-# NPM
-npm install fast-element-plus
-
-# Yarn
-yarn add fast-element-plus
-
-# pnpm（推荐）
-pnpm install fast-element-plus
-```
-
-#### 浏览器直接引入
-
-##### unpkg
-
-```html
-<head>
-  <!-- 导入样式 -->
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-  <!-- 导入 Vue 3 -->
-  <script src="//unpkg.com/vue@3"></script>
-  <!-- 导入 Element Plus 组件库 -->
-  <script src="//unpkg.com/element-plus"></script>
-  <!-- 导入组件库 -->
-  <script src="//unpkg.com/fast-element-plus"></script>
-</head>
-```
-
-##### jsDelivr
-
-```html
-<head>
-  <!-- 导入样式 -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css" />
-  <!-- 导入 Vue 3 -->
-  <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
-  <!-- 导入 Element Plus 组件库 -->
-  <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
-  <!-- 导入组件库 -->
-  <script src="//cdn.jsdelivr.net/npm/fast-element-plus"></script>
-</head>
+```bash
+pnpm add fast-element-plus vue element-plus @element-plus/icons-vue @fast-element-plus/icons-vue
 ```
 
 ## 使用
 
-在 `main.ts`
+注册完整组件库：
 
-```typescript
+```ts
 import { createApp } from "vue";
-import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import FastElementPlus from "fast-element-plus";
+import "fast-element-plus/style.css";
 import App from "./App.vue";
 
-const app = createApp(App);
-
-// 全局注册
-app.use(FastElementPlus);
-
-app.mount('#app');
+createApp(App).use(FastElementPlus).mount("#app");
 ```
 
-#### Volar 支持
+### 主题与响应式
 
-如果您使用 Volar，请在 `tsconfig.json` 中通过 `compilerOptions.type` 指定全局组件类型。
+Fast.Element.Plus 使用 Element Plus CSS Variables，并兼容其官方 `html.dark` 深色模式。需要深色模式时，在 Fast 样式之前额外导入官方深色变量：
 
-```json
+```ts
+import "element-plus/dist/index.css";
+import "element-plus/theme-chalk/dark/css-vars.css";
+import "fast-element-plus/style.css";
+
+document.documentElement.classList.toggle("dark", isDark);
+```
+
+基础样式以 PC 为默认布局，并为手机（小于 `768px`）和平板（`768px` 至 `1199px`）提供弹窗、抽屉、表格、搜索表单、分页、树、选择器和上传区域的响应式规则。业务应用可通过 Element Plus CSS Variables 调整品牌色、表面、边框、阴影和间距。
+
+也可以使用具名 API，由应用自行控制注册范围：
+
+```ts
+import { FaButton, FaTable, useOverlay, vCopy } from "fast-element-plus";
+
+app.use(FaButton);
+app.use(FaTable);
+app.directive("copy", vCopy);
+
+useOverlay.show();
+```
+
+如需全局组件和指令类型，在应用 `tsconfig.json` 中加入包类型入口：
+
+```jsonc
 {
-  "compilerOptions": {
-    // ...
-    "types": ["fast-element-plus/global"]
-  }
+	"compilerOptions": {
+		"types": ["element-plus/global", "fast-element-plus/global"],
+	},
 }
 ```
 
-## 更新日志
+## 公开模块
 
-更新日志 [点击查看](https://gitee.com/FastDotnet/Fast.Element.Plus/commits/master)
+| 模块 | 公开 API                                                                                                                                                                                                                                                                                                                                                                                 |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 组件 | `FaAvatar`、`FaButton`、`FaCarNumber`、`FaContextMenu`、`FaDialog`、`FaDrawer`、`FaForm`、`FaFormItem`、`FaFormItemTip`、`FaIcon`、`FaIconSelector`、`FaImage`、`FaInputDialogPage`、`FaLayoutGrid`、`FaLayoutGridItem`、`FaSelect`、`FaSelectOption`、`FaSelectPage`、`FaSelectV2`、`FaTable`、`FaTableColumn`、`FaTree`、`FaTreeSelect`、`FaUpload`、`FaUploadImage`、`FaUploadImages` |
+| 指令 | `vCopy`、`vDebounce`、`vDraggable`、`vIconCopy`、`vLongpress`、`vThrottle`                                                                                                                                                                                                                                                                                                               |
+| Hook | `useLoading`、`useOverlay`、`useScreenFull`                                                                                                                                                                                                                                                                                                                                              |
+| 常量 | `FaMimeType`、`RegExps`                                                                                                                                                                                                                                                                                                                                                                  |
+| 工具 | `Decimal`、`install`、`version`、`FastElementPlus` 组件命名空间                                                                                                                                                                                                                                                                                                                          |
 
-## 协议
+包根入口是唯一 JavaScript API 入口；`fast-element-plus/global` 提供 Vue 全局声明，`fast-element-plus/style.css` 提供组件样式。`dist/` 下的其他文件均为实现细节。
 
-[Fast.Element.Plus](https://gitee.com/FastDotnet/Fast.Element.Plus) 遵循 [Apache-2.0](https://gitee.com/FastDotnet/Fast.Element.Plus/blob/master/LICENSE) 开源协议，欢迎大家提交 `PR` 或 `Issue`。
+## CDN
 
+`unpkg` 和 `jsdelivr` 字段都指向 `dist/index.global.min.js`。页面先加载 Vue、Element Plus、Element Plus Icons 和 Fast.Element.Plus.Icons，再通过 `globalThis.FastElementPlus` 访问组件库。样式需单独加载 `dist/index.css`。
+
+## 文档
+
+- [组件文档与交互案例](./docs/components/overview.md)
+- [安装与使用](./docs/guide/installation.md)
+- [文档站构建与部署](./docs/guide/deployment.md)
+- [API 参考](./docs/API.zh-CN.md)
+- [运行时契约](./docs/RUNTIME_CONTRACT.md)
+- [Element Plus 兼容性与升级核对](./docs/ELEMENT_PLUS_COMPATIBILITY.zh-CN.md)
+- [开发与发布指南](./docs/DEVELOPMENT_RELEASE.zh-CN.md)
+- [贡献指南](./CONTRIBUTING.md)
+- [安全策略](./SECURITY.md)
+- [更新日志](./CHANGELOG.md)
+
+本地运行完整文档站：
+
+```bash
+pnpm docs:dev
 ```
-Apache开源许可证
 
-版权所有 © 2018-Now 小方
+## 开源协议
 
-许可授权：
-本协议授予任何获得本软件及其相关文档（以下简称“软件”）副本的个人或组织。
-在遵守本协议条款的前提下，享有使用、复制、修改、合并、发布、分发、再许可、销售软件副本的权利：
-1.所有软件副本或主要部分必须保留本版权声明及本许可协议。
-2.软件的使用、复制、修改或分发不得违反适用法律或侵犯他人合法权益。
-3.修改或衍生作品须明确标注原作者及原软件出处。
-
-特别声明：
-- 本软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
-- 在任何情况下，作者或版权持有人均不对因使用或无法使用本软件导致的任何直接或间接损失的责任。
-- 包括但不限于数据丢失、业务中断等情况。
-
-免责条款：
-禁止利用本软件从事危害国家安全、扰乱社会秩序或侵犯他人合法权益等违法活动。
-对于基于本软件二次开发所引发的任何法律纠纷及责任，作者不承担任何责任。
-```
-
-## 免责申明
-
-```
-请勿用于违反我国法律的项目上
-```
-
-## 贡献者
-
-感谢他们的所做的一切贡献！
-
-<a href="https://github.com/China-xiaoFang/Fast.Element.Plus/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=China-xiaoFang/Fast.Element.Plus" />
-</a>
-
-## 补充说明
-
-```
-如果对您有帮助，您可以点右上角 ⭐Star 收藏一下 ，获取第一时间更新，谢谢！
-```
+[Apache-2.0](./LICENSE)

@@ -1,2 +1,0 @@
-require("../../_virtual/_rolldown/runtime.js"),require("./utils/form.js");const r=require("./src/form.js"),e=require("./src/formItem.js");let t=require("@fast-china/utils");var l=(0,t.withInstall)(r.default,{FormItem:e.default}),s=(0,t.withNoopInstall)(e.default);exports.FaFormItem=s,exports.default=l;
-//# sourceMappingURL=index.js.map

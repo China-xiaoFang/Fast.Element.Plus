@@ -1,10 +1,11 @@
 {
 	"name": "fast-element-plus",
-	"version": "1.0.21",
-	"description": "Fast 组件库.",
+	"version": "2.0.0",
+	"description": "Typed Vue 3 components, directives, and hooks built on Element Plus.",
 	"type": "module",
 	"keywords": [
 		"fast-element-plus",
+		"element-plus",
 		"fast",
 		"typescript",
 		"component library",
@@ -16,78 +17,115 @@
 	"license": "Apache-2.0",
 	"homepage": "https://fastdotnet.com",
 	"bugs": {
-		"url": "https://gitee.com/FastDotnet/Fast.Element.Plus/issues"
+		"url": "https://gitee.com/FastDotnet/fast.element.plus/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://gitee.com/FastDotnet/Fast.Element.Plus"
+		"url": "https://gitee.com/FastDotnet/fast.element.plus"
 	},
 	"author": "小方",
+	"files": [
+		"CHANGELOG.md",
+		"CONTRIBUTING.md",
+		"Fast.png",
+		"LICENSE",
+		"README.md",
+		"README.zh.md",
+		"SECURITY.md",
+		"dist"
+	],
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs",
+			"default": "./dist/index.mjs"
+		},
+		"./global": {
+			"types": "./dist/global.d.ts",
+			"import": "./dist/global.mjs",
+			"default": "./dist/global.mjs"
+		},
+		"./style.css": "./dist/index.css"
+	},
+	"sideEffects": [
+		"./dist/index.css"
+	],
+	"style": "./dist/index.css",
+	"unpkg": "./dist/index.global.min.js",
+	"jsdelivr": "./dist/index.global.min.js",
 	"publishConfig": {
 		"access": "public"
 	},
-	"main": "packages/index.ts",
 	"scripts": {
-		"check": "vue-tsc",
-		"update:version": "tsx scripts/update-version.ts",
-		"build:styles": "sass ./styles/index.scss:./fast-element-plus/dist/styles/index.css",
-		"build:move": "pnpm run build:styles && tsx scripts/move-file.ts",
-		"build": "tsx scripts/build.ts && vue-tsc && vite build --config vite.umd-iife.config.ts && vite build --config vite.es-lib.config.ts",
-		"publish": "cd fast-element-plus && npm publish",
-		"lint:eslint": "eslint --max-warnings 0 \"packages/**/*.{vue,js,ts,tsx}\" --fix",
-		"lint:prettier": "prettier --write \"packages/**/*.{vue,js,ts,jsx,tsx,md,json,css,scss,less,html}\"",
-		"lint": "pnpm lint:eslint && pnpm lint:prettier"
+		"dev": "tsdown --watch",
+		"docs:dev": "vitepress dev docs",
+		"build": "tsdown && pnpm run typegen && pnpm run build:styles",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs",
+		"build:styles": "sass styles/index.scss dist/index.css --style=compressed --source-map --embed-sources",
+		"typegen": "tsc",
+		"typecheck": "tsc --noEmit",
+		"lint": "eslint . --max-warnings 0",
+		"lint:fix": "eslint . --fix",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"test": "pnpm run build && pnpm run test:types && pnpm run test:runtime && pnpm run test:package",
+		"test:types": "tsc --noEmit --project tests/tsconfig.json",
+		"test:runtime": "node --test tests/runtime.test.mjs",
+		"test:package": "node --test tests/package.test.mjs && publint --strict --pack npm",
+		"check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run format:check",
+		"prepack": "pnpm run check"
+	},
+	"peerDependencies": {
+		"@element-plus/icons-vue": "^2.3.2",
+		"@fast-element-plus/icons-vue": "^2.0.0",
+		"element-plus": "^2.14.5",
+		"vue": "^3.5.41"
 	},
 	"dependencies": {
-		"@vueuse/core": "^14",
-		"decimal.js": "^10",
-		"lodash": "^4.18",
-		"lodash-es": "^4.18",
-		"lodash-unified": "^1",
-		"screenfull": "^6",
-		"sortablejs": "^1.15"
+		"@vueuse/core": "^14.4.0",
+		"csstype": "^3.2.3",
+		"decimal.js": "^10.6.0",
+		"lodash": "^4.18.1",
+		"lodash-es": "^4.18.1",
+		"lodash-unified": "^1.0.3",
+		"screenfull": "^6.0.2",
+		"sortablejs": "^1.15.7"
 	},
 	"devDependencies": {
-		"@element-plus/icons-vue": "^2.3",
-		"@fast-china/eslint-config": "^1",
-		"@fast-china/utils": "^1",
-		"@fast-element-plus/components": "workspace:*",
-		"@fast-element-plus/constants": "workspace:*",
-		"@fast-element-plus/directives": "workspace:*",
-		"@fast-element-plus/hooks": "workspace:*",
-		"@fast-element-plus/icons-vue": "^1",
-		"@rollup/plugin-terser": "^1",
-		"@types/lodash": "^4.17",
-		"@types/lodash-es": "^4.17",
-		"@types/node": "*",
-		"@types/sortablejs": "^1.15",
-		"@vitejs/plugin-vue": "^6",
-		"@vitejs/plugin-vue-jsx": "^5",
-		"@vue/tsconfig": "^0.9",
-		"element-plus": "^2",
-		"eslint": "^10",
-		"prettier": "^3",
-		"sass": "^1",
-		"terser": "^5",
-		"typescript": "^5",
-		"vite": "^8",
-		"vite-plugin-dts": "^4",
-		"vue": "^3.5",
-		"vue-tsc": "^3"
+		"@element-plus/icons-vue": "^2.3.2",
+		"@eslint/js": "^10.0.1",
+		"@eslint/markdown": "^8.0.3",
+		"@fast-element-plus/icons-vue": "^2.0.0",
+		"@types/lodash": "^4.17.25",
+		"@types/lodash-es": "^4.17.12",
+		"@types/node": "^24.13.3",
+		"@types/sortablejs": "^1.15.9",
+		"dayjs": "^1.11.23",
+		"element-plus": "^2.14.5",
+		"eslint": "^10.9.1",
+		"eslint-config-flat-gitignore": "^2.3.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-import-x": "^4.17.1",
+		"eslint-plugin-jsonc": "^3.4.2",
+		"eslint-plugin-regexp": "^3.2.0",
+		"globals": "^17.11.0",
+		"prettier": "^3.9.6",
+		"publint": "^0.3.24",
+		"sass": "^1.103.1",
+		"tsdown": "^0.22.14",
+		"tsx": "^4.23.12",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.68.0",
+		"unplugin-vue-jsx": "^0.10.0",
+		"vitepress": "^1.6.4",
+		"vue": "^3.5.41"
 	},
 	"engines": {
-		"node": ">=20.0.0"
-	},
-	"browserslist": {
-		"production": [
-			"> 1%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"node": "^22.18.0 || ^24.18.0",
+		"pnpm": "^11.0.0"
 	}
 }

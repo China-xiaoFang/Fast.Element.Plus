@@ -1,2 +1,0 @@
-require("../../_virtual/_rolldown/runtime.js");const t=require("./src/layoutGrid.js"),r=require("./src/layoutGridItem.js");require("./src/layoutGrid.type.js");let e=require("@fast-china/utils");var u=(0,e.withInstall)(t.default,{LayoutGridItem:r.default}),a=(0,e.withNoopInstall)(r.default);exports.FaLayoutGridItem=a,exports.default=u;
-//# sourceMappingURL=index.js.map

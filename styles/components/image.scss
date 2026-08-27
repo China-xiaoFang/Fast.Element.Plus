@@ -1,6 +1,10 @@
 .fa-image {
+	border-radius: var(--el-border-radius-base);
+	background-color: var(--el-fill-color-lighter);
+	overflow: hidden;
+
 	.el-image__inner {
-		transition: all var(--el-transition-duration);
+		transition: transform var(--el-transition-duration);
 		cursor: pointer;
 		&:hover {
 			transform: scale(1.2);
@@ -15,5 +19,11 @@
 		background: var(--el-fill-color-light);
 		color: var(--el-text-color-secondary);
 		font-size: 30px;
+	}
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+	.fa-image .el-image__inner:hover {
+		transform: none;
 	}
 }

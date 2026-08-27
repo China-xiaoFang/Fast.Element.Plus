@@ -1,10 +1,18 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-context-menu {
 	position: fixed;
 	padding: 0;
-	box-shadow: var(--el-dropdown-menu-box-shadow);
-	border: none;
+	border: 1px solid var(--el-border-color-lighter);
+	border-radius: var(--el-border-radius-base);
+	background-color: var(--el-bg-color-overlay);
+	box-shadow: var(--el-box-shadow);
+	overflow: hidden;
 	.el-dropdown-menu {
+		background-color: transparent;
+
 		.el-dropdown-menu__item {
+			min-height: var(--el-component-size);
 			font-size: var(--el-font-size-small);
 			.fa-icon {
 				margin-right: 5px;
@@ -19,6 +27,12 @@
 				}
 			}
 		}
+	}
+}
+
+@include bp.touch {
+	.fa-context-menu .el-dropdown-menu .el-dropdown-menu__item {
+		min-height: 44px;
 	}
 }
 

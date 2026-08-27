@@ -1,16 +1,32 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-table {
+	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
+	min-width: 0;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+	color: var(--el-text-color-regular);
 	transition:
 		width var(--el-transition-duration),
 		height var(--el-transition-duration);
+
+	> .el-card {
+		border-color: var(--el-border-color-lighter);
+		border-radius: calc(var(--el-border-radius-base) * 1.5);
+		background-color: var(--el-bg-color-overlay);
+		box-shadow: var(--el-box-shadow-light);
+	}
+
 	.fa-table__search {
+		box-sizing: border-box;
+		flex-shrink: 0;
 		max-height: 100%;
 		display: flex;
 		align-items: center;
+		padding: 10px 12px;
 		margin-bottom: 10px;
 		transition:
 			height var(--el-transition-duration) ease-in-out,
@@ -30,8 +46,10 @@
 		}
 		.el-form {
 			width: 100%;
+			min-width: 0;
 			.el-form-item {
 				margin-bottom: 0;
+				min-width: 0;
 			}
 			// 去除全局设置Form 表单的 label 的宽度
 			.el-form-item__label {
@@ -45,6 +63,11 @@
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
+				gap: 8px;
+
+				.el-button + .el-button {
+					margin-left: 0;
+				}
 				.el-button.is-link {
 					.el-icon {
 						margin-left: 2px;
@@ -54,26 +77,40 @@
 		}
 	}
 	.fa-table__header {
+		box-sizing: border-box;
+		flex-shrink: 0;
 		display: flex;
 		align-items: center;
+		padding: 10px 12px;
 		margin-bottom: 10px;
 	}
 	.fa-table__main {
 		flex: 1;
+		min-width: 0;
+		min-height: 0;
 		display: flex;
 		flex-direction: column;
+		padding: 10px 12px;
+		overflow: hidden;
 		.fa-table__main-header {
+			flex-shrink: 0;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			gap: 12px;
 			margin-bottom: 10px;
 			.fa-table__main-header-left {
 				display: inline-flex;
 				align-items: center;
+				min-width: 0;
+				flex-wrap: wrap;
+				gap: 8px;
 			}
 			.fa-table__main-header-right {
 				display: inline-flex;
 				align-items: center;
+				min-width: 0;
+				flex-wrap: wrap;
 				> *:not(:first-child) {
 					margin-left: 12px;
 				}
@@ -153,12 +190,16 @@
 		}
 	}
 	.fa-table__main-footer {
+		flex-shrink: 0;
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		justify-content: space-between;
+		gap: 12px;
 		margin-top: 10px;
 		.fa-table__main-footer__left {
 			flex: 1;
+			min-width: 0;
 		}
 	}
 }
@@ -179,8 +220,10 @@
 	}
 }
 
-.el-table {
+.fa-table > .fa-table__main > .el-table {
 	flex: 1;
+	min-width: 0;
+	min-height: 0;
 	.el-table__header {
 		th {
 			color: var(--el-text-color-primary) !important;
@@ -356,6 +399,14 @@
 	}
 }
 
+.fa-table__main-header-right__data-search__popper {
+	max-width: calc(100vw - 32px);
+
+	.el-date-range-picker {
+		width: min(610px, calc(100vw - 32px));
+	}
+}
+
 .fa-table-small {
 	.fa-table__search {
 		margin-bottom: 5px;
@@ -434,6 +485,174 @@
 				width: 22px;
 				height: 22px;
 				border-radius: 4px;
+			}
+		}
+	}
+}
+
+@include bp.tablet {
+	.fa-table {
+		.fa-table__main .fa-table__main-header {
+			align-items: flex-start;
+			flex-wrap: wrap;
+
+			.fa-table__main-header-right {
+				flex: 1 1 420px;
+				justify-content: flex-end;
+			}
+		}
+
+		.fa-table__main-footer {
+			align-items: flex-start;
+			flex-wrap: wrap;
+		}
+	}
+}
+
+@include bp.mobile {
+	.fa-table {
+		overflow: visible;
+
+		> .el-card {
+			border-radius: var(--el-border-radius-base);
+			box-shadow: none;
+		}
+
+		.fa-table__search {
+			align-items: stretch;
+			padding: 10px 8px;
+			margin-bottom: 8px;
+
+			.el-form {
+				.el-form-item {
+					display: block;
+				}
+
+				.el-form-item__label {
+					display: block;
+					width: 100% !important;
+					height: auto;
+					padding: 0 0 4px;
+					line-height: 1.5;
+					text-align: left;
+				}
+
+				.el-form-item__content,
+				.el-select,
+				.el-date-editor,
+				.el-input-number {
+					width: 100%;
+					min-width: 0;
+				}
+
+				.fa-table__search-operation {
+					width: 100%;
+					justify-content: stretch;
+					flex-wrap: wrap;
+
+					.el-button {
+						flex: 1 1 calc(50% - 4px);
+						min-width: 0;
+					}
+				}
+			}
+		}
+
+		.fa-table__header {
+			padding: 8px;
+			margin-bottom: 8px;
+			overflow-x: auto;
+		}
+
+		.fa-table__main {
+			min-height: 360px;
+			padding: 8px;
+			overflow: hidden;
+
+			.fa-table__main-header {
+				align-items: stretch;
+				flex-direction: column;
+				gap: 8px;
+				margin-bottom: 8px;
+
+				.fa-table__main-header-left,
+				.fa-table__main-header-right {
+					width: 100%;
+				}
+
+				.fa-table__main-header-right {
+					gap: 8px;
+
+					> *:not(:first-child) {
+						margin-left: 0;
+					}
+
+					.fa-table__main-header-right__div-search {
+						flex: 1 1 150px;
+						width: auto;
+						max-width: none;
+					}
+
+					.fa-table__main-header-right__data-search {
+						flex: 1 1 190px;
+						width: auto;
+						min-width: 0;
+					}
+				}
+			}
+		}
+
+		.fa-table__main-footer {
+			align-items: stretch;
+			flex-direction: column;
+			gap: 8px;
+			margin-top: 8px;
+
+			.fa-table-pagination {
+				box-sizing: border-box;
+				width: 100%;
+				justify-content: flex-start;
+				overflow-x: auto;
+				padding-bottom: 2px;
+			}
+
+			.el-pagination__jump,
+			.el-pagination__total {
+				display: none;
+			}
+		}
+	}
+
+	.fa-table__main-header-right__data-search__popper {
+		max-width: calc(100vw - 24px);
+		max-height: calc(100dvh - 24px);
+		overflow-y: auto;
+
+		.el-date-range-picker {
+			width: calc(100vw - 24px) !important;
+
+			.el-picker-panel__body-wrapper {
+				display: block;
+
+				.el-picker-panel__sidebar {
+					display: none;
+				}
+
+				.el-picker-panel__body {
+					min-width: 0;
+					margin: 0;
+				}
+
+				.el-date-range-picker__content {
+					box-sizing: border-box;
+					width: 100%;
+					padding: 8px;
+				}
+
+				.el-date-range-picker__content.is-left {
+					border-right: 0;
+					border-bottom: 1px solid var(--el-border-color-lighter);
+				}
 			}
 		}
 	}

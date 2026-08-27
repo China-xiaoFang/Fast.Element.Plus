@@ -3,7 +3,13 @@
 /** 复制图标样式 */
 .fa__copy-icon {
 	margin-right: 3px;
+	color: var(--el-text-color-secondary);
 	cursor: pointer;
+	transition: color var(--el-transition-duration-fast);
+
+	&:hover {
+		color: var(--el-color-primary);
+	}
 }
 
 /** 鼠标置入放大动画 */
@@ -18,16 +24,13 @@
 
 /** 鼠标置入浮动动画 */
 .fa__hover__suspension {
-	transition: all var(--el-transition-duration) ease;
+	transition:
+		transform var(--el-transition-duration) ease,
+		box-shadow var(--el-transition-duration) ease;
 	&:hover {
-		-webkit-transform: translateY(-4px) scale(1.02);
-		-moz-transform: translateY(-4px) scale(1.02);
-		-ms-transform: translateY(-4px) scale(1.02);
-		-o-transform: translateY(-4px) scale(1.02);
 		transform: translateY(-4px) scale(1.02);
-		-webkit-box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
-		box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
-		border-radius: 6px;
+		box-shadow: var(--el-box-shadow);
+		border-radius: var(--el-border-radius-base);
 	}
 }
 
@@ -40,5 +43,19 @@
 	pointer-events: none !important;
 	&:hover {
 		cursor: not-allowed !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fa__hover__twinkle:hover :first-child {
+		animation: none;
+	}
+
+	.fa__hover__suspension {
+		transition: none;
+
+		&:hover {
+			transform: none;
+		}
 	}
 }

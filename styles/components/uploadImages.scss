@@ -1,9 +1,76 @@
+@use "../common/breakpoints.scss" as bp;
+
 .fa-upload-images {
+	min-width: 0;
+	color: var(--el-text-color-regular);
+
+	.el-upload-list--picture-card {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+
+		.el-upload-list__item,
+		.el-upload--picture-card {
+			margin: 0;
+			border-color: var(--el-border-color-light);
+			border-radius: calc(var(--el-border-radius-base) * 1.5);
+			background-color: var(--el-fill-color-lighter);
+		}
+	}
+
+	.el-upload__tip {
+		color: var(--el-text-color-secondary);
+	}
+
 	&.fa-upload-images__hidden-upload {
 		.el-upload-list {
 			.el-upload {
 				display: none;
 			}
+		}
+	}
+}
+
+@include bp.tablet {
+	.fa-upload-images {
+		--el-upload-list-picture-card-size: 120px;
+		--el-upload-picture-card-size: 120px;
+	}
+}
+
+@include bp.mobile {
+	.fa-upload-images {
+		--el-upload-list-picture-card-size: 112px;
+		--el-upload-picture-card-size: 112px;
+
+		.el-upload-list--picture-card {
+			gap: 6px;
+		}
+	}
+}
+
+@include bp.touch {
+	.fa-upload-images .el-upload-list--picture-card .el-upload-list__item-actions {
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 4px;
+		padding: 4px;
+		opacity: 1;
+
+		.el-upload-list__item-icon,
+		.el-upload-list__item-preview {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: auto;
+			height: 36px;
+			border-radius: 50%;
+			background-color: var(--el-overlay-color-lighter);
+		}
+
+		span + span {
+			margin-left: 0;
 		}
 	}
 }

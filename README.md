@@ -1,164 +1,123 @@
-[中](https://gitee.com/FastDotnet/Fast.Element.Plus) | **En**
+[中文](./README.zh.md) | **English**
 
 <h1 align="center">Fast.Element.Plus</h1>
 
 <p align="center">
-  <code>Fast</code> platform An component library built based on <code>Vue3</code>, <code>Vite</code>, <code>TypeScript</code>, and <code>Element Plus</code>.
+	Typed Vue 3 components, directives, and hooks for business applications built on Element Plus.
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/fast-element-plus">
-    <img src="https://img.shields.io/npm/v/fast-element-plus?color=orange&label=" alt="version" />
-  </a>
-  <a href="https://gitee.com/FastDotnet/Fast.Element.Plus/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/fast-element-plus" alt="license" />
-  </a>
+	<a href="https://www.npmjs.com/package/fast-element-plus"><img src="https://img.shields.io/npm/v/fast-element-plus?color=orange" alt="npm version" /></a>
+	<a href="https://gitee.com/FastDotnet/fast.element.plus/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/fast-element-plus" alt="license" /></a>
 </p>
 
-## Preface
+Fast.Element.Plus is an officially open-source Fast business SDK for the Fast team and developers who adopt its coding and interaction conventions. It provides opinionated form, selection, table, tree, upload, layout, dialog, drawer, image, icon, and utility components, plus installable directives, browser UI hooks, shared constants, global component types, and one complete `app.use()` plugin.
 
-#### Why would we encapsulate a component library based on `Element Plus`?
+The SDK builds business behavior on Element Plus and is not a drop-in replacement. Some defaults, event semantics, remote-data flows, and interactions intentionally follow Fast team conventions.
 
-  > **Predecessors plant trees, and future generations enjoy the shade**
-  > Because of my limited skills, I can only stand on the shoulders of giants and look far into the distance. (To put it bluntly, I am a vegetable)
-  > **Development efficiency**
-  > Because in actual business development, the efficiency of a simple `Element Plus` component library will be very low if used directly. * (But I did not say that `Element Plus` is not easy to use)*
-  > **Suitable encapsulation**
-  > On the contrary, it is precisely because it is easy to use that I encapsulated it, making it the most suitable and fastest development efficiency for me, or for those of us `engineers/developers` who only know `CRUD` every day.
+## Requirements
+
+- ES2022 modern browsers or WebViews.
+- Vue `^3.5.41`.
+- Element Plus `^2.14.5`.
+- Element Plus Icons `^2.3.2`.
+- Fast.Element.Plus.Icons `^2.0.0`.
+
+Vue, Element Plus, Element Plus Icons, and Fast.Element.Plus.Icons are required peer dependencies. Both icon packages remain external to the build. Component-only utilities are included in the Fast.Element.Plus build.
+
+The current manually audited Element Plus baseline is `2.14.x`. When the Element Plus minor version changes, for example from `2.14.x` to `2.15.x` or later, native Props, Emits, Slots, exposed methods, defaults, and internal style structures must be audited again. See [Element Plus compatibility and upgrade audit](./docs/ELEMENT_PLUS_COMPATIBILITY.md).
 
 ## Install
 
-#### Standing on the shoulders of giants <a href="https://github.com/element-plus/element-plus">`Element Plus`</a>
-
-```
-Because the framework depends on Element Plus, you need to install Element Plus at the same time to use it properly.
-```
-
-#### Using a Package Manager
-
-```sh
-# Choose a package manager of your choice
-
-# NPM
-npm install fast-element-plus
-
-# Yarn
-yarn add fast-element-plus
-
-# pnpm (recommend)
-pnpm install fast-element-plus
-```
-
-#### Direct browser import
-
-##### unpkg
-
-```html
-<head>
-  <!-- Import style -->
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-  <!-- Import Vue 3 -->
-  <script src="//unpkg.com/vue@3"></script>
-  <!-- Import Element Plus component library -->
-  <script src="//unpkg.com/element-plus"></script>
-  <!-- Import component library -->
-  <script src="//unpkg.com/fast-element-plus"></script>
-</head>
-```
-
-##### jsDelivr
-
-```html
-<head>
-  <!-- Import style -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css" />
-  <!-- Import Vue 3 -->
-  <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
-  <!-- Import Element Plus component library -->
-  <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
-  <!-- Import component library -->
-  <script src="//cdn.jsdelivr.net/npm/fast-element-plus"></script>
-</head>
+```bash
+pnpm add fast-element-plus vue element-plus @element-plus/icons-vue @fast-element-plus/icons-vue
 ```
 
 ## Use
 
-在 `main.ts`
+Register the complete component library:
 
-```typescript
+```ts
 import { createApp } from "vue";
-import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import FastElementPlus from "fast-element-plus";
+import "fast-element-plus/style.css";
 import App from "./App.vue";
 
-const app = createApp(App);
-
-// Global Registration
-app.use(FastElementPlus);
-
-app.mount('#app');
+createApp(App).use(FastElementPlus).mount("#app");
 ```
 
-#### Volar Support
+### Theme and responsive layout
 
-If you use Volar, specify the global component type via `compilerOptions.type` in your `tsconfig.json`.
+Fast.Element.Plus uses Element Plus CSS Variables and supports its official `html.dark` dark mode. Import the official dark variables before the Fast styles when dark mode is required:
 
-```json
+```ts
+import "element-plus/dist/index.css";
+import "element-plus/theme-chalk/dark/css-vars.css";
+import "fast-element-plus/style.css";
+
+document.documentElement.classList.toggle("dark", isDark);
+```
+
+Desktop is the base layout. Responsive rules cover phones below `768px` and tablets from `768px` through `1199px`, including dialogs, drawers, tables, search forms, pagination, trees, selectors, and upload areas. Applications may customize branding, surfaces, borders, shadows, and spacing through Element Plus CSS Variables.
+
+Or import named APIs and let the application control registration:
+
+```ts
+import { FaButton, FaTable, useOverlay, vCopy } from "fast-element-plus";
+
+app.use(FaButton);
+app.use(FaTable);
+app.directive("copy", vCopy);
+
+useOverlay.show();
+```
+
+For global component and directive types, add the package type entry to the application `tsconfig.json`:
+
+```jsonc
 {
-  "compilerOptions": {
-    // ...
-    "types": ["fast-element-plus/global"]
-  }
+	"compilerOptions": {
+		"types": ["element-plus/global", "fast-element-plus/global"],
+	},
 }
 ```
 
-## Update log
+## Public modules
 
-Update log [Click to view](https://gitee.com/FastDotnet/Fast.Element.Plus/commits/master)
+| Module     | Public APIs                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Components | `FaAvatar`, `FaButton`, `FaCarNumber`, `FaContextMenu`, `FaDialog`, `FaDrawer`, `FaForm`, `FaFormItem`, `FaFormItemTip`, `FaIcon`, `FaIconSelector`, `FaImage`, `FaInputDialogPage`, `FaLayoutGrid`, `FaLayoutGridItem`, `FaSelect`, `FaSelectOption`, `FaSelectPage`, `FaSelectV2`, `FaTable`, `FaTableColumn`, `FaTree`, `FaTreeSelect`, `FaUpload`, `FaUploadImage`, `FaUploadImages` |
+| Directives | `vCopy`, `vDebounce`, `vDraggable`, `vIconCopy`, `vLongpress`, `vThrottle`                                                                                                                                                                                                                                                                                                               |
+| Hooks      | `useLoading`, `useOverlay`, `useScreenFull`                                                                                                                                                                                                                                                                                                                                              |
+| Constants  | `FaMimeType`, `RegExps`                                                                                                                                                                                                                                                                                                                                                                  |
+| Utilities  | `Decimal`, `install`, `version`, `FastElementPlus` component namespace                                                                                                                                                                                                                                                                                                                   |
 
-## Protocol
+The package root is the only JavaScript API entry. `fast-element-plus/global` provides Vue global declarations, and `fast-element-plus/style.css` provides the component styles. Files under `dist/` are implementation details.
 
-[Fast.Element.Plus](https://gitee.com/FastDotnet/Fast.Element.Plus) complies with the [Apache-2.0](https://gitee.com/FastDotnet/Fast.Element.Plus/blob/master/LICENSE) open source agreement. Welcome to submit `PR` or `Issue`.
+## CDN
 
+The `unpkg` and `jsdelivr` fields select `dist/index.global.min.js`. Load Vue, Element Plus, Element Plus Icons, and Fast.Element.Plus.Icons first, then access the library as `globalThis.FastElementPlus`. Load `dist/index.css` separately.
+
+## Documentation
+
+- [Component documentation and interactive examples (Chinese)](./docs/components/overview.md)
+- [Installation guide (Chinese)](./docs/guide/installation.md)
+- [Documentation build and deployment (Chinese)](./docs/guide/deployment.md)
+- [API reference](./docs/API.md)
+- [Runtime contract](./docs/RUNTIME_CONTRACT.md)
+- [Element Plus compatibility and upgrade audit](./docs/ELEMENT_PLUS_COMPATIBILITY.md)
+- [Development and release guide (Chinese)](./docs/DEVELOPMENT_RELEASE.zh-CN.md)
+- [Contributing](./CONTRIBUTING.md)
+- [Security policy](./SECURITY.md)
+- [Changelog](./CHANGELOG.md)
+
+Run the complete documentation site locally:
+
+```bash
+pnpm docs:dev
 ```
-Apache Open Source License
 
-Copyright © 2018-Now xiaoFang
+## License
 
-License:
-This Agreement grants any individual or organization that obtains a copy of this software and its related documentation (hereinafter referred to as the "Software").
-Subject to the terms of this Agreement, you have the right to use, copy, modify, merge, publish, distribute, sublicense, and sell copies of the Software:
-1.All copies or major parts of the Software must retain this Copyright Notice and this License Agreement.
-2.The use, copying, modification, or distribution of the Software shall not violate applicable laws or infringe upon the legitimate rights and interests of others.
-3.Modified or derivative works must clearly indicate the original author and the source of the original Software.
-
-Special Statement:
-- This Software is provided "as is" without any express or implied warranty of any kind, including but not limited to the warranty of merchantability, fitness for purpose, and non-infringement.
-- In no event shall the author or copyright holder be liable for any direct or indirect loss caused by the use or inability to use this Software.
-- Including but not limited to data loss, business interruption, etc.
-
-Disclaimer:
-It is prohibited to use this software to engage in illegal activities such as endangering national security, disrupting social order, or infringing on the legitimate rights and interests of others.
-The author does not assume any responsibility for any legal disputes and liabilities caused by the secondary development of this software.
-```
-
-## Disclaimer
-
-```
-Please do not use it for projects that violate our country's laws
-```
-
-## Contributors
-
-Thank you for all their contributions!
-
-<a href="https://github.com/China-xiaoFang/Fast.Element.Plus/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=China-xiaoFang/Fast.Element.Plus" />
-</a>
-
-## Supplementary instructions
-
-```
-If it is helpful to you, you can click ⭐Star in the upper right corner to collect it and get the latest updates. Thank you!
-```
+[Apache-2.0](./LICENSE)

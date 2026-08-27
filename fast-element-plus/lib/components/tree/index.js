@@ -1,2 +1,0 @@
-require("../../_virtual/_rolldown/runtime.js");const e=require("./src/tree.js");require("./src/tree.type.js");var r=(0,require("@fast-china/utils").withInstall)(e.default);exports.default=r;
-//# sourceMappingURL=index.js.map

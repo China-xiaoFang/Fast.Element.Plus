@@ -1,0 +1,756 @@
+import { Fragment, computed, defineComponent, h, inject, resolveComponent, watch } from "vue";
+import { CopyDocument } from "@element-plus/icons-vue";
+import { ElIcon, ElImage, ElMessage, ElTableColumn, ElTag, ElText, dayjs, useGlobalSize } from "element-plus";
+import { isArray, isFunction, isNil, isNumber, isObject, isString } from "lodash-unified";
+import { copy as copyToClipboard, definePropType, formatChineseRelativeTime, makeSlots, useProps, useRender } from "../../../utils";
+import FaImage from "../../image";
+import artwork from "../images/artwork.png";
+import notImage from "../images/notImage.png";
+import { tableUtil } from "../utils/table";
+import { getTableDefaultSlots } from "./table.type";
+import { enumMapKey, tableStateKey } from "./useTable";
+import type { FaTableRow } from "./table.state";
+import type {
+	FaTableColumnCtx,
+	FaTableColumnDateFormat,
+	FaTableColumnType,
+	FaTableDefaultSlotsResult,
+	FaTableEnumColumnCtx,
+	FaTableEnumColumnType,
+} from "./table.type";
+import type { TableColumnCtx } from "element-plus";
+import type { ComputedRef, PropType, VNode } from "vue";
+
+type DefaultRow = FaTableRow;
+
+/** FaTableColumn 的运行时 Props 定义。 */
+export const tableColumnProps = {
+	/**
+	 * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
+	 */
+	type: {
+		type: String,
+		default: "default",
+	},
+	/**
+	 * @description column label
+	 */
+	label: String,
+	/**
+	 * @description class name of cells in the column
+	 */
+	className: String,
+	/**
+	 * @description class name of the label of this column
+	 */
+	labelClassName: String,
+	/**
+	 * @description
+	 */
+	property: String,
+	/**
+	 * @description field name. You can also use its alias: `property`
+	 */
+	prop: String,
+	/**
+	 * @description column width
+	 */
+	width: {
+		type: [String, Number],
+		default: "",
+	},
+	/**
+	 * @description column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion
+	 */
+	minWidth: {
+		type: [String, Number],
+		default: "",
+	},
+	/**
+	 * @description render function for table header of this column
+	 */
+	renderHeader: Function as PropType<TableColumnCtx<DefaultRow>["renderHeader"]>,
+	/**
+	 * @description whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table
+	 */
+	sortable: {
+		type: [Boolean, String],
+		default: false,
+	},
+	/**
+	 * @description sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort
+	 */
+	sortMethod: Function as PropType<TableColumnCtx<DefaultRow>["sortMethod"]>,
+	/**
+	 * @description specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal
+	 */
+	sortBy: [String, Function, Array] as PropType<TableColumnCtx<DefaultRow>["sortBy"]>,
+	/**
+	 * @description whether column width can be resized, works when `border` of `el-table` is `true`
+	 */
+	resizable: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * @description column's key. If you need to use the filter-change event, you need this attribute to identify which column is being filtered
+	 */
+	columnKey: String,
+	/**
+	 * @description alignment, the value should be 'left' \/ 'center' \/ 'right'
+	 */
+	align: String,
+	/**
+	 * @description alignment of the table header. If omitted, the value of the above `align` attribute will be applied, the value should be 'left' \/ 'center' \/ 'right'
+	 */
+	headerAlign: String,
+	/**
+	 * @description whether to hide extra content and show them in a tooltip when hovering on the cell
+	 */
+	showOverflowTooltip: {
+		type: [Boolean, Object] as PropType<TableColumnCtx<DefaultRow>["showOverflowTooltip"]>,
+		default: undefined,
+	},
+	/** @description function that formats cell tooltip content, works when show-overflow-tooltip is enabled */
+	tooltipFormatter: Function as PropType<TableColumnCtx<DefaultRow>["tooltipFormatter"]>,
+	/**
+	 * @description whether column is fixed at left / right. Will be fixed at left if `true`
+	 */
+	fixed: [Boolean, String],
+	/**
+	 * @description function that formats cell content
+	 */
+	formatter: Function as PropType<TableColumnCtx<DefaultRow>["formatter"]>,
+	/**
+	 * @description function that determines if a certain row can be selected, works when `type` is 'selection'
+	 */
+	selectable: Function as PropType<TableColumnCtx<DefaultRow>["selectable"]>,
+	/**
+	 * @description whether to reserve selection after data refreshing, works when `type` is 'selection'. Note that `row-key` is required for this to work
+	 */
+	reserveSelection: Boolean,
+	/**
+	 * @description data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`
+	 */
+	filterMethod: Function as PropType<TableColumnCtx<DefaultRow>["filterMethod"]>,
+	/**
+	 * @description filter value for selected data, might be useful when table header is rendered with `render-header`
+	 */
+	filteredValue: Array as PropType<TableColumnCtx<DefaultRow>["filteredValue"]>,
+	/**
+	 * @description an array of data filtering options. For each element in this array, `text` and `value` are required
+	 */
+	filters: Array as PropType<TableColumnCtx<DefaultRow>["filters"]>,
+	/**
+	 * @description placement for the filter dropdown
+	 */
+	filterPlacement: String,
+	/**
+	 * @description whether data filtering supports multiple options
+	 */
+	filterMultiple: {
+		type: Boolean,
+		default: true,
+	},
+	/**
+	 * @description className for the filter dropdown
+	 */
+	filterClassName: String,
+	/**
+	 * @description customize indices for each row, works on columns with `type=index`
+	 */
+	index: [Number, Function] as PropType<TableColumnCtx<DefaultRow>["index"]>,
+	/**
+	 * @description the order of the sorting strategies used when sorting the data, works when `sortable` is `true`. Accepts an array, as the user clicks on the header, the column is sorted in order of the elements in the array
+	 */
+	sortOrders: {
+		type: Array as PropType<TableColumnCtx<DefaultRow>["sortOrders"]>,
+		default: (): TableColumnCtx<DefaultRow>["sortOrders"] => {
+			return ["ascending", "descending", null];
+		},
+		validator: (val: TableColumnCtx<DefaultRow>["sortOrders"]): boolean => {
+			return (val ?? []).every((order) => order === "ascending" || order === "descending" || order === null);
+		},
+	},
+};
+
+/** FaTableColumn 插槽返回的行列上下文。 */
+export interface FaTableColumnSlotsResult {
+	/** @description slots为表格内容的时候才会返回 */
+	row?: DefaultRow;
+	/** @description slot为表头内容的时候返回 'TableColumnCtx<any>' 否则返回 'FaTableColumnCtx' */
+	column?: TableColumnCtx<DefaultRow> | FaTableColumnCtx;
+	$index?: number;
+}
+
+type FaTableColumnDefaultSlots = Record<string, FaTableDefaultSlotsResult & FaTableColumnSlotsResult>;
+
+/** FaTableColumn 的固定插槽和动态命名插槽。 */
+export type FaTableColumnSlots = Record<string, unknown> & {
+	/** @description 默认内容插槽 */
+	default: FaTableDefaultSlotsResult & { row: DefaultRow; column: FaTableColumnCtx; $index: number };
+	/** @description 自定义表头的内容 */
+	header: FaTableDefaultSlotsResult & { column: FaTableColumnCtx; $index: number };
+	/** @description 自定义 filter 图标 */
+	filterIcon: FaTableDefaultSlotsResult & { filterOpened: boolean };
+	/** @description 展开列的自定义内容 */
+	expand: FaTableDefaultSlotsResult & { expanded: boolean };
+} & FaTableColumnDefaultSlots;
+
+export default defineComponent({
+	name: "FaTableColumn",
+	props: {
+		...tableColumnProps,
+		/**
+		 * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
+		 */
+		type: {
+			type: definePropType<FaTableColumnType>(String),
+			default: "default",
+		},
+		/**
+		 * @description column width
+		 */
+		width: {
+			type: [String, Number],
+			default: "auto",
+		},
+		/** @description alignment, the value should be 'left' \/ 'center' \/ 'right' */
+		align: {
+			type: String,
+			default: "left",
+		},
+		/** @description alignment of the table header. If omitted, the value of the above `align` attribute will be applied, the value should be 'left' \/ 'center' \/ 'right' */
+		headerAlign: {
+			type: String,
+			default: "left",
+		},
+		/** @description 是否显示在表格当中 */
+		show: Boolean,
+		/** @description 小页面的宽度，如果为空，则继承默认宽度 */
+		smallWidth: {
+			type: [String, Number],
+		},
+		/** @description 自适应宽度 */
+		autoWidth: Boolean,
+		/** @description 插槽名称 */
+		slot: String,
+		/** @description 表格头部插槽名称 */
+		headerSlot: String,
+		/** @description 自定义表头内容渲染（tsx语法） */
+		headerRender: {
+			type: definePropType<({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number } & FaTableDefaultSlotsResult) => VNode[]>(
+				Function
+			),
+		},
+		/** @description 自定义单元格内容渲染（tsx语法） */
+		render: {
+			type: definePropType<
+				({ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult) => VNode[]
+			>(Function),
+		},
+		/** @description 多级表头 */
+		_children: {
+			type: definePropType<FaTableColumnCtx[]>(Array),
+		},
+		/** @description 隐藏图片 */
+		hideImage: Boolean,
+		/** @description 复制 */
+		copy: Boolean,
+		/** @description 是否为 Link Button */
+		link: Boolean,
+		/** @description 合并行字段 */
+		spanProp: String,
+		/** @description Link 按钮的点击事件，优先级最高 */
+		click: {
+			type: definePropType<({ row, $index }: { row: DefaultRow; $index?: number } & FaTableDefaultSlotsResult) => void>(Function),
+		},
+		/** @description 点击Emits事件回调 */
+		clickEmit: String,
+		/** @description 图片列是否显示为原图，默认 false 显示缩略图 */
+		originalImage: Boolean,
+		/** @description 显示时间格式化字符串 */
+		dateFix: Boolean,
+		/** @description 显示在页面中的日期格式 */
+		dateFormat: {
+			type: definePropType<FaTableColumnDateFormat>(String),
+		},
+		/** @description 是否是标签展示 */
+		tag: Boolean,
+		/** @description 枚举类型（渲染值的字典） */
+		enum: {
+			type: definePropType<FaTableEnumColumnType>([String, Array, Function]),
+		},
+		/** @description 数据删除字段，如果为 true 会显示遮罩层 */
+		dataDeleteField: String,
+		/** @description 时间信息字段 */
+		timeInfoField: {
+			type: definePropType<{ userName?: string; time?: string }>(Object),
+			default: () => ({
+				userName: "createdUserName",
+				time: "createdTime",
+			}),
+		},
+	},
+	emits: {
+		/** @description 图片预览 */
+		imagePreview: (url: string): boolean => isString(url),
+		/** @description 自定义单元格点击事件 */
+		customCellClick: (emitName: string, { row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }): boolean =>
+			(isNil(emitName) || isString(emitName)) && isObject(row) && isObject(column) && isNumber($index),
+	},
+	slots: makeSlots<FaTableColumnSlots>(),
+	setup(props, { slots, emit }) {
+		const _globalSize = useGlobalSize();
+		const tableState = inject(tableStateKey);
+		const enumMap = inject(enumMapKey);
+		if (tableState === undefined || enumMap === undefined) {
+			throw new Error("FaTableColumn 必须在 FaTable 内部渲染。");
+		}
+
+		const columnCtx = computed(() => props as unknown as FaTableColumnCtx);
+
+		/** 获取ClassName */
+		const getClassName = (): string => {
+			let className = "";
+			if (props.type === "timeInfo") {
+				className += "fa-table__line-height-normal-column";
+			}
+			if (props.type === "date" || props.type === "time" || props.type === "dateTime") {
+				if (props.dateFix) {
+					className += "fa-table__line-height-normal-column";
+				}
+			}
+			if (props.className) {
+				return `${className} ${props.className}`;
+			}
+			return className;
+		};
+
+		/** 获取宽度 */
+		const getWidth = (defAttr: string): string | number => {
+			if (props.autoWidth) {
+				return computed(() => {
+					const findInfo = tableState.autoColumnWidth.find((f) => f.prop === props.prop);
+					if (findInfo) {
+						return `${findInfo.width}px`;
+					}
+					return "auto";
+				}).value;
+			}
+			if (_globalSize.value === "small") {
+				return props.smallWidth ?? props.width ?? props.minWidth ?? defAttr ?? "auto";
+			}
+			return props.width ?? props.minWidth ?? defAttr ?? "auto";
+		};
+
+		/** 表头自动宽度渲染 */
+		const autoWidthHeaderRender = (el: VNode[]): VNode[] => {
+			if (props.autoWidth) {
+				return [
+					<div class={["fa-table__auto-width-column__cell-header", `__fa-table__auto-width-column__cell-header__${props.prop}`]}>{el}</div>,
+				];
+			} else {
+				return el;
+			}
+		};
+
+		/** 自动宽度渲染 */
+		const autoWidthRender = (el: VNode[]): VNode[] => {
+			if (props.autoWidth) {
+				return [<div class={["fa-table__auto-width-column__cell", `__fa-table__auto-width-column__cell__${props.prop}`]}>{el}</div>];
+			} else {
+				return el;
+			}
+		};
+
+		/** 表头渲染 */
+		const headerRender = ({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number }): VNode[] => {
+			if (props.headerRender) {
+				return autoWidthHeaderRender(props.headerRender({ column, $index, ...getTableDefaultSlots(tableState) }));
+			} else if (props.headerSlot) {
+				return autoWidthHeaderRender(slots[props.headerSlot]?.({ column, $index, ...getTableDefaultSlots(tableState) }) ?? []);
+			} else {
+				return autoWidthHeaderRender([<span>{props.label}</span>]);
+			}
+		};
+
+		/** 复制渲染 */
+		const displayText = (value: unknown): string => {
+			if (typeof value === "string") return value;
+			if (typeof value === "number" || typeof value === "bigint" || typeof value === "boolean") return String(value);
+			return "";
+		};
+
+		const copyRender = (value: unknown, copy?: boolean): VNode[] => {
+			if (!(props.copy || copy) || !value) return [];
+
+			return [
+				<ElIcon
+					class="fa__copy-icon"
+					title="复制"
+					onClick={() => {
+						void copyToClipboard(displayText(value)).then(
+							() => {
+								ElMessage({
+									type: "success",
+									message: "复制成功",
+								});
+							},
+							() => {
+								ElMessage({
+									type: "error",
+									message: "复制失败",
+								});
+							}
+						);
+					}}
+				>
+					<CopyDocument />
+				</ElIcon>,
+			];
+		};
+
+		/** 渲染单元格数据 */
+		const renderCellData = ({ row }: { row: DefaultRow }): unknown => {
+			const cellValue = tableUtil.handleRowAccordingToProp(row, props.prop ?? "");
+
+			let enumData: FaTableEnumColumnCtx[] | undefined;
+
+			if (isString(props.enum)) {
+				enumData = enumMap.get(props.enum);
+			} else if (isArray(props.enum)) {
+				enumData = props.enum;
+			} else if (isFunction(props.enum)) {
+				enumData = props.enum({ row });
+			}
+
+			if (enumData) {
+				return tableUtil.filterEnum(cellValue, enumData);
+			} else {
+				return tableUtil.formatValue(cellValue);
+			}
+		};
+
+		/** 格式化渲染 */
+		const formatterRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cellValue: unknown, index: number): VNode | string => {
+			if (column.formatter) {
+				return column.formatter(row, column, cellValue, index);
+			} else {
+				return displayText(cellValue);
+			}
+		};
+
+		/** 时间信息列渲染 */
+		const timeInfoRender = (row: DefaultRow, _column: TableColumnCtx<DefaultRow>, _$index: number): VNode[] => {
+			const userName = displayText(row[props.timeInfoField?.userName ?? "createdUserName"]);
+			const time = displayText(row[props.timeInfoField?.time ?? "createdTime"]);
+			return [
+				<Fragment>
+					<div style="white-space: nowrap; overflow: hidden; text-overflow:  ellipsis;" title={time}>
+						{userName && <span style="margin-right: 5px;">{userName}</span>}
+						<span>{time}</span>
+					</div>
+					{time && (
+						<ElTag type="info" round effect="light" size="small">
+							{formatChineseRelativeTime(time)}
+						</ElTag>
+					)}
+				</Fragment>,
+			];
+		};
+
+		/** 标签列渲染 */
+		const tagRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+			const renderValue = formatterRender(row, column, renderCellData({ row }), $index);
+
+			let enumData: FaTableEnumColumnCtx[] | undefined;
+
+			if (isString(props.enum)) {
+				enumData = enumMap.get(props.enum);
+			} else if (isArray(props.enum)) {
+				enumData = props.enum;
+			} else if (isFunction(props.enum)) {
+				enumData = props.enum({ row });
+			}
+
+			const enumValue = tableUtil.handleRowAccordingToProp(row, props.prop ?? "");
+			const type = enumData?.find((item) => item.value === enumValue)?.type ?? "info";
+			return [
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue ? <ElTag type={type}>{renderValue}</ElTag> : null}
+				</Fragment>,
+			];
+		};
+
+		/** 时间列渲染 */
+		const dateRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+			let dateFormat;
+			switch (props.type) {
+				case "date":
+					dateFormat = "YYYY-MM-DD";
+					break;
+				case "time":
+					dateFormat = "HH:mm:ss";
+					break;
+				case "dateTime":
+					dateFormat = "YYYY-MM-DD HH:mm:ss";
+					break;
+			}
+			const rawValue = row[props.prop ?? ""];
+			const renderValue = rawValue
+				? formatterRender(row, column, dayjs(displayText(rawValue)).format(props.dateFormat ?? dateFormat), $index)
+				: null;
+			return [
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue}
+					{props.dateFix && renderValue && (
+						<Fragment>
+							<br />
+							<ElTag type="info" round effect="light" size="small">
+								{formatChineseRelativeTime(displayText(renderValue))}
+							</ElTag>
+						</Fragment>
+					)}
+				</Fragment>,
+			];
+		};
+
+		/** 数值列渲染 */
+		const numberRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+			const renderValue = row[props.prop ?? ""];
+			if (!renderValue || !isNumber(renderValue)) {
+				return [<Fragment>{formatterRender(row, column, renderValue, $index)}</Fragment>];
+			}
+			let useGrouping = false;
+			let maximumFractionDigits = 2;
+			switch (props.type) {
+				case "d2":
+					maximumFractionDigits = 2;
+					break;
+				case "d4":
+					maximumFractionDigits = 4;
+					break;
+				case "d6":
+					maximumFractionDigits = 6;
+					break;
+				case "gd2":
+					maximumFractionDigits = 2;
+					useGrouping = true;
+					break;
+				case "gd4":
+					maximumFractionDigits = 4;
+					useGrouping = true;
+					break;
+				case "gd6":
+					maximumFractionDigits = 6;
+					useGrouping = true;
+					break;
+			}
+
+			return [
+				<Fragment>
+					{formatterRender(
+						row,
+						column,
+						renderValue.toLocaleString("zh-CN", {
+							minimumFractionDigits: 2,
+							maximumFractionDigits,
+							useGrouping,
+						}),
+						$index
+					)}
+				</Fragment>,
+			];
+		};
+
+		/** 链接列渲染 */
+		const linkRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+			const renderValue = formatterRender(row, column, row[props.prop ?? ""], $index);
+			return autoWidthRender([
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue && (
+						<ElText
+							class={"el-link is-hover-underline fa-table__link-column__text"}
+							onClick={() => {
+								// 数据删除拦截点击
+								if (props.dataDeleteField && row[props.dataDeleteField] === true) return;
+								if (props.click) {
+									props.click({ row, $index, ...getTableDefaultSlots(tableState) });
+								} else {
+									emit("customCellClick", props.clickEmit ?? "", {
+										row,
+										column: columnCtx.value,
+										$index,
+									});
+								}
+							}}
+						>
+							{renderValue}
+						</ElText>
+					)}
+				</Fragment>,
+			]);
+		};
+
+		const defaultRender = ({ row, column, $index }: { row: DefaultRow; column: TableColumnCtx<DefaultRow>; $index: number }): VNode[] => {
+			if (props.type === "timeInfo") {
+				return timeInfoRender(row, column, $index);
+			}
+			if (props.tag) {
+				return tagRender(row, column, $index);
+			}
+			if (props.type === "date" || props.type === "time" || props.type === "dateTime") {
+				return dateRender(row, column, $index);
+			}
+			if (
+				props.type === "d2" ||
+				props.type === "d4" ||
+				props.type === "d6" ||
+				props.type === "gd2" ||
+				props.type === "gd4" ||
+				props.type === "gd6"
+			) {
+				return numberRender(row, column, $index);
+			}
+			if (props.link) {
+				return linkRender(row, column, $index);
+			}
+			if (props.render) {
+				return autoWidthRender(props.render({ row, column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) }));
+			}
+			if (props.slot) {
+				return autoWidthRender(slots[props.slot]?.({ row, column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) }) ?? []);
+			}
+			const renderValue = formatterRender(row, column, row[props.prop ?? ""], $index);
+			return autoWidthRender([
+				<Fragment>
+					{copyRender(renderValue)}
+					{renderValue}
+				</Fragment>,
+			]);
+		};
+
+		let elTableColumnProps: ComputedRef<TableColumnCtx<DefaultRow>> = useProps(props, tableColumnProps, [
+			"type",
+			"width",
+			"minWidth",
+			"sortable",
+			"sortOrders",
+			"resizable",
+			"showOverflowTooltip",
+		]) as unknown as ComputedRef<TableColumnCtx<DefaultRow>>;
+
+		watch(
+			() => props,
+			() => {
+				elTableColumnProps = useProps(props, tableColumnProps, [
+					"type",
+					"className",
+					"minWidth",
+					"sortable",
+					"sortOrders",
+					"resizable",
+					"showOverflowTooltip",
+				]) as unknown as ComputedRef<TableColumnCtx<DefaultRow>>;
+			}
+		);
+
+		useRender(() => (
+			<Fragment>
+				{
+					// 如果有配置多级表头的数据，则递归该组件
+					props._children?.length ? (
+						<ElTableColumn
+							{...elTableColumnProps.value}
+							className={getClassName()}
+							minWidth={getWidth("auto")}
+							sortable={props.sortable ? "custom" : false}
+							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}
+							resizable={props.resizable && !props.autoWidth}
+							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && props.type === "default"}
+						>
+							{{
+								header: ({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number }) =>
+									headerRender({ column, $index }),
+								default: () =>
+									(props._children ?? []).map((col: FaTableColumnCtx) =>
+										h(
+											resolveComponent("FaTableColumn"),
+											{
+												...col,
+											},
+											slots
+										)
+									),
+							}}
+						</ElTableColumn>
+					) : props.type === "image" ? (
+						<ElTableColumn
+							{...elTableColumnProps.value}
+							align="center"
+							className="fa-table__image-column"
+							minWidth="50px"
+							sortable={false}
+							resizable={false}
+							showOverflowTooltip={false}
+						>
+							{{
+								header: ({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number }) =>
+									headerRender({ column, $index }),
+								default: ({ row }: { row: DefaultRow; column: TableColumnCtx<DefaultRow>; $index: number }) =>
+									row[props.prop ?? ""] ? (
+										props.hideImage ? (
+											<ElImage
+												class="fa-image"
+												lazy
+												src={artwork}
+												fit="cover"
+												previewSrcList={[displayText(row[props.prop ?? ""])]}
+												closeOnPressEscape
+												hideOnClickModal
+												previewTeleported
+											/>
+										) : (
+											<FaImage lazy src={displayText(row[props.prop ?? ""])} fit="cover" original={props.originalImage} thumb />
+										)
+									) : (
+										<ElImage class="fa-image" lazy src={notImage} fit="cover" />
+									),
+							}}
+						</ElTableColumn>
+					) : (
+						// 其他正常的列
+						<ElTableColumn
+							{...elTableColumnProps.value}
+							type={props.type === "selection" || props.type === "index" || props.type === "expand" ? props.type : "default"}
+							className={getClassName()}
+							minWidth={getWidth("auto")}
+							sortable={props.sortable ? "custom" : false}
+							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}
+							resizable={props.resizable && !props.autoWidth}
+							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && props.type === "default"}
+						>
+							{{
+								header: ({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number }) =>
+									slots.header
+										? slots.header({ column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) })
+										: headerRender({ column, $index }),
+								default: ({ row, column, $index }: { row: DefaultRow; column: TableColumnCtx<DefaultRow>; $index: number }) =>
+									slots.default
+										? slots.default({ row, column: columnCtx.value, $index, ...getTableDefaultSlots(tableState) })
+										: defaultRender({ row, column, $index }),
+								filterIcon: ({ filterOpened }: { filterOpened: boolean }) =>
+									slots.filterIcon?.({ filterOpened, ...getTableDefaultSlots(tableState) }),
+								expand: ({ expanded }: { expanded: boolean }) => slots.expand?.({ expanded, ...getTableDefaultSlots(tableState) }),
+							}}
+						</ElTableColumn>
+					)
+				}
+			</Fragment>
+		));
+	},
+});

@@ -1,2 +1,0 @@
-import r,{faTreeEmits as t,faTreeProps as e}from"./src/tree.mjs";import"./src/tree.type.mjs";import{withInstall as m}from"@fast-china/utils";var s=m(r);export{s as default};
-//# sourceMappingURL=index.mjs.map
