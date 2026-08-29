@@ -4,10 +4,10 @@ import { ArrowDown, CircleClose } from "@element-plus/icons-vue";
 import { ElSelectV2, tagProps, useAriaProps, useEmptyValuesProps, useGlobalSize, useSizeProp, useTooltipContentProps } from "element-plus";
 import { isArray, isBoolean, isEqual, isNil, isNull, isNumber, isObject, isString } from "lodash-unified";
 import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
+import type { SelectV2Props as ElementPlusSelectV2Props, Options, Placement, ScrollbarDirection } from "element-plus";
+import type { Component, PropType, VNode } from "vue";
 import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "../../select/src/select.type";
 import type { PagedInput, PagedResult } from "../../table";
-import type { SelectV2Props as ElementPlusSelectV2Props, Options, Placement } from "element-plus";
-import type { Component, PropType, VNode } from "vue";
 
 /** 传递给底层 Element Plus 虚拟化选择器的扩展 Props。 */
 export interface Props {
@@ -165,14 +165,7 @@ export const SelectV2Props = {
 	 * @description data of the options, the key of `value` and `label` can be customize by `props`
 	 */
 	options: {
-		type: definePropType<
-			(
-				| Record<string, unknown>
-				| (Record<string, unknown> & {
-						created?: boolean;
-				  })
-			)[]
-		>(Array),
+		type: definePropType<ElementPlusSelectV2Props["options"]>(Array),
 		// required: true,
 	},
 	/**
@@ -319,8 +312,8 @@ export const SelectV2Props = {
 export const selectV2Emits = {
 	"update:modelValue": (_value: ElSelectorModelValue): boolean => true,
 	change: (_value: ElSelectorModelValue): boolean => true,
-	"end-reached": (_direction: unknown): boolean => true,
-	"remove-tag": (_value: unknown): boolean => true,
+	"end-reached": (_direction: ScrollbarDirection): boolean => true,
+	"remove-tag": (_value: ElSelectorValue): boolean => true,
 	"visible-change": (_visible: boolean): boolean => true,
 	focus: (_event: FocusEvent): boolean => true,
 	blur: (_event: FocusEvent): boolean => true,
@@ -390,12 +383,10 @@ export const faSelectV2Props = {
 	pageResult: Boolean,
 	/** @description 请求api */
 	requestApi: {
-		type: definePropType<((params?: unknown) => Promise<ElSelectorOutput[]>) | ((params?: PagedInput) => Promise<PagedResult<ElSelectorOutput>>)>(
-			Function
-		),
+		type: definePropType<(params?: string | number | PagedInput) => Promise<ElSelectorOutput[] | PagedResult<ElSelectorOutput>>>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<unknown>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 };
 
 /** FaSelectV2 的运行时 Emits 定义。 */
@@ -409,7 +400,7 @@ export const faSelectV2Emits = {
 	/** @description 数据改变 */
 	dataChangeCallBack: (data: ElSelectorOutput[]): boolean => isArray(data),
 	/** @description 改变 */
-	change: (_data: unknown, _value?: ElSelectorModelValue): boolean => true,
+	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
 };
 
 /** FaSelectV2 的插槽参数。 */

@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import Upload, { faUploadEmits, faUploadProps } from "./src/upload";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 统一上传校验、进度和文件列表处理的上传组件。 */
 export const FaUpload: TSXWithInstall<typeof Upload> = withInstall(Upload);

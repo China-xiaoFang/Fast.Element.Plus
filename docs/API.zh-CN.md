@@ -49,7 +49,9 @@ Element Plus 次版本升级必须执行 [兼容性与升级核对](./ELEMENT_PL
 | 选择器       | `SelectV2Props`                                                                                                                                                                                                                                                                                                                                                | FaSelectV2 可复用的 Props 类型和值定义      |
 | 车牌         | `CarNumberArea`、`CarNumberDigit`、`CarNumberLetter`                                                                                                                                                                                                                                                                                                           | 车牌地区、数字和字母键盘数据                |
 
-公开类型包括各组件的 `Props`、`Emits`、`Slots`、`Instance`、`Exposes`，以及 `ElSelectorValue`、`ElSelectorModelValue`、`ElSelectorOutput`、`ElTreeValue`、`ElTreeOutput`、`FaLayoutGridBreakPoint`、`FaTableColumnCtx`、`FaTableSearchColumnCtx`、`PagedInput`、`PagedResult` 等业务数据类型。精确字段、泛型和可空性以根入口生成的 TypeScript 声明为准。
+公开类型包括各组件的 `Props`、`Emits`、`Slots`、`Instance`、`Exposes`，以及 `DefaultRow`、`ElSelectorValue`、`ElSelectorModelValue`、`ElSelectorOutput`、`ElTreeValue`、`ElTreeOutput`、`FaLayoutGridBreakPoint`、`FaTableColumnCtx`、`FaTableSearchColumnCtx`、`PagedInput`、`PagedResult` 等业务数据类型。精确字段、泛型和可空性以根入口生成的 TypeScript 声明为准。
+
+SDK 无法预知结构的业务数据默认使用 `any`。已知模型可通过 `PagedResult<Output>`、`ElSelectorOutput<Value, Data>` 和 `ElTreeOutput<Value, Data>` 显式约束；未经验证的运行时输入、错误对象、反射结果和必须先收窄的值继续使用 `unknown`。
 
 ## 指令
 

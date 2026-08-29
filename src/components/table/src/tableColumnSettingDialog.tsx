@@ -4,10 +4,10 @@ import Sortable from "sortablejs";
 import { definePropType, randomString, useExpose, useRender, withDefineType } from "../../../utils";
 import { FaDialog } from "../../dialog";
 import { tableStateKey } from "./useTable";
-import type { FaTableColumnCtx } from "./table.type";
-import type { FaDialogInstance } from "../../dialog";
 import type { TableColumnCtx } from "element-plus";
 import type { SortableEvent } from "sortablejs";
+import type { FaDialogInstance } from "../../dialog";
+import type { FaTableColumnCtx } from "./table.type";
 
 export default defineComponent({
 	name: "FaTableColumnsSettingDialog",

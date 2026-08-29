@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import SelectPage, { faSelectPageEmits, faSelectPageProps } from "./src/selectPage";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 支持分页数据源和远程检索的选择器组件。 */
 export const FaSelectPage: TSXWithInstall<typeof SelectPage> = withInstall(SelectPage);

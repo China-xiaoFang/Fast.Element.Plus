@@ -1,5 +1,6 @@
 import { isArray, isFunction, isString } from "lodash-unified";
 import type { PagedSortInput } from "../src/page.type";
+import type { DefaultRow } from "../src/table.state";
 import type { FaTableColumnCtx, FaTableEnumColumnCtx, FaTableEnumColumnType } from "../src/table.type";
 
 /**
@@ -20,7 +21,7 @@ export const tableUtil = {
 	 * @param {Object} row 当前行数据
 	 * @param {String} prop 当前 prop
 	 */
-	handleRowAccordingToProp(row: Record<string, unknown>, prop: string): unknown {
+	handleRowAccordingToProp(row: DefaultRow, prop: string): unknown {
 		let value: unknown = row;
 		for (const item of prop.split(".")) {
 			if (typeof value !== "object" || value === null) return undefined;
@@ -49,17 +50,17 @@ export const tableUtil = {
 		const label = fieldNames?.label ?? "label";
 		let filterData: FaTableEnumColumnCtx | undefined;
 		if (isArray(enumData)) {
-			filterData = enumData.find((item) => (item as unknown as Record<string, unknown>)[value] === callValue);
+			filterData = enumData.find((item) => item[value] === callValue);
 		}
 		if (type === "tag") {
 			return filterData?.type ?? "info";
 		}
-		return filterData ? (filterData as unknown as Record<string, unknown>)[label] : null;
+		return filterData ? filterData[label] : null;
 	},
 	/**
 	 * 数组动态排序
 	 */
-	arrayDynamicSort(sortList: PagedSortInput[]): (a: Record<string, unknown>, b: Record<string, unknown>) => number {
+	arrayDynamicSort(sortList: PagedSortInput[]): (a: DefaultRow, b: DefaultRow) => number {
 		return (a, b) => {
 			if (sortList && sortList.length > 0) {
 				for (const condition of sortList) {
@@ -67,8 +68,8 @@ export const tableUtil = {
 					const order = condition.mode;
 					if (!property) continue;
 
-					const aValue = a[property];
-					const bValue = b[property];
+					const aValue: unknown = a[property];
+					const bValue: unknown = b[property];
 
 					if (typeof aValue === "string" && typeof bValue === "string") {
 						if (order === "ascending") {

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useTemplateRef } from "vue";
 import { ElMessage } from "element-plus";
 
 interface ContextMenuExpose {
 	open: (axis: { x: number; y: number }) => void;
 }
 
-const menuRef = ref<ContextMenuExpose>();
+const menuRef = useTemplateRef<ContextMenuExpose>("menuRef");
 const data = [
 	{
 		name: "refresh",

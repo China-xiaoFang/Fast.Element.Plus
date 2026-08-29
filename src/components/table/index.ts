@@ -5,8 +5,8 @@ import TableColumnsSettingDialog from "./src/tableColumnSettingDialog";
 import TablePagination from "./src/tablePagination";
 import TableSearchForm from "./src/tableSearchForm";
 import TableSearchFormItem from "./src/tableSearchFormItem";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 集成查询、分页、列配置和枚举映射的业务表格组件。 */
 export const FaTable: TSXWithInstall<typeof Table> & {

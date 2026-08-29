@@ -1,20 +1,9 @@
 import FastElementPlus, {
 	FaButton,
-	type FaButtonInstance,
 	FaDialog,
-	type FaDialogInstance,
-	type FaDialogSlots,
-	type FaFormInstance,
-	type FaImageInstance,
-	type FaImageSlots,
-	type FaSelectV2Instance,
 	FaTable,
 	FaTableColumn,
-	type FaTableInstance,
 	FaTree,
-	type FaTreeInstance,
-	type FaTreeSelectInstance,
-	type FaUploadSlots,
 	install,
 	useLoading,
 	useOverlay,
@@ -23,10 +12,70 @@ import FastElementPlus, {
 } from "fast-element-plus";
 import "fast-element-plus/global";
 import type { App, Plugin } from "vue";
+import type {
+	DefaultRow,
+	ElSelectorOutput,
+	ElTreeOutput,
+	FaButtonInstance,
+	FaContextMenuData,
+	FaDialogInstance,
+	FaDialogSlots,
+	FaFormInstance,
+	FaImageInstance,
+	FaImageSlots,
+	FaInputDialogPageProps,
+	FaSelectPageProps,
+	FaSelectProps,
+	FaSelectV2Instance,
+	FaSelectV2Props,
+	FaTableInstance,
+	FaTableProps,
+	FaTreeInstance,
+	FaTreeProps,
+	FaTreeSelectInstance,
+	FaTreeSelectProps,
+	FaUploadSlots,
+	PagedInput,
+	PagedResult,
+} from "fast-element-plus";
 
 const plugin: Plugin = FastElementPlus;
 const installPlugin: (app: App) => void = install;
 const currentVersion: string = version;
+
+type IsAny<Value> = 0 extends 1 & Value ? true : false;
+type IsEqual<Left, Right> = (<Value>() => Value extends Left ? 1 : 2) extends <Value>() => Value extends Right ? 1 : 2 ? true : false;
+type AssertTrue<Value extends true> = Value;
+type InitParam = string | number | PagedInput;
+
+/** 匿名业务数据的默认类型应允许调用方直接使用，同时保留显式泛型能力。 */
+export type AnonymousBusinessDataChecks = [
+	AssertTrue<IsAny<DefaultRow[string]>>,
+	AssertTrue<IsAny<PagedInput[string]>>,
+	AssertTrue<IsAny<NonNullable<PagedResult["rows"]>[number][string]>>,
+	AssertTrue<IsAny<ElSelectorOutput[string]>>,
+	AssertTrue<IsAny<ElTreeOutput[string]>>,
+	AssertTrue<IsAny<FaContextMenuData["data"]>>,
+];
+
+/** 初始化参数必须与运行时 String、Number、Object 声明保持一致。 */
+export type InitParamChecks = [
+	AssertTrue<IsEqual<NonNullable<FaInputDialogPageProps["initParam"]>, InitParam>>,
+	AssertTrue<IsEqual<NonNullable<FaSelectProps["initParam"]>, InitParam>>,
+	AssertTrue<IsEqual<NonNullable<FaSelectPageProps["initParam"]>, InitParam>>,
+	AssertTrue<IsEqual<NonNullable<FaSelectV2Props["initParam"]>, InitParam>>,
+	AssertTrue<IsEqual<NonNullable<FaTableProps["initParam"]>, InitParam>>,
+	AssertTrue<IsEqual<NonNullable<FaTreeProps["initParam"]>, InitParam>>,
+	AssertTrue<IsEqual<NonNullable<FaTreeSelectProps["initParam"]>, InitParam>>,
+];
+
+interface TypedOptionData {
+	id: number;
+}
+
+const typedOptionData: TypedOptionData | undefined = ({} as ElSelectorOutput<string, TypedOptionData>).data;
+const selectV2ListRequest: NonNullable<FaSelectV2Props["requestApi"]> = (_params?: string | number | PagedInput) => Promise.resolve([]);
+const selectV2PagedRequest: NonNullable<FaSelectV2Props["requestApi"]> = (_params?: string | number | PagedInput) => Promise.resolve({ rows: [] });
 
 const button = FaButton;
 const dialog = FaDialog;
@@ -53,6 +102,8 @@ const uploadSlots = {} as FaUploadSlots;
 void formInstance.getField;
 void formInstance.setInitialValues;
 void imageInstance.showPreview;
+void selectV2ListRequest;
+void selectV2PagedRequest;
 void selectV2Instance.scrollTo;
 void tableInstance.getHalfSelectionRows;
 void treeInstance.getNodeKey;
@@ -73,4 +124,17 @@ void useLoading.show;
 void useOverlay.hide;
 void vCopy;
 
-export { button, buttonInstance, currentVersion, dialog, dialogInstance, installPlugin, plugin, table, tableColumn, tableInstance, tree };
+export {
+	button,
+	buttonInstance,
+	currentVersion,
+	dialog,
+	dialogInstance,
+	installPlugin,
+	plugin,
+	table,
+	tableColumn,
+	tableInstance,
+	tree,
+	typedOptionData,
+};

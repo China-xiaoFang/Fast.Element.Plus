@@ -95,6 +95,8 @@ useOverlay.show();
 
 包根入口是唯一 JavaScript API 入口；`fast-element-plus/global` 提供 Vue 全局声明，`fast-element-plus/style.css` 提供组件样式。`dist/` 下的其他文件均为实现细节。
 
+业务行、分页扩展字段、选择器与树节点附加数据、请求参数和动态配置在 SDK 无法预知应用模型时使用 `any`，已知模型可通过公开泛型约束；未经验证的运行时输入、错误对象和必须先收窄的值继续使用 `unknown`。`DefaultRow` 是 FaTable 默认公开行类型，可直接用于未预先定义字段的业务表格。
+
 ## CDN
 
 `unpkg` 和 `jsdelivr` 字段都指向 `dist/index.global.min.js`。页面先加载 Vue、Element Plus、Element Plus Icons 和 Fast.Element.Plus.Icons，再通过 `globalThis.FastElementPlus` 访问组件库。样式需单独加载 `dist/index.css`。

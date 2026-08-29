@@ -1,8 +1,8 @@
 import { withInstall } from "../../utils";
 import Icon from "./src/icon";
-import type { faIconProps } from "./src/icon";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
+import type { faIconProps } from "./src/icon";
 
 /** 按名称或组件渲染图标的统一图标组件。 */
 export const FaIcon: TSXWithInstall<typeof Icon> = withInstall(Icon);

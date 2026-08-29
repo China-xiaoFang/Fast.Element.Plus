@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 
 interface UploadExpose {
 	clearFiles?: () => void;
 	submit?: () => void;
 }
 
-const uploadRef = ref<UploadExpose>();
+const uploadRef = useTemplateRef<UploadExpose>("uploadRef");
 const fileUrl = ref<string | null>(null);
 const uploadApi = async (formData: FormData): Promise<string> => {
 	await new Promise<void>((resolve) => window.setTimeout(resolve, 350));

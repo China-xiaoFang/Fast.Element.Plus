@@ -1,15 +1,16 @@
 import { computed, nextTick, provide, reactive, ref, watch } from "vue";
 import { dayjs, useGlobalSize } from "element-plus";
 import { isArray, isFunction } from "lodash-unified";
-import { callOptionalFunction, debounce, type makeSlots } from "../../../utils";
+import { callOptionalFunction, debounce } from "../../../utils";
 import { tableUtil } from "../utils/table";
 import { getTableDefaultSlots } from "./table.type";
-import type { PagedInput, PagedResult } from "./page.type";
-import type { FaTableSlots, faTableEmits, faTableProps } from "./table";
-import type { FaTableRow, FaTableState } from "./table.state";
-import type { FaTableColumnCtx, FaTableEnumColumnCtx } from "./table.type";
 import type { TableInstance } from "element-plus";
 import type { ExtractPropTypes, InjectionKey, Ref, SetupContext } from "vue";
+import type { makeSlots } from "../../../utils";
+import type { PagedInput, PagedResult } from "./page.type";
+import type { FaTableSlots, faTableEmits, faTableProps } from "./table";
+import type { DefaultRow, FaTableState } from "./table.state";
+import type { FaTableColumnCtx, FaTableEnumColumnCtx } from "./table.type";
 
 /** FaTable 状态的依赖注入键。 */
 export const tableStateKey: InjectionKey<FaTableState> = Symbol("tableState");
@@ -33,7 +34,7 @@ interface TableComposable {
 	tableReset: () => Promise<void>;
 	doRender: () => Promise<void>;
 	doLoading: (loadingFunction: () => void | Promise<void>, loadingText?: string) => void;
-	handleCustomCellClick: (emitName: string, context: { row: FaTableRow; column: FaTableColumnCtx; $index: number }) => void;
+	handleCustomCellClick: (emitName: string, context: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) => void;
 }
 
 /**
@@ -123,7 +124,7 @@ export const useTable = (
 		selectedList: [],
 		selectedListIds: computed(() =>
 			state.selectedList.flatMap((item) => {
-				const rowKey = isFunction(props.rowKey) ? props.rowKey(item) : tableUtil.handleRowAccordingToProp(item, props.rowKey);
+				const rowKey: unknown = isFunction(props.rowKey) ? props.rowKey(item) : tableUtil.handleRowAccordingToProp(item, props.rowKey);
 				return typeof rowKey === "string" || typeof rowKey === "number" ? [rowKey] : [];
 			})
 		),
@@ -207,11 +208,11 @@ export const useTable = (
 		state.loading = false;
 	};
 
-	const handleTableData = (data: FaTableRow[]): FaTableRow[] => {
+	const handleTableData = (data: DefaultRow[]): DefaultRow[] => {
 		if (props.treeData) {
-			const result: FaTableRow[] = [];
+			const result: DefaultRow[] = [];
 			data.forEach((row) => {
-				const rowList = row[props.props.children ?? "children"];
+				const rowList: unknown = row[props.props.children ?? "children"];
 				if (isArray(rowList)) {
 					// 如果 rowList 是数组，遍历并合并每个子项
 					const childRows: unknown[] = rowList;
@@ -242,7 +243,7 @@ export const useTable = (
 		if (props.requestApi) {
 			const params = getRequestParam();
 			emit("refresh", params);
-			let pageData: FaTableRow[];
+			let pageData: DefaultRow[];
 			try {
 				const resData = await props.requestApi(params);
 				if (currentRequestVersion !== requestVersion) return;
@@ -263,7 +264,7 @@ export const useTable = (
 						});
 					}
 				} else {
-					pageData = resData as FaTableRow[];
+					pageData = resData as DefaultRow[];
 					// 更新分页信息
 					Object.assign(state.tablePagination, {
 						pageIndex: 1,
@@ -286,7 +287,7 @@ export const useTable = (
 				const searchValue = state.searchParam.searchValue;
 				if (typeof searchValue !== "string" || searchValue.length === 0) return true;
 				return state.tableColumns.some((col) => {
-					const value = tableUtil.handleRowAccordingToProp(f, col.prop ?? "");
+					const value: unknown = tableUtil.handleRowAccordingToProp(f, col.prop ?? "");
 					const text =
 						typeof value === "string" || typeof value === "number" || typeof value === "bigint" || typeof value === "boolean"
 							? String(value)
@@ -488,7 +489,7 @@ export const useTable = (
 
 	const handleCustomCellClick = (
 		emitName: string,
-		{ row, column, $index }: { row: FaTableRow; column: FaTableColumnCtx; $index: number }
+		{ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }
 	): void => {
 		emit("customCellClick", emitName, { row, column, $index, ...getTableDefaultSlots(state) });
 	};

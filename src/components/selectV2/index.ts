@@ -1,8 +1,8 @@
 import { withInstall } from "../../utils";
 import SelectV2, { SelectV2Props, faSelectV2Props } from "./src/selectV2";
-import type { faSelectV2Emits } from "./src/selectV2";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
+import type { faSelectV2Emits } from "./src/selectV2";
 
 /** 面向大数据量选项并支持远程分页的虚拟化选择器组件。 */
 export const FaSelectV2: TSXWithInstall<typeof SelectV2> = withInstall(SelectV2);

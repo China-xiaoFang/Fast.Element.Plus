@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useTemplateRef } from "vue";
 import { ElMessage } from "element-plus";
 
 interface TableExpose {
@@ -8,9 +8,9 @@ interface TableExpose {
 	reset: () => Promise<void>;
 }
 
-const tableRef = ref<TableExpose>();
+const tableRef = useTemplateRef<TableExpose>("tableRef");
 const rows = [
-	{ id: 1, name: "Fast.Element.Plus", version: "2.0.1" },
+	{ id: 1, name: "Fast.Element.Plus", version: "2.0.2" },
 	{ id: 2, name: "Fast.NET", version: "5.x" },
 ];
 </script>

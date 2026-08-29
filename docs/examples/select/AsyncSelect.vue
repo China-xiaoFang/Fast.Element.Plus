@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 
 interface SelectExpose {
 	loading: boolean;
 	refresh: () => Promise<void>;
 }
 
-const selectRef = ref<SelectExpose>();
+const selectRef = useTemplateRef<SelectExpose>("selectRef");
 const value = ref<number | null>(null);
 let loadCount = 0;
 

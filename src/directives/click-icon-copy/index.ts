@@ -3,10 +3,11 @@
  * 左侧插入复制图标，复制某个值至剪贴板
  * 接收参数：string类型/Ref<string>类型/Reactive<string>类型
  */
-import { type Directive, type DirectiveBinding, h, render } from "vue";
+import { h, render } from "vue";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { ElIcon, ElMessage } from "element-plus";
 import { copy as copyToClipboard, withInstallDirective } from "../../utils";
+import type { Directive, DirectiveBinding } from "vue";
 
 interface IconCopyElement extends HTMLElement {
 	copyData: string | number;

@@ -4,8 +4,9 @@ import { ElSelect, selectEmits, selectProps, useGlobalSize } from "element-plus"
 import { isArray, isBoolean, isEqual, isNil, isNull, isNumber, isObject, isString } from "lodash-unified";
 import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import FaSelectOption from "./selectOption";
-import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "./select.type";
 import type { VNode } from "vue";
+import type { PagedInput } from "../../table";
+import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "./select.type";
 
 /** 传递给底层 Element Plus 选择器的扩展 Props。 */
 export interface SelectComponentProps {
@@ -90,10 +91,10 @@ export const faSelectProps = {
 	},
 	/** @description 请求api */
 	requestApi: {
-		type: definePropType<(params?: unknown) => Promise<ElSelectorOutput[]>>(Function),
+		type: definePropType<(params?: string | number | PagedInput) => Promise<ElSelectorOutput[]>>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<unknown>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 };
 
 /** FaSelect 的运行时 Emits 定义。 */
@@ -107,7 +108,7 @@ export const faSelectEmits = {
 	/** @description 数据改变 */
 	dataChangeCallBack: (data: ElSelectorOutput[]): boolean => isArray(data),
 	/** @description 改变 */
-	change: (_data: unknown, _value?: ElSelectorModelValue): boolean => true,
+	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
 };
 
 /** FaSelect 的插槽参数。 */
@@ -157,12 +158,12 @@ export default defineComponent({
 		const handleData = (data: ElSelectorOutput[]): ElSelectorOutput[] => {
 			return data
 				.map((item): ElSelectorOutput => {
-					const value = item[props.valueKey];
-					const label = typeof props.props.label === "function" ? props.props.label(item) : item[props.props.label ?? "label"];
-					const hide = typeof props.props.hide === "function" ? props.props.hide(item) : item[props.props.hide ?? "hide"];
-					const disabled =
+					const value: unknown = item[props.valueKey];
+					const label: unknown = typeof props.props.label === "function" ? props.props.label(item) : item[props.props.label ?? "label"];
+					const hide: unknown = typeof props.props.hide === "function" ? props.props.hide(item) : item[props.props.hide ?? "hide"];
+					const disabled: unknown =
 						typeof props.props.disabled === "function" ? props.props.disabled(item) : item[props.props.disabled ?? "disabled"];
-					const children = item[props.props.children ?? "children"];
+					const children: unknown = item[props.props.children ?? "children"];
 					const selectorValue: ElSelectorValue | undefined =
 						value !== null &&
 						(typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "object")

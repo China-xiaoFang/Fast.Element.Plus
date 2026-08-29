@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import FormItemTip, { faFormItemTipProps } from "./src/formItemTip";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 为表单项标签提供补充说明的提示组件。 */
 export const FaFormItemTip: TSXWithInstall<typeof FormItemTip> = withInstall(FormItemTip);

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 
 interface DialogExpose {
 	close: (callback?: () => void | Promise<void>) => void;
 	open: () => void;
 }
 
-const dialogRef = ref<DialogExpose>();
+const dialogRef = useTemplateRef<DialogExpose>("dialogRef");
 const logs = ref<string[]>([]);
 const append = (message: string): void => {
 	logs.value.unshift(`${new Date().toLocaleTimeString()} ${message}`);

@@ -35,6 +35,7 @@ The three MessageBox shortcuts default to the title `温馨提示`, Chinese acti
 
 - The default export and named `install` export provide complete application installation.
 - Components, directives, hooks, constants, Decimal, instance types, props, emits, slots, exposed methods, and supporting public types use named exports from the root.
+- Open-ended application data uses generic models with an `any` fallback when the SDK cannot know the schema; untrusted runtime values remain `unknown` until validated.
 - Internal component implementation modules are not public paths.
 - Global component and directive declarations are isolated to the `global` type entry.
 - Internal files, generated chunks, Source Maps, and CSS internals under `dist/` are implementation details.
@@ -81,4 +82,4 @@ PC 是默认布局；Fast 样式为小于 `768px` 的手机和 `768px` 至 `1199
 
 `FaDialog` 与 `FaDrawer` 在 Fast 异步打开钩子完成后触发 `open`，在 Fast 异步关闭钩子完成且正式关闭前触发 `close`；原生 `opened`、`closed` 和焦点生命周期事件继续从 Element Plus 透传。
 
-默认导出和具名 `install` 用于完整安装；组件、指令、Hook、常量、Decimal、实例类型、Props、Emits、Slots、公开方法和辅助类型统一从根入口具名导出。内部实现模块不是公共路径。
+默认导出和具名 `install` 用于完整安装；组件、指令、Hook、常量、Decimal、实例类型、Props、Emits、Slots、公开方法和辅助类型统一从根入口具名导出。SDK 无法预知结构的业务数据使用带 `any` 兜底的泛型，未经验证的运行时值在完成校验前保持 `unknown`。内部实现模块不是公共路径。

@@ -5,16 +5,17 @@ import { ElButton, ElButtonGroup, ElInput } from "element-plus";
 import { isFunction, isNull, isNumber, isString } from "lodash-unified";
 import { definePropType, makeSlots, useExpose, useRender, withDefineType } from "../../../utils";
 import FaDialog from "../../dialog";
-import { FaTable, type FaTableInstance, type PagedInput, type PagedResult } from "../../table";
-import type { FaDialogInstance } from "../../dialog";
+import { FaTable } from "../../table";
 import type { TableProps } from "element-plus";
 import type { PropType } from "vue";
+import type { FaDialogInstance } from "../../dialog";
+import type { DefaultRow, FaTableInstance, PagedInput, PagedResult } from "../../table";
 
 /** FaInputDialogPage 的运行时 Props 定义。 */
 export const faInputDialogPageProps = {
 	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
 	rowKey: {
-		type: [String, Function] as PropType<TableProps<Record<string, unknown>>["rowKey"]>,
+		type: [String, Function] as PropType<TableProps<DefaultRow>["rowKey"]>,
 		default: "id",
 	},
 	/** @description v-model绑定值 */
@@ -32,10 +33,10 @@ export const faInputDialogPageProps = {
 	title: String,
 	/** @description 请求api */
 	requestApi: {
-		type: definePropType<(params?: PagedInput) => Promise<PagedResult | Record<string, unknown>[]>>(Function),
+		type: definePropType<(params?: PagedInput) => Promise<PagedResult | DefaultRow[]>>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<unknown>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 	/** @description 显示文本 Key */
 	labelKey: {
 		type: String,
@@ -50,7 +51,7 @@ export const faInputDialogPageEmits = {
 	/** @description v-model:label 回调 */
 	"update:label": (value: string | null): boolean => isString(value) || isNull(value),
 	/** @description 改变 */
-	change: (_data: unknown, _value?: string | number | null): boolean => true,
+	change: (_data: DefaultRow | null, _value?: string | number | null): boolean => true,
 };
 
 /** FaInputDialogPage 的插槽参数。 */
@@ -69,7 +70,7 @@ export default defineComponent({
 		const selectedLabel = useVModel(props, "label", emit, { passive: true });
 
 		const state = reactive({
-			selectionRow: withDefineType<Record<string, unknown>>(),
+			selectionRow: withDefineType<DefaultRow>(),
 		});
 
 		const faDialogRef = ref<FaDialogInstance>();
@@ -87,7 +88,7 @@ export default defineComponent({
 				if (table === undefined) return;
 				if (state.selectionRow) {
 					// 判断当前行是否选中
-					const rawRowKey = isFunction(props.rowKey) ? props.rowKey(state.selectionRow) : state.selectionRow[props.rowKey];
+					const rawRowKey: unknown = isFunction(props.rowKey) ? props.rowKey(state.selectionRow) : state.selectionRow[props.rowKey];
 					const rowSelected = (typeof rawRowKey === "string" || typeof rawRowKey === "number") && table.selectedListIds.includes(rawRowKey);
 					if (!rowSelected) {
 						table.toggleRowSelection?.(state.selectionRow);
@@ -101,9 +102,9 @@ export default defineComponent({
 				const table = faTableRef.value;
 				const selectedData = table?.selectedList[0];
 				if (table?.selected && selectedData) {
-					const selectedValue = isFunction(props.rowKey) ? props.rowKey(selectedData) : selectedData[props.rowKey];
+					const selectedValue: unknown = isFunction(props.rowKey) ? props.rowKey(selectedData) : selectedData[props.rowKey];
 					modelValue.value = typeof selectedValue === "string" || typeof selectedValue === "number" ? selectedValue : null;
-					const label = selectedData[props.labelKey];
+					const label: unknown = selectedData[props.labelKey];
 					selectedLabel.value = typeof label === "string" ? label : null;
 					emit("change", selectedData, modelValue.value);
 				} else {
@@ -114,7 +115,7 @@ export default defineComponent({
 			});
 		};
 
-		const handleTableRowDblclick = (row: Record<string, unknown>): void => {
+		const handleTableRowDblclick = (row: DefaultRow): void => {
 			faTableRef.value?.clearSelection?.();
 			faTableRef.value?.toggleRowSelection?.(row);
 			state.selectionRow = row;

@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import Button, { faButtonEmits, faButtonProps } from "./src/button";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 支持异步加载状态和全局遮罩联动的按钮组件。 */
 export const FaButton: TSXWithInstall<typeof Button> = withInstall(Button);

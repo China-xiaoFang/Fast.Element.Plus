@@ -9,7 +9,9 @@ import notImage from "../images/notImage.png";
 import { tableUtil } from "../utils/table";
 import { getTableDefaultSlots } from "./table.type";
 import { enumMapKey, tableStateKey } from "./useTable";
-import type { FaTableRow } from "./table.state";
+import type { TableColumnCtx } from "element-plus";
+import type { ComputedRef, PropType, VNode } from "vue";
+import type { DefaultRow } from "./table.state";
 import type {
 	FaTableColumnCtx,
 	FaTableColumnDateFormat,
@@ -18,10 +20,6 @@ import type {
 	FaTableEnumColumnCtx,
 	FaTableEnumColumnType,
 } from "./table.type";
-import type { TableColumnCtx } from "element-plus";
-import type { ComputedRef, PropType, VNode } from "vue";
-
-type DefaultRow = FaTableRow;
 
 /** FaTableColumn 的运行时 Props 定义。 */
 export const tableColumnProps = {
@@ -178,7 +176,7 @@ export const tableColumnProps = {
 export interface FaTableColumnSlotsResult {
 	/** @description slots为表格内容的时候才会返回 */
 	row?: DefaultRow;
-	/** @description slot为表头内容的时候返回 'TableColumnCtx<any>' 否则返回 'FaTableColumnCtx' */
+	/** @description slot为表头内容的时候返回 'TableColumnCtx<DefaultRow>' 否则返回 'FaTableColumnCtx' */
 	column?: TableColumnCtx<DefaultRow> | FaTableColumnCtx;
 	$index?: number;
 }
@@ -413,7 +411,7 @@ export default defineComponent({
 
 		/** 渲染单元格数据 */
 		const renderCellData = ({ row }: { row: DefaultRow }): unknown => {
-			const cellValue = tableUtil.handleRowAccordingToProp(row, props.prop ?? "");
+			const cellValue: unknown = tableUtil.handleRowAccordingToProp(row, props.prop ?? "");
 
 			let enumData: FaTableEnumColumnCtx[] | undefined;
 
@@ -474,7 +472,7 @@ export default defineComponent({
 				enumData = props.enum({ row });
 			}
 
-			const enumValue = tableUtil.handleRowAccordingToProp(row, props.prop ?? "");
+			const enumValue: unknown = tableUtil.handleRowAccordingToProp(row, props.prop ?? "");
 			const type = enumData?.find((item) => item.value === enumValue)?.type ?? "info";
 			return [
 				<Fragment>
@@ -498,7 +496,7 @@ export default defineComponent({
 					dateFormat = "YYYY-MM-DD HH:mm:ss";
 					break;
 			}
-			const rawValue = row[props.prop ?? ""];
+			const rawValue: unknown = row[props.prop ?? ""];
 			const renderValue = rawValue
 				? formatterRender(row, column, dayjs(displayText(rawValue)).format(props.dateFormat ?? dateFormat), $index)
 				: null;
@@ -520,7 +518,7 @@ export default defineComponent({
 
 		/** 数值列渲染 */
 		const numberRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
-			const renderValue = row[props.prop ?? ""];
+			const renderValue: unknown = row[props.prop ?? ""];
 			if (!renderValue || !isNumber(renderValue)) {
 				return [<Fragment>{formatterRender(row, column, renderValue, $index)}</Fragment>];
 			}

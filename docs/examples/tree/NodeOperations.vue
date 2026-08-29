@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 
 interface TreeExpose {
 	append?: (data: Record<string, unknown>, parent: string) => void;
@@ -8,7 +8,7 @@ interface TreeExpose {
 	setCheckedKeys?: (keys: string[]) => void;
 }
 
-const treeRef = ref<TreeExpose>();
+const treeRef = useTemplateRef<TreeExpose>("treeRef");
 const checked = ref("暂无");
 const data = [
 	{
