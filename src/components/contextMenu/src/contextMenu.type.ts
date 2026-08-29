@@ -1,5 +1,6 @@
 /** FaContextMenu 菜单项配置。 */
-export interface FaContextMenuData {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 菜单项默认携带的数据由调用方定义，也可通过泛型显式约束。
+export interface FaContextMenuData<Data = any> {
 	/**
 	 * @description 名称
 	 */
@@ -23,9 +24,9 @@ export interface FaContextMenuData {
 	/**
 	 * @description 点击事件
 	 */
-	click?: (event: MouseEvent, data: FaContextMenuData) => Promise<void> | void;
+	click?: (event: MouseEvent, data: FaContextMenuData<Data>) => Promise<void> | void;
 	/**
 	 * @description 携带数据
 	 */
-	data?: Record<string, unknown>;
+	data?: Data;
 }

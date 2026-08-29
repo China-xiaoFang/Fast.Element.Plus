@@ -1,3 +1,5 @@
+import type { FilterValue, TreeNodeData } from "element-plus";
+
 /** 树组件运行时节点公开使用的最小结构。 */
 export interface TreeNode {
 	key?: string | number | null;
@@ -9,9 +11,6 @@ export interface TreeNode {
 	expand: () => void;
 	collapse: () => void;
 }
-
-/** 树节点的数据结构。 */
-export type TreeNodeData = Record<string, unknown>;
 
 /** 树组件的数据集合。 */
 export type TreeData = TreeNodeData[];
@@ -29,9 +28,6 @@ export interface TreeOptionProps {
 	isLeaf?: string | ((data: TreeNodeData, node: TreeNode) => boolean);
 	class?: (data: TreeNodeData, node: TreeNode) => string | Record<string, boolean>;
 }
-
-/** 树节点筛选值。 */
-export type FilterValue = unknown;
 
 /** 树节点筛选方法。 */
 export type FilterNodeMethodFunction = (value: FilterValue, data: TreeNodeData, child: TreeNode) => boolean;

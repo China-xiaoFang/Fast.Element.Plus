@@ -8,9 +8,9 @@ import { FaLayoutGrid, FaLayoutGridItem } from "../../layoutGrid";
 import { getTableDefaultSlots } from "./table.type";
 import FaTableSearchFormItem from "./tableSearchFormItem";
 import { tableStateKey } from "./useTable";
-import type { FaTableColumnCtx, FaTableDefaultSlotsResult, FaTableSearchColumnCtx } from "./table.type";
 import type { FaDrawerInstance } from "../../drawer";
 import type { FaLayoutGridBreakPoint, FaLayoutGridInstance, FaLayoutGridItemResponsive } from "../../layoutGrid";
+import type { FaTableColumnCtx, FaTableDefaultSlotsResult, FaTableSearchColumnCtx } from "./table.type";
 
 type FaTableSearchFormSlots = Record<
 	string,

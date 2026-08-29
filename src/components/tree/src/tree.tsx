@@ -4,9 +4,11 @@ import { Expand, Fold } from "@element-plus/icons-vue";
 import { ElIcon, ElInput, ElScrollbar, ElTree, treeEmits, treeProps, useGlobalSize } from "element-plus";
 import { isArray, isBoolean, isNull, isNumber, isObject, isString } from "lodash-unified";
 import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
-import type { FilterNodeMethodFunction, FilterValue, TreeNode, TreeNodeData } from "./tree.props";
-import type { ElTreeOutput } from "./tree.type";
+import type { FilterValue, TreeNodeData } from "element-plus";
 import type { ComponentInternalInstance, VNode } from "vue";
+import type { PagedInput } from "../../table";
+import type { FilterNodeMethodFunction, TreeNode } from "./tree.props";
+import type { ElTreeOutput } from "./tree.type";
 
 /** FaTree 的运行时 Props 定义。 */
 export const faTreeProps = {
@@ -76,10 +78,10 @@ export const faTreeProps = {
 	},
 	/** @description 请求api */
 	requestApi: {
-		type: definePropType<(params?: unknown) => Promise<ElTreeOutput[]>>(Function),
+		type: definePropType<(params?: string | number | PagedInput) => Promise<ElTreeOutput[]>>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<unknown>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 };
 
 /** FaTree 的运行时 Emits 定义。 */
@@ -152,7 +154,7 @@ export default defineComponent({
 			let curSelectedData: string | number | undefined;
 			if (props.nodeKey) {
 				// 记录原本选中的值
-				const currentKey: unknown = treeRef.value?.getCurrentKey();
+				const currentKey = treeRef.value?.getCurrentKey();
 				if (typeof currentKey === "string" || typeof currentKey === "number") curSelectedData = currentKey;
 			}
 			let treeData: ElTreeOutput[];
@@ -203,8 +205,10 @@ export default defineComponent({
 
 		const handleFilterNode = (value: FilterValue, data: TreeNodeData, child: TreeNode): boolean => {
 			if (!value) return true;
+			const isAll: unknown = data["all"];
+			const dataLabel: unknown = data["label"];
 			let parentNode = child.parent,
-				labels = data["all"] ? [data["label"]] : [child.label],
+				labels: unknown[] = isAll ? [dataLabel] : [child.label],
 				level = 1;
 			while (level < child.level && parentNode) {
 				labels = [...labels, parentNode.label];

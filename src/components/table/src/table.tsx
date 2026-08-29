@@ -34,14 +34,12 @@ import FaTableColumnsSettingDialog from "./tableColumnSettingDialog";
 import FaTablePagination from "./tablePagination";
 import FaTableSearchForm from "./tableSearchForm";
 import { useTable } from "./useTable";
-import type { FaTableRow } from "./table.state";
-import type { FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from "./table.type";
-import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
-import type { PagedInput, PagedResult, PagedSortInput } from "../src/page.type";
 import type { TableColumnCtx, TableProps } from "element-plus";
 import type { CSSProperties, PropType } from "vue";
-
-type DefaultRow = FaTableRow;
+import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
+import type { PagedInput, PagedResult, PagedSortInput } from "../src/page.type";
+import type { DefaultRow } from "./table.state";
+import type { FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from "./table.type";
 
 type Layout = "fixed" | "auto";
 
@@ -304,10 +302,10 @@ export const faTableProps = {
 	},
 	/** @description 接口请求数据回调 */
 	dataCallback: {
-		type: definePropType<(data: unknown) => void>(Function),
+		type: definePropType<(data: PagedResult<DefaultRow> | DefaultRow[]) => void>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<unknown>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 	/** @description 列配置 */
 	columns: {
 		type: definePropType<FaTableColumnCtx[] | false>([Array, Boolean]),
@@ -448,7 +446,7 @@ export const faTableEmits = {
 	/** @description 当表格的排序条件发生变化的时候会触发该事件 */
 	sortChange: (data: { column: TableColumnCtx<DefaultRow>; prop: string; order: "" | "ascending" | "descending" }): boolean => isObject(data),
 	/** @description column 的 key， 如果需要使用 filter-change 事件，则需要此属性标识是哪个 column 的筛选条件 */
-	filterChange: (newFilters: unknown): boolean => isString(newFilters) || isNumber(newFilters) || isBoolean(newFilters) || isObject(newFilters),
+	filterChange: (newFilters: Record<string, string[]>): boolean => isObject(newFilters),
 	/** @description 当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性 */
 	currentChange: (currentRow: DefaultRow, oldCurrentRow: DefaultRow | null): boolean =>
 		isObject(currentRow) && (isNull(oldCurrentRow) || isObject(oldCurrentRow)),
@@ -514,7 +512,7 @@ export type FaTableSlots = Record<string, unknown> & {
 		FaTableDefaultSlotsResult & {
 			/** @description slots为表格内容的时候才会返回 */
 			row?: DefaultRow;
-			/** @description slot为表头内容的时候返回 'TableColumnCtx<any>' 否则返回 'FaTableColumnCtx' */
+			/** @description slot为表头内容的时候返回 'TableColumnCtx<DefaultRow>' 否则返回 'FaTableColumnCtx' */
 			column?: TableColumnCtx<DefaultRow> | FaTableColumnCtx;
 			/** @description slot为非搜索项的时候才会返回 */
 			$index?: number;
@@ -550,10 +548,11 @@ export default defineComponent({
 
 		const columnSettingRef = ref<InstanceType<typeof FaTableColumnsSettingDialog>>();
 		let lastRowIndex = 0;
-		const getInitParam = (): Record<string, unknown> =>
-			typeof props.initParam === "object" && props.initParam !== null ? (props.initParam as Record<string, unknown>) : {};
+		const getInitParam = (): Record<string, unknown> => {
+			return typeof props.initParam === "object" && props.initParam !== null ? props.initParam : {};
+		};
 		const getRowKey = (row: DefaultRow): string | number | undefined => {
-			const value = isFunction(props.rowKey) ? props.rowKey(row) : tableUtil.handleRowAccordingToProp(row, props.rowKey);
+			const value: unknown = isFunction(props.rowKey) ? props.rowKey(row) : tableUtil.handleRowAccordingToProp(row, props.rowKey);
 			return typeof value === "string" || typeof value === "number" ? value : undefined;
 		};
 
@@ -659,7 +658,7 @@ export default defineComponent({
 				column.multiOrder = undefined;
 			}
 			// 排序集合非空判断
-			const initSortList = getInitParam()["sortList"];
+			const initSortList: unknown = getInitParam()["sortList"];
 			state.searchParam.sortList = [
 				...(isArray(initSortList) ? (initSortList as PagedSortInput[]) : []),
 				...(state.searchParam.sortList ?? []),
@@ -1060,7 +1059,7 @@ export default defineComponent({
 						}}
 						onHeader-click={(column: TableColumnCtx<DefaultRow>, event: Event) => emit("headerClick", column, event)}
 						onHeader-contextmenu={(column: TableColumnCtx<DefaultRow>, event: Event) => emit("headerContextmenu", column, event)}
-						onFilter-change={(newFilters: unknown) => emit("filterChange", newFilters)}
+						onFilter-change={(newFilters: Record<string, string[]>) => emit("filterChange", newFilters)}
 						onExpand-change={(row: DefaultRow, expanded: boolean | DefaultRow[]) => emit("expandChange", row, expanded)}
 						onScroll={(data: { scrollLeft: number; scrollTop: number }) => emit("scroll", data)}
 					>

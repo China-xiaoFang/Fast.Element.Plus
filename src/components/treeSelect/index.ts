@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import TreeSelect, { faTreeSelectEmits, faTreeSelectProps } from "./src/treeSelect";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 组合树结构浏览与选择交互的树选择器组件。 */
 export const FaTreeSelect: TSXWithInstall<typeof TreeSelect> = withInstall(TreeSelect);

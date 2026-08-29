@@ -1,9 +1,9 @@
 import { withInstall, withNoopInstall } from "../../utils";
 import Select, { faSelectProps } from "./src/select";
 import SelectOption from "./src/selectOption";
-import type { faSelectEmits } from "./src/select";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
+import type { faSelectEmits } from "./src/select";
 
 /** 支持远程数据、分页和自定义选项的选择器组件。 */
 export const FaSelect: TSXWithInstall<typeof Select> & { SelectOption: typeof SelectOption } = withInstall(Select, {

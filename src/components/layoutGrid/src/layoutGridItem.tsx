@@ -1,8 +1,8 @@
 import { computed, defineComponent, inject, reactive, ref, watch } from "vue";
 import { isNumber } from "lodash-unified";
 import { definePropType, makeSlots, useExpose, useRender } from "../../../utils";
-import type { FaLayoutGridBreakPoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
 import type { Ref } from "vue";
+import type { FaLayoutGridBreakPoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
 
 /** FaLayoutGridItem 的插槽参数。 */
 export interface FaLayoutGridItemSlots extends Record<string, unknown> {

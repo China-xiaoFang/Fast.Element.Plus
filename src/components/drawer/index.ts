@@ -1,8 +1,8 @@
 import { withInstall } from "../../utils";
 import Drawer from "./src/drawer";
-import type { faDrawerEmits, faDrawerProps } from "./src/drawer";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
+import type { faDrawerEmits, faDrawerProps } from "./src/drawer";
 
 /** 封装加载、确认与关闭控制的业务抽屉组件。 */
 export const FaDrawer: TSXWithInstall<typeof Drawer> = withInstall(Drawer);

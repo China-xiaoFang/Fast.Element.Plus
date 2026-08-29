@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import InputDialogPage, { faInputDialogPageEmits, faInputDialogPageProps } from "./src/inputDialogPage";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 在对话框中提供分页选择与输入交互的组件。 */
 export const FaInputDialogPage: TSXWithInstall<typeof InputDialogPage> = withInstall(InputDialogPage);

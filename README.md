@@ -95,6 +95,8 @@ For global component and directive types, add the package type entry to the appl
 
 The package root is the only JavaScript API entry. `fast-element-plus/global` provides Vue global declarations, and `fast-element-plus/style.css` provides the component styles. Files under `dist/` are implementation details.
 
+Open-ended business rows, paging extensions, selector/tree payloads, request parameters, and dynamic configuration use `any` where the SDK cannot know the application schema; exported generics can constrain known models. Untrusted runtime inputs, errors, and values that require validation remain `unknown`. `DefaultRow` is the public default FaTable row type for business tables whose fields are not declared in advance.
+
 ## CDN
 
 The `unpkg` and `jsdelivr` fields select `dist/index.global.min.js`. Load Vue, Element Plus, Element Plus Icons, and Fast.Element.Plus.Icons first, then access the library as `globalThis.FastElementPlus`. Load `dist/index.css` separately.

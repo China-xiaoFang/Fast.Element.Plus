@@ -1,8 +1,9 @@
 import type { PagedInput } from "./page.type";
 import type { FaTableColumnCtx } from "./table.type";
 
-/** 表格行允许包含任意字段，但字段值在使用前必须显式收窄。 */
-export type FaTableRow = Record<string, unknown>;
+/** 表格行允许包含由业务接口定义的任意字段。 */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 表格行字段由业务接口定义。
+export type DefaultRow = Record<string, any>;
 
 /** FaTable 的响应式状态。 */
 export interface FaTableState {
@@ -36,7 +37,7 @@ export interface FaTableState {
 	/**
 	 * 表格数据
 	 */
-	tableData: FaTableRow[];
+	tableData: DefaultRow[];
 	/**
 	 * 表格合并数据
 	 */
@@ -52,7 +53,7 @@ export interface FaTableState {
 	/**
 	 * 搜索参数
 	 */
-	searchParam: PagedInput & Record<string, unknown>;
+	searchParam: PagedInput;
 	/**
 	 * 中文输入法模式下的拼音
 	 */
@@ -68,7 +69,7 @@ export interface FaTableState {
 	/**
 	 * 选中数据列表
 	 */
-	selectedList: FaTableRow[];
+	selectedList: DefaultRow[];
 	/**
 	 * 当前选中数据的ids
 	 */

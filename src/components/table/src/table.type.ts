@@ -1,14 +1,15 @@
-import type { FaTableRow, FaTableState } from "./table.state";
-import type { FaLayoutGridBreakPoint, FaLayoutGridItemResponsive } from "../../layoutGrid";
 import type { TableColumnCtx } from "element-plus";
 import type { VNode } from "vue";
+import type { FaLayoutGridBreakPoint, FaLayoutGridItemResponsive } from "../../layoutGrid";
+import type { PagedInput } from "./page.type";
+import type { DefaultRow, FaTableState } from "./table.state";
 
 /** FaTable 默认插槽共享的状态与操作。 */
 export interface FaTableDefaultSlotsResult {
 	loading: boolean;
-	searchParam: Record<string, unknown>;
+	searchParam: PagedInput;
 	selected: boolean;
-	selectedList: FaTableRow[];
+	selectedList: DefaultRow[];
 	selectedListIds: (string | number)[];
 	indeterminateSelectedListIds: (string | number)[];
 	/** @description 可能为空 */
@@ -36,7 +37,6 @@ export type FaTableDataRange = "Past1D" | "Past3D" | "Past1W" | "Past1M" | "Past
 
 /** FaTable 枚举列的选项配置。 */
 export interface FaTableEnumColumnCtx {
-	[key: string]: unknown;
 	/**
 	 * 选项框显示的文字
 	 */
@@ -65,10 +65,12 @@ export interface FaTableEnumColumnCtx {
 	 * Tag的类型，默认 "primary"
 	 */
 	type?: "primary" | "success" | "info" | "warning" | "danger";
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 枚举项允许携带业务接口定义的附加字段。
+	[key: string]: any;
 }
 
 /** FaTable 枚举列接受的字典名称、选项集合或选项工厂。 */
-export type FaTableEnumColumnType = string | FaTableEnumColumnCtx[] | ((...arguments_: unknown[]) => FaTableEnumColumnCtx[]);
+export type FaTableEnumColumnType = string | FaTableEnumColumnCtx[] | ((context?: { row: DefaultRow }) => FaTableEnumColumnCtx[]);
 
 /** FaTable 搜索项支持的内置组件名或自定义组件名。 */
 export type FaTableSearchColumnEl =
@@ -96,7 +98,8 @@ export type FaTableSearchColumnCtx = Partial<Record<FaLayoutGridBreakPoint, FaLa
 	/**
 	 * 搜索项参数，根据 element plus 官方文档来传递，该属性所有值会透传到组件
 	 */
-	props?: Record<string, unknown>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 搜索组件透传属性由具体组件和业务配置共同定义。
+	props?: Record<string, any>;
 	/**
 	 * 当搜索项 label 不为列 label 属性时，可通过 label 指定
 	 */
@@ -166,7 +169,7 @@ export type FaTableColumnDateFormat =
 	| "ss";
 
 /** FaTable 列配置，扩展 Element Plus 列能力和 Fast 业务渲染选项。 */
-export type FaTableColumnCtx<T extends Record<PropertyKey, unknown> = FaTableRow> = Partial<
+export type FaTableColumnCtx<T extends DefaultRow = DefaultRow> = Partial<
 	Omit<TableColumnCtx<T>, "order" | "type" | "prop" | "sortable" | "_children">
 > & {
 	/**
@@ -247,11 +250,11 @@ export type FaTableColumnCtx<T extends Record<PropertyKey, unknown> = FaTableRow
 	/**
 	 * 自定义表头内容渲染（tsx语法）
 	 */
-	headerRender?: ({ column, $index }: { column: TableColumnCtx<FaTableRow>; $index: number } & FaTableDefaultSlotsResult) => VNode[];
+	headerRender?: ({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number } & FaTableDefaultSlotsResult) => VNode[];
 	/**
 	 * 自定义单元格内容渲染（tsx语法）
 	 */
-	render?: ({ row, column, $index }: { row: FaTableRow; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult) => VNode[];
+	render?: ({ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult) => VNode[];
 	/**
 	 * 多级表头
 	 */

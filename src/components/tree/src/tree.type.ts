@@ -2,7 +2,8 @@
 export type ElTreeValue = string | number | boolean | object | null;
 
 /** 树组件标准化后的节点数据。 */
-export interface ElTreeOutput<T = ElTreeValue> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 树节点原始数据由业务接口定义。
+export interface ElTreeOutput<T = ElTreeValue, Data = any> {
 	/**
 	 * 显示
 	 */
@@ -14,7 +15,7 @@ export interface ElTreeOutput<T = ElTreeValue> {
 	/**
 	 * 附加数据
 	 */
-	data?: unknown;
+	data?: Data;
 	/**
 	 * 是否隐藏
 	 */
@@ -26,7 +27,7 @@ export interface ElTreeOutput<T = ElTreeValue> {
 	/**
 	 * 子节点
 	 */
-	children?: ElTreeOutput<T>[];
+	children?: ElTreeOutput<T, Data>[];
 	/**
 	 * 是否显示数量
 	 */
@@ -35,5 +36,6 @@ export interface ElTreeOutput<T = ElTreeValue> {
 	 * 数量
 	 */
 	quantity?: number;
-	[key: string]: unknown;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 树节点允许携带业务接口返回的附加字段。
+	[key: string]: any;
 }

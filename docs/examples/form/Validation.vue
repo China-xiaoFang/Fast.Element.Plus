@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, useTemplateRef } from "vue";
 import { ElMessage } from "element-plus";
 import type { FormRules } from "element-plus";
 
@@ -8,7 +8,7 @@ interface FormExpose {
 	validateScrollToField: () => Promise<boolean>;
 }
 
-const formRef = ref<FormExpose>();
+const formRef = useTemplateRef<FormExpose>("formRef");
 const form = reactive({ name: "", email: "" });
 const rules: FormRules = {
 	name: [{ required: true, message: "请输入应用名称", trigger: "blur" }],

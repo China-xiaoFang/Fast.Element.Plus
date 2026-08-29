@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import Tree, { faTreeEmits, faTreeProps } from "./src/tree";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 支持远程加载、筛选和节点操作的树组件。 */
 export const FaTree: TSXWithInstall<typeof Tree> = withInstall(Tree);

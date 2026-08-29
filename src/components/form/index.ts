@@ -1,8 +1,8 @@
 import { withInstall, withNoopInstall } from "../../utils";
 import Form, { faFormEmits, faFormProps } from "./src/form";
 import FormItem, { faFormItemProps } from "./src/formItem";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 支持响应式布局和表单项配置的业务表单组件。 */
 export const FaForm: TSXWithInstall<typeof Form> & { FormItem: typeof FormItem } = withInstall(Form, {

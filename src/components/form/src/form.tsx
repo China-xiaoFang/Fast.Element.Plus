@@ -4,8 +4,8 @@ import { isNumber, isObject } from "lodash-unified";
 import { definePropType, makeSlots, useEmits, useExpose, useProps, useRender } from "../../../utils";
 import { FaLayoutGrid } from "../../layoutGrid";
 import { formUtil } from "../utils/form";
-import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
 import type { FormInstance, FormItemContext, FormValidateCallback, FormValidationResult } from "element-plus";
+import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
 
 /** FaForm 的运行时 Props 定义。 */
 export const faFormProps = {
@@ -47,7 +47,7 @@ export const faFormEmits = {
 /** FaForm 的插槽参数。 */
 export interface FaFormSlots extends Record<string, unknown> {
 	/** @description 默认内容插槽 */
-	default: unknown;
+	default: { cols: Record<FaLayoutGridBreakPoint, number>; gap: [number, number] };
 }
 
 export default defineComponent({

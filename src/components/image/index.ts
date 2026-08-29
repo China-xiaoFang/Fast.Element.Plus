@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import Image, { faImageEmits, faImageProps } from "./src/image";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 支持占位、失败回退和地址处理的图片组件。 */
 export const FaImage: TSXWithInstall<typeof Image> = withInstall(Image);

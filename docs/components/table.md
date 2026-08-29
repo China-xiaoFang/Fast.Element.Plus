@@ -25,6 +25,26 @@ import TreeTableSource from "../examples/table/TreeTable.vue?raw"
 
 在 ElTable 上集成搜索表单、分页、远程请求、列设置、单选/多选、树形数据、加载状态和业务插槽。
 
+## 行数据类型
+
+`DefaultRow` 是 FaTable 默认公开行类型，允许业务接口返回未预先声明的字段。已知数据结构可以继承该类型，并通过 `FaTableColumnCtx<T>` 和 `PagedResult<T>` 获得更精确的列配置与分页数据提示。
+
+```ts
+import type { DefaultRow, FaTableColumnCtx, PagedResult } from "fast-element-plus";
+
+interface UserRow extends DefaultRow {
+	id: number;
+	name: string;
+}
+
+const columns: FaTableColumnCtx<UserRow>[] = [{ prop: "name", label: "姓名" }];
+
+const result: PagedResult<UserRow> = {
+	rows: [{ id: 1, name: "Fast" }],
+	totalRows: 1,
+};
+```
+
 <DemoBlock :code="BasicSource" title="本地数据、关键字搜索、复制、标签与日期列">
   <Basic />
 </DemoBlock>

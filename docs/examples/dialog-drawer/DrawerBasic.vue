@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useTemplateRef } from "vue";
 
 interface DrawerExpose {
 	close: (callback?: () => void | Promise<void>) => void;
 	open: (callback?: () => void | Promise<void>) => void;
 }
 
-const drawerRef = ref<DrawerExpose>();
+const drawerRef = useTemplateRef<DrawerExpose>("drawerRef");
 const wait = async (): Promise<void> => {
 	await new Promise<void>((resolve) => window.setTimeout(resolve, 600));
 };

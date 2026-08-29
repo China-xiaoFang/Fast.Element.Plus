@@ -2,6 +2,14 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.2] - 2026-08-29
+
+### Changed
+
+- Relaxed open-ended business data types for tables, pagination, selectors, trees, context menus, request parameters, and dynamic configuration while preserving `unknown` at untrusted runtime boundaries.
+- Added generic selector and tree payload types, precise selection change payloads, and consumer type tests for anonymous-data defaults.
+- Renamed the public table row type from `FaTableRow` to `DefaultRow` and removed redundant internal forwarding exports for Element Plus tree types.
+
 ## [2.0.1] - 2026-08-28
 
 ### Changed
@@ -43,5 +51,6 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.2]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.2
 [2.0.1]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.1
 [2.0.0]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.0

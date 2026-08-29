@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ElMessage } from "element-plus";
-import { ref } from "vue";
+import { useTemplateRef } from "vue";
 
-const buttonRef = ref<{ doLoading: (callback: () => void | Promise<void>) => void }>();
+const buttonRef = useTemplateRef<{ doLoading: (callback: () => void | Promise<void>) => void }>("buttonRef");
 
 const handleAsyncClick = (_event: MouseEvent, done?: () => void): void => {
 	window.setTimeout(() => {

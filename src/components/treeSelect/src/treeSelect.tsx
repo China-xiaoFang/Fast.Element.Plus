@@ -3,11 +3,12 @@ import { computed, defineComponent, onMounted, reactive, ref, watch } from "vue"
 import { ElTreeSelect, selectEmits, selectProps, treeEmits, treeProps } from "element-plus";
 import { isArray, isBoolean, isEqual, isNil, isNull, isNumber, isObject, isString } from "lodash-unified";
 import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
-import { type SelectComponentProps } from "../../select/src/select";
-import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "../../select";
-import type { FilterNodeMethodFunction, FilterValue, TreeNode, TreeNodeData } from "../../tree/src/tree.props";
-import type { SelectInstance, TreeInstance } from "element-plus";
+import type { FilterValue, SelectInstance, TreeInstance, TreeNodeData } from "element-plus";
 import type { ComponentInternalInstance, VNode } from "vue";
+import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "../../select";
+import type { SelectComponentProps } from "../../select/src/select";
+import type { PagedInput } from "../../table";
+import type { FilterNodeMethodFunction, TreeNode } from "../../tree/src/tree.props";
 
 /** 补充 Element Plus TreeSelect 运行时支持但类型声明缺失的 clear 事件。 */
 type ElTreeSelectWithClearType = typeof ElTreeSelect &
@@ -164,10 +165,10 @@ export const faTreeSelectProps = {
 	},
 	/** @description 请求api */
 	requestApi: {
-		type: definePropType<(params?: unknown) => Promise<ElSelectorOutput[]>>(Function),
+		type: definePropType<(params?: string | number | PagedInput) => Promise<ElSelectorOutput[]>>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<unknown>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 };
 
 /** FaTreeSelect 的运行时 Emits 定义。 */
@@ -183,7 +184,7 @@ export const faTreeSelectEmits = {
 	/** @description 数据改变 */
 	dataChangeCallBack: (data: ElSelectorOutput[]): boolean => isArray(data),
 	/** @description 改变 */
-	change: (_data: unknown, _value?: ElSelectorModelValue): boolean => true,
+	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
 	/** @description 节点点击 */
 	"node-click": (_data: ElSelectorOutput, _node: TreeNode, _instance: ComponentInternalInstance, _event: MouseEvent): boolean => true,
 };
@@ -235,12 +236,12 @@ export default defineComponent({
 		const handleData = (data: ElSelectorOutput[]): ElSelectorOutput[] => {
 			return data
 				.map((item): ElSelectorOutput => {
-					const value = item[props.nodeKey];
-					const label = typeof props.props.label === "function" ? props.props.label(item) : item[props.props.label ?? "label"];
-					const hide = typeof props.props.hide === "function" ? props.props.hide(item) : item[props.props.hide ?? "hide"];
-					const disabled =
+					const value: unknown = item[props.nodeKey];
+					const label: unknown = typeof props.props.label === "function" ? props.props.label(item) : item[props.props.label ?? "label"];
+					const hide: unknown = typeof props.props.hide === "function" ? props.props.hide(item) : item[props.props.hide ?? "hide"];
+					const disabled: unknown =
 						typeof props.props.disabled === "function" ? props.props.disabled(item) : item[props.props.disabled ?? "disabled"];
-					const children = item[props.props.children ?? "children"];
+					const children: unknown = item[props.props.children ?? "children"];
 					const selectorValue: ElSelectorValue | undefined =
 						value !== null &&
 						(typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "object")

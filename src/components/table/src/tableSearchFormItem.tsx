@@ -197,7 +197,7 @@ export default defineComponent({
 			const search = props.column.search;
 			const searchKey = search?.key ?? props.column.prop;
 			if (!search?.el || !searchKey) return <Fragment />;
-			const value = tableState.searchParam[searchKey];
+			const value: unknown = tableState.searchParam[searchKey];
 			const inputClearable = search.props?.["clearable"] !== false && value !== undefined && value !== null && value !== "";
 			return (
 				<Fragment>

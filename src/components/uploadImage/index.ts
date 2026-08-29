@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import UploadImage, { faUploadImageEmits, faUploadImageProps } from "./src/uploadImage";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 支持预览、校验和状态同步的单图片上传组件。 */
 export const FaUploadImage: TSXWithInstall<typeof UploadImage> = withInstall(UploadImage);

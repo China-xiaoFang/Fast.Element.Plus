@@ -1,5 +1,6 @@
 /** FaTable 统一分页返回结果。 */
-export interface PagedResult<Output = Record<string, unknown>> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 默认分页行字段由业务接口定义。
+export interface PagedResult<Output = Record<string, any>> {
 	/**
 	 * 当前页
 	 */
@@ -146,4 +147,7 @@ export interface PagedInput {
 	 * @default true
 	 */
 	enablePaged?: boolean;
+	/** 业务接口附加的查询字段。 */
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- 分页查询允许携带业务接口定义的扩展字段。
+	[key: string]: any;
 }

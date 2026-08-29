@@ -1,8 +1,8 @@
 import { withInstall } from "../../utils";
 import Avatar from "./src/avatar";
-import type { faAvatarEmits, faAvatarProps } from "./src/avatar";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
+import type { faAvatarEmits, faAvatarProps } from "./src/avatar";
 
 /** 支持图片地址规格转换的头像组件。 */
 export const FaAvatar: TSXWithInstall<typeof Avatar> = withInstall(Avatar);

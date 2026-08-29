@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useTemplateRef } from "vue";
 
 interface DialogExpose {
 	close: (callback?: () => void | Promise<void>) => void;
@@ -7,7 +7,7 @@ interface DialogExpose {
 	open: (callback?: () => void | Promise<void>) => void;
 }
 
-const dialogRef = ref<DialogExpose>();
+const dialogRef = useTemplateRef<DialogExpose>("dialogRef");
 const load = async (): Promise<void> => {
 	await new Promise<void>((resolve) => window.setTimeout(resolve, 500));
 };

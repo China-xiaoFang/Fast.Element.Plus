@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useTemplateRef } from "vue";
 
 interface TreeExpose {
 	loading: boolean;
 	refresh: () => Promise<void>;
 }
 
-const treeRef = ref<TreeExpose>();
+const treeRef = useTemplateRef<TreeExpose>("treeRef");
 let version = 0;
 const requestApi = async (): Promise<Record<string, unknown>[]> => {
 	await new Promise<void>((resolve) => window.setTimeout(resolve, 400));

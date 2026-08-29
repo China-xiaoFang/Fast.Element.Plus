@@ -1,7 +1,7 @@
 import { withInstall } from "../../utils";
 import Dialog, { faDialogEmits, faDialogProps } from "./src/dialog";
-import type { TSXWithInstall } from "../../utils";
 import type { ExtractPropTypes } from "vue";
+import type { TSXWithInstall } from "../../utils";
 
 /** 封装加载、确认与关闭控制的业务对话框组件。 */
 export const FaDialog: TSXWithInstall<typeof Dialog> = withInstall(Dialog);
