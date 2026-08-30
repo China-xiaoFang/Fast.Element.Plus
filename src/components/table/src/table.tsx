@@ -996,7 +996,13 @@ export default defineComponent({
 													dropdown: () => (
 														<ElDropdownMenu>
 															{slots.columnSetting?.()}
-															<ElDropdownItem title="表格列配置" divided onClick={() => columnSettingRef.value?.open()}>
+															<ElDropdownItem
+																title="表格列配置"
+																divided
+																onClick={() => {
+																	void columnSettingRef.value?.open();
+																}}
+															>
 																表格列配置
 															</ElDropdownItem>
 														</ElDropdownMenu>
