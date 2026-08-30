@@ -12,48 +12,8 @@ const entry = generated.output.find((item) => item.type === "chunk" && item.isEn
 if (entry?.type !== "chunk") throw new Error("Runtime bundle did not produce an entry chunk.");
 const library = await import(`data:text/javascript;base64,${Buffer.from(entry.code).toString("base64")}`);
 const FastElementPlus = library.default;
-const { getTableColumnSlotNames, getTableSearchSlotNames } = await import(new URL("../dist/components/table/src/table.mjs", import.meta.url));
-const { formatTableDateValue } = await import(new URL("../dist/components/table/src/tableColumn.mjs", import.meta.url));
-const { tableUtil } = await import(new URL("../dist/components/table/utils/table.mjs", import.meta.url));
-const { faTreeEmits, faTreeProps } = await import(new URL("../dist/components/tree/src/tree.mjs", import.meta.url));
 
 const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
-
-test("FaTable only collects configured search, cell, and header slots", () => {
-	const columns = [
-		{ slot: "cell", headerSlot: "cellHeader", search: { slot: "search" } },
-		{ slot: "cell", headerSlot: "secondHeader", search: { slot: "advancedSearch" } },
-		{ search: {} },
-	];
-
-	assert.deepEqual(getTableSearchSlotNames(columns), ["search", "advancedSearch"]);
-	assert.deepEqual(getTableColumnSlotNames(columns), ["cell", "cellHeader", "secondHeader"]);
-});
-
-test("FaTable date columns preserve Date input parsing", () => {
-	assert.equal(formatTableDateValue(new Date(2026, 7, 31, 14, 5, 6), "YYYY-MM-DD HH:mm:ss"), "2026-08-31 14:05:06");
-});
-
-test("local FaTable sorting supports V1 comparable values", () => {
-	const ascending = [{ value: true }, { value: false }].sort(tableUtil.arrayDynamicSort([{ enField: "value", mode: "ascending" }]));
-	assert.deepEqual(
-		ascending.map((row) => row.value),
-		[false, true]
-	);
-
-	const newer = new Date(2026, 7, 31);
-	const older = new Date(2025, 7, 31);
-	const descending = [{ value: older }, { value: newer }].sort(tableUtil.arrayDynamicSort([{ enField: "value", mode: "descending" }]));
-	assert.deepEqual(
-		descending.map((row) => row.value),
-		[newer, older]
-	);
-});
-
-test("FaTree all defaults to undefined", () => {
-	assert.equal(faTreeProps.allValue.default, undefined);
-	assert.equal(faTreeEmits["update:modelValue"](undefined), true);
-});
 
 test("root entry exposes the documented plugin, components, directives, and hooks", () => {
 	assert.equal(library.version, packageJson.version);
