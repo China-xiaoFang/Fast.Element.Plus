@@ -7,7 +7,7 @@ import DrawerDirectionsSource from "../examples/dialog-drawer/DrawerDirections.v
 
 # FaDrawer 抽屉
 
-使用与 FaDialog 相同的业务生命周期和 Footer 约定，四个方向均支持拖动边缘改变尺寸，桌面端和移动端保留不同的安全尺寸。
+使用与 FaDialog 相同的业务生命周期和 Footer 约定，通过返回 `Promise` 的 Expose `open(function?)`、`close(function?)` 控制显示；`v-model` 只接收内部状态回写。四个方向均支持拖动边缘改变尺寸，桌面端和移动端保留不同的安全尺寸。
 
 <DemoBlock :code="DrawerBasicSource" title="异步打开、关闭与业务 Loading">
   <DrawerBasic />

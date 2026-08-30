@@ -2,6 +2,16 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.3] - 2026-08-31
+
+### Fixed
+
+- Forwarded only configured search, cell, and `headerSlot` slots from `FaTable` to generated child components.
+- Restored table date parsing and V1-compatible local sorting for comparable non-number values.
+- Returned `Promise` from asynchronous public loading and Dialog/Drawer methods so callback errors remain available to callers.
+- Restored `undefined` as the default `FaTree` “全部” value.
+- Restored expose-only visibility control for `FaDialog` and `FaDrawer`; external `v-model` values no longer open or close them.
+
 ## [2.0.2] - 2026-08-29
 
 ### Changed
@@ -51,6 +61,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.3]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.3
 [2.0.2]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.2
 [2.0.1]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.1
 [2.0.0]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.0

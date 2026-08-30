@@ -82,8 +82,8 @@ export default defineComponent({
 			emit("change", null);
 		};
 
-		const handleSearchClick = (): void => {
-			faDialogRef.value?.open(() => {
+		const handleSearchClick = async (): Promise<void> => {
+			await faDialogRef.value?.open(() => {
 				const table = faTableRef.value;
 				if (table === undefined) return;
 				if (state.selectionRow) {
@@ -98,7 +98,7 @@ export default defineComponent({
 		};
 
 		const handleConfirmClick = (): void => {
-			faDialogRef.value?.close(() => {
+			void faDialogRef.value?.close(() => {
 				const table = faTableRef.value;
 				const selectedData = table?.selectedList[0];
 				if (table?.selected && selectedData) {
@@ -129,7 +129,13 @@ export default defineComponent({
 						append: () => (
 							<ElButtonGroup>
 								<ElButton disabled={props.disabled} icon={Delete} onClick={handleDeleteClick} />
-								<ElButton disabled={props.disabled} icon={Search} onClick={handleSearchClick} />
+								<ElButton
+									disabled={props.disabled}
+									icon={Search}
+									onClick={() => {
+										void handleSearchClick();
+									}}
+								/>
 							</ElButtonGroup>
 						),
 					}}

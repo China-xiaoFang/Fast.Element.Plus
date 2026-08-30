@@ -2,7 +2,7 @@
 import { ElMessage } from "element-plus";
 import { useTemplateRef } from "vue";
 
-const buttonRef = useTemplateRef<{ doLoading: (callback: () => void | Promise<void>) => void }>("buttonRef");
+const buttonRef = useTemplateRef<{ doLoading: (callback: () => void | Promise<void>) => Promise<void> }>("buttonRef");
 
 const handleAsyncClick = (_event: MouseEvent, done?: () => void): void => {
 	window.setTimeout(() => {
@@ -12,7 +12,7 @@ const handleAsyncClick = (_event: MouseEvent, done?: () => void): void => {
 };
 
 const handleExposeLoading = (): void => {
-	buttonRef.value?.doLoading(async () => {
+	void buttonRef.value?.doLoading(async () => {
 		await new Promise<void>((resolve) => window.setTimeout(resolve, 800));
 		ElMessage.success("Expose Loading 完成");
 	});

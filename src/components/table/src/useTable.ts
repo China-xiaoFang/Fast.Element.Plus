@@ -33,7 +33,7 @@ interface TableComposable {
 	tableSearch: () => Promise<void>;
 	tableReset: () => Promise<void>;
 	doRender: () => Promise<void>;
-	doLoading: (loadingFunction: () => void | Promise<void>, loadingText?: string) => void;
+	doLoading: (loadingFunction: () => void | Promise<void>, loadingText?: string) => Promise<void>;
 	handleCustomCellClick: (emitName: string, context: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) => void;
 }
 
@@ -479,12 +479,14 @@ export const useTable = (
 		await renderTable();
 	};
 
-	const doLoading = (loadingFunction: () => void | Promise<void>, loadingText = "加载中..."): void => {
+	const doLoading = async (loadingFunction: () => void | Promise<void>, loadingText = "加载中..."): Promise<void> => {
 		state.loading = true;
 		state.loadingText = loadingText;
-		void callOptionalFunction(loadingFunction).finally(() => {
+		try {
+			await callOptionalFunction(loadingFunction);
+		} finally {
 			state.loading = false;
-		});
+		}
 	};
 
 	const handleCustomCellClick = (

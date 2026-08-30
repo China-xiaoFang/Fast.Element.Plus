@@ -2,8 +2,8 @@
 import { ref, useTemplateRef } from "vue";
 
 interface DialogExpose {
-	close: (callback?: () => void | Promise<void>) => void;
-	open: () => void;
+	close: (callback?: () => void | Promise<void>) => Promise<void>;
+	open: () => Promise<void>;
 }
 
 const dialogRef = useTemplateRef<DialogExpose>("dialogRef");

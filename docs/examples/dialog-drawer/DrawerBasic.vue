@@ -2,8 +2,8 @@
 import { useTemplateRef } from "vue";
 
 interface DrawerExpose {
-	close: (callback?: () => void | Promise<void>) => void;
-	open: (callback?: () => void | Promise<void>) => void;
+	close: (callback?: () => void | Promise<void>) => Promise<void>;
+	open: (callback?: () => void | Promise<void>) => Promise<void>;
 }
 
 const drawerRef = useTemplateRef<DrawerExpose>("drawerRef");
@@ -11,7 +11,7 @@ const wait = async (): Promise<void> => {
 	await new Promise<void>((resolve) => window.setTimeout(resolve, 600));
 };
 const confirm = (): void => {
-	drawerRef.value?.close(wait);
+	void drawerRef.value?.close(wait);
 };
 </script>
 

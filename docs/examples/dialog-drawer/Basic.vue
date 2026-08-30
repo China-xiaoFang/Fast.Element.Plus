@@ -2,8 +2,8 @@
 import { useTemplateRef } from "vue";
 
 interface ContainerExpose {
-	close: (callback?: () => void | Promise<void>) => void;
-	open: (callback?: () => void | Promise<void>) => void;
+	close: (callback?: () => void | Promise<void>) => Promise<void>;
+	open: (callback?: () => void | Promise<void>) => Promise<void>;
 }
 
 const dialogRef = useTemplateRef<ContainerExpose>("dialogRef");
@@ -13,7 +13,7 @@ const wait = async (): Promise<void> => {
 };
 
 const confirmDialog = (): void => {
-	dialogRef.value?.close(wait);
+	void dialogRef.value?.close(wait);
 };
 </script>
 

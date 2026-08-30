@@ -10,7 +10,7 @@ interface TableExpose {
 
 const tableRef = useTemplateRef<TableExpose>("tableRef");
 const rows = [
-	{ id: 1, name: "Fast.Element.Plus", version: "2.0.2" },
+	{ id: 1, name: "Fast.Element.Plus", version: "2.0.3" },
 	{ id: 2, name: "Fast.NET", version: "5.x" },
 ];
 </script>
