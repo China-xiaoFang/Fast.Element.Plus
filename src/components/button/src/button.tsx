@@ -66,11 +66,13 @@ export default defineComponent({
 			useOverlay.hide();
 		};
 
-		const handleLoading = (loadingFunction: () => void | Promise<void>): void => {
+		const handleLoading = async (loadingFunction: () => void | Promise<void>): Promise<void> => {
 			state.loading = true;
-			void callOptionalFunction(loadingFunction).finally(() => {
+			try {
+				await callOptionalFunction(loadingFunction);
+			} finally {
 				state.loading = false;
-			});
+			}
 		};
 
 		const handleClick = (event: MouseEvent): void => {

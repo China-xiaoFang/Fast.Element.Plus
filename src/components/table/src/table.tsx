@@ -15,7 +15,7 @@ import {
 	useSizeProp,
 } from "element-plus";
 import { NotData } from "@fast-element-plus/icons-vue";
-import { isArray, isBoolean, isFunction, isNil, isNull, isNumber, isObject, isString, omit } from "lodash-unified";
+import { isArray, isBoolean, isFunction, isNil, isNull, isNumber, isObject, isString, omit, pick } from "lodash-unified";
 import {
 	createDateRangeShortcuts,
 	createOneMonthRangeFromToday,
@@ -876,6 +876,12 @@ export default defineComponent({
 		});
 
 		const tableColumnOmitNames = ["multiOrder", "columnId", "order", "sortableField", "disabledSortable", "spanProp", "pureSearch", "search"];
+		const searchFormSlotNames = computed(() => [
+			...new Set(state.searchColumns.flatMap((column) => (isString(column.search?.slot) ? [column.search.slot] : []))),
+		]);
+		const tableColumnSlotNames = computed(() => [
+			...new Set(state.tableColumns.flatMap((column) => [column.slot, column.headerSlot].filter((name): name is string => isString(name)))),
+		]);
 		const searchInputClearable = computed(() => {
 			const value = state.searchParam.searchValue;
 			return (value !== undefined && value !== null && value !== "") || state.searchValueUpdate.length > 0;
@@ -898,7 +904,7 @@ export default defineComponent({
 				}}
 			>
 				<FaTableSearchForm
-					vSlots={slots}
+					vSlots={pick(slots, searchFormSlotNames.value)}
 					show={props.searchForm && state.searchForm}
 					collapsedSearch={props.collapsedSearch}
 					advancedSearchDrawer={props.advancedSearchDrawer}
@@ -1174,7 +1180,7 @@ export default defineComponent({
 													) : (
 														col.prop && (
 															<FaTableColumn
-																vSlots={slots}
+																vSlots={pick(slots, tableColumnSlotNames.value)}
 																{...omit(col, tableColumnOmitNames)}
 																hideImage={props.hideImage}
 																resizable={true}

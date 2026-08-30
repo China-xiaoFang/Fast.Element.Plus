@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { nextTick, ref, useTemplateRef } from "vue";
 import type { DrawerProps } from "element-plus";
 
-const visible = ref(false);
+const drawerRef = useTemplateRef<{ open: () => Promise<void> }>("drawerRef");
 const direction = ref<DrawerProps["direction"]>("rtl");
 
-const open = (value: DrawerProps["direction"]): void => {
+const open = async (value: DrawerProps["direction"]): Promise<void> => {
 	direction.value = value;
-	visible.value = true;
+	await nextTick();
+	await drawerRef.value?.open();
 };
 </script>
 
@@ -18,7 +19,7 @@ const open = (value: DrawerProps["direction"]): void => {
 		<ElButton @click="open('ttb')">从顶部打开</ElButton>
 		<ElButton @click="open('btt')">从底部打开</ElButton>
 	</div>
-	<FaDrawer v-model="visible" :direction="direction" :size="direction === 'rtl' || direction === 'ltr' ? '42%' : '45%'" title="可拖动 Drawer">
+	<FaDrawer ref="drawerRef" :direction="direction" :size="direction === 'rtl' || direction === 'ltr' ? '42%' : '45%'" title="可拖动 Drawer">
 		<div class="demo-stack">
 			<ElAlert :closable="false" title="拖动内容边缘可改变 Drawer 尺寸" type="info" />
 			<p>当前方向：{{ direction }}</p>

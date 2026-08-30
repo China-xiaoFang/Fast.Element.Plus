@@ -498,7 +498,7 @@ export default defineComponent({
 			}
 			const rawValue: unknown = row[props.prop ?? ""];
 			const renderValue = rawValue
-				? formatterRender(row, column, dayjs(displayText(rawValue)).format(props.dateFormat ?? dateFormat), $index)
+				? formatterRender(row, column, dayjs(rawValue as Parameters<typeof dayjs>[0]).format(props.dateFormat ?? dateFormat), $index)
 				: null;
 			return [
 				<Fragment>

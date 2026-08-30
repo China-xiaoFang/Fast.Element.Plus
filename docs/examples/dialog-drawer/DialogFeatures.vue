@@ -2,9 +2,9 @@
 import { useTemplateRef } from "vue";
 
 interface DialogExpose {
-	close: (callback?: () => void | Promise<void>) => void;
-	doLoading: (callback: () => void | Promise<void>) => void;
-	open: (callback?: () => void | Promise<void>) => void;
+	close: (callback?: () => void | Promise<void>) => Promise<void>;
+	doLoading: (callback: () => void | Promise<void>) => Promise<void>;
+	open: (callback?: () => void | Promise<void>) => Promise<void>;
 }
 
 const dialogRef = useTemplateRef<DialogExpose>("dialogRef");

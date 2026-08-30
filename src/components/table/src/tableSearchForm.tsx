@@ -238,7 +238,9 @@ export default defineComponent({
 														type="info"
 														plain
 														icon={Search}
-														onClick={() => advancedSearchRef.value?.open()}
+														onClick={() => {
+															void advancedSearchRef.value?.open();
+														}}
 													>
 														高级搜索
 													</ElButton>

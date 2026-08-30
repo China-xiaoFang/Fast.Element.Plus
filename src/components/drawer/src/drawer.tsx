@@ -62,7 +62,7 @@ export const faDrawerProps = {
 	showBeforeClose: Boolean,
 	/** @description 打开之后 */
 	afterOpen: {
-		type: definePropType<() => void>(Function),
+		type: definePropType<() => void | Promise<void>>(Function),
 	},
 };
 
@@ -97,7 +97,7 @@ export default defineComponent({
 
 		const state = reactive({
 			loading: false,
-			visible: props.modelValue,
+			visible: false,
 			fullscreen: false,
 			size: props.size ?? "30%",
 			dragging: false,
@@ -108,53 +108,55 @@ export default defineComponent({
 
 		let cacheOpenFunction: (() => void | Promise<void>) | undefined;
 
-		const handleOpen = (openFunction?: () => void | Promise<void>): void => {
+		const handleOpen = async (openFunction?: () => void | Promise<void>): Promise<void> => {
 			state.visible = true;
 			cacheOpenFunction = openFunction;
-			void nextTick(() => {
-				state.loading = true;
-				void callOptionalFunction(props.afterOpen ?? openFunction)
-					.then(() => {
-						emit("open");
-					})
-					.catch((error) => {
-						// 打开回调失败时保持原有的自动关闭行为，并将异常继续交给运行时。
-						state.visible = false;
-						throw error;
-					})
-					.finally(() => {
-						state.loading = false;
-					});
-			});
-		};
-
-		const handleClose = (closeFunction?: () => void | Promise<void>): void => {
+			await nextTick();
 			state.loading = true;
-			void callOptionalFunction(closeFunction)
-				.then(() => {
-					emit("close");
-					state.visible = false;
-				})
-				.finally(() => {
-					state.loading = false;
-				});
-		};
-
-		const handleLoading = (loadingFunction: () => void | Promise<void>): void => {
-			state.loading = true;
-			void callOptionalFunction(loadingFunction).finally(() => {
+			try {
+				await callOptionalFunction(props.afterOpen ?? openFunction);
+				emit("open");
+			} catch (error) {
+				state.visible = false;
+				throw error;
+			} finally {
 				state.loading = false;
-			});
+			}
 		};
 
-		const handleRefresh = (): void => {
+		const handleClose = async (closeFunction?: () => void | Promise<void>): Promise<void> => {
+			state.loading = true;
+			try {
+				await callOptionalFunction(closeFunction);
+				emit("close");
+				state.visible = false;
+			} finally {
+				state.loading = false;
+			}
+		};
+
+		const handleLoading = async (loadingFunction: () => void | Promise<void>): Promise<void> => {
+			state.loading = true;
+			try {
+				await callOptionalFunction(loadingFunction);
+			} finally {
+				state.loading = false;
+			}
+		};
+
+		const handleRefresh = async (): Promise<void> => {
+			if (state.loading) return;
 			state.refreshing = true;
 			state.loading = true;
-			setTimeout(() => {
+			try {
+				await new Promise<void>((resolve) => setTimeout(resolve, 500));
 				state.refreshing = false;
-				handleOpen(cacheOpenFunction);
+				await handleOpen(cacheOpenFunction);
 				ElMessage.success("刷新成功");
-			}, 500);
+			} finally {
+				state.refreshing = false;
+				state.loading = false;
+			}
 		};
 
 		const handleBeforeClose = (done: () => void): void => {
@@ -190,20 +192,13 @@ export default defineComponent({
 
 		const handleCloseClick = (): void => {
 			if (state.loading) return;
-			handleClose();
+			void handleClose();
 		};
-
-		watch(
-			() => props.modelValue,
-			(newValue) => {
-				if (state.visible !== newValue) state.visible = newValue;
-			}
-		);
 
 		watch(
 			() => state.visible,
 			(newValue) => {
-				if (props.modelValue !== newValue) emit("update:modelValue", newValue);
+				emit("update:modelValue", newValue);
 			}
 		);
 
@@ -283,7 +278,9 @@ export default defineComponent({
 										"fa-drawer__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
-									onClick={handleRefresh}
+									onClick={() => {
+										void handleRefresh();
+									}}
 								>
 									<ElIcon class="icon">
 										<Refresh />

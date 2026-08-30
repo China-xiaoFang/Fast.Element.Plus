@@ -77,9 +77,9 @@ export default defineComponent({
 			});
 		};
 
-		const open = (): void => {
+		const open = async (): Promise<void> => {
 			state.change = false;
-			faDialogRef.value?.open(() => {
+			await faDialogRef.value?.open(() => {
 				tableRowDrop();
 				ElNotification({
 					message: "点击保存才会进行数据缓存，点击取消为本此生效",
@@ -104,7 +104,7 @@ export default defineComponent({
 		};
 
 		const handleConfirmClick = (): void => {
-			faDialogRef.value?.close(handleChange);
+			void faDialogRef.value?.close(handleChange);
 		};
 
 		const handleOrderChange = (): void => {

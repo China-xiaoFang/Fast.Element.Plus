@@ -20,9 +20,11 @@ import type {
 	FaContextMenuData,
 	FaDialogInstance,
 	FaDialogSlots,
+	FaDrawerInstance,
 	FaFormInstance,
 	FaImageInstance,
 	FaImageSlots,
+	FaInputDialogPageInstance,
 	FaInputDialogPageProps,
 	FaSelectPageProps,
 	FaSelectProps,
@@ -89,15 +91,31 @@ const tree = FaTree;
 
 const buttonInstance = {} as FaButtonInstance;
 const dialogInstance = {} as FaDialogInstance;
+const drawerInstance = {} as FaDrawerInstance;
 const tableInstance = {} as FaTableInstance;
 const formInstance = {} as FaFormInstance;
 const imageInstance = {} as FaImageInstance;
+const inputDialogPageInstance = {} as FaInputDialogPageInstance;
 const selectV2Instance = {} as FaSelectV2Instance;
 const treeInstance = {} as FaTreeInstance;
 const treeSelectInstance = {} as FaTreeSelectInstance;
 const dialogSlots = {} as FaDialogSlots;
 const imageSlots = {} as FaImageSlots;
 const uploadSlots = {} as FaUploadSlots;
+
+const asyncTask = (): Promise<void> => Promise.resolve();
+const buttonLoadingResult: Promise<void> = buttonInstance.doLoading(asyncTask);
+const dialogOpenResult: Promise<void> = dialogInstance.open(asyncTask);
+const dialogCloseResult: Promise<void> = dialogInstance.close(asyncTask);
+const dialogRefreshResult: Promise<void> = dialogInstance.refresh();
+const dialogLoadingResult: Promise<void> = dialogInstance.doLoading(asyncTask);
+const drawerOpenResult: Promise<void> = drawerInstance.open(asyncTask);
+const drawerCloseResult: Promise<void> = drawerInstance.close(asyncTask);
+const drawerRefreshResult: Promise<void> = drawerInstance.refresh();
+const drawerLoadingResult: Promise<void> = drawerInstance.doLoading(asyncTask);
+const tableLoadingResult: Promise<void> = tableInstance.doLoading(asyncTask);
+const inputDialogPageOpenResult: Promise<void> = inputDialogPageInstance.open();
+const tableColumnsSettingOpenResult: Promise<void> = ({} as InstanceType<typeof tableColumnsSettingDialog>).open();
 
 void formInstance.getField;
 void formInstance.setInitialValues;
@@ -115,6 +133,18 @@ void dialogSlots.title;
 void imageSlots.toolbar;
 void imageSlots["viewer-error"];
 void uploadSlots.file;
+void buttonLoadingResult;
+void dialogOpenResult;
+void dialogCloseResult;
+void dialogRefreshResult;
+void dialogLoadingResult;
+void drawerOpenResult;
+void drawerCloseResult;
+void drawerRefreshResult;
+void drawerLoadingResult;
+void tableLoadingResult;
+void inputDialogPageOpenResult;
+void tableColumnsSettingOpenResult;
 
 void tableColumnsSettingDialog;
 void tablePagination;

@@ -83,13 +83,13 @@ export const tableUtil = {
 								return comparison;
 							}
 						}
-					} else if (typeof aValue === "number" && typeof bValue === "number") {
+					} else {
 						if (order === "ascending") {
-							if (aValue < bValue) return -1;
-							if (aValue > bValue) return 1;
+							if ((aValue as string) < (bValue as string)) return -1;
+							if ((aValue as string) > (bValue as string)) return 1;
 						} else if (order === "descending") {
-							if (aValue > bValue) return -1;
-							if (aValue < bValue) return 1;
+							if ((aValue as string) > (bValue as string)) return -1;
+							if ((aValue as string) < (bValue as string)) return 1;
 						}
 					}
 				}

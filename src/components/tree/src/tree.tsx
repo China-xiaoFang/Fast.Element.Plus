@@ -2,7 +2,7 @@ import { useVModel } from "@vueuse/core";
 import { computed, defineComponent, nextTick, onMounted, reactive, ref, watch } from "vue";
 import { Expand, Fold } from "@element-plus/icons-vue";
 import { ElIcon, ElInput, ElScrollbar, ElTree, treeEmits, treeProps, useGlobalSize } from "element-plus";
-import { isArray, isBoolean, isNull, isNumber, isObject, isString } from "lodash-unified";
+import { isArray, isBoolean, isNull, isNumber, isObject, isString, isUndefined } from "lodash-unified";
 import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import type { FilterValue, TreeNodeData } from "element-plus";
 import type { ComponentInternalInstance, VNode } from "vue";
@@ -69,7 +69,7 @@ export const faTreeProps = {
 	/** @description 全部值 */
 	allValue: {
 		type: definePropType<string | number | boolean | object | null>([String, Number, Boolean, Object]),
-		default: "",
+		default: undefined,
 	},
 	/** @description 树形数据 */
 	data: {
@@ -88,8 +88,8 @@ export const faTreeProps = {
 export const faTreeEmits = {
 	...treeEmits,
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | number | boolean | object | null): boolean =>
-		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isNull(value),
+	"update:modelValue": (value: string | number | boolean | object | null | undefined): boolean =>
+		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isNull(value) || isUndefined(value),
 	/** @description v-model:label 回调 */
 	"update:label": (value: string): boolean => isString(value) || isNull(value),
 	/** @description 数据改变 */
@@ -120,7 +120,7 @@ export default defineComponent({
 		const _globalSize = useGlobalSize();
 
 		const state = reactive({
-			value: withDefineType<string | number | boolean | object | null>(props.modelValue),
+			value: withDefineType<string | number | boolean | object | null | undefined>(props.modelValue),
 			loading: false,
 			searchValue: withDefineType<string>(),
 			orgTreeData: withDefineType<ElTreeOutput[]>([]),
@@ -236,7 +236,7 @@ export default defineComponent({
 				}
 			}
 			if (!data["all"] && (node.key === undefined || node.key === null)) return;
-			state.value = data["all"] ? (props.allValue ?? null) : (node.key ?? null);
+			state.value = data["all"] ? props.allValue : (node.key ?? null);
 			selectedLabel.value = node.label;
 			emit("update:modelValue", state.value);
 			emit("change", data, node, instance, event);
@@ -259,7 +259,7 @@ export default defineComponent({
 		watch(
 			() => props.modelValue,
 			(newValue) => {
-				state.value = newValue ?? null;
+				state.value = newValue;
 				if (typeof newValue === "string" || typeof newValue === "number") treeRef.value?.setCurrentKey(newValue);
 			}
 		);
