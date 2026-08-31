@@ -21,7 +21,7 @@ export default defineConfig({
 			{ text: "组件", link: "/components/overview" },
 			{ text: "API", link: "/API.zh-CN" },
 			{
-				text: "2.0.4",
+				text: "2.0.5",
 				items: [
 					{ text: "更新日志", link: "https://gitee.com/FastDotnet/fast.element.plus/blob/master/CHANGELOG.md" },
 					{ text: "Element Plus 兼容性", link: "/ELEMENT_PLUS_COMPATIBILITY.zh-CN" },

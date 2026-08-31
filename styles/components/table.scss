@@ -14,6 +14,7 @@
 		height var(--el-transition-duration);
 
 	> .el-card {
+		--el-fill-color-blank: var(--el-bg-color-overlay);
 		border-radius: calc(var(--el-border-radius-base) * 1.5);
 		background-color: var(--el-bg-color-overlay);
 		box-shadow: var(--el-box-shadow-light);
@@ -32,8 +33,7 @@
 			max-height var(--el-transition-duration) ease-in-out,
 			opacity var(--el-transition-duration) ease-in-out,
 			padding var(--el-transition-duration) ease-in-out,
-			margin var(--el-transition-duration) ease-in-out,
-			border var(--el-transition-duration) ease-in-out;
+			margin var(--el-transition-duration) ease-in-out;
 		&.fa-table__search-hidden {
 			height: 0;
 			max-height: 0;

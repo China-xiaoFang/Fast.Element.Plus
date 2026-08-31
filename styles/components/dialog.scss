@@ -2,6 +2,7 @@
 
 .fa-dialog {
 	--height: 90%;
+	--el-fill-color-blank: var(--el-bg-color-overlay);
 	--el-dialog-title-font-size: var(--el-font-size-base);
 	--fa-dialog-header-height: 40px;
 	--fa-dialog-footer-height: 45px;

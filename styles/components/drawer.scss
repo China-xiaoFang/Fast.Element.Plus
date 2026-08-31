@@ -1,6 +1,7 @@
 @use "../common/breakpoints.scss" as bp;
 
 .fa-drawer {
+	--el-fill-color-blank: var(--el-bg-color-overlay);
 	--fa-drawer-header-height: 40px;
 	--fa-drawer-footer-height: 45px;
 	box-sizing: border-box;
