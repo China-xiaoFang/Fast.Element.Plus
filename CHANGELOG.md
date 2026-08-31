@@ -2,6 +2,13 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.5] - 2026-08-31
+
+### Fixed
+
+- Aligned blank fill colors with overlay backgrounds in dialogs, drawers, and table cards to prevent nested component background differences.
+- Removed the table search border transition to prevent temporary light or dark border flashes while showing or hiding it.
+
 ## [2.0.4] - 2026-08-31
 
 ### Fixed
@@ -70,6 +77,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.5]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.5
 [2.0.4]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.4
 [2.0.3]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.3
 [2.0.2]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.2
