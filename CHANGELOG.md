@@ -2,6 +2,22 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.8] - 2026-09-01
+
+### Changed
+
+- Standardized Select, SelectPage, SelectV2, and TreeSelect model updates around the native `update:modelValue` contract while retaining the enriched `change(data, value)` event.
+- Kept selector labels as derived `v-model:label` state instead of coupling them to custom `change` handlers.
+- Restored InputDialogPage and Tree `change` events with their original row and node data payloads without coupling them to model synchronization.
+- Restored Upload `onChange(uploadFile, uploadFiles)` to the Element Plus callback contract; uploaded URL changes are now reported only through `update:modelValue`.
+
+### Fixed
+
+- Corrected TreeSelect multiple selection so array values are preserved and node clicks no longer fabricate selection changes.
+- Prevented duplicated selector events and restored native single-select popup closing behavior.
+- Removed duplicate Upload file-list writes, preserved array models when clearing multiple uploads, and kept FaUploadImages output typed as an array even when file selection is restricted to one item.
+- Forwarded Tree node clicks without suppressing keyless nodes.
+
 ## [2.0.7] - 2026-08-31
 
 ### Fixed
@@ -91,6 +107,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.8]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.8
 [2.0.7]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.7
 [2.0.6]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.6
 [2.0.5]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.5

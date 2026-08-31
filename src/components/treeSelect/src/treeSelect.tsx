@@ -14,8 +14,9 @@ import type { FilterNodeMethodFunction, TreeNode } from "../../tree/src/tree.pro
 type ElTreeSelectRuntimeType = typeof ElTreeSelect &
 	(new () => {
 		$props: InstanceType<typeof ElTreeSelect>["$props"] & {
-			onClear?: () => void;
-			onNodeClick?: (data: ElSelectorOutput, node: TreeNode, instance: ComponentInternalInstance | null, event: MouseEvent) => void;
+			onNodeClick?: (data: ElSelectorOutput, node: TreeNode, instance: ComponentInternalInstance | null) => void;
+			onChange?: (value: ElSelectorModelValue) => void;
+			"onUpdate:modelValue"?: (value: ElSelectorModelValue) => void;
 		};
 	});
 
@@ -178,16 +179,16 @@ export const faTreeSelectEmits = {
 	...treeEmits,
 	/** @description v-model 回调 */
 	"update:modelValue": (value: ElSelectorModelValue): boolean =>
-		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNull(value),
+		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNil(value),
+	/** @description 选中数据改变 */
+	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
 	/** @description v-model:label 回调 */
 	"update:label": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
 
 	/** @description 数据改变 */
 	dataChangeCallBack: (data: ElSelectorOutput[]): boolean => isArray(data),
-	/** @description 改变 */
-	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
 	/** @description 节点点击 */
-	"node-click": (_data: ElSelectorOutput, _node: TreeNode, _instance: ComponentInternalInstance, _event: MouseEvent): boolean => true,
+	"node-click": (_data: ElSelectorOutput, _node: TreeNode, _instance: ComponentInternalInstance | null): boolean => true,
 };
 
 /** FaTreeSelect 的插槽参数。 */
@@ -260,6 +261,11 @@ export default defineComponent({
 				.filter((item) => item.hide !== true);
 		};
 
+		const handleModelValueUpdate = (value: ElSelectorModelValue): void => {
+			state.value = value;
+			emit("update:modelValue", value);
+		};
+
 		const loadData = async (): Promise<void> => {
 			const currentRequestVersion = ++requestVersion;
 			// 判断是否需要自动请求
@@ -306,49 +312,7 @@ export default defineComponent({
 			return result;
 		};
 
-		const handleChange = (value?: ElSelectorModelValue, data?: ElSelectorOutput): void => {
-			// 判断是否为多选
-			if (props.multiple) {
-				// value 必然是数组
-				const valueArr = Array.isArray(value) ? value : [];
-				if (valueArr?.length === 0) {
-					state.value = null;
-					selectedLabel.value = null;
-					emit("update:modelValue", null);
-					emit("change", null, null);
-					return;
-				}
-				const dataList = state.selectorData.filter((item) => item.value !== undefined && valueArr.includes(item.value));
-				state.value = value;
-				selectedLabel.value = dataList.map((item) => item.label ?? "");
-				emit("update:modelValue", value);
-				emit("change", dataList, value);
-			} else {
-				// value 必然不是数组
-				if (isNil(value)) {
-					state.value = null;
-					selectedLabel.value = null;
-					emit("update:modelValue", null);
-					emit("change", null, null);
-					return;
-				}
-				data ??= state.selectorData.find((f) => f.value === value);
-				state.value = value;
-				selectedLabel.value = data?.label ?? null;
-				emit("update:modelValue", value);
-				emit("change", data ?? null, value);
-			}
-		};
-
-		const handleClear = (): void => {
-			state.value = null;
-			selectedLabel.value = null;
-			emit("update:modelValue", null);
-			emit("clear");
-		};
-
-		const handleNodeClick = (data: ElSelectorOutput, node: TreeNode, instance: ComponentInternalInstance | null, event: MouseEvent): void => {
-			if (!instance) return;
+		const handleNodeClick = (data: ElSelectorOutput, node: TreeNode, instance: ComponentInternalInstance | null): void => {
 			// 判断是否开启点击展开节点，并且节点是折叠状态，则自动展开，否则需要点击箭头图标才能折叠或开启 'collapseOnClickNode'
 			if (props.expandOnClickNode) {
 				if (!node.expanded) {
@@ -357,15 +321,7 @@ export default defineComponent({
 					node.collapse();
 				}
 			}
-			// 判断是否开启了 checkStrictly
-			if (props.checkStrictly) {
-				handleChange(data.value, data);
-			} else {
-				if (node.isLeaf) {
-					handleChange(data.value, data);
-				}
-			}
-			emit("node-click", data, node, instance, event);
+			emit("node-click", data, node, instance);
 		};
 
 		/**
@@ -448,15 +404,76 @@ export default defineComponent({
 			}
 		);
 
+		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
+			data.flatMap((item) => [item, ...flattenOptions(item.children ?? [])]);
+
+		const handleChange = (value?: ElSelectorModelValue): void => {
+			const selectorData = flattenOptions(state.selectorData);
+			if (props.multiple) {
+				const valueList = Array.isArray(value) ? value : [];
+				if (valueList.length === 0) {
+					emit("change", null, null);
+					return;
+				}
+				const dataList = valueList
+					.map((item) => selectorData.find((option) => option.value !== undefined && isEqual(option.value, item)))
+					.filter((item): item is ElSelectorOutput => item !== undefined);
+				emit("change", dataList, value);
+				return;
+			}
+
+			if (isNil(value) || Array.isArray(value)) {
+				emit("change", null, null);
+				return;
+			}
+			const data = selectorData.find((item) => item.value !== undefined && isEqual(item.value, value));
+			emit("change", data ?? null, value);
+		};
+
+		watch(
+			[() => state.value, () => state.selectorData],
+			([value]) => {
+				const selectorData = flattenOptions(state.selectorData);
+
+				if (props.multiple) {
+					if (!Array.isArray(value)) {
+						selectedLabel.value = null;
+						return;
+					}
+
+					selectedLabel.value = value.map((item, index) => {
+						const data = selectorData.find((option) => option.value !== undefined && isEqual(option.value, item));
+
+						return data?.label ?? (Array.isArray(props.label) ? (props.label[index] ?? "") : "");
+					});
+					return;
+				}
+
+				if (isNil(value) || Array.isArray(value)) {
+					selectedLabel.value = null;
+					return;
+				}
+
+				selectedLabel.value =
+					selectorData.find((item) => item.value !== undefined && isEqual(item.value, value))?.label ??
+					(typeof props.label === "string" ? props.label : null);
+			},
+			{
+				deep: true,
+				flush: "sync",
+				immediate: true,
+			}
+		);
+
 		onMounted(async () => {
 			if (props.defaultSelected) {
 				await loadData();
 				const firstItem = state.selectorData[0];
 				if (firstItem?.value !== undefined) {
 					if (props.multiple) {
-						handleChange([firstItem.value]);
+						handleModelValueUpdate([firstItem.value]);
 					} else {
-						handleChange(firstItem.value, firstItem);
+						handleModelValueUpdate(firstItem.value);
 					}
 				}
 			}
@@ -475,7 +492,7 @@ export default defineComponent({
 					if (!isEqual(newValue, oldValue)) {
 						state.nextRefresh = true;
 						if (!isNil(state.value)) {
-							handleChange();
+							handleModelValueUpdate(props.multiple ? [] : undefined);
 						}
 					}
 				}
@@ -500,7 +517,7 @@ export default defineComponent({
 			"filterNodeMethod",
 			"props",
 		]);
-		const elTreeSelectEmits = useEmits({ ...selectEmits, ...treeEmits }, emit, ["update:modelValue", "clear", "visible-change", "node-click"]);
+		const elTreeSelectEmits = useEmits({ ...selectEmits, ...treeEmits }, emit, ["update:modelValue", "change", "visible-change", "node-click"]);
 
 		useRender(() => (
 			<ElTreeSelectRuntime
@@ -510,14 +527,15 @@ export default defineComponent({
 				class="fa-tree-select"
 				popperClass={["fa-tree-select-dropdown", props.popperClass]}
 				style={{ width: addCssUnit(props.width) }}
-				vModel={state.value}
+				modelValue={state.value}
+				onUpdate:modelValue={handleModelValueUpdate}
+				onChange={handleChange}
 				lazy={false}
 				loading={state.loading}
 				data={state.selectorData}
 				expandOnClickNode={props.checkOnClickNode ? false : props.expandOnClickNode}
 				filterNodeMethod={handleFilterNode as typeof props.filterNodeMethod}
 				onNodeClick={handleNodeClick}
-				onClear={handleClear}
 				onVisible-change={handleVisibleChange}
 			>
 				{{
@@ -590,9 +608,9 @@ export default defineComponent({
 			/** @description 刷新 */
 			refresh: loadData,
 			/** @description 设置选择 */
-			setSelection: (value: Exclude<ElSelectorModelValue, null | undefined>) => handleChange(value),
+			setSelection: (value: Exclude<ElSelectorModelValue, null | undefined>) => handleModelValueUpdate(value),
 			/** @description 清除选择 */
-			clearSelection: () => handleChange(null),
+			clearSelection: () => handleModelValueUpdate(props.multiple ? [] : undefined),
 		});
 	},
 });

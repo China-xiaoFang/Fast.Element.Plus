@@ -2,7 +2,7 @@ import { useVModel } from "@vueuse/core";
 import { computed, defineComponent, nextTick, onMounted, reactive, ref, watch } from "vue";
 import { Expand, Fold } from "@element-plus/icons-vue";
 import { ElIcon, ElInput, ElScrollbar, ElTree, treeEmits, treeProps, useGlobalSize } from "element-plus";
-import { isArray, isBoolean, isNull, isNumber, isObject, isString, isUndefined } from "lodash-unified";
+import { isArray, isBoolean, isEqual, isNull, isNumber, isObject, isString, isUndefined } from "lodash-unified";
 import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import type { FilterValue, TreeNodeData } from "element-plus";
 import type { ComponentInternalInstance, VNode } from "vue";
@@ -94,10 +94,10 @@ export const faTreeEmits = {
 	"update:label": (value: string): boolean => isString(value) || isNull(value),
 	/** @description 数据改变 */
 	dataChangeCallBack: (data: ElTreeOutput[]): boolean => isArray(data),
-	/** @description 改变 */
+	/** @description 选中数据改变 */
 	change: (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance, _event: MouseEvent): boolean => true,
 	/** @description 节点点击 */
-	"node-click": (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance, _event: MouseEvent): boolean => true,
+	"node-click": (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance | null, _event: MouseEvent): boolean => true,
 };
 
 /** FaTree 的插槽参数。 */
@@ -235,11 +235,15 @@ export default defineComponent({
 					node.collapse();
 				}
 			}
-			if (!data["all"] && (node.key === undefined || node.key === null)) return;
-			state.value = data["all"] ? props.allValue : (node.key ?? null);
-			selectedLabel.value = node.label;
-			emit("update:modelValue", state.value);
-			emit("change", data, node, instance, event);
+			if (data["all"] || (node.key !== undefined && node.key !== null)) {
+				const value = data["all"] ? props.allValue : node.key;
+				if (!isEqual(state.value, value)) {
+					state.value = value;
+					selectedLabel.value = node.label;
+					emit("update:modelValue", value);
+					emit("change", data, node, instance, event);
+				}
+			}
 			emit("node-click", data, node, instance, event);
 		};
 

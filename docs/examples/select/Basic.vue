@@ -4,6 +4,8 @@ import { ref } from "vue";
 const departmentId = ref<number>();
 const departmentName = ref<string | null>(null);
 const roles = ref<number[]>([]);
+const roleNames = ref<string[] | null>([]);
+const changedRoleData = ref<unknown>();
 
 const departments = [
 	{ value: 1, label: "研发中心" },
@@ -23,9 +25,21 @@ const departments = [
 			placeholder="选择部门"
 			style="width: 240px"
 		/>
-		<FaSelect v-model="roles" :data="departments" multiple clearable placeholder="选择多个部门" style="width: 300px" />
+		<FaSelect
+			v-model="roles"
+			v-model:label="roleNames"
+			:data="departments"
+			multiple
+			clearable
+			placeholder="选择多个部门"
+			style="width: 300px"
+			@change="changedRoleData = $event"
+		/>
 	</div>
 	<p style="margin: 14px 0 0; color: var(--el-text-color-secondary)">
 		当前值：{{ departmentId ?? "未选择" }}；当前标签：{{ departmentName ?? "未选择" }}
+	</p>
+	<p style="margin: 6px 0 0; color: var(--el-text-color-secondary)">
+		多选值：{{ JSON.stringify(roles) }}；多选标签：{{ JSON.stringify(roleNames) }}；change 数据：{{ JSON.stringify(changedRoleData) }}
 	</p>
 </template>

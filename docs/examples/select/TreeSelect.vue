@@ -4,6 +4,9 @@ import { ref } from "vue";
 const singleValue = ref<string>();
 const singleLabel = ref<string | null>(null);
 const multipleValue = ref<string[]>([]);
+const multipleLabel = ref<string[] | null>([]);
+const singleChangedData = ref<unknown>();
+const multipleChangedData = ref<unknown>();
 const data = [
 	{
 		value: "frontend",
@@ -36,7 +39,27 @@ const requestApi = async () => data;
 			filterable
 			clearable
 			placeholder="选择单个节点"
+			@change="singleChangedData = $event"
 		/>
-		<FaTreeSelect v-model="multipleValue" :data="data" multiple show-checkbox check-strictly filterable clearable placeholder="选择多个节点" />
+		<span class="demo-value">
+			单选值：{{ JSON.stringify(singleValue) }}；标签：{{ JSON.stringify(singleLabel) }}；change 数据：{{ JSON.stringify(singleChangedData) }}
+		</span>
+		<FaTreeSelect
+			v-model="multipleValue"
+			v-model:label="multipleLabel"
+			:data="data"
+			multiple
+			show-checkbox
+			check-strictly
+			filterable
+			clearable
+			placeholder="选择多个节点"
+			@change="multipleChangedData = $event"
+		/>
+		<span class="demo-value">
+			多选值：{{ JSON.stringify(multipleValue) }}；标签：{{ JSON.stringify(multipleLabel) }}；change 数据：{{
+				JSON.stringify(multipleChangedData)
+			}}
+		</span>
 	</div>
 </template>

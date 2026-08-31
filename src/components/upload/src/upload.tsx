@@ -41,8 +41,6 @@ export const faUploadEmits = {
 	"update:modelValue": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
 	/** @description v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
-	/** @description 改变 */
-	change: (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
 };
 
 /** FaUpload 的插槽参数。 */
@@ -94,13 +92,11 @@ export default defineComponent({
 		const httpRequest = computed(() => (props.httpRequest === uploadProps.httpRequest.default ? handleHttpRequest : props.httpRequest));
 
 		const handleOnChange: UploadProps["onChange"] = (uploadFile, uploadFiles) => {
-			if (uploadFile.status !== "ready") return;
-
-			if (!handleOnUpload(uploadFile)) {
+			if (uploadFile.status === "ready" && !handleOnUpload(uploadFile)) {
 				fileList.value = fileList.value.filter((item) => item.uid !== uploadFile.uid);
-			} else {
-				props.onChange?.(uploadFile, uploadFiles);
+				return;
 			}
+			props.onChange?.(uploadFile, uploadFiles);
 		};
 
 		const handleBeforeUpload: UploadProps["beforeUpload"] = (rawFile) => {
