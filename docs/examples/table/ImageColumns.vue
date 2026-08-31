@@ -14,7 +14,6 @@ const rows = [
 
 <template>
 	<FaTable :data="rows" :pagination="false" :tool-btn="false" hide-search-time>
-		<FaTableColumn type="index" label="#" width="58" />
 		<FaTableColumn prop="cover" label="缩略图与预览" type="image" original-image width="130" />
 		<FaTableColumn prop="cover" label="隐藏缩略图" type="image" hide-image width="130" />
 		<FaTableColumn prop="name" label="资源名称" min-width="180" />

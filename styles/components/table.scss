@@ -543,17 +543,6 @@
 					width: 100%;
 					min-width: 0;
 				}
-
-				.fa-table__search-operation {
-					width: 100%;
-					justify-content: stretch;
-					flex-wrap: wrap;
-
-					.el-button {
-						flex: 1 1 calc(50% - 4px);
-						min-width: 0;
-					}
-				}
 			}
 		}
 

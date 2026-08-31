@@ -41,7 +41,7 @@ export default defineComponent({
 		/** @description Grid布局列配置 */
 		cols: {
 			type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
-			default: () => ({ xs: 1, sm: 2, md: 4, lg: 5, xl: 6 }),
+			default: () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
 		},
 		/** @description 搜索 */
 		search: {
@@ -279,7 +279,7 @@ export default defineComponent({
 							onConfirmClick={() => props.search()}
 						>
 							<form class="el-form el-form--default el-form--label-top">
-								<FaLayoutGrid gap={[20, 0]} cols={{ xs: 1, sm: 2, md: 4, lg: 5, xl: 6 }}>
+								<FaLayoutGrid gap={[20, 0]} cols={{ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }}>
 									{state.advancedSearchColumns.map((item) =>
 										item.search ? (
 											<FaLayoutGridItem key={item.prop ?? item.search.key} {...getResponsive(item.search)}>

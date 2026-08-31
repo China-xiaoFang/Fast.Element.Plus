@@ -7,7 +7,7 @@ import TreeSelectSource from "../examples/select/TreeSelect.vue?raw"
 
 组合 ElSelect 与 ElTree 的完整属性、事件和实例能力，并加入 Fast 数据请求、标签同步和默认字段映射。
 
-<DemoBlock :code="TreeSelectSource" title="树形多选、复选框、筛选与禁用节点">
+<DemoBlock :code="TreeSelectSource" title="树形单选、多选、筛选与禁用节点">
   <TreeSelect />
 </DemoBlock>
 

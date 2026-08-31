@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const value = ref<string[]>([]);
+const singleValue = ref<string>();
+const singleLabel = ref<string | null>(null);
+const multipleValue = ref<string[]>([]);
 const data = [
 	{
 		value: "frontend",
@@ -21,18 +23,20 @@ const data = [
 		],
 	},
 ];
+const requestApi = async () => data;
 </script>
 
 <template>
-	<FaTreeSelect
-		v-model="value"
-		:data="data"
-		multiple
-		show-checkbox
-		check-strictly
-		filterable
-		clearable
-		placeholder="选择多个节点"
-		style="max-width: 480px"
-	/>
+	<div style="display: grid; max-width: 480px; gap: 12px">
+		<FaTreeSelect
+			:request-api="requestApi"
+			v-model="singleValue"
+			v-model:label="singleLabel"
+			check-strictly
+			filterable
+			clearable
+			placeholder="选择单个节点"
+		/>
+		<FaTreeSelect v-model="multipleValue" :data="data" multiple show-checkbox check-strictly filterable clearable placeholder="选择多个节点" />
+	</div>
 </template>

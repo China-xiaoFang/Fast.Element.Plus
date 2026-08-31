@@ -26,7 +26,6 @@ const rows = [
 
 <template>
 	<FaTable :data="rows" :pagination="false" :tool-btn="false" hide-search-time border>
-		<FaTableColumn type="index" label="#" width="58" />
 		<FaTableColumn prop="department" label="部门（自动合并）" span-prop="department" min-width="150" />
 		<FaTableColumn prop="name" label="工作事项" min-width="180" />
 		<FaTableColumn type="timeInfo" label="操作信息" min-width="240" />

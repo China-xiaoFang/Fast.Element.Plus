@@ -10,15 +10,16 @@ import type { SelectComponentProps } from "../../select/src/select";
 import type { PagedInput } from "../../table";
 import type { FilterNodeMethodFunction, TreeNode } from "../../tree/src/tree.props";
 
-/** 补充 Element Plus TreeSelect 运行时支持但类型声明缺失的 clear 事件。 */
-type ElTreeSelectWithClearType = typeof ElTreeSelect &
+/** 补充 Element Plus TreeSelect 运行时支持但类型声明缺失的事件。 */
+type ElTreeSelectRuntimeType = typeof ElTreeSelect &
 	(new () => {
 		$props: InstanceType<typeof ElTreeSelect>["$props"] & {
 			onClear?: () => void;
+			onNodeClick?: (data: ElSelectorOutput, node: TreeNode, instance: ComponentInternalInstance | null, event: MouseEvent) => void;
 		};
 	});
 
-const ElTreeSelectWithClear = ElTreeSelect as ElTreeSelectWithClearType;
+const ElTreeSelectRuntime = ElTreeSelect as ElTreeSelectRuntimeType;
 
 /** Element Plus TreeSelect 运行时实际暴露的方法集合。 */
 type ElTreeSelectExposes = Pick<SelectInstance, "focus" | "blur" | "selectedLabel"> &
@@ -502,7 +503,7 @@ export default defineComponent({
 		const elTreeSelectEmits = useEmits({ ...selectEmits, ...treeEmits }, emit, ["update:modelValue", "clear", "visible-change", "node-click"]);
 
 		useRender(() => (
-			<ElTreeSelectWithClear
+			<ElTreeSelectRuntime
 				{...elTreeSelectProps.value}
 				{...elTreeSelectEmits.value}
 				ref={treeSelectRef}
@@ -515,7 +516,7 @@ export default defineComponent({
 				data={state.selectorData}
 				expandOnClickNode={props.checkOnClickNode ? false : props.expandOnClickNode}
 				filterNodeMethod={handleFilterNode as typeof props.filterNodeMethod}
-				onNode-click={handleNodeClick}
+				onNodeClick={handleNodeClick}
 				onClear={handleClear}
 				onVisible-change={handleVisibleChange}
 			>
@@ -534,7 +535,7 @@ export default defineComponent({
 							slots.label?.({ label, value }) ?? [],
 					}),
 				}}
-			</ElTreeSelectWithClear>
+			</ElTreeSelectRuntime>
 		));
 
 		return useExpose(expose, {
