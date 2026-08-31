@@ -5,7 +5,7 @@ import ImagesSource from "../examples/upload/Images.vue?raw"
 
 # FaUploadImages 多图上传
 
-多图上传，支持数量限制、预览列表、删除和 `string[] | null` 模型。
+多图上传，支持数量限制、预览列表、删除和 `string[] | null` 模型。图片卡片尺寸和边框颜色沿用 Element Plus 默认值，调用方可通过对应 CSS Variables 自定义。
 
 <DemoBlock :code="ImagesSource" title="多图上传、数量限制、预览与删除">
   <Images />

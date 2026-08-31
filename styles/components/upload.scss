@@ -1,20 +1,14 @@
-@use "../common/breakpoints.scss" as bp;
-
 .fa-upload {
 	min-width: 0;
 	color: var(--el-text-color-regular);
 
-	&.fa-upload__default > .el-upload,
 	.el-upload-dragger {
 		box-sizing: border-box;
-		width: 100%;
-		min-height: 168px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
 		padding: 20px;
-		border: 1px dashed var(--el-border-color-light);
 		border-radius: calc(var(--el-border-radius-base) * 1.5);
 		background-color: var(--el-fill-color-lighter);
 		transition:
@@ -47,32 +41,5 @@
 	.el-upload-list__item {
 		border-radius: var(--el-border-radius-base);
 		background-color: var(--el-fill-color-lighter);
-	}
-}
-
-@include bp.tablet {
-	.fa-upload {
-		&.fa-upload__default > .el-upload,
-		.el-upload-dragger {
-			min-height: 152px;
-		}
-	}
-}
-
-@include bp.mobile {
-	.fa-upload {
-		&.fa-upload__default > .el-upload,
-		.el-upload-dragger {
-			min-height: 128px;
-			padding: 16px 12px;
-
-			.el-icon--upload {
-				font-size: 36px;
-			}
-		}
-
-		.el-upload-list__item {
-			min-height: 36px;
-		}
 	}
 }

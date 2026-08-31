@@ -6,12 +6,12 @@
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
-	border-color: var(--el-border-color-lighter);
 	background-color: var(--el-bg-color-overlay);
 	box-shadow: var(--el-box-shadow);
 	color: var(--el-text-color-regular);
 	font-size: var(--el-font-size-base);
 	transition:
+		transform var(--el-transition-duration),
 		width var(--el-transition-duration),
 		height var(--el-transition-duration);
 	.el-drawer__header {
@@ -155,36 +155,10 @@
 	}
 }
 
-@include bp.tablet {
-	.fa-drawer.rtl,
-	.fa-drawer.ltr {
-		min-width: min(420px, 70vw);
-		max-width: 80vw;
-	}
-
-	.fa-drawer.ttb,
-	.fa-drawer.btt {
-		min-height: min(360px, 55vh);
-		max-height: 80vh;
-	}
-}
-
 @include bp.mobile {
 	.fa-drawer {
 		--fa-drawer-header-height: 44px;
 		--fa-drawer-footer-height: auto;
-
-		&.rtl,
-		&.ltr {
-			width: calc(100vw - 12px) !important;
-			max-width: 100vw;
-		}
-
-		&.ttb,
-		&.btt {
-			height: min(88dvh, 720px) !important;
-			max-height: 100dvh;
-		}
 
 		.el-drawer__header {
 			padding-left: 12px;

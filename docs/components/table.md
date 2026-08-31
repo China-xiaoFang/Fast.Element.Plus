@@ -23,7 +23,7 @@ import TreeTableSource from "../examples/table/TreeTable.vue?raw"
 
 # FaTable 表格
 
-在 ElTable 上集成搜索表单、分页、远程请求、列设置、单选/多选、树形数据、加载状态和业务插槽。
+在 ElTable 上集成搜索表单、分页、远程请求、列设置、单选/多选、树形数据、加载状态和业务插槽。组件高度由容器和传入的表格高度决定，移动端不会附加最小高度；卡片边框颜色沿用 Element Plus 主题。
 
 ## 行数据类型
 

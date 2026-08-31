@@ -2,6 +2,15 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.4] - 2026-08-31
+
+### Fixed
+
+- Restored caller-controlled item, dialog, drawer, table, tree, and upload dimensions without responsive minimum-size overrides.
+- Restored the `FaDrawer` opening and closing transform transition.
+- Restored Element Plus theme-controlled border colors for tables, trees, popovers, drawers, and upload variants.
+- Corrected `FaUploadImage` width and height handling and restored Element Plus picture-card sizing for `FaUploadImages`.
+
 ## [2.0.3] - 2026-08-31
 
 ### Fixed
@@ -61,6 +70,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.4]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.4
 [2.0.3]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.3
 [2.0.2]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.2
 [2.0.1]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.1

@@ -11,7 +11,7 @@ import NodeOperationsSource from "../examples/tree/NodeOperations.vue?raw"
 
 # FaTree 树
 
-保留 ElTree 的选择、勾选、拖拽、懒加载和节点操作能力，并增加标题、全部节点、过滤、折叠导航、标签同步与异步请求。
+保留 ElTree 的选择、勾选、拖拽、懒加载和节点操作能力，并增加标题、全部节点、过滤、折叠导航、标签同步与异步请求。组件高度由调用方或所在容器决定，移动端不会附加最小高度；卡片边框颜色沿用 Element Plus 主题。
 
 <DemoBlock :code="BasicSource" title="单选、标题、过滤与标签同步">
   <Basic />
