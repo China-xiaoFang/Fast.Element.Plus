@@ -5,14 +5,8 @@
 	color: var(--el-text-color-regular);
 
 	.el-upload-list--picture-card {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-
 		.el-upload-list__item,
 		.el-upload--picture-card {
-			margin: 0;
-			border-color: var(--el-border-color-light);
 			border-radius: calc(var(--el-border-radius-base) * 1.5);
 			background-color: var(--el-fill-color-lighter);
 		}
@@ -27,24 +21,6 @@
 			.el-upload {
 				display: none;
 			}
-		}
-	}
-}
-
-@include bp.tablet {
-	.fa-upload-images {
-		--el-upload-list-picture-card-size: 120px;
-		--el-upload-picture-card-size: 120px;
-	}
-}
-
-@include bp.mobile {
-	.fa-upload-images {
-		--el-upload-list-picture-card-size: 112px;
-		--el-upload-picture-card-size: 112px;
-
-		.el-upload-list--picture-card {
-			gap: 6px;
 		}
 	}
 }

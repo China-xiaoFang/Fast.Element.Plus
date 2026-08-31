@@ -136,7 +136,6 @@
 		--height: calc(100dvh - 24px);
 		--fa-dialog-header-height: 44px;
 		--fa-dialog-footer-height: auto;
-		width: calc(100vw - 24px) !important;
 		max-height: var(--height);
 		margin-top: max(12px, env(safe-area-inset-top)) !important;
 		padding: 0 6px;

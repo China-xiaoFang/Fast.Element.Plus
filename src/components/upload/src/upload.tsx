@@ -125,7 +125,7 @@ export default defineComponent({
 			<ElUpload
 				{...elUploadProps.value}
 				ref={uploadRef}
-				class={["fa-upload", { "fa-upload__default": !slots.default }]}
+				class="fa-upload"
 				vLoading={loading.value}
 				vModel:fileList={fileList.value}
 				disabled={disabled.value}

@@ -5,7 +5,6 @@
 	box-sizing: border-box;
 	width: min(calc(360px + var(--el-popover-padding) * 2 + 2px), calc(100vw - 32px)) !important;
 	max-width: calc(100vw - 32px);
-	border-color: var(--el-border-color-lighter) !important;
 	background-color: var(--el-bg-color-overlay) !important;
 	box-shadow: var(--el-box-shadow) !important;
 	.fa-car-number__popover__hide {
