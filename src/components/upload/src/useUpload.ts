@@ -1,7 +1,7 @@
 import { useVModel } from "@vueuse/core";
 import { computed, inject, onMounted, ref, watch } from "vue";
 import { ElMessage, ElNotification, formContextKey, formItemContextKey, genFileId, uploadProps } from "element-plus";
-import { isArray, isNumber, isString } from "lodash-unified";
+import { isArray, isNumber } from "lodash-unified";
 import { Decimal } from "decimal.js";
 import { uploadUtil } from "../utils/upload";
 import type {
@@ -47,9 +47,7 @@ export const useUpload = <T extends string | string[]>(
 	props: Partial<UploadProps> & {
 		modelValue?: T | null;
 	},
-	emit: ((event: "update:fileList", value: UploadUserFile[]) => void) &
-		((event: "update:modelValue", value: T | null) => void) &
-		((event: "change", value: T | null) => void),
+	emit: ((event: "update:fileList", value: UploadUserFile[]) => void) & ((event: "update:modelValue", value: T | null) => void),
 	data?: {
 		maxSize?: string | number;
 		uploadApi?: (formData: FormData) => Promise<string>;
@@ -84,26 +82,16 @@ export const useUpload = <T extends string | string[]>(
 
 	const handleValue = (files: UploadUserFile[] = fileList.value): void => {
 		if (files.length > 0) {
-			if (isString(props.modelValue)) {
+			if (props.multiple === true) {
+				const value = files.flatMap((item) => (item.url ? [item.url] : []));
+				emit("update:modelValue", value as T);
+			} else {
 				const fileUrl = files[0]?.url;
 				if (!fileUrl) return;
 				emit("update:modelValue", fileUrl as T);
-				emit("change", fileUrl as T);
-			} else {
-				if (props.multiple) {
-					const value = files.flatMap((item) => (item.url ? [item.url] : []));
-					emit("update:modelValue", value as T);
-					emit("change", value as T);
-				} else {
-					const fileUrl = files[0]?.url;
-					if (!fileUrl) return;
-					emit("update:modelValue", fileUrl as T);
-					emit("change", fileUrl as T);
-				}
 			}
 		} else {
-			emit("update:modelValue", null);
-			emit("change", null);
+			emit("update:modelValue", props.multiple === true ? ([] as unknown as T) : null);
 		}
 	};
 
@@ -165,7 +153,6 @@ export const useUpload = <T extends string | string[]>(
 	};
 
 	const handleOnRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles): void => {
-		fileList.value = uploadFiles;
 		handleValue(uploadFiles);
 		props.onRemove?.(uploadFile, uploadFiles);
 	};

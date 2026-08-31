@@ -4,6 +4,7 @@ import type { PagedInput, PagedResult } from "../../../src";
 
 const value = ref<number | null>(null);
 const label = ref<string | null>(null);
+const changedData = ref<unknown>();
 const allRows = Array.from({ length: 36 }, (_, index) => ({ value: index + 1, label: `业务用户 ${String(index + 1).padStart(2, "0")}` }));
 
 const requestApi = async (input?: PagedInput): Promise<PagedResult<Record<string, unknown>>> => {
@@ -23,7 +24,15 @@ const requestApi = async (input?: PagedInput): Promise<PagedResult<Record<string
 
 <template>
 	<div class="demo-stack">
-		<FaSelectPage v-model="value" v-model:label="label" :request-api="requestApi" clearable placeholder="搜索并翻页" style="max-width: 420px" />
-		<span class="demo-value">当前用户：{{ label ?? "未选择" }}（{{ value ?? "—" }}）</span>
+		<FaSelectPage
+			v-model="value"
+			v-model:label="label"
+			:request-api="requestApi"
+			clearable
+			placeholder="搜索并翻页"
+			style="max-width: 420px"
+			@change="changedData = $event"
+		/>
+		<span class="demo-value">当前用户：{{ label ?? "未选择" }}（{{ value ?? "—" }}）；change 数据：{{ JSON.stringify(changedData) }}</span>
 	</div>
 </template>

@@ -394,13 +394,13 @@ export const faSelectV2Emits = {
 	...selectV2Emits,
 	/** @description v-model 回调 */
 	"update:modelValue": (value: ElSelectorModelValue): boolean =>
-		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNull(value),
+		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNil(value),
+	/** @description 选中数据改变 */
+	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
 	/** @description v-model:label 回调 */
 	"update:label": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
 	/** @description 数据改变 */
 	dataChangeCallBack: (data: ElSelectorOutput[]): boolean => isArray(data),
-	/** @description 改变 */
-	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
 };
 
 /** FaSelectV2 的插槽参数。 */
@@ -480,45 +480,9 @@ export default defineComponent({
 			}
 		};
 
-		const handleChange = (value?: ElSelectorModelValue): void => {
-			// 判断是否为多选
-			if (props.multiple) {
-				// value 必然是数组
-				const valueArr = Array.isArray(value) ? value : [];
-				if (valueArr?.length === 0) {
-					state.value = null;
-					selectedLabel.value = null;
-					emit("update:modelValue", null);
-					emit("change", null, null);
-					return;
-				}
-				const dataList = state.selectorData.filter((item) => item.value !== undefined && valueArr.includes(item.value));
-				state.value = value;
-				selectedLabel.value = dataList.map((item) => item.label ?? "");
-				emit("update:modelValue", value);
-				emit("change", dataList, value);
-			} else {
-				// value 必然不是数组
-				if (isNil(value)) {
-					state.value = null;
-					selectedLabel.value = null;
-					emit("update:modelValue", null);
-					emit("change", null, null);
-					return;
-				}
-				const data = state.selectorData.find((f) => f.value === value);
-				state.value = value;
-				selectedLabel.value = data?.label ?? null;
-				emit("update:modelValue", value);
-				emit("change", data ?? null, value);
-			}
-		};
-
-		const handleClear = (): void => {
-			state.value = null;
-			selectedLabel.value = null;
-			emit("update:modelValue", null);
-			emit("clear");
+		const handleModelValueUpdate = (value: ElSelectorModelValue): void => {
+			state.value = value;
+			emit("update:modelValue", value);
 		};
 
 		const handleVisibleChange = async (visible: boolean): Promise<void> => {
@@ -598,12 +562,98 @@ export default defineComponent({
 			}
 		);
 
+		const getOptionValue = (item: ElSelectorOutput): ElSelectorValue | undefined => {
+			const value: unknown = item[props.props.value ?? "value"];
+			return value !== null &&
+				(typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "object")
+				? value
+				: undefined;
+		};
+
+		const getOptionLabel = (item: ElSelectorOutput): string | undefined => {
+			const label: unknown = item[props.props.label ?? "label"];
+			return typeof label === "string" ? label : undefined;
+		};
+
+		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
+			data.flatMap((item) => {
+				const children: unknown = item[props.props.options ?? "options"];
+				return [item, ...(Array.isArray(children) ? flattenOptions(children as ElSelectorOutput[]) : [])];
+			});
+
+		const handleChange = (value?: ElSelectorModelValue): void => {
+			const selectorData = flattenOptions(state.selectorData);
+			if (props.multiple) {
+				const valueList = Array.isArray(value) ? value : [];
+				if (valueList.length === 0) {
+					emit("change", null, null);
+					return;
+				}
+				const dataList = valueList
+					.map((item) =>
+						selectorData.find((option) => {
+							const optionValue = getOptionValue(option);
+							return optionValue !== undefined && isEqual(optionValue, item);
+						})
+					)
+					.filter((item): item is ElSelectorOutput => item !== undefined);
+				emit("change", dataList, value);
+				return;
+			}
+
+			if (isNil(value) || Array.isArray(value)) {
+				emit("change", null, null);
+				return;
+			}
+			const data = selectorData.find((option) => {
+				const optionValue = getOptionValue(option);
+				return optionValue !== undefined && isEqual(optionValue, value);
+			});
+			emit("change", data ?? null, value);
+		};
+
+		watch(
+			[() => state.value, () => state.selectorData],
+			([value]) => {
+				const selectorData = flattenOptions(state.selectorData);
+				if (props.multiple) {
+					if (!Array.isArray(value)) {
+						selectedLabel.value = null;
+						return;
+					}
+					selectedLabel.value = value.map((item, index) => {
+						const data = selectorData.find((option) => {
+							const optionValue = getOptionValue(option);
+							return optionValue !== undefined && isEqual(optionValue, item);
+						});
+						return (data && getOptionLabel(data)) ?? (Array.isArray(props.label) ? (props.label[index] ?? "") : "");
+					});
+					return;
+				}
+				if (isNil(value) || Array.isArray(value)) {
+					selectedLabel.value = null;
+					return;
+				}
+				const data = selectorData.find((option) => {
+					const optionValue = getOptionValue(option);
+					return optionValue !== undefined && isEqual(optionValue, value);
+				});
+				selectedLabel.value = (data && getOptionLabel(data)) ?? (typeof props.label === "string" ? props.label : null);
+			},
+			{
+				deep: true,
+				flush: "sync",
+				immediate: true,
+			}
+		);
+
 		onMounted(async () => {
 			if (props.defaultSelected) {
 				await loadData();
 				const firstItem = state.selectorData[0];
-				if (firstItem?.value !== undefined) {
-					handleChange(props.multiple ? [firstItem.value] : firstItem.value);
+				const firstValue = firstItem && getOptionValue(firstItem);
+				if (firstValue !== undefined) {
+					handleModelValueUpdate(props.multiple ? [firstValue] : firstValue);
 				}
 			}
 			// 判断是否为本地数据
@@ -621,7 +671,7 @@ export default defineComponent({
 					if (!isEqual(newValue, oldValue)) {
 						state.nextRefresh = true;
 						if (!isNil(state.value)) {
-							handleChange();
+							handleModelValueUpdate(props.multiple ? [] : undefined);
 						}
 					}
 				}
@@ -638,7 +688,7 @@ export default defineComponent({
 		});
 
 		const elSelectV2Props = useProps(props, SelectV2Props, ["modelValue", "popperClass", "loading", "options", "itemHeight"]);
-		const elSelectV2Emits = useEmits(faSelectV2Emits, emit, ["update:modelValue", "change", "clear", "visible-change"]);
+		const elSelectV2Emits = useEmits(selectV2Emits, emit, ["update:modelValue", "change", "visible-change"]);
 		const elPopperClass = computed(() => {
 			let localClass = `fa-select-v2-dropdown ${props.popperClass}`;
 			if (props.moreDetail) {
@@ -655,12 +705,12 @@ export default defineComponent({
 				class="fa-select-v2"
 				popperClass={elPopperClass.value}
 				style={{ width: addCssUnit(props.width) }}
-				vModel={state.value}
+				modelValue={state.value}
+				onUpdate:modelValue={handleModelValueUpdate}
+				onChange={handleChange}
 				loading={state.loading}
 				options={state.selectorData}
 				itemHeight={props.itemHeight + (_globalSize.value === "small" ? 0 : 8)}
-				onChange={handleChange}
-				onClear={handleClear}
 				onVisible-change={handleVisibleChange}
 			>
 				{{
@@ -696,9 +746,9 @@ export default defineComponent({
 			/** @description 刷新 */
 			refresh: loadData,
 			/** @description 设置选择  */
-			setSelection: (value: Exclude<ElSelectorModelValue, null | undefined>) => handleChange(value),
+			setSelection: (value: Exclude<ElSelectorModelValue, null | undefined>) => handleModelValueUpdate(value),
 			/** @description 清除选择  */
-			clearSelection: () => handleChange(null),
+			clearSelection: () => handleModelValueUpdate(props.multiple ? [] : undefined),
 		});
 	},
 });

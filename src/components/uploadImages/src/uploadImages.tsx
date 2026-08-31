@@ -51,8 +51,6 @@ export const faUploadImagesEmits = {
 	"update:modelValue": (value: string[] | null): boolean => isArray(value) || isNull(value),
 	/** @description v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
-	/** @description 改变 */
-	change: (value: string[] | null): boolean => isArray(value) || isNull(value),
 };
 
 /** FaUploadImages 的插槽参数。 */
@@ -132,6 +130,7 @@ export default defineComponent({
 
 		const elUploadProps = useProps(props, uploadProps, [
 			"fileList",
+			"multiple",
 			"disabled",
 			"httpRequest",
 			"beforeUpload",
@@ -149,6 +148,7 @@ export default defineComponent({
 					class={["fa-upload-images", state.uploadKey, { "fa-upload-images__hidden-upload": fileList.value.length >= props.limit }]}
 					vLoading={loading.value}
 					vModel:fileList={fileList.value}
+					multiple={true}
 					disabled={disabled.value}
 					httpRequest={httpRequest.value}
 					beforeUpload={handleBeforeUpload}

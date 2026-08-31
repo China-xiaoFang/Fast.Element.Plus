@@ -11,6 +11,8 @@ import MockFileSource from "../examples/upload/MockFile.vue?raw"
 
 保留 ElUpload 的拖拽、文件列表、手动提交、自定义请求和回调能力，并统一文件类型、大小、数量、模型同步、表单校验和团队提示。上传区域不会强制设置宽度或最小高度，可通过调用方样式和插槽控制实际尺寸；边框颜色沿用 Element Plus 主题。
 
+上传后的 URL 通过 `v-model` 或 `update:modelValue` 获取；`onChange(uploadFile, uploadFiles)` 保持 Element Plus 原生文件状态回调，不用于返回 URL。
+
 <DemoBlock :code="MockFileSource" title="拖拽上传、类型与大小校验、uploadApi">
   <MockFile />
 </DemoBlock>

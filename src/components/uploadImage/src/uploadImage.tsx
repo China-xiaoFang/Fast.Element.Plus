@@ -61,8 +61,6 @@ export const faUploadImageEmits = {
 	"update:modelValue": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
 	/** @description v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
-	/** @description 改变 */
-	change: (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
 };
 
 /** FaUploadImage 的插槽参数。 */

@@ -50,7 +50,7 @@ export const faInputDialogPageEmits = {
 	"update:modelValue": (value: string | number | null): boolean => isString(value) || isNumber(value) || isNull(value),
 	/** @description v-model:label 回调 */
 	"update:label": (value: string | null): boolean => isString(value) || isNull(value),
-	/** @description 改变 */
+	/** @description 选中数据改变 */
 	change: (_data: DefaultRow | null, _value?: string | number | null): boolean => true,
 };
 
@@ -70,7 +70,7 @@ export default defineComponent({
 		const selectedLabel = useVModel(props, "label", emit, { passive: true });
 
 		const state = reactive({
-			selectionRow: withDefineType<DefaultRow>(),
+			selectionRow: withDefineType<DefaultRow | undefined>(),
 		});
 
 		const faDialogRef = ref<FaDialogInstance>();
@@ -79,7 +79,8 @@ export default defineComponent({
 		const handleDeleteClick = (): void => {
 			modelValue.value = null;
 			selectedLabel.value = null;
-			emit("change", null);
+			state.selectionRow = undefined;
+			emit("change", null, null);
 		};
 
 		const handleSearchClick = async (): Promise<void> => {
@@ -102,6 +103,7 @@ export default defineComponent({
 				const table = faTableRef.value;
 				const selectedData = table?.selectedList[0];
 				if (table?.selected && selectedData) {
+					state.selectionRow = selectedData;
 					const selectedValue: unknown = isFunction(props.rowKey) ? props.rowKey(selectedData) : selectedData[props.rowKey];
 					modelValue.value = typeof selectedValue === "string" || typeof selectedValue === "number" ? selectedValue : null;
 					const label: unknown = selectedData[props.labelKey];
@@ -110,6 +112,7 @@ export default defineComponent({
 				} else {
 					modelValue.value = null;
 					selectedLabel.value = null;
+					state.selectionRow = undefined;
 					emit("change", null, null);
 				}
 			});
