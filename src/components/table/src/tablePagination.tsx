@@ -1,4 +1,4 @@
-import { defineComponent, inject } from "vue";
+import { computed, defineComponent, inject } from "vue";
 import { ElNotification, ElPagination } from "element-plus";
 import { isNull, isNumber } from "lodash-unified";
 import { definePropType, useRender } from "../../../utils";
@@ -36,17 +36,21 @@ export default defineComponent({
 			}
 			emit("sizeChange", pageSize);
 		};
+		const currentPageModel = computed({
+			get: () => tableState.tablePagination.pageIndex,
+			set: (currentPage: number) => emit("currentChange", currentPage),
+		});
+		const pageSizeModel = computed({
+			get: () => tableState.tablePagination.pageSize,
+			set: handleSizeChange,
+		});
 
 		useRender(() => (
 			<ElPagination
-				{...{
-					"onUpdate:currentPage": (currentPage: number) => emit("currentChange", currentPage),
-					"onUpdate:pageSize": handleSizeChange,
-				}}
 				class="fa-table-pagination"
 				size="small"
-				currentPage={tableState.tablePagination.pageIndex}
-				pageSize={tableState.tablePagination.pageSize}
+				vModel:currentPage={currentPageModel.value}
+				vModel:pageSize={pageSizeModel.value}
 				pageSizes={props.pageSizes}
 				background
 				layout="jumper, prev, pager, next, sizes, total"

@@ -39,6 +39,13 @@ export default defineComponent({
 				return state.iconNames.filter((f) => f.toLowerCase().includes(state.searchValue?.toLowerCase() ?? ""));
 			}),
 		});
+		const popoverVisibleModel = computed({
+			get: () => state.popoverVisible,
+			set: (visible: boolean) => {
+				state.popoverVisible = visible;
+				if (!visible) state.searchValue = null;
+			},
+		});
 
 		const handleTabClick = (iconType: IconType): void => {
 			state.iconType = iconType;
@@ -89,13 +96,7 @@ export default defineComponent({
 		useRender(() => (
 			<ElPopover
 				popperClass="fa-icon-selector-popover"
-				visible={state.popoverVisible}
-				{...{
-					"onUpdate:visible": (visible: boolean): void => {
-						state.popoverVisible = visible;
-						if (!visible) state.searchValue = null;
-					},
-				}}
+				vModel:visible={popoverVisibleModel.value}
 				width="auto"
 				trigger="click"
 				showArrow={false}

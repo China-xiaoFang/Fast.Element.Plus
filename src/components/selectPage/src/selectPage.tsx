@@ -195,6 +195,12 @@ export default defineComponent({
 				if (currentRequestVersion === requestVersion) state.loading = false;
 			}
 		};
+		const pageIndexModel = computed({
+			get: () => state.pageIndex,
+			set: (pageIndex: number) => {
+				void loadData(pageIndex);
+			},
+		});
 
 		const handleChange = (value?: ElSelectorModelValue): void => {
 			// 判断是否为多选
@@ -407,12 +413,11 @@ export default defineComponent({
 							<ElPagination
 								class="fa-select-page-dropdown__pagination"
 								size="small"
-								currentPage={state.pageIndex}
+								vModel:currentPage={pageIndexModel.value}
 								pageSize={state.pageSize}
 								total={state.totalRows}
 								layout="prev, pager, next, total"
 								pagerCount={5}
-								onCurrent-change={loadData}
 							/>
 							{slots.footer?.()}
 						</Fragment>
