@@ -15,7 +15,6 @@ const statusOptions: FaTableEnumColumnCtx[] = [
 
 <template>
 	<FaTable :data="rows" :pagination="false" :tool-btn="false" hide-search-time>
-		<FaTableColumn type="index" label="#" width="64" />
 		<FaTableColumn prop="name" label="项目" min-width="180" copy />
 		<FaTableColumn prop="owner" label="负责人" width="120" />
 		<FaTableColumn prop="status" label="状态" width="100" tag :enum="statusOptions" />

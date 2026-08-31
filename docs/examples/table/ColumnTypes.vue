@@ -22,7 +22,6 @@ const handleLinkClick = ({ row }: { row: Record<string, unknown> }): void => {
 
 <template>
 	<FaTable :data="rows" :pagination="false" :tool-btn="false" hide-search-time>
-		<FaTableColumn type="index" label="#" width="58" />
 		<FaTableColumn prop="image" label="图片" type="image" original-image width="90" />
 		<FaTableColumn prop="name" label="名称" min-width="180" copy link :click="handleLinkClick" />
 		<FaTableColumn prop="amount" label="千分位" type="gd2" width="130" align="right" />

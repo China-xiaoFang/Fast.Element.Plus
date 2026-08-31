@@ -2,6 +2,14 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.7] - 2026-08-31
+
+### Fixed
+
+- Routed TreeSelect node clicks through the Element Plus internal selection bridge so single-select popups close after selection while multiple-select popups remain open.
+- Restored V1-compatible responsive Table search columns on narrow screens and kept reset and refresh buttons at their natural width.
+- Corrected the remote Table search parameters, icon and Table examples, and added TreeSelect single-select request and label synchronization coverage.
+
 ## [2.0.6] - 2026-08-31
 
 ### Fixed
@@ -83,6 +91,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.7]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.7
 [2.0.6]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.6
 [2.0.5]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.5
 [2.0.4]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.4

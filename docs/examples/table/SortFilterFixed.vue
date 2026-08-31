@@ -35,7 +35,6 @@ const handleSort = ({ prop, order }: { order: "" | "ascending" | "descending"; p
 
 <template>
 	<FaTable :data="rows" :pagination="false" :tool-btn="false" height="320" hide-search-time border @sort-change="handleSort">
-		<FaTableColumn type="index" label="#" width="58" fixed />
 		<FaTableColumn prop="name" label="名称" min-width="230" fixed show-overflow-tooltip />
 		<FaTableColumn prop="owner" label="负责人" width="110" />
 		<FaTableColumn
