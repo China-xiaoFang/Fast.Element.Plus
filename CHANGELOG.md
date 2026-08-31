@@ -2,6 +2,12 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.6] - 2026-08-31
+
+### Fixed
+
+- Migrated controlled Pagination and Popover state to TSX `v-model` bindings, eliminating repeated ElPagination deprecated-usage warnings while preserving remote page loading and visibility cleanup.
+
 ## [2.0.5] - 2026-08-31
 
 ### Fixed
@@ -77,6 +83,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.6]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.6
 [2.0.5]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.5
 [2.0.4]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.4
 [2.0.3]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.3
