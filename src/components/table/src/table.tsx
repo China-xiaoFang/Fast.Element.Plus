@@ -964,6 +964,8 @@ export default defineComponent({
 												shortcuts={createDateRangeShortcuts(props.futureSearchTime)}
 												valueFormat="YYYY-MM-DD HH:mm:ss"
 												clearable={false}
+												placement="bottom"
+												fallbackPlacements={["top"]}
 												unlinkPanels
 											/>
 										)}
