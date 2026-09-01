@@ -3,13 +3,16 @@
 	"compilerOptions": {
 		// 测试文件位于源码目录之外，覆盖基础配置的声明生成根目录。
 		"rootDir": "..",
-		// 消费者类型测试不加载 Node.js 或测试框架全局类型。
-		"types": [],
+		// 公开 API 类型测试直接解析源码入口，避免误用预先生成的 dist 声明。
+		"paths": {
+			"fast-element-plus": ["../src/index.ts"],
+			"fast-element-plus/global": ["../src/global.ts"]
+		},
 		// 测试项目只检查公开声明，不生成 JavaScript 或声明文件。
 		"noEmit": true,
 		// 跳过 Vue 生态可选依赖和多版本声明噪声，公开 API 仍由本测试文件完整检查。
 		"skipLibCheck": true
 	},
-	// 公开 API 测试通过包自引用解析 dist 声明，因此必须在构建后执行。
-	"include": ["public-api.test.ts"]
+	// 源码依赖工程级 JSX 与静态资源声明；发布产物继续由包测试和 publint 验证。
+	"include": ["public-api.test.ts", "../types/**/*.d.ts"]
 }
