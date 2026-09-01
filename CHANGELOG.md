@@ -2,6 +2,12 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.11] - 2026-09-01
+
+### Fixed
+
+- Restricted Table date-range panel fallback placement to the vertical axis so it retains the original downward positioning behavior when space permits.
+
 ## [2.0.10] - 2026-09-01
 
 ### Changed
@@ -124,6 +130,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.11]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.11
 [2.0.10]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.10
 [2.0.9]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.9
 [2.0.8]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.8
