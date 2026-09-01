@@ -2,6 +2,17 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.10] - 2026-09-01
+
+### Changed
+
+- Updated public API type tests to resolve source entries independently of existing build declarations.
+- Aligned Fast package aliases and type-only imports with the repository import grouping rules.
+
+### Fixed
+
+- Kept the Table search form at two columns below 480 pixels so fields and actions remain usable in narrow containers.
+
 ## [2.0.9] - 2026-09-01
 
 ### Fixed
@@ -113,6 +124,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.10]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.10
 [2.0.9]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.9
 [2.0.8]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.8
 [2.0.7]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.7

@@ -318,7 +318,7 @@ export const faTableProps = {
 	/** @description 搜索表单 Grid布局列配置 */
 	searchFormCols: {
 		type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
-		default: (): string | number | Record<FaLayoutGridBreakPoint, number> => ({ xs: 3, sm: 3, md: 4, lg: 5, xl: 6 }),
+		default: (): string | number | Record<FaLayoutGridBreakPoint, number> => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
 	},
 	/** @description 折叠搜素 */
 	collapsedSearch: {
