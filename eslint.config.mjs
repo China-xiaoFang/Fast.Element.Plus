@@ -383,6 +383,7 @@ export default defineConfig(
 				projectService: {
 					allowDefaultProject: ["tsdown.config.ts"],
 				},
+				extraFileExtensions: [".vue", ".nvue"],
 			},
 		},
 		/**
