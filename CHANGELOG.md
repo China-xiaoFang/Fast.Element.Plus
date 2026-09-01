@@ -2,6 +2,12 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.9] - 2026-09-01
+
+### Fixed
+
+- Allowed Table column identifiers to use either numeric or string values.
+
 ## [2.0.8] - 2026-09-01
 
 ### Changed
@@ -107,6 +113,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.9]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.9
 [2.0.8]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.8
 [2.0.7]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.7
 [2.0.6]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.6

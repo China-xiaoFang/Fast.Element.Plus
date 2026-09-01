@@ -181,7 +181,7 @@ export type FaTableColumnCtx<T extends DefaultRow = DefaultRow> = Partial<
 	 * 列Id
 	 * @description FaTable
 	 */
-	columnId?: number;
+	columnId?: number | string;
 	/**
 	 * 排序
 	 * @description FaTable
