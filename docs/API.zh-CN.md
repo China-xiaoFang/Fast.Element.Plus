@@ -40,6 +40,8 @@ Element Plus 次版本升级必须执行 [兼容性与升级核对](./ELEMENT_PL
 
 ## 组件辅助导出
 
+`formUtil.validate(ref)` 与 `formUtil.validateScrollToField(ref)` 校验成功时 Promise 以 `true` 完成。从 `2.0.12` 起，校验失败时以 `false` 拒绝，不再以 `Error` 拒绝，需通过 `catch` 处理，并非返回一个成功完成的 `false`。实例尚未挂载时仍以 `Error` 拒绝。`FaForm.validate()`（不传回调）与 `FaForm.validateScrollToField()` 遵循相同约定；`FaForm.validate(callback)` 保持 Element Plus 原生回调行为。
+
 | 分类         | 运行时导出                                                                                                                                                                                                                                                                                                                                                     | 用途                                        |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
 | Props        | `faAvatarProps`、`faButtonProps`、`faDialogProps`、`faDrawerProps`、`faFormProps`、`faFormItemProps`、`faFormItemTipProps`、`faIconProps`、`faImageProps`、`faInputDialogPageProps`、`faSelectProps`、`faSelectPageProps`、`faSelectV2Props`、`faTableProps`、`faTreeProps`、`faTreeSelectProps`、`faUploadProps`、`faUploadImageProps`、`faUploadImagesProps` | 复用组件运行时 Props 定义                   |
