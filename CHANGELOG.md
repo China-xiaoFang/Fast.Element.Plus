@@ -136,6 +136,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.12]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.12
 [2.0.11]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.11
 [2.0.10]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.10
 [2.0.9]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.9
