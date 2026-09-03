@@ -26,7 +26,8 @@ export const formUtil = {
 					if (invalidFields) {
 						console.warn("[Fast:formUtil]", "表单验证失败。", invalidFields);
 					}
-					reject(new Error("表单验证失败。"));
+					// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+					reject(isValid);
 				}
 			});
 		});
@@ -50,7 +51,8 @@ export const formUtil = {
 					if (invalidFields) {
 						console.warn("[Fast:formUtil]", "表单验证失败。", invalidFields);
 					}
-					reject(new Error("表单验证失败。"));
+					// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+					reject(isValid);
 				}
 			});
 		});

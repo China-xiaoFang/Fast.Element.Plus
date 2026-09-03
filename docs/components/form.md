@@ -11,6 +11,8 @@ import ValidationSource from "../examples/form/Validation.vue?raw"
 
 在 ElForm 上增加响应式 Grid、详情模式、团队标签格式和滚动校验方法。
 
+`validate()`（不传回调）与 `validateScrollToField()` 校验成功时 Promise 以 `true` 完成；从 `2.0.12` 起，校验失败时以 `false` 拒绝，需通过 `catch` 处理，并非返回一个成功完成的 `false`。实例尚未挂载时仍以 `Error` 拒绝。`validate(callback)` 保持 Element Plus 原生回调行为。
+
 <DemoBlock :code="BasicSource" title="响应式表单布局与字段提示">
   <Basic />
 </DemoBlock>

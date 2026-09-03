@@ -2,6 +2,12 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.12] - 2026-09-03
+
+### Changed
+
+- Updated `formUtil.validate` and `formUtil.validateScrollToField` to reject with `false` on validation failure instead of an `Error`. This also applies to `FaForm.validate()` without a callback and `FaForm.validateScrollToField()`; unmounted forms still reject with an `Error`.
+
 ## [2.0.11] - 2026-09-01
 
 ### Fixed
