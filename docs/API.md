@@ -79,7 +79,7 @@ The hooks resolve browser globals when called. Do not call them during server re
 ## Constants and utilities
 
 - `FaMimeType`: file MIME type constants used by upload APIs.
-- `RegExps`: regular expressions shared by components.
+- `RegExps`: regular expressions shared by components, including mainland China mobile numbers, email addresses, weak/medium/strong passwords, six-digit verification codes, and four-character image CAPTCHA codes.
 - `Decimal`: the `decimal.js` constructor re-exported for upload progress and consumer calculations.
 
 ## Global types and styles

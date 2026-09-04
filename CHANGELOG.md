@@ -2,6 +2,13 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.13] - 2026-09-04
+
+### Changed
+
+- Tightened mainland China mobile-number validation and expanded email validation to support standard local-part characters and general top-level domains.
+- Added medium-password, six-digit verification-code, and four-character image-CAPTCHA regular expressions, and disallowed whitespace in medium and strong passwords.
+
 ## [2.0.12] - 2026-09-03
 
 ### Changed
@@ -136,6 +143,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.13]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.13
 [2.0.12]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.12
 [2.0.11]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.11
 [2.0.10]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.10
