@@ -72,6 +72,7 @@ export default defineComponent({
 			handleOnRemove,
 			handleOnExceed,
 			handleOnUpload,
+			handleOnChange,
 		} = useUpload("FaUpload", "文件", props, emit, {
 			get maxSize() {
 				return props.maxSize;
@@ -91,17 +92,8 @@ export default defineComponent({
 		const uploadRef = ref<UploadInstance>();
 		const httpRequest = computed(() => (props.httpRequest === uploadProps.httpRequest.default ? handleHttpRequest : props.httpRequest));
 
-		const handleOnChange: UploadProps["onChange"] = (uploadFile, uploadFiles) => {
-			if (uploadFile.status === "ready" && !handleOnUpload(uploadFile)) {
-				fileList.value = fileList.value.filter((item) => item.uid !== uploadFile.uid);
-				return;
-			}
-			props.onChange?.(uploadFile, uploadFiles);
-		};
-
 		const handleBeforeUpload: UploadProps["beforeUpload"] = (rawFile) => {
-			// onChange 已完成首次校验；被移除的非法文件不能在自动上传流程中继续提交。
-			if (!fileList.value.some((item) => item.uid === rawFile.uid) || !handleOnUpload(rawFile)) return false;
+			if (!handleOnUpload(rawFile)) return false;
 			return props.beforeUpload?.(rawFile) ?? true;
 		};
 
