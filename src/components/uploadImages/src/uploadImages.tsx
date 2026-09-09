@@ -76,6 +76,7 @@ export default defineComponent({
 			handleOnRemove,
 			handleOnExceed,
 			handleOnUpload,
+			handleOnChange,
 		} = useUpload<string[]>("FaUploadImages", "图片", props, emit, {
 			get maxSize() {
 				return props.maxSize;
@@ -138,6 +139,7 @@ export default defineComponent({
 			"onSuccess",
 			"onError",
 			"onRemove",
+			"onChange",
 		]);
 
 		useRender(() => (
@@ -156,6 +158,7 @@ export default defineComponent({
 					onSuccess={handleOnSuccess}
 					onError={handleOnError}
 					onRemove={handleOnRemove}
+					onChange={handleOnChange}
 				>
 					{{
 						default: () =>

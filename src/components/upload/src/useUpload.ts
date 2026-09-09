@@ -29,6 +29,7 @@ interface UploadComposable {
 	handleOnRemove: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void;
 	handleOnExceed: (files: File[], uploadFiles: UploadUserFile[]) => void;
 	handleOnUpload: (file: UploadFile | UploadRawFile) => boolean;
+	handleOnChange: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void;
 }
 
 /**
@@ -81,18 +82,19 @@ export const useUpload = <T extends string | string[]>(
 	});
 
 	const handleValue = (files: UploadUserFile[] = fileList.value): void => {
+		let value: T | null;
 		if (files.length > 0) {
 			if (props.multiple === true) {
-				const value = files.flatMap((item) => (item.url ? [item.url] : []));
-				emit("update:modelValue", value as T);
+				value = files.flatMap((item) => (item.url ? [item.url] : [])) as T;
 			} else {
 				const fileUrl = files[0]?.url;
 				if (!fileUrl) return;
-				emit("update:modelValue", fileUrl as T);
+				value = fileUrl as T;
 			}
 		} else {
-			emit("update:modelValue", props.multiple === true ? ([] as unknown as T) : null);
+			value = props.multiple === true ? ([] as unknown as T) : null;
 		}
+		emit("update:modelValue", value);
 	};
 
 	const handleHttpRequest = async (options: UploadRequestOptions): Promise<void> => {
@@ -133,11 +135,11 @@ export const useUpload = <T extends string | string[]>(
 
 	const handleOnSuccess = (fileUrl: string, uploadFile: UploadFile, uploadFiles: UploadFiles): void => {
 		if (!fileUrl) return;
-		if (!props.multiple && uploadFiles.length > 1) {
-			uploadFiles.shift();
-		}
 		uploadFile.url = fileUrl;
-		handleValue();
+		if (!props.multiple && uploadFiles.length > 1) {
+			uploadFiles.splice(0, uploadFiles.length, uploadFile);
+		}
+		handleValue(uploadFiles);
 		// 调用 el-form 内部的校验方法（可自动校验）
 		if (formItemContext?.prop) void formContext?.validateField([formItemContext.prop]);
 		ElMessage.success("上传成功");
@@ -183,6 +185,14 @@ export const useUpload = <T extends string | string[]>(
 		return true;
 	};
 
+	const handleOnChange = (uploadFile: UploadFile, uploadFiles: UploadFiles): void => {
+		if (props.autoUpload === false && uploadFile.status === "ready" && !handleOnUpload(uploadFile)) {
+			fileList.value = uploadFiles.filter((item) => item.uid !== uploadFile.uid);
+			return;
+		}
+		props.onChange?.(uploadFile, uploadFiles);
+	};
+
 	/**
 	 * 监听 v-model 绑定数据
 	 */
@@ -193,20 +203,26 @@ export const useUpload = <T extends string | string[]>(
 				if (isArray(newValue)) {
 					fileList.value = newValue.map((m) => {
 						const find = fileList.value.find((f) => f.url === m);
-						return {
-							name: "",
-							status: "success",
-							uid: find?.uid ?? genFileId(),
-							url: m,
-						};
+						const urlWithoutParams = m.split(/[?#]/u)[0] ?? "";
+						const fileName = urlWithoutParams.slice(urlWithoutParams.lastIndexOf("/") + 1);
+						return (
+							find ?? {
+								name: fileName,
+								status: "success",
+								uid: genFileId(),
+								url: m,
+							}
+						);
 					});
 				} else {
 					const find = fileList.value.find((f) => f.url === newValue);
+					const urlWithoutParams = newValue.split(/[?#]/u)[0] ?? "";
+					const fileName = urlWithoutParams.slice(urlWithoutParams.lastIndexOf("/") + 1);
 					fileList.value = [
-						{
-							name: "",
+						find ?? {
+							name: fileName,
 							status: "success",
-							uid: find?.uid ?? genFileId(),
+							uid: genFileId(),
 							url: newValue,
 						},
 					];
@@ -233,5 +249,6 @@ export const useUpload = <T extends string | string[]>(
 		handleOnRemove,
 		handleOnExceed,
 		handleOnUpload,
+		handleOnChange,
 	};
 };

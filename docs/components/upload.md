@@ -13,6 +13,8 @@ import MockFileSource from "../examples/upload/MockFile.vue?raw"
 
 上传后的 URL 通过 `v-model` 或 `update:modelValue` 获取；`onChange(uploadFile, uploadFiles)` 保持 Element Plus 原生文件状态回调，不用于返回 URL。
 
+自动上传会在请求前校验文件类型和大小；手动上传会在选择文件时完成相同校验。通过 URL 初始化文件列表时，文件名取 URL 最后一个路径段，并忽略查询参数和片段。
+
 <DemoBlock :code="MockFileSource" title="拖拽上传、类型与大小校验、uploadApi">
   <MockFile />
 </DemoBlock>

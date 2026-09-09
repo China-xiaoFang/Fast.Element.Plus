@@ -25,13 +25,18 @@ export const faUploadImageProps = {
 		type: definePropType<(typeof uploadListTypes)[number]>(String),
 		default: "picture",
 	},
+	/** @description whether uploading multiple files is permitted */
+	multiple: {
+		type: Boolean,
+		default: false,
+	},
 	/** @description whether to show the uploaded file list */
 	showFileList: {
 		type: Boolean,
 		default: false,
 	},
 	/** @description v-model绑定值 */
-	modelValue: definePropType<string | string[] | null>([String, Array]),
+	modelValue: definePropType<string | null>(String),
 	/** @description 大小限制，单位kb */
 	maxSize: {
 		type: [String, Number],
@@ -58,7 +63,7 @@ export const faUploadImageProps = {
 /** FaUploadImage 的运行时 Emits 定义。 */
 export const faUploadImageEmits = {
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
+	"update:modelValue": (value: string | null): boolean => isString(value) || isNull(value),
 	/** @description v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
 };
@@ -86,7 +91,8 @@ export default defineComponent({
 			handleOnRemove,
 			handleOnExceed,
 			handleOnUpload,
-		} = useUpload<string | string[]>("FaUploadImage", "图片", props, emit, {
+			handleOnChange,
+		} = useUpload<string>("FaUploadImage", "图片", props, emit, {
 			get maxSize() {
 				return props.maxSize;
 			},
@@ -147,6 +153,7 @@ export default defineComponent({
 			"onSuccess",
 			"onError",
 			"onRemove",
+			"onChange",
 		]);
 
 		useRender(() => (
@@ -161,6 +168,7 @@ export default defineComponent({
 					}}
 					vLoading={loading.value}
 					vModel:fileList={fileList.value}
+					multiple={false}
 					disabled={disabled.value}
 					httpRequest={httpRequest.value}
 					beforeUpload={handleBeforeUpload}
@@ -168,6 +176,7 @@ export default defineComponent({
 					onSuccess={handleOnSuccess}
 					onError={handleOnError}
 					onRemove={handleOnRemove}
+					onChange={handleOnChange}
 				>
 					{{
 						default: () =>

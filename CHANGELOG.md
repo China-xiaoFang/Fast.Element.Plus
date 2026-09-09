@@ -2,6 +2,18 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.14] - 2026-09-10
+
+### Changed
+
+- Restricted `FaUploadImage` to a `string | null` model and fixed it to single-file selection.
+
+### Fixed
+
+- Prevented upload validation from cancelling valid `FaUpload` requests before Element Plus synchronizes its file list.
+- Validated file type and size when files are selected in manual-upload mode, and kept only the newly successful file in single-file mode.
+- Preserved existing upload-file metadata while synchronizing URL models and derived new file names from the final URL path without query parameters or fragments.
+
 ## [2.0.13] - 2026-09-04
 
 ### Changed
@@ -143,6 +155,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.14]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.14
 [2.0.13]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.13
 [2.0.12]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.12
 [2.0.11]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.11
