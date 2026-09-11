@@ -6,6 +6,7 @@ import type { Component } from "vue";
 
 /** FaAvatar 的运行时 Props 定义。 */
 export const faAvatarProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...avatarProps,
 	/** @description representation type to icon, more info on icon component. */
 	icon: {
@@ -61,6 +62,7 @@ export default defineComponent({
 			}),
 		});
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elAvatarProps = useProps(props, avatarProps, ["src"]);
 		const elAvatarEmits = useEmits(avatarEmits, emit);
 

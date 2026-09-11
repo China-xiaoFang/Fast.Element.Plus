@@ -11,7 +11,7 @@ import type { Directive, DirectiveBinding } from "vue";
 
 interface IconCopyElement extends HTMLElement {
 	copyData: string | number;
-	__iconElement__: Node;
+	__iconElement__?: Node;
 }
 
 const IconCopyDirective: Directive = {
@@ -21,7 +21,7 @@ const IconCopyDirective: Directive = {
 		if (!el.copyData) return;
 
 		const handleCopyClick = (): void => {
-			void copyToClipboard(String(el.copyData)).then(
+			copyToClipboard(String(el.copyData)).then(
 				() => {
 					ElMessage({
 						type: "success",

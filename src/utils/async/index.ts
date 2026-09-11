@@ -114,9 +114,11 @@ export function debounce<Arguments extends unknown[], Result>(
 		latestArguments = arguments_;
 		if (timer !== undefined) clearTimeout(timer);
 		timer = setTimeout(() => {
-			void execute().catch(() => undefined);
+			execute().catch(() => undefined);
 		}, delay);
-		return new Promise<Awaited<Result>>((resolve, reject) => waiters.push({ reject, resolve }));
+		return new Promise<Awaited<Result>>((resolve, reject) => {
+			waiters.push({ reject, resolve });
+		});
 	};
 
 	debounced.cancel = (reason?: unknown): void => {

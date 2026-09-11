@@ -9,6 +9,7 @@ import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
 
 /** FaForm 的运行时 Props 定义。 */
 export const faFormProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...formProps,
 	/** @description Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported. */
 	labelWidth: {
@@ -75,6 +76,7 @@ export default defineComponent({
 		// 注入 cols
 		provide("faFormCols", state.cols);
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elFormProps = useProps(props, formProps);
 		const elFormEmits = useEmits(formEmits, emit);
 

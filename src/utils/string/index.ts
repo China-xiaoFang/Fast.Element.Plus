@@ -1,11 +1,35 @@
+/** Web、Node、WebView 与 uni-app 宿主可能按需提供的运行时全局能力。 */
+interface RuntimeGlobals {
+	readonly crypto?: Omit<Partial<Crypto>, "subtle"> & {
+		readonly subtle?: Partial<SubtleCrypto>;
+	};
+	readonly document?: Partial<Document>;
+	readonly isSecureContext?: boolean;
+	readonly navigator?: Partial<Navigator>;
+	readonly uni?: unknown;
+}
+
+/**
+ * 以可选能力视图读取全局对象。
+ *
+ * @remarks TypeScript 的 DOM 声明假定浏览器全局始终存在，但本包也会在 Node、WebView
+ * 和 uni-app 中运行。这里只放宽能力是否存在，不改变标准 API 的属性与方法类型。
+ */
+const runtimeGlobals = globalThis as unknown as RuntimeGlobals;
+
 const defaultRandomAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const maximumRandomStringLength = 1_000_000;
 const maximumRandomValuesPerBatch = 16_384;
 const uint32Range = 0x1_0000_0000;
 
+/** uni-app 文本复制所需的最小运行时能力。 */
+interface UniClipboard {
+	setClipboardData: (options: { data: string; fail: (error: unknown) => void; success: () => void }) => void;
+}
+
 /** 使用 Web Crypto 填充随机值，能力缺失时回退到 `Math.random()`。 */
 const fillRandomValues = (values: Uint8Array<ArrayBuffer> | Uint32Array<ArrayBuffer>): void => {
-	const crypto = globalThis.crypto;
+	const crypto = runtimeGlobals.crypto;
 	if (typeof crypto?.getRandomValues === "function") {
 		crypto.getRandomValues(values);
 		return;
@@ -24,35 +48,36 @@ const fillRandomValues = (values: Uint8Array<ArrayBuffer> | Uint32Array<ArrayBuf
  * @throws `Error` 当运行时没有可用的剪贴板能力或复制失败。
  */
 export async function copy(value: string): Promise<void> {
-	const uni: unknown = Reflect.get(globalThis, "uni");
+	const uni = runtimeGlobals.uni;
 	if (uni !== undefined) {
 		if ((typeof uni !== "object" && typeof uni !== "function") || uni === null) {
 			throw new TypeError("全局 uni 对象未提供 `setClipboardData`。");
 		}
-		const setClipboardData: unknown = Reflect.get(uni, "setClipboardData");
-		if (typeof setClipboardData !== "function") throw new TypeError("全局 uni 对象未提供 `setClipboardData`。");
+		const clipboard = uni as Partial<UniClipboard>;
+		const setClipboardData = clipboard.setClipboardData?.bind(clipboard);
+		if (setClipboardData === undefined) throw new TypeError("全局 uni 对象未提供 `setClipboardData`。");
 		await new Promise<void>((resolve, reject) => {
-			Reflect.apply(setClipboardData, uni, [
-				{
-					data: value,
-					fail: (error: unknown): void => {
-						reject(error instanceof Error ? error : new Error("文本复制到剪贴板失败。", { cause: error }));
-					},
-					success: resolve,
+			setClipboardData({
+				data: value,
+				fail: (error: unknown): void => {
+					reject(error instanceof Error ? error : new Error("文本复制到剪贴板失败。", { cause: error }));
 				},
-			]);
+				success: resolve,
+			});
 		});
 		return;
 	}
 
-	const clipboard = globalThis.navigator?.clipboard;
-	if (globalThis.isSecureContext === true && typeof clipboard?.writeText === "function") {
-		await clipboard.writeText(value);
+	const browserClipboard = runtimeGlobals.navigator?.clipboard;
+	if (runtimeGlobals.isSecureContext === true && typeof browserClipboard?.writeText === "function") {
+		await browserClipboard.writeText(value);
 		return;
 	}
 
-	const document = globalThis.document;
-	if (typeof document?.createElement !== "function" || document.body === null || typeof document.execCommand !== "function") {
+	const document = runtimeGlobals.document;
+
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 兼容不支持 Clipboard API 的旧 WebView。
+	if (typeof document?.createElement !== "function" || document.body == null || typeof document.execCommand !== "function") {
 		throw new Error("当前运行环境不支持访问剪贴板。");
 	}
 	const textarea = document.createElement("textarea");
@@ -66,6 +91,8 @@ export async function copy(value: string): Promise<void> {
 	try {
 		textarea.focus();
 		textarea.select();
+
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 兼容不支持 Clipboard API 的旧 WebView。
 		copied = document.execCommand("copy");
 	} finally {
 		textarea.remove();

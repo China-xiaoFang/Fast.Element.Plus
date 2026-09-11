@@ -76,8 +76,9 @@ export const useUpload = <T extends string | string[]>(
 	const maxSizeMB = computed(() => maxSizeKB.value.div(mbNum));
 
 	onMounted(() => {
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要识别 Element Plus 2.x 注入的默认请求实现。
 		if (!props.disabled && props.autoUpload && !data?.uploadApi && !data?.uploadUrl && props.httpRequest === uploadProps.httpRequest.default) {
-			console.warn(`[Fast:${componentName}]`, "uploadApi 和 uploadUrl 至少需要提供一个。");
+			console.error(`[Fast:${componentName}]`, "uploadApi 和 uploadUrl 至少需要提供一个。");
 		}
 	});
 
@@ -109,7 +110,7 @@ export const useUpload = <T extends string | string[]>(
 		loading.value = true;
 		try {
 			let fileUrl: string;
-			if (data?.uploadApi) {
+			if (data.uploadApi) {
 				fileUrl = await uploadUtil.uploadFileByApi(data.uploadApi, options.file, options.filename, propsData);
 			} else {
 				const headers =
@@ -120,7 +121,7 @@ export const useUpload = <T extends string | string[]>(
 									value === null || value === undefined ? [] : [[key, String(value)] as [string, string]]
 								)
 							);
-				fileUrl = await uploadUtil.uploadFile(data?.uploadUrl ?? options.action, options.file, options.filename, propsData, {
+				fileUrl = await uploadUtil.uploadFile(data.uploadUrl ?? options.action, options.file, options.filename, propsData, {
 					headers,
 					method: options.method,
 					withCredentials: options.withCredentials,
@@ -141,7 +142,7 @@ export const useUpload = <T extends string | string[]>(
 		}
 		handleValue(uploadFiles);
 		// 调用 el-form 内部的校验方法（可自动校验）
-		if (formItemContext?.prop) void formContext?.validateField([formItemContext.prop]);
+		if (formItemContext?.prop) formContext?.validateField([formItemContext.prop]);
 		ElMessage.success("上传成功");
 		props.onSuccess?.(fileUrl, uploadFile, uploadFiles);
 	};

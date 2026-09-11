@@ -166,8 +166,8 @@ export const tableColumnProps = {
 		default: (): TableColumnCtx<DefaultRow>["sortOrders"] => {
 			return ["ascending", "descending", null];
 		},
-		validator: (val: TableColumnCtx<DefaultRow>["sortOrders"]): boolean => {
-			return (val ?? []).every((order) => order === "ascending" || order === "descending" || order === null);
+		validator: (val: unknown): boolean => {
+			return Array.isArray(val) && val.every((order: unknown) => order === "ascending" || order === "descending" || order === null);
 		},
 	},
 };
@@ -337,9 +337,9 @@ export default defineComponent({
 				}).value;
 			}
 			if (_globalSize.value === "small") {
-				return props.smallWidth ?? props.width ?? props.minWidth ?? defAttr ?? "auto";
+				return props.smallWidth || props.width || props.minWidth || defAttr;
 			}
-			return props.width ?? props.minWidth ?? defAttr ?? "auto";
+			return props.width || props.minWidth || defAttr;
 		};
 
 		/** 表头自动宽度渲染 */
@@ -388,7 +388,7 @@ export default defineComponent({
 					class="fa__copy-icon"
 					title="复制"
 					onClick={() => {
-						void copyToClipboard(displayText(value)).then(
+						copyToClipboard(displayText(value)).then(
 							() => {
 								ElMessage({
 									type: "success",
@@ -432,8 +432,9 @@ export default defineComponent({
 
 		/** 格式化渲染 */
 		const formatterRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cellValue: unknown, index: number): VNode | string => {
-			if (column.formatter) {
-				return column.formatter(row, column, cellValue, index);
+			const formatter = column.formatter as TableColumnCtx<DefaultRow>["formatter"] | null | undefined;
+			if (formatter) {
+				return formatter(row, column, cellValue, index);
 			} else {
 				return displayText(cellValue);
 			}
@@ -441,8 +442,8 @@ export default defineComponent({
 
 		/** 时间信息列渲染 */
 		const timeInfoRender = (row: DefaultRow, _column: TableColumnCtx<DefaultRow>, _$index: number): VNode[] => {
-			const userName = displayText(row[props.timeInfoField?.userName ?? "createdUserName"]);
-			const time = displayText(row[props.timeInfoField?.time ?? "createdTime"]);
+			const userName = displayText(row[props.timeInfoField.userName ?? "createdUserName"]);
+			const time = displayText(row[props.timeInfoField.time ?? "createdTime"]);
 			return [
 				<Fragment>
 					<div style="white-space: nowrap; overflow: hidden; text-overflow:  ellipsis;" title={time}>
@@ -495,6 +496,19 @@ export default defineComponent({
 				case "dateTime":
 					dateFormat = "YYYY-MM-DD HH:mm:ss";
 					break;
+				case "default":
+				case "index":
+				case "selection":
+				case "expand":
+				case "image":
+				case "d2":
+				case "d4":
+				case "d6":
+				case "gd2":
+				case "gd4":
+				case "gd6":
+				case "timeInfo":
+					break;
 			}
 			const rawValue: unknown = row[props.prop ?? ""];
 			const renderValue = rawValue
@@ -545,6 +559,16 @@ export default defineComponent({
 				case "gd6":
 					maximumFractionDigits = 6;
 					useGrouping = true;
+					break;
+				case "default":
+				case "index":
+				case "selection":
+				case "expand":
+				case "image":
+				case "date":
+				case "time":
+				case "dateTime":
+				case "timeInfo":
 					break;
 			}
 
@@ -667,7 +691,7 @@ export default defineComponent({
 							className={getClassName()}
 							minWidth={getWidth("auto")}
 							sortable={props.sortable ? "custom" : false}
-							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}
+							sortOrders={props.sortOrders}
 							resizable={props.resizable && !props.autoWidth}
 							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && props.type === "default"}
 						>
@@ -728,7 +752,7 @@ export default defineComponent({
 							className={getClassName()}
 							minWidth={getWidth("auto")}
 							sortable={props.sortable ? "custom" : false}
-							sortOrders={props.sortOrders ?? ["descending", "ascending", null]}
+							sortOrders={props.sortOrders}
 							resizable={props.resizable && !props.autoWidth}
 							showOverflowTooltip={(props.showOverflowTooltip ?? true) && !props.autoWidth && props.type === "default"}
 						>

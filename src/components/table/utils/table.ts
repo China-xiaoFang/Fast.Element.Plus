@@ -62,7 +62,7 @@ export const tableUtil = {
 	 */
 	arrayDynamicSort(sortList: PagedSortInput[]): (a: DefaultRow, b: DefaultRow) => number {
 		return (a, b) => {
-			if (sortList && sortList.length > 0) {
+			if (sortList.length > 0) {
 				for (const condition of sortList) {
 					const property = condition.enField;
 					const order = condition.mode;

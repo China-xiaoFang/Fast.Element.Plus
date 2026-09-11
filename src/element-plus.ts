@@ -142,7 +142,7 @@ const elMessageBox = (
 
 				callOptionalFunction(localBeforeClose, action, instance, newDone)
 					.then(() => newDone())
-					.catch((error) => {
+					.catch((error: unknown) => {
 						if (!completed) cancelLoading();
 						throw error;
 					});

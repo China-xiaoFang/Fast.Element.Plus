@@ -32,7 +32,7 @@ export const useScreenFull = {
 			ElMessage.warning("当前您的浏览器不支持全屏 ❌");
 			return;
 		}
-		void screenfull.toggle();
+		screenfull.toggle();
 	},
 	/** 进入全屏状态。 */
 	full: (): void => {
@@ -45,7 +45,7 @@ export const useScreenFull = {
 		}
 		// const htmlEl = document.querySelector("html");
 		// screenfull.request(htmlEl);
-		void screenfull.request();
+		screenfull.request();
 	},
 	/** 退出全屏状态。 */
 	exit: (): void => {
@@ -54,7 +54,7 @@ export const useScreenFull = {
 			return;
 		}
 		if (screenfull.isFullscreen) {
-			void screenfull.exit();
+			screenfull.exit();
 		}
 	},
 };

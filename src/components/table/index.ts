@@ -27,9 +27,9 @@ export default FaTable;
 /** 可独立注册的 FaTable 列组件。 */
 export const FaTableColumn: TSXWithInstall<typeof TableColumn> = withNoopInstall(TableColumn);
 
-export * from "./src/page.type";
-export * from "./src/table.state";
-export * from "./src/table.type";
+export type * from "./src/page.type";
+export type * from "./src/table.state";
+export type * from "./src/table.type";
 
 export { faTableEmits, faTableProps, tableColumnProps, tableProps };
 export type { FaTableSlots };

@@ -17,7 +17,7 @@ export default defineComponent({
 	},
 	emits: {
 		/** @description 点击事件 */
-		click: (event: MouseEvent, data: FaContextMenuData) => event instanceof MouseEvent && isObject(data),
+		click: (event: MouseEvent, data: FaContextMenuData | null) => event instanceof MouseEvent && isObject(data),
 	},
 	setup(props, { emit, expose }) {
 		const _globalSize = useGlobalSize();
@@ -30,9 +30,9 @@ export default defineComponent({
 			},
 		});
 
-		const handleClick = (event: MouseEvent, data: FaContextMenuData): void => {
+		const handleClick = (event: MouseEvent, data: FaContextMenuData | null): void => {
 			if (data?.disabled) return;
-			void data?.click?.(event, data);
+			data?.click?.(event, data);
 			emit("click", event, data);
 		};
 
@@ -62,13 +62,13 @@ export default defineComponent({
 							.filter((f) => !f.hide)
 							.map((item) => (
 								<li
-									class={["el-dropdown-menu__item", item?.disabled === true ? "is-disabled" : ""]}
+									class={["el-dropdown-menu__item", item.disabled === true ? "is-disabled" : ""]}
 									tabindex="-1"
 									onClick={(event: MouseEvent) => {
 										handleClick(event, item);
 									}}
 								>
-									{item?.icon ? <FaIcon name={item?.icon} /> : null}
+									{item.icon ? <FaIcon name={item.icon} /> : null}
 									<span>{item.label}</span>
 								</li>
 							))}

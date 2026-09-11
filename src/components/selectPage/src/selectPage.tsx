@@ -73,7 +73,7 @@ export const faSelectPageProps = {
 		required: true as const,
 	},
 	/** 初始化参数 */
-	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
 };
 
 /** FaSelectPage 的运行时 Emits 定义。 */
@@ -135,7 +135,7 @@ export default defineComponent({
 			pageSize: 15,
 			totalRows: 0,
 			searchValue: undefined,
-			defaultSelectorData: withDefineType<ElSelectorOutput>(),
+			defaultSelectorData: withDefineType<ElSelectorOutput | undefined>(),
 		});
 
 		const selectRef = ref<InstanceType<typeof ElSelect>>();
@@ -199,7 +199,7 @@ export default defineComponent({
 		const pageIndexModel = computed({
 			get: () => state.pageIndex,
 			set: (pageIndex: number) => {
-				void loadData(pageIndex);
+				loadData(pageIndex);
 			},
 		});
 
@@ -417,7 +417,7 @@ export default defineComponent({
 									vModel_trim={state.searchValue}
 									onKeyup={(event: KeyboardEvent) => {
 										if (event.key === "Enter") {
-											void loadData(1);
+											loadData(1);
 										}
 									}}
 								>
@@ -427,7 +427,7 @@ export default defineComponent({
 												loading={state.loading}
 												icon={Search}
 												onClick={() => {
-													void loadData(1);
+													loadData(1);
 												}}
 											/>
 										),

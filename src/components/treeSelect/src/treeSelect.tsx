@@ -170,7 +170,7 @@ export const faTreeSelectProps = {
 		type: definePropType<(params?: string | number | PagedInput) => Promise<ElSelectorOutput[]>>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
 };
 
 /** FaTreeSelect 的运行时 Emits 定义。 */
@@ -227,7 +227,7 @@ export default defineComponent({
 			/** 首次出现 */
 			debut: true,
 			/** 回显 */
-			echo: props.data?.length > 0 ? false : true,
+			echo: props.data.length > 0 ? false : true,
 			/** 下次刷新 */
 			nextRefresh: false,
 		});
@@ -317,7 +317,7 @@ export default defineComponent({
 			if (props.expandOnClickNode) {
 				if (!node.expanded) {
 					node.expand();
-				} else if (node.expanded && props.collapseOnClickNode) {
+				} else if (props.collapseOnClickNode) {
 					node.collapse();
 				}
 			}
@@ -478,7 +478,7 @@ export default defineComponent({
 				}
 			}
 			// 判断是否为本地数据
-			else if (!props.requestApi && props.data?.length > 0) {
+			else if (!props.requestApi && props.data.length > 0) {
 				state.debut = false;
 				await loadData();
 			}

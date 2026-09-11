@@ -177,6 +177,7 @@ export const SelectV2Props = {
 	/**
 	 * @description whether select dropdown is teleported to the body
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的运行时默认值与校验规则。
 	teleported: useTooltipContentProps.teleported,
 	/**
 	 * @description when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed
@@ -193,6 +194,7 @@ export const SelectV2Props = {
 		default: "",
 	},
 	/** @description custom style for Select's dropdown */
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的运行时类型定义。
 	popperStyle: useTooltipContentProps.popperStyle,
 	/**
 	 * @description [popper.js](https://popper.js.org/docs/v2/) parameters
@@ -277,10 +279,12 @@ export const SelectV2Props = {
 	/**
 	 * @description tag type
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的 Tag 运行时校验规则。
 	tagType: { ...tagProps.type, default: "info" },
 	/**
 	 * @description tag effect
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的 Tag 运行时校验规则。
 	tagEffect: { ...tagProps.effect, default: "light" },
 	/**
 	 * @description tabindex for input
@@ -304,6 +308,7 @@ export const SelectV2Props = {
 		type: definePropType<string | Component>([String, Object, Function]),
 		default: ArrowDown,
 	},
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的空值运行时约定。
 	...useEmptyValuesProps,
 	...useAriaProps(["ariaLabel"]),
 };
@@ -439,7 +444,7 @@ export default defineComponent({
 			/** 首次出现 */
 			debut: true,
 			/** 回显 */
-			echo: props.data?.length > 0 ? false : true,
+			echo: props.data.length > 0 ? false : true,
 			/** 下次刷新 */
 			nextRefresh: false,
 		});
@@ -476,7 +481,7 @@ export default defineComponent({
 				if (currentRequestVersion !== requestVersion) return;
 				// 这里不允许回显了
 				state.echo = false;
-				state.selectorData = props.data ?? [];
+				state.selectorData = props.data;
 			}
 		};
 
@@ -657,7 +662,7 @@ export default defineComponent({
 				}
 			}
 			// 判断是否为本地数据
-			else if (!props.requestApi && props.data?.length > 0) {
+			else if (!props.requestApi && props.data.length > 0) {
 				state.debut = false;
 				await loadData();
 			}

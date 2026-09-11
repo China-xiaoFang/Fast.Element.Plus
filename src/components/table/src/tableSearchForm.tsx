@@ -40,7 +40,7 @@ export default defineComponent({
 		},
 		/** @description Grid布局列配置 */
 		cols: {
-			type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
+			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakPoint, number>>>([String, Number, Object]),
 			default: () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
 		},
 		/** @description 搜索 */
@@ -102,28 +102,28 @@ export default defineComponent({
 		): { span: number; offset: number } & Partial<Record<FaLayoutGridBreakPoint, FaLayoutGridItemResponsive>> => {
 			return {
 				span: item.span ?? 1,
-				offset: item?.offset ?? 0,
-				xs: item?.xs,
-				sm: item?.sm,
-				md: item?.md,
-				lg: item?.lg,
-				xl: item?.xl,
+				offset: item.offset ?? 0,
+				xs: item.xs,
+				sm: item.sm,
+				md: item.md,
+				lg: item.lg,
+				xl: item.xl,
 			};
 		};
 
 		const handleBreakPointChange = ({ breakPoint }: { breakPoint: FaLayoutGridBreakPoint }): void => {
 			// 这里 -1 是排除固定的
 			state.breakPoint = getColumnCount(breakPoint) - 1;
-			state.searchColumns = tableState.searchColumns.filter((f) => f?.show).slice(0, state.breakPoint);
-			state.advancedSearchColumns = tableState.searchColumns.filter((f) => f?.show).slice(state.breakPoint);
+			state.searchColumns = tableState.searchColumns.filter((f) => f.show).slice(0, state.breakPoint);
+			state.advancedSearchColumns = tableState.searchColumns.filter((f) => f.show).slice(state.breakPoint);
 		};
 
 		watch(
 			() => tableState.searchColumns,
 			() => {
 				if (state.breakPoint) {
-					state.searchColumns = tableState.searchColumns.filter((f) => f?.show).slice(0, state.breakPoint);
-					state.advancedSearchColumns = tableState.searchColumns.filter((f) => f?.show).slice(state.breakPoint);
+					state.searchColumns = tableState.searchColumns.filter((f) => f.show).slice(0, state.breakPoint);
+					state.advancedSearchColumns = tableState.searchColumns.filter((f) => f.show).slice(state.breakPoint);
 				}
 			}
 		);
@@ -189,7 +189,7 @@ export default defineComponent({
 											<div class="el-form-item el-form-item--default el-form-item--label-right">
 												<label class="el-form-item__label">{item.search.label}</label>
 												<div class="el-form-item__content">
-													{item.search?.slot ? (
+													{item.search.slot ? (
 														slots[item.search.slot]?.({
 															column: item,
 															search: props.search,
@@ -212,21 +212,11 @@ export default defineComponent({
 											type="primary"
 											plain
 											icon={Refresh}
-											onClick={() => {
-												void props.search();
-											}}
+											onClick={props.search}
 										>
 											搜索
 										</ElButton>
-										<ElButton
-											loading={tableState.loading}
-											loadingIcon={Eleme}
-											title="重置"
-											icon={Brush}
-											onClick={() => {
-												void props.reset();
-											}}
-										>
+										<ElButton loading={tableState.loading} loadingIcon={Eleme} title="重置" icon={Brush} onClick={props.reset}>
 											重置
 										</ElButton>
 										{props.advancedSearchDrawer
@@ -238,9 +228,7 @@ export default defineComponent({
 														type="info"
 														plain
 														icon={Search}
-														onClick={() => {
-															void advancedSearchRef.value?.open();
-														}}
+														onClick={() => advancedSearchRef.value?.open()}
 													>
 														高级搜索
 													</ElButton>
@@ -276,7 +264,7 @@ export default defineComponent({
 							showConfirmButton={false}
 							showFullscreen={false}
 							showRefresh={false}
-							onConfirmClick={() => props.search()}
+							onConfirmClick={props.search}
 						>
 							<form class="el-form el-form--default el-form--label-top">
 								<FaLayoutGrid gap={[20, 0]} cols={{ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }}>

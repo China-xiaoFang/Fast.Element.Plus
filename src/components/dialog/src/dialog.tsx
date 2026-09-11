@@ -9,6 +9,7 @@ import type { VNode } from "vue";
 
 /** FaDialog 的运行时 Props 定义。 */
 export const faDialogProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...dialogProps,
 	/** @description whether to align the dialog both horizontally and vertically*/
 	alignCenter: {
@@ -170,7 +171,9 @@ export default defineComponent({
 			state.refreshing = true;
 			state.loading = true;
 			try {
-				await new Promise<void>((resolve) => setTimeout(resolve, 500));
+				await new Promise<void>((resolve) => {
+					setTimeout(resolve, 500);
+				});
 				state.refreshing = false;
 				await handleOpen(cacheOpenFunction);
 				ElMessage.success("刷新成功");
@@ -195,9 +198,9 @@ export default defineComponent({
 
 			if (props.showBeforeClose) {
 				// 用户取消关闭属于正常分支，无需继续执行 beforeClose。
-				void ElMessageBox.confirm("确定关闭？", { type: "warning" }).then(() => newDone());
+				ElMessageBox.confirm("确定关闭？", { type: "warning" }).then(() => newDone());
 			} else {
-				void newDone();
+				newDone();
 			}
 		};
 
@@ -213,7 +216,7 @@ export default defineComponent({
 
 		const handleCloseClick = (): void => {
 			if (state.loading) return;
-			void handleClose();
+			handleClose();
 		};
 
 		watch(
@@ -223,6 +226,7 @@ export default defineComponent({
 			}
 		);
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elDialogProps = useProps(props, dialogProps, ["modelValue", "fullscreen", "showClose", "beforeClose"]);
 		// open、close 是 Fast 异步业务流程完成事件，不直接透传 Element Plus 的同名生命周期事件。
 		const elDialogEmits = useEmits(dialogEmits, emit, ["open", "close", "update:modelValue"]);
@@ -256,9 +260,7 @@ export default defineComponent({
 										"fa-dialog__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
-									onClick={() => {
-										void handleRefresh();
-									}}
+									onClick={handleRefresh}
 								>
 									<ElIcon>
 										<Refresh />

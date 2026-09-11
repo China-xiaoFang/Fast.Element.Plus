@@ -19,15 +19,12 @@ export const formUtil = {
 				reject(new Error("ElForm 实例尚未挂载。"));
 				return;
 			}
-			void form.validate((isValid: boolean, invalidFields?) => {
+			form.validate((isValid: boolean, invalidFields?) => {
 				if (isValid) {
 					resolve(isValid);
 				} else {
-					if (invalidFields) {
-						console.warn("[Fast:formUtil]", "表单验证失败。", invalidFields);
-					}
 					// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-					reject(isValid);
+					reject(invalidFields);
 				}
 			});
 		});
@@ -43,16 +40,13 @@ export const formUtil = {
 				reject(new Error("ElForm 实例尚未挂载。"));
 				return;
 			}
-			void form.validate((isValid: boolean, invalidFields?) => {
+			form.validate((isValid: boolean, invalidFields?) => {
 				if (isValid) {
 					resolve(isValid);
 				} else {
 					form.scrollToField(Object.keys(invalidFields ?? {}));
-					if (invalidFields) {
-						console.warn("[Fast:formUtil]", "表单验证失败。", invalidFields);
-					}
 					// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-					reject(isValid);
+					reject(invalidFields);
 				}
 			});
 		});
@@ -106,7 +100,7 @@ export const formUtil = {
 	/**
 	 * 车牌号
 	 */
-	carNumber(_rule: FormItemRule, value: string, callback: ValidationCallback): void {
+	carNumber(_rule: FormItemRule, value: string | null | undefined, callback: ValidationCallback): void {
 		let success = false;
 		if (value?.length === 7) {
 			success = RegExps.CarNumber.test(value);
@@ -124,9 +118,10 @@ export const formUtil = {
 	 */
 	editorRequired(_rule: FormItemRule, value: string, callback: ValidationCallback): void {
 		if (value === "<p><br></p>") {
-			return callback(new Error("内容不能为空"));
+			callback(new Error("内容不能为空"));
+		} else {
+			callback();
 		}
-		return callback();
 	},
 	/**
 	 * 外部链接

@@ -12,7 +12,7 @@ export default FaLayoutGrid;
 /** 可独立注册的响应式布局项组件。 */
 export const FaLayoutGridItem: TSXWithInstall<typeof LayoutGridItem> = withNoopInstall(LayoutGridItem);
 
-export * from "./src/layoutGrid.type";
+export type * from "./src/layoutGrid.type";
 export type { FaLayoutGridSlots } from "./src/layoutGrid";
 export type { FaLayoutGridItemSlots } from "./src/layoutGridItem";
 

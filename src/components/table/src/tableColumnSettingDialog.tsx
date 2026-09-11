@@ -104,12 +104,12 @@ export default defineComponent({
 		};
 
 		const handleConfirmClick = (): void => {
-			void faDialogRef.value?.close(handleChange);
+			faDialogRef.value?.close(handleChange);
 		};
 
 		const handleOrderChange = (): void => {
 			state.change = true;
-			let orderColumns = tableState.orgColumns.filter((f) => !f?.pureSearch);
+			let orderColumns = tableState.orgColumns.filter((f) => !f.pureSearch);
 			orderColumns = orderColumns.sort((a, b) => {
 				if (a.order !== b.order) {
 					return (a.order ?? 0) - (b.order ?? 0);
@@ -117,7 +117,7 @@ export default defineComponent({
 					return orderColumns.indexOf(b) - orderColumns.indexOf(a);
 				}
 			});
-			tableState.orgColumns = [...orderColumns, ...tableState.orgColumns.filter((f) => f?.pureSearch)];
+			tableState.orgColumns = [...orderColumns, ...tableState.orgColumns.filter((f) => f.pureSearch)];
 			tableState.orgColumns.forEach((item, index) => {
 				item.order = index + 1;
 			});
@@ -129,8 +129,8 @@ export default defineComponent({
 
 		const autoWidthDisabled = (row: FaTableColumnCtx, switchEl = false): { disabled?: boolean; placeholder?: string } => {
 			const result: { disabled?: boolean; placeholder?: string } = {};
-			if (row?.type) {
-				switch (row?.type) {
+			if (row.type) {
+				switch (row.type) {
 					case "expand":
 						result.disabled = true;
 						result.placeholder = "暂不支持宽度配置";
@@ -149,11 +149,21 @@ export default defineComponent({
 						result.disabled = true;
 						result.placeholder = "当前列无需配置";
 						break;
+					case "default":
+					case "index":
+					case "selection":
+					case "d2":
+					case "d4":
+					case "d6":
+					case "gd2":
+					case "gd4":
+					case "gd6":
+						break;
 				}
-			} else if (row?.tag) {
+			} else if (row.tag) {
 				result.disabled = true;
 				result.placeholder = "标签列无需配置";
-			} else if (row?.autoWidth) {
+			} else if (row.autoWidth) {
 				result.disabled = true;
 				result.placeholder = "自动列宽无需配置";
 			}
@@ -171,7 +181,7 @@ export default defineComponent({
 			_radioEl = false
 		): { disabled?: boolean; placeholder?: string } => {
 			const result: { disabled?: boolean; placeholder?: string } = {};
-			if (row?.pureSearch) {
+			if (row.pureSearch) {
 				result.disabled = true;
 				result.placeholder = "搜索列无需配置";
 			}
@@ -374,7 +384,7 @@ export default defineComponent({
 														inlinePrompt
 														activeText="是"
 														inactiveText="否"
-														disabled={!!row?.type || !!row?.slot}
+														disabled={!!row.type || !!row.slot}
 														{...pureSearchDisabled(row, true)}
 														onChange={handleColumnChange}
 													/>
@@ -395,7 +405,7 @@ export default defineComponent({
 														inlinePrompt
 														activeText="是"
 														inactiveText="否"
-														disabled={!!row?.type}
+														disabled={!!row.type}
 														{...pureSearchDisabled(row, true)}
 														onChange={handleColumnChange}
 													/>
