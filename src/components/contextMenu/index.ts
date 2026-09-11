@@ -6,7 +6,7 @@ import type { TSXWithInstall } from "../../utils";
 export const FaContextMenu: TSXWithInstall<typeof ContextMenu> = withInstall(ContextMenu);
 export default FaContextMenu;
 
-export * from "./src/contextMenu.type";
+export type * from "./src/contextMenu.type";
 
 /** FaContextMenu 暴露的组件实例类型。 */
 export type FaContextMenuInstance = InstanceType<typeof ContextMenu>;

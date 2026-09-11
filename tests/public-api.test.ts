@@ -44,6 +44,7 @@ const installPlugin: (app: App) => void = install;
 const currentVersion: string = version;
 
 type IsAny<Value> = 0 extends 1 & Value ? true : false;
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- 这是比较两个任意类型是否完全一致的标准逆变函数写法。
 type IsEqual<Left, Right> = (<Value>() => Value extends Left ? 1 : 2) extends <Value>() => Value extends Right ? 1 : 2 ? true : false;
 type AssertTrue<Value extends true> = Value;
 type InitParam = string | number | PagedInput;
@@ -115,6 +116,7 @@ const tableLoadingResult: Promise<void> = tableInstance.doLoading(asyncTask);
 const inputDialogPageOpenResult: Promise<void> = inputDialogPageInstance.open();
 const tableColumnsSettingOpenResult: Promise<void> = ({} as InstanceType<typeof tableColumnsSettingDialog>).open();
 
+/* eslint-disable no-void -- 以下表达式仅用于让 TypeScript 校验公共成员存在且避免生成额外测试结构。 */
 void formInstance.getField;
 void formInstance.setInitialValues;
 void imageInstance.showPreview;
@@ -151,6 +153,7 @@ void tableSearchFormItem;
 void useLoading.show;
 void useOverlay.hide;
 void vCopy;
+/* eslint-enable no-void */
 
 export {
 	button,

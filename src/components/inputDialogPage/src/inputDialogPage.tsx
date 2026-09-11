@@ -15,7 +15,7 @@ import type { DefaultRow, FaTableInstance, PagedInput, PagedResult } from "../..
 export const faInputDialogPageProps = {
 	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
 	rowKey: {
-		type: [String, Function] as PropType<TableProps<DefaultRow>["rowKey"]>,
+		type: [String, Function] as PropType<NonNullable<TableProps<DefaultRow>["rowKey"]>>,
 		default: "id",
 	},
 	/** @description v-model绑定值 */
@@ -99,7 +99,7 @@ export default defineComponent({
 		};
 
 		const handleConfirmClick = (): void => {
-			void faDialogRef.value?.close(() => {
+			faDialogRef.value?.close(() => {
 				const table = faTableRef.value;
 				const selectedData = table?.selectedList[0];
 				if (table?.selected && selectedData) {
@@ -132,13 +132,7 @@ export default defineComponent({
 						append: () => (
 							<ElButtonGroup>
 								<ElButton disabled={props.disabled} icon={Delete} onClick={handleDeleteClick} />
-								<ElButton
-									disabled={props.disabled}
-									icon={Search}
-									onClick={() => {
-										void handleSearchClick();
-									}}
-								/>
+								<ElButton disabled={props.disabled} icon={Search} onClick={handleSearchClick} />
 							</ElButtonGroup>
 						),
 					}}

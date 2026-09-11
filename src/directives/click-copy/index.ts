@@ -33,7 +33,7 @@ const CopyDirective: Directive = {
 			}
 		};
 		el.__handleClick__ = (): void => {
-			void copy();
+			copy();
 		};
 		el.addEventListener("click", el.__handleClick__);
 	},

@@ -44,7 +44,7 @@ test("package metadata exposes the ESM, global types, style, and CDN entries", (
 		"@element-plus/icons-vue": "^2.3.2",
 		"@fast-element-plus/icons-vue": "^2.0.0",
 		"element-plus": "^2.14.5",
-		vue: "^3.5.41",
+		vue: "^3.5.11",
 	});
 	assert.equal(packageJson.devDependencies?.["@element-plus/icons-vue"], "^2.3.2");
 	assert.equal(packageJson.devDependencies?.["@fast-element-plus/icons-vue"], "^2.0.1");

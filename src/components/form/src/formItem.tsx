@@ -9,6 +9,7 @@ import type { Ref, VNode } from "vue";
 
 /** FaFormItem 的运行时 Props 定义。 */
 export const faFormItemProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...formItemProps,
 	/** @description Label tips 提示 */
 	tips: String,
@@ -72,6 +73,7 @@ export default defineComponent({
 			}
 		};
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elFormItemProps = useProps(props, formItemProps);
 
 		const ParcelComponent = props.grid ? FaLayoutGridItem : Fragment;
@@ -94,7 +96,7 @@ export default defineComponent({
 							}),
 						...(!slots.label &&
 							props.tips && {
-								label: ({ label }: { label: string }): VNode[] => [<FaFormItemTip label={label ?? props.label} tips={props.tips} />],
+								label: ({ label }: { label?: string }): VNode[] => [<FaFormItemTip label={label ?? props.label} tips={props.tips} />],
 							}),
 						...(slots.error && { error: ({ error }: { error: string }): VNode[] => slots.error?.({ error }) ?? [] }),
 					}}

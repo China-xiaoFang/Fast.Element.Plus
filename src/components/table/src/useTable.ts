@@ -85,7 +85,7 @@ export const useTable = (
 		]),
 		tableData: [],
 		tableSpanData: computed(() => {
-			if (state.spanColumns?.length > 0 && state.tableData?.length > 0) {
+			if (state.spanColumns.length > 0 && state.tableData.length > 0) {
 				const result: Record<string, number[]> = {};
 				const spanIndexes: Record<string, number> = {};
 				state.spanColumns.forEach((item) => {
@@ -140,6 +140,7 @@ export const useTable = (
 					return "54px";
 				case "small":
 					return "42px";
+				case "":
 				default:
 					return "auto";
 			}
@@ -159,7 +160,7 @@ export const useTable = (
 		state.loadingText = "加载中...";
 		state.autoColumnWidth = [];
 		const autoWidthColumns = state.tableColumns.filter((f) => f.autoWidth);
-		if (slots?.operation) {
+		if (slots.operation) {
 			// 操作列自动宽度
 			autoWidthColumns.push({
 				prop: "__table-operation",
@@ -168,16 +169,16 @@ export const useTable = (
 		if (autoWidthColumns.length > 0) {
 			// padding24/16 + border1
 			const otherWidth = _globalSize.value === "default" ? 25 : 17;
-			void nextTick(() => {
+			nextTick(() => {
 				const tableDom = document.querySelector(`.fa-table__${props.tableKey}`);
 				if (tableDom) {
 					autoWidthColumns.forEach((item) => {
-						const headerColumnDom = tableDom.querySelector(`.__fa-table__auto-width-column__cell-header__${item?.prop}`);
-						const cellColumnDoms = tableDom.querySelectorAll(`.__fa-table__auto-width-column__cell__${item?.prop}`);
+						const headerColumnDom = tableDom.querySelector(`.__fa-table__auto-width-column__cell-header__${item.prop}`);
+						const cellColumnDoms = tableDom.querySelectorAll(`.__fa-table__auto-width-column__cell__${item.prop}`);
 						let maxWidth = 0;
 						if (headerColumnDom) {
 							maxWidth = Math.ceil(headerColumnDom.scrollWidth) + otherWidth;
-							if (item?.sortable) {
+							if (item.sortable) {
 								maxWidth += 24;
 							}
 						}
@@ -187,7 +188,7 @@ export const useTable = (
 								maxWidth = curWidth;
 							}
 						});
-						const findInfo = state.autoColumnWidth.find((f) => f.prop === item?.prop);
+						const findInfo = state.autoColumnWidth.find((f) => f.prop === item.prop);
 						if (findInfo) {
 							findInfo.width = Math.max(findInfo.width, maxWidth);
 						} else {
@@ -357,12 +358,12 @@ export const useTable = (
 		state.tablePagination.pageSize = pageSize;
 		emit("sizeChange", pageSize);
 		emit("paginationChange", 1, pageSize);
-		void loadData();
+		loadData();
 	};
 	const handlePaginationChange = (val: number): void => {
 		state.tablePagination.pageIndex = val;
 		emit("paginationChange", val, state.tablePagination.pageSize);
-		void loadData();
+		loadData();
 	};
 
 	const updatedTotalParam = (): void => {
@@ -465,9 +466,7 @@ export const useTable = (
 		state.searchParam = {};
 		defaultSearchTime();
 		// 重置搜索表单的时候，如果有默认搜索参数，则重置默认的搜索参数
-		if (typeof state.initParam === "object" && state.initParam !== null) {
-			Object.assign(state.searchParam, state.initParam);
-		}
+		Object.assign(state.searchParam, state.initParam);
 		emit("reset", state.searchParam);
 		await loadData();
 	};

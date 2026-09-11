@@ -16,7 +16,7 @@ export const FaSelectOption: TSXWithInstall<typeof SelectOption> = withNoopInsta
 
 export { faSelectProps };
 export type { FaSelectSlots } from "./src/select";
-export * from "./src/select.type";
+export type * from "./src/select.type";
 
 /** FaSelect 暴露的组件实例类型。 */
 export type FaSelectInstance = InstanceType<typeof Select>;

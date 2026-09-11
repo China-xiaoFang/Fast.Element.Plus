@@ -9,7 +9,7 @@ export default FaTree;
 
 export { faTreeProps, faTreeEmits };
 export type { FaTreeSlots } from "./src/tree";
-export * from "./src/tree.type";
+export type * from "./src/tree.type";
 
 /** FaTree 暴露的组件实例类型。 */
 export type FaTreeInstance = InstanceType<typeof Tree>;

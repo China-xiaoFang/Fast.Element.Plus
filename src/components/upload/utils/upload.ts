@@ -102,7 +102,12 @@ export const uploadUtil = {
 	 * @param fileName 文件名称
 	 * @param params 参数
 	 */
-	async uploadFileByApi(api: (formData: FormData) => Promise<string>, file: File, fileName: string, params?: UploadData): Promise<string> {
+	async uploadFileByApi(
+		api: ((formData: FormData) => Promise<string>) | null | undefined,
+		file: File,
+		fileName: string,
+		params?: UploadData
+	): Promise<string> {
 		if (!api) {
 			console.error("[Fast:uploadUtil]", "文件上传接口为空。");
 			ElMessage.error("文件上传接口为空！");

@@ -81,7 +81,7 @@ export const faTreeProps = {
 		type: definePropType<(params?: string | number | PagedInput) => Promise<ElTreeOutput[]>>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
 };
 
 /** FaTree 的运行时 Emits 定义。 */
@@ -186,7 +186,7 @@ export default defineComponent({
 			emit("dataChangeCallBack", state.treeData);
 			const selectedKey = curSelectedData ?? props.modelValue ?? props.defaultSelection;
 			if (props.nodeKey && (typeof selectedKey === "string" || typeof selectedKey === "number")) {
-				void nextTick(() => {
+				nextTick(() => {
 					// 设置原本选中的值
 					treeRef.value?.setCurrentKey(selectedKey);
 				});
@@ -231,7 +231,7 @@ export default defineComponent({
 			if (props.expandOnClickNode) {
 				if (!node.expanded) {
 					node.expand();
-				} else if (node.expanded && props.collapseOnClickNode) {
+				} else if (props.collapseOnClickNode) {
 					node.collapse();
 				}
 			}

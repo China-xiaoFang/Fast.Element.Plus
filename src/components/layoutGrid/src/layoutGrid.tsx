@@ -15,7 +15,7 @@ export default defineComponent({
 	props: {
 		/** @description Grid布局列配置 */
 		cols: {
-			type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
+			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakPoint, number>>>([String, Number, Object]),
 			default: (): Record<FaLayoutGridBreakPoint, number> => ({ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }),
 		},
 		/** @description 折叠 */
@@ -98,7 +98,7 @@ export default defineComponent({
 		};
 
 		onMounted(() => {
-			void nextTick(observeResize);
+			nextTick(observeResize);
 
 			// 断点变化时 执行 findIndex
 			watch(
@@ -113,7 +113,7 @@ export default defineComponent({
 		});
 
 		onActivated(() => {
-			void nextTick(observeResize);
+			nextTick(observeResize);
 		});
 
 		onUnmounted(() => {
@@ -151,14 +151,14 @@ export default defineComponent({
 					// suffix
 					if (
 						typeof slot.type === "object" &&
-						slot.type !== null &&
 						"name" in slot.type &&
 						slot.type.name === "FaLayoutGridItem" &&
 						slot.props?.["suffix"] !== undefined
-					)
+					) {
 						suffix = slot;
+					}
 					// slot children
-					if (typeof slot.type === "symbol" && Array.isArray(slot?.children)) fields.push(...slot.children);
+					if (typeof slot.type === "symbol" && Array.isArray(slot.children)) fields.push(...slot.children);
 				});
 
 				// 计算 suffix 所占用的列

@@ -7,6 +7,7 @@ import type { VNode } from "vue";
 
 /** FaImage 的运行时 Props 定义。 */
 export const faImageProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...imageProps,
 	/** @description when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode. */
 	hideOnClickModal: {
@@ -105,6 +106,7 @@ export default defineComponent({
 			}
 		);
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const bindProps = useProps(props, imageProps, ["src", "previewSrcList"]);
 		const bindEmits = useEmits(imageEmits, emit, ["error"]);
 
@@ -124,7 +126,7 @@ export default defineComponent({
 				{{
 					error: () =>
 						slots.error ? (
-							(slots.error?.() ?? [])
+							slots.error()
 						) : (
 							<div class="fa-image__error-image">
 								<ElIcon class="icon">

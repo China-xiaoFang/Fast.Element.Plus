@@ -5,10 +5,11 @@ import { isArray, isNull, isString } from "lodash-unified";
 import { FaMimeType } from "../../../constants";
 import { addCssUnit, definePropType, makeSlots, randomString, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import { useUpload } from "../../upload/src/useUpload";
-import type { UploadFile, UploadInstance, UploadProps, UploadUserFile, uploadListTypes } from "element-plus";
+import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from "element-plus";
 
 /** FaUploadImage 的运行时 Props 定义。 */
 export const faUploadImageProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...uploadProps,
 	/** @description whether to activate drag and drop mode */
 	drag: {
@@ -22,13 +23,20 @@ export const faUploadImageProps = {
 	},
 	/** @description type of file list */
 	listType: {
-		type: definePropType<(typeof uploadListTypes)[number]>(String),
+		type: definePropType<NonNullable<UploadProps["listType"]>>(String),
 		default: "picture",
 	},
 	/** @description whether uploading multiple files is permitted */
 	multiple: {
 		type: Boolean,
 		default: false,
+		validator: (value: boolean): boolean => {
+			if (value) {
+				console.warn("[Fast:FaUploadImage]", "'multiple' 属性固定为 false，外部设置不会生效。");
+				return false;
+			}
+			return true;
+		},
 	},
 	/** @description whether to show the uploaded file list */
 	showFileList: {
@@ -100,6 +108,7 @@ export default defineComponent({
 				return props.uploadApi;
 			},
 			get uploadUrl() {
+				// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要与 Element Plus 2.x 的运行时默认 action 比较。
 				return props.uploadUrl || (props.action === uploadProps.action.default ? undefined : props.action);
 			},
 		});
@@ -115,6 +124,7 @@ export default defineComponent({
 		});
 
 		const uploadRef = ref<UploadInstance>();
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要识别 Element Plus 2.x 注入的默认请求实现。
 		const httpRequest = computed(() => (props.httpRequest === uploadProps.httpRequest.default ? handleHttpRequest : props.httpRequest));
 
 		const handleEdit = (): void => {
@@ -138,12 +148,10 @@ export default defineComponent({
 			if (!handleOnUpload(rawFile)) {
 				return false;
 			}
-			if (props.beforeUpload) {
-				return props.beforeUpload(rawFile);
-			}
-			return true;
+			return props.beforeUpload(rawFile);
 		};
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elUploadProps = useProps(props, uploadProps, [
 			"fileList",
 			"disabled",
@@ -189,7 +197,7 @@ export default defineComponent({
 											return;
 										}, ["stop"])}
 									>
-										<span class="el-upload-list__item-icon" onClick={() => handlePreview()} title="查看">
+										<span class="el-upload-list__item-icon" onClick={handlePreview} title="查看">
 											<ElIcon>
 												<ZoomIn />
 											</ElIcon>
@@ -201,7 +209,7 @@ export default defineComponent({
 														<Edit />
 													</ElIcon>
 												</span>
-												<span class="el-upload-list__item-icon" onClick={() => handleRemove()} title="删除">
+												<span class="el-upload-list__item-icon" onClick={handleRemove} title="删除">
 													<ElIcon>
 														<Delete />
 													</ElIcon>

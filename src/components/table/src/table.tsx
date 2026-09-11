@@ -275,7 +275,7 @@ export const faTableProps = {
 	},
 	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
 	rowKey: {
-		type: [String, Function] as PropType<TableProps<DefaultRow>["rowKey"]>,
+		type: [String, Function] as PropType<NonNullable<TableProps<DefaultRow>["rowKey"]>>,
 		default: "id",
 	},
 	/** @description 组件封装，原生的已经失效 method that returns rowspan and colspan */
@@ -305,7 +305,7 @@ export const faTableProps = {
 		type: definePropType<(data: PagedResult<DefaultRow> | DefaultRow[]) => void>(Function),
 	},
 	/** 初始化参数 */
-	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
+	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
 	/** @description 列配置 */
 	columns: {
 		type: definePropType<FaTableColumnCtx[] | false>([Array, Boolean]),
@@ -560,8 +560,8 @@ export default defineComponent({
 			if (index === 0) {
 				lastRowIndex = 0;
 			}
-			if (state.spanColumns?.length > 0) {
-				const rowspan = Number(state.tableSpanData["__table-index"]?.[index] ?? 0);
+			if (state.spanColumns.length > 0) {
+				const rowspan = state.tableSpanData["__table-index"]?.[index] ?? 0;
 				if (rowspan === 0) {
 					return lastRowIndex + (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize + 1;
 				} else {
@@ -576,7 +576,7 @@ export default defineComponent({
 			// 判断是否开启了单选
 			if (props.single) {
 				tableRef.value?.clearSelection();
-				if (selection.length > 0 && row) {
+				if (selection.length > 0) {
 					tableRef.value?.toggleRowSelection(row);
 				}
 			}
@@ -686,7 +686,7 @@ export default defineComponent({
 				delete state.searchParam.sortList;
 			}
 			emit("sortChange", { column, prop: normalizedProp, order: column.multiOrder ?? "" });
-			void tableSearch();
+			tableSearch();
 		};
 
 		const handleCurrentChange = (currentRow: DefaultRow | null, oldCurrentRow: DefaultRow | null): void => {
@@ -727,7 +727,7 @@ export default defineComponent({
 			}
 			const columnInfo = state.tableColumns.find((f) => f.prop === column.property);
 			if (columnInfo?.dataDeleteField) {
-				if (row?.[columnInfo.dataDeleteField] === true) {
+				if (row[columnInfo.dataDeleteField] === true) {
 					if (localCellClassName) {
 						localCellClassName += " fa-table__data-delete-column";
 					} else {
@@ -785,9 +785,12 @@ export default defineComponent({
 			columnIndex: number;
 		}): number[] | { rowspan: number; colspan: number } => {
 			/** @description 原生的 span-method 会失效 */
-			const pKey = column.property ?? column.columnKey;
+			const property = column.property as string | null | undefined;
+			const columnKey = column.columnKey as string | null | undefined;
+			const pKey = property ?? columnKey;
+			if (pKey === undefined || pKey === null) return { rowspan: 1, colspan: 1 };
 			if (state.spanColumns.findIndex((f) => f.prop === pKey) !== -1) {
-				const rowspan = Number(state.tableSpanData[pKey]?.[rowIndex] ?? 0);
+				const rowspan = state.tableSpanData[pKey]?.[rowIndex] ?? 0;
 				if (rowspan > 0) {
 					return { rowspan, colspan: 1 };
 				}
@@ -804,7 +807,7 @@ export default defineComponent({
 				}
 			});
 			emit("headerDragend", newWidth, oldWidth, column, event);
-			if (props.columnsChange) void notifyColumnsChange();
+			if (props.columnsChange) notifyColumnsChange();
 		};
 
 		const handleImagePreview = (url: string): void => {
@@ -859,7 +862,7 @@ export default defineComponent({
 							const widthChanged = state.tableWidth !== width;
 							state.tableWidth = width;
 							state.tableHeight = height;
-							if (widthChanged) void resizeTableColumns();
+							if (widthChanged) resizeTableColumns();
 						}
 					});
 					observer.observe(element);
@@ -873,7 +876,7 @@ export default defineComponent({
 
 		onActivated(() => {
 			// 解决 keep-alive 后自动列宽失效的问题
-			void handleTableColumnAutoWidth();
+			handleTableColumnAutoWidth();
 		});
 
 		const tableColumnOmitNames = ["multiOrder", "columnId", "order", "sortableField", "disabledSortable", "spanProp", "pureSearch", "search"];
@@ -885,7 +888,7 @@ export default defineComponent({
 		]);
 		const searchInputClearable = computed(() => {
 			const value = state.searchParam.searchValue;
-			return (value !== undefined && value !== null && value !== "") || state.searchValueUpdate.length > 0;
+			return (value !== undefined && value !== "") || state.searchValueUpdate.length > 0;
 		});
 
 		const elTableProps = useProps(props, tableProps, ["data", "spanMethod", "headerCellClassName", "cellClassName"]);
@@ -893,15 +896,10 @@ export default defineComponent({
 		useRender(() => (
 			<div
 				ref={elementRef}
-				class={[
-					"fa-table",
-					`fa-table-${_globalSize.value}`,
-					`fa-table__${props.tableKey ?? "notFound"}`,
-					{ fa__click__disabled: state.loading },
-				]}
+				class={["fa-table", `fa-table-${_globalSize.value}`, `fa-table__${props.tableKey}`, { fa__click__disabled: state.loading }]}
 				style={{
-					"--fa-table-width": `${state.tableWidth ? `${state.tableWidth}px` : ""}`,
-					"--fa-table-height": `${state.tableHeight ? `${state.tableHeight}px` : ""}`,
+					"--fa-table-width": state.tableWidth ? `${state.tableWidth}px` : "",
+					"--fa-table-height": state.tableHeight ? `${state.tableHeight}px` : "",
 				}}
 			>
 				<FaTableSearchForm
@@ -939,9 +937,7 @@ export default defineComponent({
 												onCompositionend={() => {
 													state.searchValueUpdate = "";
 												}}
-												onChange={() => {
-													void tableSearch();
-												}}
+												onChange={tableSearch}
 											/>
 											<div class="fa-table__main-header-right__div-search__hidden">
 												{state.searchParam.searchValue}
@@ -952,9 +948,7 @@ export default defineComponent({
 											<ElDatePicker
 												{...{
 													// ElDatePicker 的 JSX 类型未声明 change 事件，运行时由内部 Picker 触发。
-													onChange: () => {
-														void tableSearch();
-													},
+													onChange: tableSearch,
 												}}
 												class="fa-table__main-header-right__data-search"
 												popperClass="fa-table__main-header-right__data-search__popper"
@@ -977,9 +971,7 @@ export default defineComponent({
 												title="刷新"
 												circle
 												icon={Refresh}
-												onClick={() => {
-													void tableSearch();
-												}}
+												onClick={tableSearch}
 											/>
 										)}
 										{props.searchBtn && state.searchColumns.length > 0 && (
@@ -999,13 +991,7 @@ export default defineComponent({
 													dropdown: () => (
 														<ElDropdownMenu>
 															{slots.columnSetting?.()}
-															<ElDropdownItem
-																title="表格列配置"
-																divided
-																onClick={() => {
-																	void columnSettingRef.value?.open();
-																}}
-															>
+															<ElDropdownItem title="表格列配置" divided onClick={() => columnSettingRef.value?.open()}>
 																表格列配置
 															</ElDropdownItem>
 														</ElDropdownMenu>
@@ -1156,7 +1142,7 @@ export default defineComponent({
 											}}
 										</ElTableColumn>
 									)}
-									{state.tableColumns?.length === 0
+									{state.tableColumns.length === 0
 										? slots.default?.()
 										: state.tableColumns.map(
 												(col) =>

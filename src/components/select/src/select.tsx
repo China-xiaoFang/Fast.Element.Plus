@@ -147,7 +147,7 @@ export default defineComponent({
 			/** 首次出现 */
 			debut: true,
 			/** 回显 */
-			echo: props.data?.length > 0 ? false : true,
+			echo: props.data.length > 0 ? false : true,
 			/** 下次刷新 */
 			nextRefresh: false,
 		});
@@ -361,7 +361,7 @@ export default defineComponent({
 				}
 			}
 			// 判断是否为本地数据
-			else if (!props.requestApi && props.data?.length > 0) {
+			else if (!props.requestApi && props.data.length > 0) {
 				state.debut = false;
 				await loadData();
 			}

@@ -127,7 +127,7 @@ export default defineComponent({
 		};
 
 		const handleChange = (_value: unknown): void => {
-			void props.search();
+			props.search();
 		};
 
 		const handleDefaultProps = (): Record<string, unknown> => {

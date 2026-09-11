@@ -11,9 +11,11 @@ import type { PopoverInstance } from "element-plus";
 export default defineComponent({
 	name: "FaCarNumber",
 	props: {
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 		...inputProps,
 		/** @description value conversion function */
 		parser: {
+			// eslint-disable-next-line @typescript-eslint/no-deprecated -- 保留 Element Plus 2.x parser 的运行时约束。
 			...inputProps.parser,
 			type: definePropType<(value: string) => string>(Function),
 		},
@@ -90,12 +92,12 @@ export default defineComponent({
 			if (success) {
 				emit("change", value);
 				// 调用 el-form 内部的校验方法（可自动校验）
-				if (formItemContext?.prop) void formContext?.validateField([formItemContext.prop]);
+				if (formItemContext?.prop) formContext?.validateField([formItemContext.prop]);
 			} else {
 				if (formItemContext?.prop && formContext) {
 					emit("change", value);
 					// 调用 el-form 内部的校验方法（可自动校验）
-					void formContext.validateField([formItemContext.prop]);
+					formContext.validateField([formItemContext.prop]);
 				} else {
 					ElMessage.error("车牌号格式不正确");
 				}
@@ -107,9 +109,10 @@ export default defineComponent({
 			modelValue.value = null;
 			emit("change", null);
 			// 调用 el-form 内部的校验方法（可自动校验）
-			if (formItemContext?.prop) void formContext?.validateField([formItemContext.prop]);
+			if (formItemContext?.prop) formContext?.validateField([formItemContext.prop]);
 		};
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elInputProps = useProps(props, inputProps, ["modelValue", "readonly", "formatter"]);
 
 		useRender(() => (

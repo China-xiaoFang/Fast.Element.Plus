@@ -8,6 +8,7 @@ import type { VNode } from "vue";
 
 /** FaDrawer 的运行时 Props 定义。 */
 export const faDrawerProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...drawerProps,
 	/** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
 	appendToBody: {
@@ -99,7 +100,7 @@ export default defineComponent({
 			loading: false,
 			visible: false,
 			fullscreen: false,
-			size: props.size ?? "30%",
+			size: props.size,
 			dragging: false,
 			refreshing: false,
 		});
@@ -149,7 +150,9 @@ export default defineComponent({
 			state.refreshing = true;
 			state.loading = true;
 			try {
-				await new Promise<void>((resolve) => setTimeout(resolve, 500));
+				await new Promise<void>((resolve) => {
+					setTimeout(resolve, 500);
+				});
 				state.refreshing = false;
 				await handleOpen(cacheOpenFunction);
 				ElMessage.success("刷新成功");
@@ -174,9 +177,9 @@ export default defineComponent({
 
 			if (props.showBeforeClose) {
 				// 用户取消关闭属于正常分支，无需继续执行 beforeClose。
-				void ElMessageBox.confirm("确定关闭？", { type: "warning" }).then(() => newDone());
+				ElMessageBox.confirm("确定关闭？", { type: "warning" }).then(() => newDone());
 			} else {
-				void newDone();
+				newDone();
 			}
 		};
 
@@ -192,7 +195,7 @@ export default defineComponent({
 
 		const handleCloseClick = (): void => {
 			if (state.loading) return;
-			void handleClose();
+			handleClose();
 		};
 
 		watch(
@@ -205,7 +208,7 @@ export default defineComponent({
 		watch(
 			() => props.size,
 			(newValue) => {
-				if (newValue !== undefined) state.size = newValue;
+				state.size = newValue;
 			}
 		);
 
@@ -223,6 +226,7 @@ export default defineComponent({
 				case "btt":
 					nextSize = viewportSize - event.clientY;
 					break;
+				case "rtl":
 				default:
 					nextSize = viewportSize - event.clientX;
 					break;
@@ -245,6 +249,7 @@ export default defineComponent({
 
 		onBeforeUnmount(stopDraggable);
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elDrawerProps = useProps(props, drawerProps, ["modelValue", "size", "showClose", "beforeClose"]);
 		// open、close 是 Fast 异步业务流程完成事件，不直接透传 Element Plus 的同名生命周期事件。
 		const elDrawerEmits = useEmits(drawerEmits, emit, ["open", "close", "update:modelValue"]);
@@ -278,9 +283,7 @@ export default defineComponent({
 										"fa-drawer__header-icon",
 										state.loading ? "fa__click__disabled fa__click__disabled__cursor " : "fa__hover__twinkle",
 									]}
-									onClick={() => {
-										void handleRefresh();
-									}}
+									onClick={handleRefresh}
 								>
 									<ElIcon class="icon">
 										<Refresh />

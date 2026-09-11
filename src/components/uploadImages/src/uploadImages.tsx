@@ -5,10 +5,11 @@ import { isArray, isNull } from "lodash-unified";
 import { FaMimeType } from "../../../constants";
 import { definePropType, makeSlots, randomString, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import { useUpload } from "../../upload/src/useUpload";
-import type { UploadFile, UploadInstance, UploadProps, UploadUserFile, uploadListTypes } from "element-plus";
+import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from "element-plus";
 
 /** FaUploadImages 的运行时 Props 定义。 */
 export const faUploadImagesProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...uploadProps,
 	/** @description accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true` */
 	accept: {
@@ -17,13 +18,20 @@ export const faUploadImagesProps = {
 	},
 	/** @description type of file list */
 	listType: {
-		type: definePropType<(typeof uploadListTypes)[number]>(String),
+		type: definePropType<NonNullable<UploadProps["listType"]>>(String),
 		default: "picture-card",
 	},
 	/** @description whether uploading multiple files is permitted */
 	multiple: {
 		type: Boolean,
 		default: true,
+		validator: (value: boolean): boolean => {
+			if (!value) {
+				console.warn("[Fast:FaUploadImages]", "'multiple' 属性固定为 true，外部设置不会生效。");
+				return false;
+			}
+			return true;
+		},
 	},
 	/** @description maximum number of uploads allowed */
 	limit: {
@@ -85,6 +93,7 @@ export default defineComponent({
 				return props.uploadApi;
 			},
 			get uploadUrl() {
+				// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要与 Element Plus 2.x 的运行时默认 action 比较。
 				return props.uploadUrl || (props.action === uploadProps.action.default ? undefined : props.action);
 			},
 		});
@@ -101,6 +110,7 @@ export default defineComponent({
 		});
 
 		const uploadRef = ref<UploadInstance>();
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要识别 Element Plus 2.x 注入的默认请求实现。
 		const httpRequest = computed(() => (props.httpRequest === uploadProps.httpRequest.default ? handleHttpRequest : props.httpRequest));
 
 		const handleEdit = (): void => {
@@ -123,12 +133,10 @@ export default defineComponent({
 			if (!handleOnUpload(rawFile)) {
 				return false;
 			}
-			if (props.beforeUpload) {
-				return props.beforeUpload(rawFile);
-			}
-			return true;
+			return props.beforeUpload(rawFile);
 		};
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elUploadProps = useProps(props, uploadProps, [
 			"fileList",
 			"multiple",

@@ -9,6 +9,7 @@ import type { VNode } from "vue";
 
 /** FaUpload 的运行时 Props 定义。 */
 export const faUploadProps = {
+	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...uploadProps,
 	/** @description whether to activate drag and drop mode */
 	drag: {
@@ -81,6 +82,7 @@ export default defineComponent({
 				return props.uploadApi;
 			},
 			get uploadUrl() {
+				// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要与 Element Plus 2.x 的运行时默认 action 比较。
 				return props.uploadUrl || (props.action === uploadProps.action.default ? undefined : props.action);
 			},
 		});
@@ -90,13 +92,15 @@ export default defineComponent({
 		});
 
 		const uploadRef = ref<UploadInstance>();
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要识别 Element Plus 2.x 注入的默认请求实现。
 		const httpRequest = computed(() => (props.httpRequest === uploadProps.httpRequest.default ? handleHttpRequest : props.httpRequest));
 
 		const handleBeforeUpload: UploadProps["beforeUpload"] = (rawFile) => {
 			if (!handleOnUpload(rawFile)) return false;
-			return props.beforeUpload?.(rawFile) ?? true;
+			return props.beforeUpload(rawFile);
 		};
 
+		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elUploadProps = useProps(props, uploadProps, [
 			"fileList",
 			"disabled",
