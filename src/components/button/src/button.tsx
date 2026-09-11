@@ -67,11 +67,11 @@ export default defineComponent({
 		};
 
 		const handleLoading = async (loadingFunction: () => void | Promise<void>): Promise<void> => {
-			state.loading = true;
+			showLoading();
 			try {
 				await callOptionalFunction(loadingFunction);
 			} finally {
-				state.loading = false;
+				hideLoading();
 			}
 		};
 

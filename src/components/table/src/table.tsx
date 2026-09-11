@@ -856,10 +856,11 @@ export default defineComponent({
 					const observer = new ResizeObserver((entries) => {
 						for (const entry of entries) {
 							const { width, height } = entry.contentRect;
+							const widthChanged = state.tableWidth !== width;
 							state.tableWidth = width;
 							state.tableHeight = height;
+							if (widthChanged) void resizeTableColumns();
 						}
-						void resizeTableColumns();
 					});
 					observer.observe(element);
 
