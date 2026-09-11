@@ -2,6 +2,16 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.15] - 2026-09-11
+
+### Changed
+
+- Reused the public loading controls inside `FaButton.handleLoading` and updated the icon package and development toolchain dependencies.
+
+### Fixed
+
+- Prevented height-only `FaTable` container changes, such as an Android soft keyboard opening, from recalculating column widths and temporarily disabling the focused keyword search input.
+
 ## [2.0.14] - 2026-09-10
 
 ### Changed
@@ -155,6 +165,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.15]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.15
 [2.0.14]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.14
 [2.0.13]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.13
 [2.0.12]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.12
