@@ -1,11 +1,10 @@
-import { computed, nextTick, provide, reactive, ref, watch } from "vue";
+import { computed, nextTick, provide, reactive, shallowRef, watch } from "vue";
 import { dayjs, useGlobalSize } from "element-plus";
-import { isArray, isFunction } from "lodash-unified";
 import { callOptionalFunction, debounce } from "../../../utils";
 import { tableUtil } from "../utils/table";
 import { getTableDefaultSlots } from "./table.type";
 import type { TableInstance } from "element-plus";
-import type { ExtractPropTypes, InjectionKey, Ref, SetupContext } from "vue";
+import type { ExtractPropTypes, InjectionKey, SetupContext, ShallowRef } from "vue";
 import type { makeSlots } from "../../../utils";
 import type { PagedInput, PagedResult } from "./page.type";
 import type { FaTableSlots, faTableEmits, faTableProps } from "./table";
@@ -20,10 +19,10 @@ export const enumMapKey: InjectionKey<Map<string, FaTableEnumColumnCtx[]>> = Sym
 type TableSetupContext = SetupContext<typeof faTableEmits, ReturnType<typeof makeSlots<FaTableSlots>>>;
 
 interface TableComposable {
-	_globalSize: ReturnType<typeof useGlobalSize>;
+	globalSize: ReturnType<typeof useGlobalSize>;
 	state: FaTableState;
-	elementRef: Ref<HTMLElement | undefined>;
-	tableRef: Ref<TableInstance | undefined>;
+	elementRef: Readonly<ShallowRef<HTMLElement | null>>;
+	tableRef: Readonly<ShallowRef<TableInstance | null>>;
 	handleTableColumnAutoWidth: () => void;
 	getRequestParam: () => PagedInput;
 	loadTableColumns: () => void;
@@ -50,10 +49,10 @@ export const useTable = (
 	slots: TableSetupContext["slots"],
 	emit: TableSetupContext["emit"]
 ): TableComposable => {
-	const _globalSize = useGlobalSize();
+	const globalSize = useGlobalSize();
 
-	const elementRef = ref<HTMLElement>();
-	const tableRef = ref<TableInstance>();
+	const elementRef = shallowRef<HTMLElement | null>(null);
+	const tableRef = shallowRef<TableInstance | null>(null);
 
 	/**
 	 * 定义 enumMap 存储 enum 值（避免异步请求无法格式化单元格内容 || 无法填充搜索下拉选择）
@@ -124,7 +123,8 @@ export const useTable = (
 		selectedList: [],
 		selectedListIds: computed(() =>
 			state.selectedList.flatMap((item) => {
-				const rowKey: unknown = isFunction(props.rowKey) ? props.rowKey(item) : tableUtil.handleRowAccordingToProp(item, props.rowKey);
+				const rowKey: unknown =
+					typeof props.rowKey === "function" ? props.rowKey(item) : tableUtil.handleRowAccordingToProp(item, props.rowKey);
 				return typeof rowKey === "string" || typeof rowKey === "number" ? [rowKey] : [];
 			})
 		),
@@ -134,7 +134,7 @@ export const useTable = (
 			if (findAutoCol) {
 				return `${findAutoCol.width}px`;
 			}
-			switch (_globalSize.value) {
+			switch (globalSize.value) {
 				case "large":
 				case "default":
 					return "54px";
@@ -168,7 +168,7 @@ export const useTable = (
 		}
 		if (autoWidthColumns.length > 0) {
 			// padding24/16 + border1
-			const otherWidth = _globalSize.value === "default" ? 25 : 17;
+			const otherWidth = globalSize.value === "default" ? 25 : 17;
 			nextTick(() => {
 				const tableDom = document.querySelector(`.fa-table__${props.tableKey}`);
 				if (tableDom) {
@@ -188,9 +188,9 @@ export const useTable = (
 								maxWidth = curWidth;
 							}
 						});
-						const findInfo = state.autoColumnWidth.find((f) => f.prop === item.prop);
-						if (findInfo) {
-							findInfo.width = Math.max(findInfo.width, maxWidth);
+						const autoWidthEntry = state.autoColumnWidth.find((f) => f.prop === item.prop);
+						if (autoWidthEntry) {
+							autoWidthEntry.width = Math.max(autoWidthEntry.width, maxWidth);
 						} else {
 							if (item.prop) {
 								state.autoColumnWidth.push({
@@ -214,7 +214,7 @@ export const useTable = (
 			const result: DefaultRow[] = [];
 			data.forEach((row) => {
 				const rowList: unknown = row[props.props.children ?? "children"];
-				if (isArray(rowList)) {
+				if (Array.isArray(rowList)) {
 					// 如果 rowList 是数组，遍历并合并每个子项
 					const childRows: unknown[] = rowList;
 					childRows.forEach((childRow) => {
@@ -252,7 +252,7 @@ export const useTable = (
 				props.dataCallback?.(resData);
 				// 解析 API 接口返回的分页数据（如果有分页更新分页信息）
 				if (props.pagination) {
-					if (isArray(resData)) {
+					if (Array.isArray(resData)) {
 						pageData = resData;
 						state.tablePagination.totalRows = resData.length;
 					} else {
@@ -296,7 +296,7 @@ export const useTable = (
 					return text.toLowerCase().includes(searchValue.toLowerCase());
 				});
 			});
-			if (isArray(state.searchParam.sortList) && state.searchParam.sortList.length > 0) {
+			if (Array.isArray(state.searchParam.sortList) && state.searchParam.sortList.length > 0) {
 				_value = _value.sort(tableUtil.arrayDynamicSort(state.searchParam.sortList));
 			}
 			if (props.pagination) {
@@ -508,7 +508,7 @@ export const useTable = (
 	);
 
 	return {
-		_globalSize,
+		globalSize,
 		state,
 		elementRef,
 		tableRef,

@@ -1,11 +1,9 @@
-import { Fragment, computed, defineComponent, nextTick, reactive, ref, watch } from "vue";
+import { Fragment, computed, defineComponent, nextTick, reactive, shallowRef, watch } from "vue";
 import { Close, Eleme, Refresh } from "@element-plus/icons-vue";
 import { ElButton, ElDialog, ElIcon, ElMessage, ElMessageBox, ElScrollbar, dialogEmits, dialogProps, useGlobalSize } from "element-plus";
 import { FullScreen, FullScreenExit } from "@fast-element-plus/icons-vue";
-import { isBoolean } from "lodash-unified";
 import { callOptionalFunction, definePropType, makeSlots, useEmits, useExpose, useProps, useRender } from "../../../utils";
 import type { DialogInstance } from "element-plus";
-import type { VNode } from "vue";
 
 /** FaDialog 的运行时 Props 定义。 */
 export const faDialogProps = {
@@ -94,9 +92,9 @@ export const faDialogProps = {
 export const faDialogEmits = {
 	...dialogEmits,
 	/** @description v-model 回调 */
-	"update:modelValue": (value: boolean): boolean => isBoolean(value),
+	"update:modelValue": (value: boolean) => typeof value === "boolean",
 	/** @description 确认按钮点击事件 */
-	confirmClick: (): boolean => true,
+	confirmClick: () => true,
 };
 
 /** FaDialog 的插槽参数。 */
@@ -117,7 +115,8 @@ export default defineComponent({
 	emits: faDialogEmits,
 	slots: makeSlots<FaDialogSlots>(),
 	setup(props, { slots, emit, expose }) {
-		const _globalSize = useGlobalSize();
+		const globalSize = useGlobalSize();
+		const dialogRef = shallowRef<DialogInstance | null>(null);
 
 		const state = reactive({
 			loading: false,
@@ -126,11 +125,9 @@ export default defineComponent({
 			refreshing: false,
 		});
 
-		const dialogRef = ref<DialogInstance>();
-
 		let cacheOpenFunction: (() => void | Promise<void>) | undefined;
 
-		const handleOpen = async (openFunction?: () => void | Promise<void>): Promise<void> => {
+		const handleOpen = async (openFunction?: () => void | Promise<void>) => {
 			state.visible = true;
 			cacheOpenFunction = openFunction;
 			await nextTick();
@@ -146,7 +143,7 @@ export default defineComponent({
 			}
 		};
 
-		const handleClose = async (closeFunction?: () => void | Promise<void>): Promise<void> => {
+		const handleClose = async (closeFunction?: () => void | Promise<void>) => {
 			state.loading = true;
 			try {
 				await callOptionalFunction(closeFunction);
@@ -157,7 +154,7 @@ export default defineComponent({
 			}
 		};
 
-		const handleLoading = async (loadingFunction: () => void | Promise<void>): Promise<void> => {
+		const handleLoading = async (loadingFunction: () => void | Promise<void>) => {
 			state.loading = true;
 			try {
 				await callOptionalFunction(loadingFunction);
@@ -166,7 +163,7 @@ export default defineComponent({
 			}
 		};
 
-		const handleRefresh = async (): Promise<void> => {
+		const handleRefresh = async () => {
 			if (state.loading) return;
 			state.refreshing = true;
 			state.loading = true;
@@ -183,14 +180,14 @@ export default defineComponent({
 			}
 		};
 
-		const handleBeforeClose = (done: () => void): void => {
+		const handleBeforeClose = (done: () => void) => {
 			if (state.loading) return;
 			// 解决 image 预览摁下 ese 会关闭弹窗的问题
 			if (document.querySelector(".el-image-viewer__wrapper")) return;
 
-			const newDone = (): Promise<void> => {
+			const newDone = () => {
 				// 组件对外约定为无参数完成钩子，不采用 Element Plus 的 done 回调签名。
-				return callOptionalFunction(props.beforeClose as unknown as (() => void | PromiseLike<void>) | undefined).then(() => {
+				return callOptionalFunction(props.beforeClose, done).then(() => {
 					emit("close");
 					done();
 				});
@@ -204,17 +201,17 @@ export default defineComponent({
 			}
 		};
 
-		const handleFullscreen = (): void => {
+		const handleFullscreen = () => {
 			if (state.loading) return;
 			state.fullscreen = !state.fullscreen;
 		};
 
-		const handleConfirmClick = (): void => {
+		const handleConfirmClick = () => {
 			if (state.loading) return;
 			emit("confirmClick");
 		};
 
-		const handleCloseClick = (): void => {
+		const handleCloseClick = () => {
 			if (state.loading) return;
 			handleClose();
 		};
@@ -238,7 +235,7 @@ export default defineComponent({
 				ref={dialogRef}
 				class={[
 					"fa-dialog",
-					`fa-dialog-${_globalSize.value}`,
+					`fa-dialog-${globalSize.value}`,
 					{ "fa-dialog__full-height": props.fullHeight, "fa-dialog__fullscreen": state.fullscreen },
 				]}
 				vModel={state.visible}
@@ -301,7 +298,7 @@ export default defineComponent({
 						</ElScrollbar>
 					),
 					...(!props.hideFooter && {
-						footer: (): VNode[] => [
+						footer: () => [
 							<Fragment>
 								{slots.footer?.({ loading: state.loading, close: handleCloseClick })}
 								{props.showCloseButton && (
@@ -331,7 +328,9 @@ export default defineComponent({
 			/** @description 调用原生关闭流程，并执行 beforeClose。 */
 			handleClose: computed(() => dialogRef.value?.handleClose),
 			/** @description 弹窗内容引用 */
-			dialogContentRef: computed<unknown>(() => dialogRef.value?.dialogContentRef as unknown),
+			dialogContentRef: computed<{ resetPosition: () => void; updatePosition: () => void } | undefined>(
+				() => dialogRef.value?.dialogContentRef as { resetPosition: () => void; updatePosition: () => void } | undefined
+			),
 			/** @description 重置位置 */
 			resetPosition: computed(() => dialogRef.value?.resetPosition),
 			/** @description 加载状态 */

@@ -1,6 +1,5 @@
 import { computed, defineComponent, inject } from "vue";
 import { ElNotification, ElPagination } from "element-plus";
-import { isNull, isNumber } from "lodash-unified";
 import { definePropType, useRender } from "../../../utils";
 import { tableStateKey } from "./useTable";
 
@@ -15,9 +14,9 @@ export default defineComponent({
 	},
 	emits: {
 		/** @description 页码改变 */
-		sizeChange: (pageSize: number) => isNumber(pageSize) || isNull(pageSize),
+		sizeChange: (pageSize: number) => typeof pageSize === "number" || pageSize === null,
 		/** @description 当前页数改变 */
-		currentChange: (currentPage: number) => isNumber(currentPage) || isNull(currentPage),
+		currentChange: (currentPage: number) => typeof currentPage === "number" || currentPage === null,
 	},
 	setup(props, { emit }) {
 		const tableState = inject(tableStateKey);
@@ -25,7 +24,7 @@ export default defineComponent({
 			throw new Error("FaTablePagination 必须在 FaTable 内部渲染。");
 		}
 
-		const handleSizeChange = (pageSize: number): void => {
+		const handleSizeChange = (pageSize: number) => {
 			if (pageSize > 100) {
 				ElNotification({
 					title: "欢迎",

@@ -219,6 +219,19 @@
 	}
 }
 
+.fa-table__column-setting-dialog {
+	.fa-table__column-setting-drag-handle {
+		color: var(--el-text-color-secondary);
+		cursor: grab;
+		touch-action: none;
+		user-select: none;
+
+		&:active {
+			cursor: grabbing;
+		}
+	}
+}
+
 .fa-table > .fa-table__main > .el-table {
 	flex: 1;
 	min-width: 0;

@@ -46,7 +46,7 @@ const assertApp = (value: unknown): VueAppRegistrationTarget => {
 	if (typeof value !== "object" || value === null) {
 		throw new TypeError("安装 Vue 插件需要 Vue 3 App 实例。");
 	}
-	const app = value as unknown as Partial<VueAppRegistrationTarget>;
+	const app = value as Partial<VueAppRegistrationTarget>;
 	if (typeof app.component !== "function" || typeof app.directive !== "function") {
 		throw new TypeError("安装 Vue 插件需要 `component()` 和 `directive()` 注册方法。");
 	}
@@ -107,7 +107,6 @@ const prepareComponentRegistration = (app: VueAppRegistrationTarget, component: 
  * @throws `TypeError` 当组件缺少合法名称、已有 `install`、附属键或名称发生冲突。
  * @throws `Error` 当 App 中同名位置已经注册其他组件。
  */
-// eslint-disable-next-line @typescript-eslint/no-generated-empty-object-type -- Record<never, never> 表示未提供附属组件时的精确空映射，不能改成宽泛的 object。
 export function withInstall<Main extends VueInstallValue, Extras extends Record<string, VueInstallValue> = Record<never, never>>(
 	main: Main,
 	extras?: Extras

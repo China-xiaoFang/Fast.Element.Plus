@@ -8,10 +8,17 @@ import type { Component } from "vue";
 export const faAvatarProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...avatarProps,
+	/** @description set how the image fit its container for an image avatar. */
+	fit: {
+		type: definePropType<
+			"fill" | "-moz-initial" | "inherit" | "initial" | "revert" | "revert-layer" | "unset" | "none" | "contain" | "cover" | "scale-down"
+		>(String),
+		default: "cover",
+	},
 	/** @description representation type to icon, more info on icon component. */
 	icon: {
 		type: definePropType<string | Component>([String, Object, Function]),
-		default: (): string | Component => Picture,
+		default: () => Picture,
 	},
 	/** @description Base64图片 */
 	base64: Boolean,

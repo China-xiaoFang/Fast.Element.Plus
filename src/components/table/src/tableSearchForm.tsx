@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, reactive, ref, watch } from "vue";
+import { computed, defineComponent, inject, onWatcherCleanup, reactive, shallowRef, watch } from "vue";
 import { ArrowDown, ArrowUp, Eleme, Refresh, Search } from "@element-plus/icons-vue";
 import { ElButton, ElIcon, useGlobalSize } from "element-plus";
 import { Brush } from "@fast-element-plus/icons-vue";
@@ -9,7 +9,7 @@ import { getTableDefaultSlots } from "./table.type";
 import FaTableSearchFormItem from "./tableSearchFormItem";
 import { tableStateKey } from "./useTable";
 import type { FaDrawerInstance } from "../../drawer";
-import type { FaLayoutGridBreakPoint, FaLayoutGridInstance, FaLayoutGridItemResponsive } from "../../layoutGrid";
+import type { FaLayoutGridBreakpoint, FaLayoutGridInstance } from "../../layoutGrid";
 import type { FaTableColumnCtx, FaTableDefaultSlotsResult, FaTableSearchColumnCtx } from "./table.type";
 
 type FaTableSearchFormSlots = Record<
@@ -26,7 +26,7 @@ export default defineComponent({
 		/** @description 显示 */
 		show: {
 			type: Boolean,
-			required: true as const,
+			required: true,
 		},
 		/** @description 折叠搜素 */
 		collapsedSearch: {
@@ -40,32 +40,33 @@ export default defineComponent({
 		},
 		/** @description Grid布局列配置 */
 		cols: {
-			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakPoint, number>>>([String, Number, Object]),
+			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakpoint, number>>>([String, Number, Object]),
 			default: () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
 		},
 		/** @description 搜索 */
 		search: {
 			type: definePropType<() => Promise<void>>(Function),
-			required: true as const,
+			required: true,
 		},
 		/** @description 重置 */
 		reset: {
 			type: definePropType<() => Promise<void>>(Function),
-			required: true as const,
+			required: true,
 		},
 	},
 	slots: makeSlots<FaTableSearchFormSlots>(),
 	setup(props, { slots }) {
-		const _globalSize = useGlobalSize();
+		const globalSize = useGlobalSize();
 
 		// 获取响应式断点
-		const gridRef = ref<FaLayoutGridInstance>();
+		const gridRef = shallowRef<FaLayoutGridInstance | null>(null);
+		const advancedSearchRef = shallowRef<FaDrawerInstance | null>(null);
 
 		const tableState = inject(tableStateKey);
 		if (tableState === undefined) throw new Error("FaTableSearchForm 必须在 FaTable 内部渲染。");
 
-		const breakPoint = computed<FaLayoutGridBreakPoint>(() => gridRef.value?.breakPoint ?? "xl");
-		const getColumnCount = (value: FaLayoutGridBreakPoint): number => {
+		const breakpoint = computed<FaLayoutGridBreakpoint>(() => gridRef.value?.breakpoint ?? "xl");
+		const getColumnCount = (value: FaLayoutGridBreakpoint) => {
 			if (typeof props.cols === "number") return props.cols;
 			if (typeof props.cols === "object") return props.cols[value] ?? 1;
 			return Number(props.cols) || 1;
@@ -82,24 +83,22 @@ export default defineComponent({
 				tableState.searchColumns.reduce((prev, current) => {
 					const search = current.search;
 					if (search === undefined) return prev;
-					prev += (search[breakPoint.value]?.span ?? search.span ?? 1) + (search[breakPoint.value]?.offset ?? search.offset ?? 0);
-					if (prev >= getColumnCount(breakPoint.value)) show = true;
+					prev += (search[breakpoint.value]?.span ?? search.span ?? 1) + (search[breakpoint.value]?.offset ?? search.offset ?? 0);
+					if (prev >= getColumnCount(breakpoint.value)) show = true;
 					return prev;
 				}, 0);
 				return show;
 			}),
 			searchColumns: withDefineType<FaTableColumnCtx[]>([]),
 			advancedSearchColumns: withDefineType<FaTableColumnCtx[]>([]),
-			breakPoint: 0,
+			inlineColumnCount: 0,
 		});
 
-		const faTableSearchFormRef = ref<HTMLElement>();
-		const advancedSearchRef = ref<FaDrawerInstance>();
+		// @ts-expect-error Element Plus 的递归 Props 在此处触发类型实例化深度限制。
+		const searchColumns = computed(() => (props.advancedSearchDrawer ? state.searchColumns : tableState.searchColumns));
 
 		// 获取响应式设置
-		const getResponsive = (
-			item: FaTableSearchColumnCtx
-		): { span: number; offset: number } & Partial<Record<FaLayoutGridBreakPoint, FaLayoutGridItemResponsive>> => {
+		const getResponsive = (item: FaTableSearchColumnCtx) => {
 			return {
 				span: item.span ?? 1,
 				offset: item.offset ?? 0,
@@ -111,25 +110,22 @@ export default defineComponent({
 			};
 		};
 
-		const handleBreakPointChange = ({ breakPoint }: { breakPoint: FaLayoutGridBreakPoint }): void => {
+		const handleBreakpointChange = ({ breakpoint }: { breakpoint: FaLayoutGridBreakpoint }) => {
 			// 这里 -1 是排除固定的
-			state.breakPoint = getColumnCount(breakPoint) - 1;
-			state.searchColumns = tableState.searchColumns.filter((f) => f.show).slice(0, state.breakPoint);
-			state.advancedSearchColumns = tableState.searchColumns.filter((f) => f.show).slice(state.breakPoint);
+			state.inlineColumnCount = getColumnCount(breakpoint) - 1;
+			state.searchColumns = tableState.searchColumns.filter((f) => f.show).slice(0, state.inlineColumnCount);
+			state.advancedSearchColumns = tableState.searchColumns.filter((f) => f.show).slice(state.inlineColumnCount);
 		};
 
 		watch(
 			() => tableState.searchColumns,
 			() => {
-				if (state.breakPoint) {
-					state.searchColumns = tableState.searchColumns.filter((f) => f.show).slice(0, state.breakPoint);
-					state.advancedSearchColumns = tableState.searchColumns.filter((f) => f.show).slice(state.breakPoint);
+				if (state.inlineColumnCount) {
+					state.searchColumns = tableState.searchColumns.filter((f) => f.show).slice(0, state.inlineColumnCount);
+					state.advancedSearchColumns = tableState.searchColumns.filter((f) => f.show).slice(state.inlineColumnCount);
 				}
 			}
 		);
-
-		// @ts-expect-error Element Plus 的递归 Props 在此处触发类型实例化深度限制。
-		const searchColumns = computed(() => (props.advancedSearchDrawer ? state.searchColumns : tableState.searchColumns));
 
 		watch(
 			() => props.advancedSearchDrawer,
@@ -141,9 +137,10 @@ export default defineComponent({
 					state.collapsed = props.collapsedSearch;
 				}
 				state.refreshing = true;
-				setTimeout(() => {
+				const refreshTimer = setTimeout(() => {
 					state.refreshing = false;
 				}, 1);
+				onWatcherCleanup(() => clearTimeout(refreshTimer));
 			}
 		);
 
@@ -165,7 +162,6 @@ export default defineComponent({
 		useRender(() =>
 			tableState.searchColumns.length > 0 ? (
 				<div
-					ref={faTableSearchFormRef}
 					class={[
 						"el-card fa-table__search",
 						{
@@ -179,9 +175,9 @@ export default defineComponent({
 							<FaLayoutGrid
 								ref={gridRef}
 								collapsed={state.collapsed}
-								gap={_globalSize.value === "small" ? [20, 0] : [20, 10]}
+								gap={globalSize.value === "small" ? [20, 0] : [20, 10]}
 								cols={props.cols}
-								onBreakPointChange={handleBreakPointChange}
+								onBreakpointChange={handleBreakpointChange}
 							>
 								{searchColumns.value.map((item, index) =>
 									item.search ? (

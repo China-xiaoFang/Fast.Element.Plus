@@ -1,8 +1,6 @@
-import { useVModel } from "@vueuse/core";
-import { Fragment, computed, defineComponent, inject, reactive, ref } from "vue";
+import { Fragment, computed, defineComponent, inject, reactive, shallowRef, useModel } from "vue";
 import { Back } from "@element-plus/icons-vue";
 import { ElButton, ElInput, ElMessage, ElPopover, formContextKey, formItemContextKey, inputProps } from "element-plus";
-import { isNull, isString } from "lodash-unified";
 import { RegExps } from "../../../constants";
 import { definePropType, useProps, useRender } from "../../../utils";
 import { CarNumberArea, CarNumberDigit, CarNumberLetter } from "./common";
@@ -32,12 +30,18 @@ export default defineComponent({
 	},
 	emits: {
 		/** @description v-model 回调 */
-		"update:modelValue": (value: string | null) => isString(value) || isNull(value),
+		"update:modelValue": (value: string | null) => typeof value === "string" || value === null,
 		/** @description 改变 */
-		change: (value: string | null) => isString(value) || isNull(value),
+		change: (value: string | null) => typeof value === "string" || value === null,
 	},
 	setup(props, { emit }) {
-		const modelValue = useVModel(props, "modelValue", emit, { passive: true });
+		const modelValue = useModel(props, "modelValue");
+
+		const popoverRef = shallowRef<PopoverInstance | null>(null);
+		// 获取 el-form 组件上下文
+		const formContext = inject(formContextKey, undefined);
+		// 获取 el-form-item 组件上下文
+		const formItemContext = inject(formItemContextKey, undefined);
 
 		const state = reactive({
 			switchLetter: computed(() => {
@@ -54,13 +58,7 @@ export default defineComponent({
 			}),
 		});
 
-		const popoverRef = ref<PopoverInstance>();
-		// 获取 el-form 组件上下文
-		const formContext = inject(formContextKey, undefined);
-		// 获取 el-form-item 组件上下文
-		const formItemContext = inject(formItemContextKey, undefined);
-
-		const handleInputFormatter = (value: string): string => {
+		const handleInputFormatter = (value: string) => {
 			if (value.length === 2) {
 				return `${value} ● `;
 			} else if (value.length > 2) {
@@ -70,18 +68,18 @@ export default defineComponent({
 			}
 		};
 
-		const handleSelectCarNumber = (value: string): void => {
+		const handleSelectCarNumber = (value: string) => {
 			modelValue.value ??= "";
 			modelValue.value += value;
 		};
 
-		const handleBackClick = (): void => {
+		const handleBackClick = () => {
 			const value = modelValue.value ?? "";
 			if (value.length === 0) return;
 			modelValue.value = value.substring(0, value.length - 1);
 		};
 
-		const handleConfirmClick = (): void => {
+		const handleConfirmClick = () => {
 			let success = false;
 			const value = modelValue.value ?? "";
 			if (value.length === 7) {
@@ -105,7 +103,7 @@ export default defineComponent({
 			popoverRef.value?.hide();
 		};
 
-		const handleClearClick = (): void => {
+		const handleClearClick = () => {
 			modelValue.value = null;
 			emit("change", null);
 			// 调用 el-form 内部的校验方法（可自动校验）

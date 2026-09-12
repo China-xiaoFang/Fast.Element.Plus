@@ -1,11 +1,10 @@
-import { Fragment, computed, defineComponent, inject, ref } from "vue";
+import { Fragment, computed, defineComponent, inject, ref, shallowRef } from "vue";
 import { ElFormItem, formItemProps } from "element-plus";
-import { isNumber } from "lodash-unified";
 import { makeSlots, useExpose, useProps, useRender } from "../../../utils";
 import { FaFormItemTip } from "../../formItemTip";
 import { FaLayoutGridItem } from "../../layoutGrid";
 import type { FormItemInstance } from "element-plus";
-import type { Ref, VNode } from "vue";
+import type { Ref } from "vue";
 
 /** FaFormItem 的运行时 Props 定义。 */
 export const faFormItemProps = {
@@ -46,25 +45,22 @@ export default defineComponent({
 	props: faFormItemProps,
 	slots: makeSlots<FaFormItemSlots>(),
 	setup(props, { slots, expose }) {
-		const formItemRef = ref<FormItemInstance>();
+		const formItemRef = shallowRef<FormItemInstance | null>(null);
 
 		const cols = inject<Ref<number>>("cols", ref(4));
 
 		// 获取响应式设置
-		const getResponsive = (): {
-			span?: number;
-			offset?: number;
-		} => {
+		const getResponsive = () => {
 			if (!props.grid) return {};
 			if (props.span) {
 				return {
-					span: isNumber(props.span) ? props.span : Number(props.span),
-					offset: isNumber(props.offset) ? props.offset : Number(props.offset),
+					span: typeof props.span === "number" ? props.span : Number(props.span),
+					offset: typeof props.offset === "number" ? props.offset : Number(props.offset),
 				};
 			} else {
 				const result = {
 					span: 1,
-					offset: isNumber(props.offset) ? props.offset : Number(props.offset),
+					offset: typeof props.offset === "number" ? props.offset : Number(props.offset),
 				};
 				if (props.row) {
 					result.span = cols.value;
@@ -76,33 +72,34 @@ export default defineComponent({
 		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elFormItemProps = useProps(props, formItemProps);
 
-		const ParcelComponent = props.grid ? FaLayoutGridItem : Fragment;
-
-		useRender(() => (
-			<ParcelComponent {...getResponsive()}>
-				<ElFormItem ref={formItemRef} {...elFormItemProps.value}>
-					{{
-						default: () => slots.default?.() ?? [],
-						...(slots.label && !props.tips && { label: ({ label }: { label: string }): VNode[] => slots.label?.({ label }) ?? [] }),
-						...(slots.label &&
-							props.tips && {
-								label: ({ label }: { label: string }): VNode[] => [
-									<FaFormItemTip>
-										{{
-											label: () => slots.label?.({ label }) ?? [],
-										}}
-									</FaFormItemTip>,
-								],
-							}),
-						...(!slots.label &&
-							props.tips && {
-								label: ({ label }: { label?: string }): VNode[] => [<FaFormItemTip label={label ?? props.label} tips={props.tips} />],
-							}),
-						...(slots.error && { error: ({ error }: { error: string }): VNode[] => slots.error?.({ error }) ?? [] }),
-					}}
-				</ElFormItem>
-			</ParcelComponent>
-		));
+		useRender(() => {
+			const FormItemWrapper = props.grid ? FaLayoutGridItem : Fragment;
+			return (
+				<FormItemWrapper {...getResponsive()}>
+					<ElFormItem ref={formItemRef} {...elFormItemProps.value}>
+						{{
+							default: () => slots.default?.() ?? [],
+							...(slots.label && !props.tips && { label: ({ label }: { label: string }) => slots.label?.({ label }) ?? [] }),
+							...(slots.label &&
+								props.tips && {
+									label: ({ label }: { label: string }) => [
+										<FaFormItemTip>
+											{{
+												label: () => slots.label?.({ label }) ?? [],
+											}}
+										</FaFormItemTip>,
+									],
+								}),
+							...(!slots.label &&
+								props.tips && {
+									label: ({ label }: { label?: string }) => [<FaFormItemTip label={label ?? props.label} tips={props.tips} />],
+								}),
+							...(slots.error && { error: ({ error }: { error: string }) => slots.error?.({ error }) ?? [] }),
+						}}
+					</ElFormItem>
+				</FormItemWrapper>
+			);
+		});
 
 		return useExpose(expose, {
 			/** @description 表单项大小 */

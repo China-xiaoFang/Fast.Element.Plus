@@ -43,8 +43,6 @@ export const useScreenFull = {
 		if (screenfull.isFullscreen) {
 			return;
 		}
-		// const htmlEl = document.querySelector("html");
-		// screenfull.request(htmlEl);
 		screenfull.request();
 	},
 	/** 退出全屏状态。 */

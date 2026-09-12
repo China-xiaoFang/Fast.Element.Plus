@@ -1,11 +1,10 @@
-import { computed, defineComponent, reactive, ref, watch, withModifiers } from "vue";
+import { computed, defineComponent, reactive, shallowRef, watch, withModifiers } from "vue";
 import { Eleme } from "@element-plus/icons-vue";
 import { ElButton, buttonEmits, buttonProps } from "element-plus";
-import { isFunction } from "lodash-unified";
 import { useOverlay } from "../../../hooks";
 import { callOptionalFunction, definePropType, makeSlots, useExpose, useProps, useRender } from "../../../utils";
 import type { ButtonInstance } from "element-plus";
-import type { Component, VNode } from "vue";
+import type { Component } from "vue";
 
 /** FaButton 的运行时 Props 定义。 */
 export const faButtonProps = {
@@ -17,7 +16,7 @@ export const faButtonProps = {
 	 */
 	loadingIcon: {
 		type: definePropType<string | Component>([String, Object, Function]),
-		default: (): string | Component => Eleme,
+		default: () => Eleme,
 	},
 	/** @description 禁用加载 */
 	disabledLoading: Boolean,
@@ -30,8 +29,7 @@ export const faButtonEmits = {
 	 * @description 点击事件
 	 * @param done 需要手动隐藏Loading
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	click: (event: MouseEvent, done: () => void = () => {}): boolean => event instanceof MouseEvent && isFunction(done),
+	click: (event: MouseEvent, done: () => void = () => undefined) => event instanceof MouseEvent && typeof done === "function",
 };
 
 /** FaButton 的插槽参数。 */
@@ -50,24 +48,24 @@ export default defineComponent({
 	emits: faButtonEmits,
 	slots: makeSlots<FaButtonSlots>(),
 	setup(props, { slots, emit, expose }) {
+		const buttonRef = shallowRef<ButtonInstance | null>(null);
+
 		const state = reactive({
 			loading: false,
 		});
 
-		const buttonRef = ref<ButtonInstance>();
-
-		const showLoading = (): void => {
+		const showLoading = () => {
 			state.loading = true;
 			// 这里默认透明
 			useOverlay.show(0);
 		};
 
-		const hideLoading = (): void => {
+		const hideLoading = () => {
 			state.loading = false;
 			useOverlay.hide();
 		};
 
-		const handleLoading = async (loadingFunction: () => void | Promise<void>): Promise<void> => {
+		const handleLoading = async (loadingFunction: () => void | Promise<void>) => {
 			showLoading();
 			try {
 				await callOptionalFunction(loadingFunction);
@@ -76,7 +74,7 @@ export default defineComponent({
 			}
 		};
 
-		const handleClick = (event: MouseEvent): void => {
+		const handleClick = (event: MouseEvent) => {
 			if (props.disabledLoading) {
 				// 回调点击事件
 				emit("click", event);
@@ -118,8 +116,8 @@ export default defineComponent({
 			>
 				{{
 					default: () => slots.default?.(),
-					...(slots.loading && { loading: (): VNode[] => slots.loading?.() ?? [] }),
-					...(slots.icon && { icon: (): VNode[] => slots.icon?.() ?? [] }),
+					...(slots.loading && { loading: () => slots.loading?.() ?? [] }),
+					...(slots.icon && { icon: () => slots.icon?.() ?? [] }),
 				}}
 			</ElButton>
 		));

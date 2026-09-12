@@ -12,7 +12,7 @@ const handleExpand = (row: Record<string, unknown>, expanded: boolean | Record<s
 	const name = String(row["name"]);
 	if (Array.isArray(expanded)) {
 		expandedNames.value = expanded.map((item) => String(item["name"]));
-	} else if (expanded === true) {
+	} else if (expanded) {
 		expandedNames.value = [...new Set([...expandedNames.value, name])];
 	} else {
 		expandedNames.value = expandedNames.value.filter((item) => item !== name);

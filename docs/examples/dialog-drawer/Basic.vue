@@ -9,11 +9,13 @@ interface ContainerExpose {
 const dialogRef = useTemplateRef<ContainerExpose>("dialogRef");
 
 const wait = async (): Promise<void> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 600));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 600);
+	});
 };
 
 const confirmDialog = (): void => {
-	void dialogRef.value?.close(wait);
+	dialogRef.value?.close(wait);
 };
 </script>
 

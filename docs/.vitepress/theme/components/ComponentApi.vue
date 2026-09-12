@@ -15,14 +15,16 @@ import {
 } from "./api-metadata";
 import type { ComponentApiMetadata, FastComponentName, NativeApiMember, NativeComponentName } from "./api-metadata";
 
+type RuntimeFunction = (...arguments_: never[]) => unknown;
+
 type RuntimeProp =
 	| {
 			default?: unknown;
 			required?: boolean;
 			type?: unknown;
 	  }
-	| Function
-	| Function[];
+	| RuntimeFunction
+	| RuntimeFunction[];
 
 interface RuntimeComponent {
 	emits?: Record<string, unknown> | string[];
@@ -68,11 +70,31 @@ const props = defineProps<{
 
 const asRuntimeComponent = (component: unknown): RuntimeComponent => component as RuntimeComponent;
 
+const formatTypeName = (value: unknown): string => {
+	switch (typeof value) {
+		case "function":
+			return value.name || "Function";
+		case "object":
+			return value === null ? "null" : "Object";
+		case "symbol":
+			return value.description ?? "Symbol";
+		case "undefined":
+			return "undefined";
+		case "string":
+			return value;
+		case "number":
+		case "bigint":
+			return value.toString();
+		case "boolean":
+			return value ? "true" : "false";
+	}
+};
+
 const formatType = (rawProp: RuntimeProp): string => {
 	const value = typeof rawProp === "function" || Array.isArray(rawProp) ? { type: rawProp } : rawProp;
 	const type = value?.type;
 	const types = Array.isArray(type) ? type : type ? [type] : [];
-	const names = types.map((item) => (typeof item === "function" && item.name ? item.name : String(item)));
+	const names = types.map(formatTypeName);
 	return names.length > 0 ? names.join(" / ") : "—";
 };
 
@@ -86,7 +108,7 @@ const formatDefault = (rawProp: RuntimeProp): string => {
 		if (types.includes(Function)) return "—";
 		if (types.includes(Array) || types.includes(Object)) {
 			try {
-				return JSON.stringify(value.default());
+				return JSON.stringify((value.default as RuntimeFunction)()) ?? "undefined";
 			} catch {
 				return "工厂函数";
 			}
@@ -95,9 +117,9 @@ const formatDefault = (rawProp: RuntimeProp): string => {
 	}
 	if (typeof value.default === "string") return value.default || '""';
 	try {
-		return JSON.stringify(value.default);
+		return JSON.stringify(value.default) ?? "undefined";
 	} catch {
-		return String(value.default);
+		return "无法序列化";
 	}
 };
 

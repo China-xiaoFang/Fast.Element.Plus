@@ -1,11 +1,9 @@
-import { Fragment, computed, defineComponent, ref } from "vue";
+import { Fragment, computed, defineComponent, shallowRef } from "vue";
 import { UploadFilled } from "@element-plus/icons-vue";
 import { ElIcon, ElUpload, uploadProps } from "element-plus";
-import { isArray, isNull, isString } from "lodash-unified";
 import { definePropType, makeSlots, useExpose, useProps, useRender } from "../../../utils";
 import { useUpload } from "./useUpload";
 import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from "element-plus";
-import type { VNode } from "vue";
 
 /** FaUpload 的运行时 Props 定义。 */
 export const faUploadProps = {
@@ -39,9 +37,9 @@ export const faUploadProps = {
 /** FaUpload 的运行时 Emits 定义。 */
 export const faUploadEmits = {
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
+	"update:modelValue": (value: string | string[] | null) => typeof value === "string" || Array.isArray(value) || value === null,
 	/** @description v-model:fileList 回调 */
-	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
+	"update:fileList": (value: UploadUserFile[]) => Array.isArray(value),
 };
 
 /** FaUpload 的插槽参数。 */
@@ -87,11 +85,10 @@ export default defineComponent({
 			},
 		});
 
+		const uploadRef = shallowRef<UploadInstance | null>(null);
 		const disabled = computed(() => {
 			return props.disabled === true || formContext?.disabled === true;
 		});
-
-		const uploadRef = ref<UploadInstance>();
 		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要识别 Element Plus 2.x 注入的默认请求实现。
 		const httpRequest = computed(() => (props.httpRequest === uploadProps.httpRequest.default ? handleHttpRequest : props.httpRequest));
 
@@ -143,7 +140,7 @@ export default defineComponent({
 								</div>
 							</Fragment>
 						),
-					...(slots.trigger && { trigger: (): VNode | VNode[] => slots.trigger?.() ?? [] }),
+					...(slots.trigger && { trigger: () => slots.trigger?.() ?? [] }),
 					tip: () =>
 						slots.tip ? (
 							slots.tip()
@@ -163,7 +160,7 @@ export default defineComponent({
 							</Fragment>
 						),
 					...(slots.file && {
-						file: ({ file, index }: { file: UploadFile; index: number }): VNode | VNode[] => slots.file?.({ file, index }) ?? [],
+						file: ({ file, index }: { file: UploadFile; index: number }) => slots.file?.({ file, index }) ?? [],
 					}),
 				}}
 			</ElUpload>

@@ -1,6 +1,5 @@
 import { Fragment, defineComponent, h, inject, reactive, resolveComponent } from "vue";
 import { ElOption } from "element-plus";
-import { isString } from "lodash-unified";
 import {
 	createDateRangeShortcuts,
 	createDateShortcuts,
@@ -96,8 +95,6 @@ export default defineComponent({
 		column: {
 			type: definePropType<FaTableColumnCtx>(Object),
 			required: true,
-			/** 这里的 default 不知道为什么，不写识别不出来类型 */
-			default: {},
 		},
 		/** @description 搜索 */
 		search: {
@@ -117,8 +114,8 @@ export default defineComponent({
 			enumDict: withDefineType<FaTableEnumColumnCtx[]>([]),
 		});
 
-		const handleUpdateModelValue = (value: unknown): void => {
-			if (isString(value)) {
+		const handleUpdateModelValue = (value: unknown) => {
+			if (typeof value === "string") {
 				// 如果是字符串，则去除前后空格
 				value = value.trim();
 			}
@@ -126,11 +123,11 @@ export default defineComponent({
 			if (searchKey) tableState.searchParam[searchKey] = value;
 		};
 
-		const handleChange = (_value: unknown): void => {
+		const handleChange = (_value: unknown) => {
 			props.search();
 		};
 
-		const handleDefaultProps = (): Record<string, unknown> => {
+		const handleDefaultProps = () => {
 			const search = props.column.search;
 			const defaultProps: Record<string, unknown> = {};
 			if (!search) return defaultProps;
@@ -174,7 +171,7 @@ export default defineComponent({
 				)
 			) {
 				let enumData: FaTableEnumColumnCtx[] | undefined;
-				if (props.column.enum && isString(props.column.enum)) {
+				if (props.column.enum && typeof props.column.enum === "string") {
 					enumData = enumMap.get(props.column.enum);
 				} else {
 					const enumKey = props.column.prop ?? search.key;

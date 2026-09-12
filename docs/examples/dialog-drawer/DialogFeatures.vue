@@ -9,7 +9,9 @@ interface DialogExpose {
 
 const dialogRef = useTemplateRef<DialogExpose>("dialogRef");
 const load = async (): Promise<void> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 500));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 500);
+	});
 };
 </script>
 

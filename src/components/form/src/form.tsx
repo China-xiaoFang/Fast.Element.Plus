@@ -1,11 +1,10 @@
-import { computed, defineComponent, provide, reactive, ref } from "vue";
+import { computed, defineComponent, provide, reactive, shallowRef } from "vue";
 import { ElForm, formEmits, formProps, useGlobalSize } from "element-plus";
-import { isNumber, isObject } from "lodash-unified";
 import { definePropType, makeSlots, useEmits, useExpose, useProps, useRender } from "../../../utils";
 import { FaLayoutGrid } from "../../layoutGrid";
 import { formUtil } from "../utils/form";
-import type { FormInstance, FormItemContext, FormValidateCallback, FormValidationResult } from "element-plus";
-import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
+import type { FormInstance, FormValidateCallback } from "element-plus";
+import type { FaLayoutGridBreakpoint } from "../../layoutGrid";
 
 /** FaForm 的运行时 Props 定义。 */
 export const faFormProps = {
@@ -35,8 +34,8 @@ export const faFormProps = {
 	},
 	/** @description Grid布局列配置 */
 	cols: {
-		type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
-		default: (): Record<FaLayoutGridBreakPoint, number> => ({ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }),
+		type: definePropType<string | number | Record<FaLayoutGridBreakpoint, number>>([String, Number, Object]),
+		default: () => ({ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }),
 	},
 };
 
@@ -48,7 +47,7 @@ export const faFormEmits = {
 /** FaForm 的插槽参数。 */
 export interface FaFormSlots extends Record<string, unknown> {
 	/** @description 默认内容插槽 */
-	default: { cols: Record<FaLayoutGridBreakPoint, number>; gap: [number, number] };
+	default: { cols: Record<FaLayoutGridBreakpoint, number>; gap: [number, number] };
 }
 
 export default defineComponent({
@@ -57,21 +56,20 @@ export default defineComponent({
 	emits: faFormEmits,
 	slots: makeSlots<FaFormSlots>(),
 	setup(props, { slots, expose, emit }) {
-		const _globalSize = useGlobalSize();
+		const globalSize = useGlobalSize();
+		const formRef = shallowRef<FormInstance | null>(null);
 
 		const state = reactive({
 			cols: computed(() => {
-				if (isObject(props.cols)) {
+				if (typeof props.cols === "object" && props.cols !== null) {
 					return props.cols;
 				} else {
-					const colsNumber = isNumber(props.cols) ? props.cols : Number(props.cols);
+					const colsNumber = typeof props.cols === "number" ? props.cols : Number(props.cols);
 					return { xs: 1, sm: colsNumber, md: colsNumber, lg: colsNumber, xl: colsNumber };
 				}
 			}),
-			gap: computed<[number, number]>(() => (_globalSize.value === "small" ? [15, 0] : [20, 0])),
+			gap: computed<[number, number]>(() => (globalSize.value === "small" ? [15, 0] : [20, 0])),
 		});
-
-		const formRef = ref<FormInstance>();
 
 		// 注入 cols
 		provide("faFormCols", state.cols);
@@ -85,7 +83,7 @@ export default defineComponent({
 				{...elFormProps.value}
 				{...elFormEmits.value}
 				ref={formRef}
-				class={["fa-form", `fa-form-${_globalSize.value}`, { [`fa-form-detail fa-form-detail_${_globalSize.value}`]: props.detailForm }]}
+				class={["fa-form", `fa-form-${globalSize.value}`, { [`fa-form-detail fa-form-detail_${globalSize.value}`]: props.detailForm }]}
 			>
 				{{
 					default: () =>
@@ -102,7 +100,7 @@ export default defineComponent({
 
 		return useExpose(expose, {
 			/** @description 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 */
-			validate: (callback?: FormValidateCallback): FormValidationResult =>
+			validate: (callback?: FormValidateCallback) =>
 				callback ? (formRef.value?.validate(callback) ?? Promise.reject(new Error("ElForm 实例尚未挂载。"))) : formUtil.validate(formRef),
 			/** @description 验证具体的某个字段。 */
 			validateField: computed(() => formRef.value?.validateField),
@@ -113,13 +111,13 @@ export default defineComponent({
 			/** @description 滚动到指定的字段 */
 			scrollToField: computed(() => formRef.value?.scrollToField),
 			/** @description 获取所有字段的 context */
-			fields: computed(() => formRef.value?.fields as FormItemContext[]),
+			fields: computed(() => formRef.value?.fields),
 			/** @description 获取指定字段的 context。 */
 			getField: computed(() => formRef.value?.getField),
 			/** @description 设置表单字段的初始值。 */
 			setInitialValues: computed(() => formRef.value?.setInitialValues),
 			/** @description 对整个表单的内容进行验证，带滚动。 接收一个回调函数，或返回 Promise。 */
-			validateScrollToField: (): FormValidationResult => formUtil.validateScrollToField(formRef),
+			validateScrollToField: () => formUtil.validateScrollToField(formRef),
 		});
 	},
 });

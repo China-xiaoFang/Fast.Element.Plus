@@ -2,14 +2,14 @@ import { computed, defineComponent, h, reactive, resolveComponent } from "vue";
 import { ElIcon } from "element-plus";
 import { RegExps } from "../../../constants";
 import { addCssUnit, useRender } from "../../../utils";
-import type { CSSProperties } from "vue";
+import type { CSSProperties, ComponentObjectPropsOptions } from "vue";
 
 /** FaIcon 的运行时 Props 定义。 */
 export const faIconProps = {
 	/** @description el-icon- 使用 El-icon 的图标；fa-icon 使用 Fast 图标组件库； */
 	name: {
 		type: String,
-		required: true as const,
+		required: true,
 	},
 	/** @description 大小 */
 	size: {
@@ -17,7 +17,7 @@ export const faIconProps = {
 	},
 	/** @description 颜色*/
 	color: String,
-};
+} satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
 	name: "FaIcon",
@@ -25,7 +25,7 @@ export default defineComponent({
 	setup(props, { attrs }) {
 		const state = reactive({
 			isUrl: computed(() => RegExps.External.test(props.name)),
-			style: computed((): CSSProperties => {
+			style: computed(() => {
 				const result: CSSProperties & { "-webkit-mask"?: string } = {};
 				if (props.size) {
 					result.fontSize = addCssUnit(props.size);

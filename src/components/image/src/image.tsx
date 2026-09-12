@@ -1,9 +1,8 @@
-import { computed, defineComponent, reactive, ref, watch } from "vue";
+import { computed, defineComponent, reactive, shallowRef, watch } from "vue";
 import { Picture as ElIconPicture } from "@element-plus/icons-vue";
 import { ElIcon, ElImage, imageEmits, imageProps } from "element-plus";
 import { makeSlots, useEmits, useExpose, useProps, useRender } from "../../../utils";
 import type { ImageInstance, ImageViewerAction } from "element-plus";
-import type { VNode } from "vue";
 
 /** FaImage 的运行时 Props 定义。 */
 export const faImageProps = {
@@ -75,6 +74,8 @@ export default defineComponent({
 	emits: faImageEmits,
 	slots: makeSlots<FaImageSlots>(),
 	setup(props, { slots, emit, expose }) {
+		const imageRef = shallowRef<ImageInstance | null>(null);
+
 		const state = reactive({
 			/** 图片加载错误 */
 			loadError: false,
@@ -97,8 +98,6 @@ export default defineComponent({
 			}),
 			previewList: computed(() => (props.preview && props.src ? [props.base64 ? `data:image/png;base64,${props.src}` : props.src] : [])),
 		});
-		const imageRef = ref<ImageInstance>();
-
 		watch(
 			() => props.src,
 			() => {
@@ -134,16 +133,16 @@ export default defineComponent({
 								</ElIcon>
 							</div>
 						),
-					...(slots.placeholder && { placeholder: (): VNode[] => slots.placeholder?.() ?? [] }),
-					...(slots.viewer && { viewer: (): VNode[] => slots.viewer?.({ src: state.src }) ?? [] }),
+					...(slots.placeholder && { placeholder: () => slots.placeholder?.() ?? [] }),
+					...(slots.viewer && { viewer: () => slots.viewer?.({ src: state.src }) ?? [] }),
 					...(slots.progress && {
-						progress: (scope: { activeIndex: number; total: number }): VNode[] => slots.progress?.(scope) ?? [],
+						progress: (scope: { activeIndex: number; total: number }) => slots.progress?.(scope) ?? [],
 					}),
 					...(slots.toolbar && {
-						toolbar: (scope: FaImageSlots["toolbar"]): VNode[] => slots.toolbar?.(scope) ?? [],
+						toolbar: (scope: FaImageSlots["toolbar"]) => slots.toolbar?.(scope) ?? [],
 					}),
 					...(slots["viewer-error"] && {
-						"viewer-error": (scope: { activeIndex: number; src: string }): VNode[] => slots["viewer-error"]?.(scope) ?? [],
+						"viewer-error": (scope: { activeIndex: number; src: string }) => slots["viewer-error"]?.(scope) ?? [],
 					}),
 				}}
 			</ElImage>

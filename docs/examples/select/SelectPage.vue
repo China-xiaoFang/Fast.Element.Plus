@@ -8,7 +8,9 @@ const changedData = ref<unknown>();
 const allRows = Array.from({ length: 36 }, (_, index) => ({ value: index + 1, label: `业务用户 ${String(index + 1).padStart(2, "0")}` }));
 
 const requestApi = async (input?: PagedInput): Promise<PagedResult<Record<string, unknown>>> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 250));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 250);
+	});
 	const keyword = input?.searchValue?.toLowerCase() ?? "";
 	const filtered = allRows.filter((item) => item.label.toLowerCase().includes(keyword));
 	const pageIndex = input?.pageIndex ?? 1;

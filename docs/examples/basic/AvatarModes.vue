@@ -1,9 +1,7 @@
 <script setup lang="ts">
-const avatar =
-	"data:image/svg+xml;charset=UTF-8," +
-	encodeURIComponent(
-		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="24" fill="#409eff"/><text x="60" y="76" text-anchor="middle" font-size="34" fill="white">Fast</text></svg>'
-	);
+const avatar = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+	'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="24" fill="#409eff"/><text x="60" y="76" text-anchor="middle" font-size="34" fill="white">Fast</text></svg>'
+)}`;
 const pixel = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl2nzoAAAAASUVORK5CYII=";
 </script>
 

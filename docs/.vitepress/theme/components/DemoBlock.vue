@@ -25,10 +25,15 @@ const escapeHtml = (value: string): string =>
 	value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 
 const highlightTag = (source: string): string => {
-	const tagMatch = /^(<\/?)([\w.-]+)([\s\S]*?)(\/?>)$/.exec(source);
-	if (!tagMatch) return escapeHtml(source);
-
-	const [, open = "", tagName = "", attributes = "", close = ""] = tagMatch;
+	const openLength = source.startsWith("</") ? 2 : source.startsWith("<") ? 1 : 0;
+	const closeLength = source.endsWith("/>") ? 2 : source.endsWith(">") ? 1 : 0;
+	if (openLength === 0 || closeLength === 0 || openLength + closeLength >= source.length) return escapeHtml(source);
+	const body = source.slice(openLength, -closeLength);
+	const tagName = /^[\w.-]+/u.exec(body)?.[0];
+	if (!tagName) return escapeHtml(source);
+	const open = source.slice(0, openLength);
+	const attributes = body.slice(tagName.length);
+	const close = source.slice(-closeLength);
 	const attributePattern = /([:@#]?[\w.-]+)(\s*=\s*)("(?:\\.|[^"])*"|'(?:\\.|[^'])*')/g;
 	let result = "";
 	let lastIndex = 0;
@@ -109,6 +114,8 @@ const copyCode = async (): Promise<void> => {
 						{{ copied ? "已复制" : "复制代码" }}
 					</button>
 				</div>
+				<!-- 高亮器先对全部原始文本转义，再只插入本文件生成的 token span。 -->
+				<!-- eslint-disable-next-line vue/no-v-html -- highlightedCode 不包含未经转义的用户 HTML。 -->
 				<pre><code v-html="highlightedCode"></code></pre>
 			</div>
 		</details>

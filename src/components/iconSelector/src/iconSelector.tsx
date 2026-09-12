@@ -3,7 +3,6 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { ChromeFilled, RefreshRight } from "@element-plus/icons-vue";
 import { ElIcon, ElInput, ElPopover, ElScrollbar } from "element-plus";
 import * as FastElementPlusIconsVue from "@fast-element-plus/icons-vue";
-import { isNull, isString } from "lodash-unified";
 import { definePropType, useExpose, useRender, withDefineType } from "../../../utils";
 import { FaIcon } from "../../icon";
 import type { PropType } from "vue";
@@ -18,18 +17,18 @@ export default defineComponent({
 		/** @description 自定义图标 */
 		customIcons: {
 			type: definePropType<string[]>(Array),
-			default: (): string[] => [],
+			default: () => [],
 		},
 	},
 	emits: {
 		/** @description v-model 回调 */
-		"update:modelValue": (value: string | null) => isString(value) || isNull(value),
+		"update:modelValue": (value: string | null) => typeof value === "string" || value === null,
 		/** @description 改变 */
-		change: (value: string | null) => isString(value) || isNull(value),
+		change: (value: string | null) => typeof value === "string" || value === null,
 	},
 	setup(props, { emit, expose }) {
 		const state = reactive({
-			value: withDefineType<string | null>(props.modelValue ?? null),
+			value: withDefineType<string | null>(null),
 			searchValue: withDefineType<string | null>(),
 			iconType: withDefineType<IconType>("ele"),
 			popoverVisible: false,
@@ -47,7 +46,7 @@ export default defineComponent({
 			},
 		});
 
-		const handleTabClick = (iconType: IconType): void => {
+		const handleTabClick = (iconType: IconType) => {
 			state.iconType = iconType;
 			state.iconNames = [];
 			switch (iconType) {
@@ -63,7 +62,7 @@ export default defineComponent({
 			}
 		};
 
-		const handleIconClick = (value: string): void => {
+		const handleIconClick = (value: string) => {
 			state.popoverVisible = false;
 			state.value = value;
 			state.searchValue = "";
@@ -71,7 +70,7 @@ export default defineComponent({
 			emit("change", value);
 		};
 
-		const handleRefresh = (): void => {
+		const handleRefresh = () => {
 			state.value = null;
 			state.searchValue = null;
 			emit("update:modelValue", null);
@@ -82,7 +81,8 @@ export default defineComponent({
 			() => props.modelValue,
 			(newValue) => {
 				state.value = newValue ?? null;
-			}
+			},
+			{ immediate: true }
 		);
 
 		watch(

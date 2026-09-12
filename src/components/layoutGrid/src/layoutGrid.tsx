@@ -1,8 +1,7 @@
-import { computed, defineComponent, nextTick, onActivated, onDeactivated, onMounted, onUnmounted, provide, ref, watch } from "vue";
-import { isArray, isNumber, isObject } from "lodash-unified";
+import { computed, defineComponent, nextTick, onActivated, onDeactivated, onMounted, onUnmounted, provide, ref, shallowRef, watch } from "vue";
 import { definePropType, makeSlots, useExpose, useRender } from "../../../utils";
 import type { VNode, VNodeArrayChildren } from "vue";
-import type { FaLayoutGridBreakPoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
+import type { FaLayoutGridBreakpoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
 
 /** FaLayoutGrid 的插槽参数。 */
 export interface FaLayoutGridSlots extends Record<string, unknown> {
@@ -15,8 +14,8 @@ export default defineComponent({
 	props: {
 		/** @description Grid布局列配置 */
 		cols: {
-			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakPoint, number>>>([String, Number, Object]),
-			default: (): Record<FaLayoutGridBreakPoint, number> => ({ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }),
+			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakpoint, number>>>([String, Number, Object]),
+			default: () => ({ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }),
 		},
 		/** @description 折叠 */
 		collapsed: Boolean,
@@ -33,31 +32,48 @@ export default defineComponent({
 	},
 	emits: {
 		/** @description 断点变化事件 */
-		breakPointChange: ({ breakPoint: _breakPoint }: { breakPoint: FaLayoutGridBreakPoint }) => true,
+		breakpointChange: ({ breakpoint: _breakpoint }: { breakpoint: FaLayoutGridBreakpoint }) => true,
 	},
 	slots: makeSlots<FaLayoutGridSlots>(),
 	setup(props, { slots, emit, expose }) {
-		const divElRef = ref<HTMLElement>();
+		const containerRef = shallowRef<HTMLElement | null>(null);
 
-		// 注入 gap 间距
-		provide("gap", isArray(props.gap) ? props.gap[0] : props.gap);
+		// 注入响应式横向 gap 间距
+		const horizontalGap = computed(() => (Array.isArray(props.gap) ? props.gap[0] : props.gap));
+		provide("gap", horizontalGap);
 
 		// 注入响应式断点
-		const breakPoint = ref<FaLayoutGridBreakPoint>("xl");
-		provide("breakPoint", breakPoint);
+		const breakpoint = ref<FaLayoutGridBreakpoint>("xl");
+		provide("breakpoint", breakpoint);
 
 		// 注入要开始折叠的 index
-		const hiddenIndex = ref(-1);
-		provide("shouldHiddenIndex", hiddenIndex);
+		const firstHiddenIndex = ref(-1);
+		provide("firstHiddenIndex", firstHiddenIndex);
 
 		// 注入 cols
 		const cols = computed<string | number>(() => {
-			if (isObject(props.cols)) return props.cols[breakPoint.value] ?? 1;
+			if (typeof props.cols === "object" && props.cols !== null) return props.cols[breakpoint.value] ?? 1;
 			return props.cols;
 		});
 		provide("cols", cols);
 
-		const collapsedRows = isNumber(props.collapsedRows) ? props.collapsedRows : Number(props.collapsedRows);
+		const collapsedRows = computed(() => (typeof props.collapsedRows === "number" ? props.collapsedRows : Number(props.collapsedRows)));
+
+		// 设置间距
+		const gap = computed(() => {
+			if (typeof props.gap === "number") return `${props.gap}px`;
+			if (Array.isArray(props.gap)) return `${props.gap[1]}px ${props.gap[0]}px`;
+			return "unset";
+		});
+
+		// 设置 style
+		const style = computed(() => {
+			return {
+				display: "grid",
+				gridGap: gap.value,
+				gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`,
+			};
+		});
 
 		// 断点映射
 		const breakpoints = {
@@ -74,7 +90,7 @@ export default defineComponent({
 		};
 
 		// 监听屏幕变化
-		const resize = (e: ResizeObserverEntry[]): void => {
+		const resize = (e: ResizeObserverEntry[]) => {
 			// 当前只监听布局容器，ResizeObserver 每次回调应当只有一个目标。
 			if (e.length !== 1 || e[0] === undefined) throw new Error("FaLayoutGrid 监听到了非预期数量的布局容器。");
 			const curEl = e[0];
@@ -82,62 +98,41 @@ export default defineComponent({
 
 			for (const [key, { min, max }] of Object.entries(breakpoints)) {
 				if (width >= min && width <= max) {
-					breakPoint.value = key as FaLayoutGridBreakPoint;
+					breakpoint.value = key as FaLayoutGridBreakpoint;
 					break;
 				}
 			}
 		};
 
 		let resizeObserver: ResizeObserver | undefined;
-		const observeResize = (): void => {
-			const element = divElRef.value;
+		const observeResize = () => {
+			const element = containerRef.value;
 			if (!element) return;
 			resizeObserver?.disconnect();
 			resizeObserver = new ResizeObserver(resize);
 			resizeObserver.observe(element);
 		};
 
+		watch(
+			() => breakpoint.value,
+			(newValue) => {
+				emit("breakpointChange", { breakpoint: newValue });
+			}
+		);
+
 		onMounted(() => {
 			nextTick(observeResize);
-
-			// 断点变化时 执行 findIndex
-			watch(
-				() => breakPoint.value,
-				(newValue) => {
-					emit("breakPointChange", { breakPoint: newValue });
-				},
-				{
-					immediate: true,
-				}
-			);
+			emit("breakpointChange", { breakpoint: breakpoint.value });
 		});
 
-		onActivated(() => {
-			nextTick(observeResize);
-		});
-
-		onUnmounted(() => {
-			resizeObserver?.disconnect();
-		});
+		onActivated(() => nextTick(observeResize));
 
 		onDeactivated(() => {
 			resizeObserver?.disconnect();
 		});
 
-		// 设置间距
-		const gap = computed(() => {
-			if (isNumber(props.gap)) return `${props.gap}px`;
-			if (isArray(props.gap)) return `${props.gap[1]}px ${props.gap[0]}px`;
-			return "unset";
-		});
-
-		// 设置 style
-		const style = computed(() => {
-			return {
-				display: "grid",
-				gridGap: gap.value,
-				gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`,
-			};
+		onUnmounted(() => {
+			resizeObserver?.disconnect();
 		});
 
 		useRender(() => {
@@ -164,33 +159,33 @@ export default defineComponent({
 				// 计算 suffix 所占用的列
 				let suffixCols = 0;
 				if (suffix?.props) {
-					const breakPointProps = suffix.props[breakPoint.value] as FaLayoutGridItemResponsive | undefined;
+					const activeBreakpointProps = suffix.props[breakpoint.value] as FaLayoutGridItemResponsive | undefined;
 					suffixCols =
-						(breakPointProps?.span ?? Number(suffix.props["span"] ?? 1)) +
-						(breakPointProps?.offset ?? Number(suffix.props["offset"] ?? 0));
+						(activeBreakpointProps?.span ?? Number(suffix.props["span"] ?? 1)) +
+						(activeBreakpointProps?.offset ?? Number(suffix.props["offset"] ?? 0));
 				}
 
 				let occupiedCols = 0;
-				hiddenIndex.value = -1;
+				firstHiddenIndex.value = -1;
 				for (const [index, current] of fields.entries()) {
 					const currentVNode = current as VNode;
 					const currentProps = currentVNode.props;
 					if (currentProps === null) continue;
-					const breakPointProps = currentProps[breakPoint.value] as FaLayoutGridItemResponsive | undefined;
+					const activeBreakpointProps = currentProps[breakpoint.value] as FaLayoutGridItemResponsive | undefined;
 					occupiedCols +=
-						(breakPointProps?.span ?? Number(currentProps["span"] ?? 1)) +
-						(breakPointProps?.offset ?? Number(currentProps["offset"] ?? 0));
-					if (occupiedCols > collapsedRows * Number(cols.value) - suffixCols) {
-						hiddenIndex.value = index;
+						(activeBreakpointProps?.span ?? Number(currentProps["span"] ?? 1)) +
+						(activeBreakpointProps?.offset ?? Number(currentProps["offset"] ?? 0));
+					if (occupiedCols > collapsedRows.value * Number(cols.value) - suffixCols) {
+						firstHiddenIndex.value = index;
 						break;
 					}
 				}
 			} else {
-				hiddenIndex.value = -1;
+				firstHiddenIndex.value = -1;
 			}
 
 			return (
-				<div ref={divElRef} style={style.value}>
+				<div ref={containerRef} style={style.value}>
 					{defaultSlot}
 				</div>
 			);
@@ -198,7 +193,7 @@ export default defineComponent({
 
 		return useExpose(expose, {
 			/** @description 响应式断点 */
-			breakPoint,
+			breakpoint,
 		});
 	},
 });

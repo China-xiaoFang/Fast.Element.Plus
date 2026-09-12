@@ -1,6 +1,6 @@
 import type { TableColumnCtx } from "element-plus";
 import type { VNode } from "vue";
-import type { FaLayoutGridBreakPoint, FaLayoutGridItemResponsive } from "../../layoutGrid";
+import type { FaLayoutGridBreakpoint, FaLayoutGridItemResponsive } from "../../layoutGrid";
 import type { PagedInput } from "./page.type";
 import type { DefaultRow, FaTableState } from "./table.state";
 
@@ -90,7 +90,7 @@ export type FaTableSearchColumnEl =
 	| (string & Record<never, never>);
 
 /** FaTable 单列搜索项的组件、布局和默认值配置。 */
-export type FaTableSearchColumnCtx = Partial<Record<FaLayoutGridBreakPoint, FaLayoutGridItemResponsive>> & {
+export type FaTableSearchColumnCtx = Partial<Record<FaLayoutGridBreakpoint, FaLayoutGridItemResponsive>> & {
 	/**
 	 * 当前项搜索框的类型
 	 */

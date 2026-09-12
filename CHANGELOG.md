@@ -2,6 +2,24 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.17] - 2026-09-12
+
+### Changed
+
+- Expanded the applicable base, Vue SFC, and Vue JSX/TSX rules from Fast.ESLint.Config 2.1.8 directly in the repository's single `eslint.config.mjs`, adding only the required Vue parser and plugin dependencies.
+- Reworked component state derived from props into existing immediate watchers or computed values so drawers, selectors, trees, tables, forms, and responsive layout gaps remain reactive.
+- Standardized TSX setup ordering for state, computed values, methods, watchers, lifecycle hooks, rendering, and exposed members; migrated DOM and component references to explicitly typed `shallowRef` bindings; and adopted `useModel` and watcher cleanup where their contracts preserve existing behavior.
+- Replaced the remaining direct VueUse event-listener usage with matching Vue lifecycle registration and cleanup, removing the package's direct `@vueuse/core` dependency.
+- Replaced Lodash predicates and object helpers with native checks and local `isEqual`, `pick`, and `omit` utilities, removing the package's direct Lodash-family dependencies.
+- Added a dedicated `Rank` drag handle and touch-only activation delay to the table column settings dialog so scrolling does not unintentionally reorder rows.
+- Replaced the inferred Avatar `object-fit` declaration with an equivalent local type and removed the package's direct `csstype` dependency.
+- Updated documentation examples and VitePress helpers for current Promise, type-safety, serialization, and regular-expression checks.
+- Standardized responsive layout API names to `FaLayoutGridBreakpoint`, `breakpoint`, and `breakpointChange`, and standardized selector and tree data events to `dataChange`; the previous spellings were removed as requested.
+
+### Compatibility
+
+- Preserved the published `visible-change` and `node-click` event names, with reasoned single-line ESLint exemptions for these established Element Plus event names.
+
 ## [2.0.16] - 2026-09-11
 
 ### Changed
@@ -173,6 +191,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.17]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.17
 [2.0.16]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.16
 [2.0.15]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.15
 [2.0.14]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.14
