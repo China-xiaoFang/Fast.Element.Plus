@@ -1,8 +1,7 @@
 import { computed, defineComponent, inject, reactive, ref, watch } from "vue";
-import { isNumber } from "lodash-unified";
 import { definePropType, makeSlots, useExpose, useRender } from "../../../utils";
 import type { Ref } from "vue";
-import type { FaLayoutGridBreakPoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
+import type { FaLayoutGridBreakpoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
 
 /** FaLayoutGridItem 的插槽参数。 */
 export interface FaLayoutGridItemSlots extends Record<string, unknown> {
@@ -53,18 +52,40 @@ export default defineComponent({
 	},
 	slots: makeSlots<FaLayoutGridItemSlots>(),
 	setup(props, { attrs, slots, expose }) {
+		const attrsObj = attrs as Record<string, unknown>;
+
+		// 注入布局状态
+		const breakpoint = inject<Ref<FaLayoutGridBreakpoint>>("breakpoint", ref("xl"));
+		const firstHiddenIndex = inject<Ref<number>>("firstHiddenIndex", ref(-1));
+		const gap = inject<Ref<number>>("gap", ref(0));
+		const cols = inject<Ref<number>>("cols", ref(5));
+
 		const state = reactive({
 			show: true,
 		});
 
-		const attrsObj = attrs as Record<string, unknown>;
-
-		// 注入断点
-		const breakPoint = inject<Ref<FaLayoutGridBreakPoint>>("breakPoint", ref("xl"));
-		const shouldHiddenIndex = inject<Ref<number>>("shouldHiddenIndex", ref(-1));
+		const style = computed(() => {
+			const activeBreakpointProps = props[breakpoint.value];
+			const span = activeBreakpointProps?.span ?? (typeof props.span === "number" ? props.span : Number(props.span));
+			const offset = activeBreakpointProps?.offset ?? (typeof props.offset === "number" ? props.offset : Number(props.offset));
+			if (props.suffix) {
+				return {
+					gridColumnStart: cols.value - span - offset + 1,
+					gridColumnEnd: `span ${span + offset}`,
+					marginLeft: offset !== 0 ? `calc(((100% + ${gap.value}px) / ${span + offset}) * ${offset})` : "unset",
+				};
+			} else {
+				return {
+					gridColumn: `span ${span + offset > cols.value ? cols.value : span + offset}/span ${
+						span + offset > cols.value ? cols.value : span + offset
+					}`,
+					marginLeft: offset !== 0 ? `calc(((100% + ${gap.value}px) / ${span + offset}) * ${offset})` : "unset",
+				};
+			}
+		});
 
 		watch(
-			() => [shouldHiddenIndex.value, breakPoint.value],
+			() => [firstHiddenIndex.value, breakpoint.value],
 			(n) => {
 				const index = Number(attrsObj["data-index"] ?? attrsObj["index"]);
 				if (Number.isInteger(index)) {
@@ -73,29 +94,6 @@ export default defineComponent({
 			},
 			{ immediate: true }
 		);
-
-		const gap = inject("gap", 0);
-		const cols = inject<Ref<number>>("cols", ref(5));
-
-		const style = computed(() => {
-			const breakPointObk = props[breakPoint.value];
-			const span = breakPointObk?.span ?? (isNumber(props.span) ? props.span : Number(props.span));
-			const offset = breakPointObk?.offset ?? (isNumber(props.offset) ? props.offset : Number(props.offset));
-			if (props.suffix) {
-				return {
-					gridColumnStart: cols.value - span - offset + 1,
-					gridColumnEnd: `span ${span + offset}`,
-					marginLeft: offset !== 0 ? `calc(((100% + ${gap}px) / ${span + offset}) * ${offset})` : "unset",
-				};
-			} else {
-				return {
-					gridColumn: `span ${span + offset > cols.value ? cols.value : span + offset}/span ${
-						span + offset > cols.value ? cols.value : span + offset
-					}`,
-					marginLeft: offset !== 0 ? `calc(((100% + ${gap}px) / ${span + offset}) * ${offset})` : "unset",
-				};
-			}
-		});
 
 		useRender(() => (
 			<div style={style.value} vShow={state.show}>

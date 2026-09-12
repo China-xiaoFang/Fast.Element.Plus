@@ -2,7 +2,6 @@
 
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import ElementPlus, { ElDialog, ElForm, ElInput, ElInputNumber, ElMessageBox, ElSelect, ElTable, ElTree, ElTreeSelect } from "element-plus";
-import { isNil, isString } from "lodash-unified";
 import { useOverlay } from "./hooks";
 import { callOptionalFunction } from "./utils";
 import type { Action, ElMessageBoxOptions, ElMessageBoxShortcutMethod, MessageBoxData, MessageBoxState } from "element-plus";
@@ -96,25 +95,19 @@ const elMessageBox = (
 	const resolvedOptions: ElMessageBoxOptions = { ...(options ?? {}) };
 	// 默认提示
 	resolvedOptions.title ??= "温馨提示";
-	if (isNil(resolvedOptions.draggable)) {
-		// 默认拖拽
-		resolvedOptions.draggable = true;
-	}
+	// 默认拖拽
+	resolvedOptions.draggable ??= true;
 	// 默认 取消按钮的文本内容
 	resolvedOptions.cancelButtonText ??= "取消";
 	// 默认 确定按钮的文本内容
 	resolvedOptions.confirmButtonText ??= "确定";
-	if (isNil(resolvedOptions.closeOnClickModal)) {
-		// 默认 是否可通过点击遮罩层关闭 MessageBox
-		resolvedOptions.closeOnClickModal = false;
-	}
-	if (isNil(resolvedOptions.closeOnPressEscape)) {
-		// 默认 是否可通过按下 ESC 键关闭 MessageBox
-		resolvedOptions.closeOnPressEscape = false;
-	}
+	// 默认 是否可通过点击遮罩层关闭 MessageBox
+	resolvedOptions.closeOnClickModal ??= false;
+	// 默认 是否可通过按下 ESC 键关闭 MessageBox
+	resolvedOptions.closeOnPressEscape ??= false;
 
 	// 关闭之前的判断逻辑
-	if (!isNil(resolvedOptions.beforeClose)) {
+	if (resolvedOptions.beforeClose != null) {
 		const localBeforeClose = resolvedOptions.beforeClose;
 		const localConfirmButtonText = resolvedOptions.confirmButtonText;
 		const localShowCancelButton = resolvedOptions.showCancelButton;
@@ -195,7 +188,7 @@ const createMessageBoxShortcut = (type: MESSAGE_BOX_TYPE): ElMessageBoxShortcutM
 		optionsOrContext?: ElMessageBoxOptions | AppContext | null,
 		appContext?: AppContext | null
 	): Promise<MessageBoxData> {
-		if (isString(titleOrOptions)) {
+		if (typeof titleOrOptions === "string") {
 			const options = isAppContext(optionsOrContext) ? undefined : optionsOrContext;
 			return elMessageBox(type, message, { ...MESSAGE_BOX_DEFAULT_OPTS[type], title: titleOrOptions, ...(options ?? {}) }, appContext);
 		}

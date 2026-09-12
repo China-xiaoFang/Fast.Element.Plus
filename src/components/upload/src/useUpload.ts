@@ -1,7 +1,5 @@
-import { useVModel } from "@vueuse/core";
-import { computed, inject, onMounted, ref, watch } from "vue";
+import { computed, inject, onMounted, ref, useModel, watch } from "vue";
 import { ElMessage, ElNotification, formContextKey, formItemContextKey, genFileId, uploadProps } from "element-plus";
-import { isArray, isNumber } from "lodash-unified";
 import { Decimal } from "decimal.js";
 import { uploadUtil } from "../utils/upload";
 import type {
@@ -55,7 +53,7 @@ export const useUpload = <T extends string | string[]>(
 		uploadUrl?: string;
 	}
 ): UploadComposable => {
-	const fileListModel = useVModel(props, "fileList", emit, { passive: true });
+	const fileListModel = useModel(props, "fileList");
 	const fileList = computed<UploadUserFile[]>({
 		get: () => fileListModel.value ?? [],
 		set: (value) => {
@@ -72,7 +70,7 @@ export const useUpload = <T extends string | string[]>(
 	const formItemContext = inject(formItemContextKey, undefined);
 
 	const mbNum = new Decimal(1024);
-	const maxSizeKB = computed(() => new Decimal(isNumber(data?.maxSize) ? data.maxSize : Number(data?.maxSize)));
+	const maxSizeKB = computed(() => new Decimal(typeof data?.maxSize === "number" ? data.maxSize : Number(data?.maxSize)));
 	const maxSizeMB = computed(() => maxSizeKB.value.div(mbNum));
 
 	onMounted(() => {
@@ -104,7 +102,7 @@ export const useUpload = <T extends string | string[]>(
 			const error = new Error(`上传${fileTypeName}接口 uploadApi 或地址 uploadUrl 不能为空。`);
 			ElMessage.error(`上传${fileTypeName}Api或地址不能为空`);
 			console.error(`[Fast:${componentName}]`, error.message);
-			return Promise.reject(error);
+			throw error;
 		}
 		activeUploadCount++;
 		loading.value = true;
@@ -201,7 +199,7 @@ export const useUpload = <T extends string | string[]>(
 		() => props.modelValue,
 		(newValue) => {
 			if (newValue) {
-				if (isArray(newValue)) {
+				if (Array.isArray(newValue)) {
 					fileList.value = newValue.map((m) => {
 						const find = fileList.value.find((f) => f.url === m);
 						const urlWithoutParams = m.split(/[?#]/u)[0] ?? "";

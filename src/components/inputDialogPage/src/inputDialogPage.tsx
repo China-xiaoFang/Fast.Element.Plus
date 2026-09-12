@@ -1,8 +1,6 @@
-import { useVModel } from "@vueuse/core";
-import { computed, defineComponent, reactive, ref } from "vue";
+import { computed, defineComponent, reactive, shallowRef, useModel } from "vue";
 import { Delete, Search } from "@element-plus/icons-vue";
 import { ElButton, ElButtonGroup, ElInput } from "element-plus";
-import { isFunction, isNull, isNumber, isString } from "lodash-unified";
 import { definePropType, makeSlots, useExpose, useRender, withDefineType } from "../../../utils";
 import FaDialog from "../../dialog";
 import { FaTable } from "../../table";
@@ -47,11 +45,11 @@ export const faInputDialogPageProps = {
 /** FaInputDialogPage 的运行时 Emits 定义。 */
 export const faInputDialogPageEmits = {
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | number | null): boolean => isString(value) || isNumber(value) || isNull(value),
+	"update:modelValue": (value: string | number | null) => typeof value === "string" || typeof value === "number" || value === null,
 	/** @description v-model:label 回调 */
-	"update:label": (value: string | null): boolean => isString(value) || isNull(value),
+	"update:label": (value: string | null) => typeof value === "string" || value === null,
 	/** @description 选中数据改变 */
-	change: (_data: DefaultRow | null, _value?: string | number | null): boolean => true,
+	change: (_data: DefaultRow | null, _value?: string | number | null) => true,
 };
 
 /** FaInputDialogPage 的插槽参数。 */
@@ -66,30 +64,31 @@ export default defineComponent({
 	emits: faInputDialogPageEmits,
 	slots: makeSlots<FaInputDialogPageSlots>(),
 	setup(props, { slots, emit, expose }) {
-		const modelValue = useVModel(props, "modelValue", emit, { passive: true });
-		const selectedLabel = useVModel(props, "label", emit, { passive: true });
+		const modelValue = useModel(props, "modelValue");
+		const selectedLabel = useModel(props, "label");
+
+		const faDialogRef = shallowRef<FaDialogInstance | null>(null);
+		const faTableRef = shallowRef<FaTableInstance | null>(null);
 
 		const state = reactive({
 			selectionRow: withDefineType<DefaultRow | undefined>(),
 		});
 
-		const faDialogRef = ref<FaDialogInstance>();
-		const faTableRef = ref<FaTableInstance>();
-
-		const handleDeleteClick = (): void => {
+		const handleDeleteClick = () => {
 			modelValue.value = null;
 			selectedLabel.value = null;
 			state.selectionRow = undefined;
 			emit("change", null, null);
 		};
 
-		const handleSearchClick = async (): Promise<void> => {
+		const handleSearchClick = async () => {
 			await faDialogRef.value?.open(() => {
 				const table = faTableRef.value;
-				if (table === undefined) return;
+				if (table === null) return;
 				if (state.selectionRow) {
 					// 判断当前行是否选中
-					const rawRowKey: unknown = isFunction(props.rowKey) ? props.rowKey(state.selectionRow) : state.selectionRow[props.rowKey];
+					const rawRowKey: unknown =
+						typeof props.rowKey === "function" ? props.rowKey(state.selectionRow) : state.selectionRow[props.rowKey];
 					const rowSelected = (typeof rawRowKey === "string" || typeof rawRowKey === "number") && table.selectedListIds.includes(rawRowKey);
 					if (!rowSelected) {
 						table.toggleRowSelection?.(state.selectionRow);
@@ -98,13 +97,13 @@ export default defineComponent({
 			});
 		};
 
-		const handleConfirmClick = (): void => {
+		const handleConfirmClick = () => {
 			faDialogRef.value?.close(() => {
 				const table = faTableRef.value;
 				const selectedData = table?.selectedList[0];
 				if (table?.selected && selectedData) {
 					state.selectionRow = selectedData;
-					const selectedValue: unknown = isFunction(props.rowKey) ? props.rowKey(selectedData) : selectedData[props.rowKey];
+					const selectedValue: unknown = typeof props.rowKey === "function" ? props.rowKey(selectedData) : selectedData[props.rowKey];
 					modelValue.value = typeof selectedValue === "string" || typeof selectedValue === "number" ? selectedValue : null;
 					const label: unknown = selectedData[props.labelKey];
 					selectedLabel.value = typeof label === "string" ? label : null;
@@ -118,7 +117,7 @@ export default defineComponent({
 			});
 		};
 
-		const handleTableRowDblclick = (row: DefaultRow): void => {
+		const handleTableRowDblclick = (row: DefaultRow) => {
 			faTableRef.value?.clearSelection?.();
 			faTableRef.value?.toggleRowSelection?.(row);
 			state.selectionRow = row;

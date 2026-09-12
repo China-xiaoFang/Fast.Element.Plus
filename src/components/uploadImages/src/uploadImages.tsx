@@ -1,7 +1,6 @@
-import { Fragment, computed, defineComponent, reactive, ref } from "vue";
+import { Fragment, computed, defineComponent, reactive, shallowRef } from "vue";
 import { Delete, Edit, Plus, ZoomIn } from "@element-plus/icons-vue";
 import { ElIcon, ElImageViewer, ElUpload, uploadProps } from "element-plus";
-import { isArray, isNull } from "lodash-unified";
 import { FaMimeType } from "../../../constants";
 import { definePropType, makeSlots, randomString, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import { useUpload } from "../../upload/src/useUpload";
@@ -14,7 +13,7 @@ export const faUploadImagesProps = {
 	/** @description accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true` */
 	accept: {
 		type: String,
-		default: (): string => FaMimeType.Image,
+		default: () => FaMimeType.Image,
 	},
 	/** @description type of file list */
 	listType: {
@@ -25,7 +24,7 @@ export const faUploadImagesProps = {
 	multiple: {
 		type: Boolean,
 		default: true,
-		validator: (value: boolean): boolean => {
+		validator: (value: boolean) => {
 			if (!value) {
 				console.warn("[Fast:FaUploadImages]", "'multiple' 属性固定为 true，外部设置不会生效。");
 				return false;
@@ -56,9 +55,9 @@ export const faUploadImagesProps = {
 /** FaUploadImages 的运行时 Emits 定义。 */
 export const faUploadImagesEmits = {
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string[] | null): boolean => isArray(value) || isNull(value),
+	"update:modelValue": (value: string[] | null) => Array.isArray(value) || value === null,
 	/** @description v-model:fileList 回调 */
-	"update:fileList": (value: UploadUserFile[]): boolean => isArray(value),
+	"update:fileList": (value: UploadUserFile[]) => Array.isArray(value),
 };
 
 /** FaUploadImages 的插槽参数。 */
@@ -98,9 +97,7 @@ export default defineComponent({
 			},
 		});
 
-		const disabled = computed(() => {
-			return props.disabled === true || formContext?.disabled === true;
-		});
+		const uploadRef = shallowRef<UploadInstance | null>(null);
 
 		const state = reactive({
 			uploadKey: `fa-upload-images__${randomString(8)}`,
@@ -109,22 +106,24 @@ export default defineComponent({
 			previewList: withDefineType<string[]>([]),
 		});
 
-		const uploadRef = ref<UploadInstance>();
+		const disabled = computed(() => {
+			return props.disabled === true || formContext?.disabled === true;
+		});
 		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 需要识别 Element Plus 2.x 注入的默认请求实现。
 		const httpRequest = computed(() => (props.httpRequest === uploadProps.httpRequest.default ? handleHttpRequest : props.httpRequest));
 
-		const handleEdit = (): void => {
+		const handleEdit = () => {
 			const uploadInputEl = document.querySelector(`.${state.uploadKey} .el-upload__input`);
 			uploadInputEl?.dispatchEvent(new MouseEvent("click"));
 		};
 
-		const handlePreview = (uploadFile: UploadFile): void => {
+		const handlePreview = (uploadFile: UploadFile) => {
 			state.previewIndex = fileList.value.findIndex((f) => f.url === uploadFile.url);
 			state.previewList = fileList.value.flatMap((item) => (item.url ? [item.url] : []));
 			state.preview = true;
 		};
 
-		const handleRemove = (index: number): void => {
+		const handleRemove = (index: number) => {
 			const file = fileList.value[index];
 			if (file) uploadRef.value?.handleRemove(file as UploadFile);
 		};

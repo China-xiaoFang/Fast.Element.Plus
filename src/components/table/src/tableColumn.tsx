@@ -1,7 +1,6 @@
-import { Fragment, computed, defineComponent, h, inject, resolveComponent, watch } from "vue";
+import { Fragment, computed, defineComponent, h, inject, resolveComponent } from "vue";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { ElIcon, ElImage, ElMessage, ElTableColumn, ElTag, ElText, dayjs, useGlobalSize } from "element-plus";
-import { isArray, isFunction, isNil, isNumber, isObject, isString } from "lodash-unified";
 import { copy as copyToClipboard, definePropType, formatChineseRelativeTime, makeSlots, useProps, useRender } from "../../../utils";
 import FaImage from "../../image";
 import artwork from "../images/artwork.png";
@@ -10,7 +9,7 @@ import { tableUtil } from "../utils/table";
 import { getTableDefaultSlots } from "./table.type";
 import { enumMapKey, tableStateKey } from "./useTable";
 import type { TableColumnCtx } from "element-plus";
-import type { ComputedRef, PropType, VNode } from "vue";
+import type { PropType, VNode } from "vue";
 import type { DefaultRow } from "./table.state";
 import type {
 	FaTableColumnCtx,
@@ -163,10 +162,10 @@ export const tableColumnProps = {
 	 */
 	sortOrders: {
 		type: Array as PropType<TableColumnCtx<DefaultRow>["sortOrders"]>,
-		default: (): TableColumnCtx<DefaultRow>["sortOrders"] => {
+		default: () => {
 			return ["ascending", "descending", null];
 		},
-		validator: (val: unknown): boolean => {
+		validator: (val: unknown) => {
 			return Array.isArray(val) && val.every((order: unknown) => order === "ascending" || order === "descending" || order === null);
 		},
 	},
@@ -292,24 +291,29 @@ export default defineComponent({
 	},
 	emits: {
 		/** @description 图片预览 */
-		imagePreview: (url: string): boolean => isString(url),
+		imagePreview: (url: string) => typeof url === "string",
 		/** @description 自定义单元格点击事件 */
-		customCellClick: (emitName: string, { row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }): boolean =>
-			(isNil(emitName) || isString(emitName)) && isObject(row) && isObject(column) && isNumber($index),
+		customCellClick: (emitName: string, { row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) =>
+			(emitName == null || typeof emitName === "string") &&
+			typeof row === "object" &&
+			row !== null &&
+			typeof column === "object" &&
+			column !== null &&
+			typeof $index === "number",
 	},
 	slots: makeSlots<FaTableColumnSlots>(),
 	setup(props, { slots, emit }) {
-		const _globalSize = useGlobalSize();
+		const globalSize = useGlobalSize();
 		const tableState = inject(tableStateKey);
 		const enumMap = inject(enumMapKey);
 		if (tableState === undefined || enumMap === undefined) {
 			throw new Error("FaTableColumn 必须在 FaTable 内部渲染。");
 		}
 
-		const columnCtx = computed(() => props as unknown as FaTableColumnCtx);
+		const columnCtx = computed(() => props as FaTableColumnCtx);
 
 		/** 获取ClassName */
-		const getClassName = (): string => {
+		const getClassName = () => {
 			let className = "";
 			if (props.type === "timeInfo") {
 				className += "fa-table__line-height-normal-column";
@@ -326,24 +330,19 @@ export default defineComponent({
 		};
 
 		/** 获取宽度 */
-		const getWidth = (defAttr: string): string | number => {
+		const getWidth = (defAttr: string) => {
 			if (props.autoWidth) {
-				return computed(() => {
-					const findInfo = tableState.autoColumnWidth.find((f) => f.prop === props.prop);
-					if (findInfo) {
-						return `${findInfo.width}px`;
-					}
-					return "auto";
-				}).value;
+				const autoWidthEntry = tableState.autoColumnWidth.find((f) => f.prop === props.prop);
+				return autoWidthEntry ? `${autoWidthEntry.width}px` : "auto";
 			}
-			if (_globalSize.value === "small") {
+			if (globalSize.value === "small") {
 				return props.smallWidth || props.width || props.minWidth || defAttr;
 			}
 			return props.width || props.minWidth || defAttr;
 		};
 
 		/** 表头自动宽度渲染 */
-		const autoWidthHeaderRender = (el: VNode[]): VNode[] => {
+		const autoWidthHeaderRender = (el: VNode[]) => {
 			if (props.autoWidth) {
 				return [
 					<div class={["fa-table__auto-width-column__cell-header", `__fa-table__auto-width-column__cell-header__${props.prop}`]}>{el}</div>,
@@ -354,7 +353,7 @@ export default defineComponent({
 		};
 
 		/** 自动宽度渲染 */
-		const autoWidthRender = (el: VNode[]): VNode[] => {
+		const autoWidthRender = (el: VNode[]) => {
 			if (props.autoWidth) {
 				return [<div class={["fa-table__auto-width-column__cell", `__fa-table__auto-width-column__cell__${props.prop}`]}>{el}</div>];
 			} else {
@@ -363,7 +362,7 @@ export default defineComponent({
 		};
 
 		/** 表头渲染 */
-		const headerRender = ({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number }): VNode[] => {
+		const headerRender = ({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number }) => {
 			if (props.headerRender) {
 				return autoWidthHeaderRender(props.headerRender({ column, $index, ...getTableDefaultSlots(tableState) }));
 			} else if (props.headerSlot) {
@@ -374,13 +373,13 @@ export default defineComponent({
 		};
 
 		/** 复制渲染 */
-		const displayText = (value: unknown): string => {
+		const displayText = (value: unknown) => {
 			if (typeof value === "string") return value;
 			if (typeof value === "number" || typeof value === "bigint" || typeof value === "boolean") return String(value);
 			return "";
 		};
 
-		const copyRender = (value: unknown, copy?: boolean): VNode[] => {
+		const copyRender = (value: unknown, copy?: boolean) => {
 			if (!(props.copy || copy) || !value) return [];
 
 			return [
@@ -410,16 +409,16 @@ export default defineComponent({
 		};
 
 		/** 渲染单元格数据 */
-		const renderCellData = ({ row }: { row: DefaultRow }): unknown => {
+		const renderCellData = ({ row }: { row: DefaultRow }) => {
 			const cellValue: unknown = tableUtil.handleRowAccordingToProp(row, props.prop ?? "");
 
 			let enumData: FaTableEnumColumnCtx[] | undefined;
 
-			if (isString(props.enum)) {
+			if (typeof props.enum === "string") {
 				enumData = enumMap.get(props.enum);
-			} else if (isArray(props.enum)) {
+			} else if (Array.isArray(props.enum)) {
 				enumData = props.enum;
-			} else if (isFunction(props.enum)) {
+			} else if (typeof props.enum === "function") {
 				enumData = props.enum({ row });
 			}
 
@@ -431,7 +430,7 @@ export default defineComponent({
 		};
 
 		/** 格式化渲染 */
-		const formatterRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cellValue: unknown, index: number): VNode | string => {
+		const formatterRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cellValue: unknown, index: number) => {
 			const formatter = column.formatter as TableColumnCtx<DefaultRow>["formatter"] | null | undefined;
 			if (formatter) {
 				return formatter(row, column, cellValue, index);
@@ -441,7 +440,7 @@ export default defineComponent({
 		};
 
 		/** 时间信息列渲染 */
-		const timeInfoRender = (row: DefaultRow, _column: TableColumnCtx<DefaultRow>, _$index: number): VNode[] => {
+		const timeInfoRender = (row: DefaultRow, _column: TableColumnCtx<DefaultRow>, _$index: number) => {
 			const userName = displayText(row[props.timeInfoField.userName ?? "createdUserName"]);
 			const time = displayText(row[props.timeInfoField.time ?? "createdTime"]);
 			return [
@@ -460,16 +459,16 @@ export default defineComponent({
 		};
 
 		/** 标签列渲染 */
-		const tagRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+		const tagRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number) => {
 			const renderValue = formatterRender(row, column, renderCellData({ row }), $index);
 
 			let enumData: FaTableEnumColumnCtx[] | undefined;
 
-			if (isString(props.enum)) {
+			if (typeof props.enum === "string") {
 				enumData = enumMap.get(props.enum);
-			} else if (isArray(props.enum)) {
+			} else if (Array.isArray(props.enum)) {
 				enumData = props.enum;
-			} else if (isFunction(props.enum)) {
+			} else if (typeof props.enum === "function") {
 				enumData = props.enum({ row });
 			}
 
@@ -484,7 +483,7 @@ export default defineComponent({
 		};
 
 		/** 时间列渲染 */
-		const dateRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+		const dateRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number) => {
 			let dateFormat;
 			switch (props.type) {
 				case "date":
@@ -531,9 +530,9 @@ export default defineComponent({
 		};
 
 		/** 数值列渲染 */
-		const numberRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+		const numberRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number) => {
 			const renderValue: unknown = row[props.prop ?? ""];
-			if (!renderValue || !isNumber(renderValue)) {
+			if (!renderValue || typeof renderValue !== "number") {
 				return [<Fragment>{formatterRender(row, column, renderValue, $index)}</Fragment>];
 			}
 			let useGrouping = false;
@@ -589,7 +588,7 @@ export default defineComponent({
 		};
 
 		/** 链接列渲染 */
-		const linkRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number): VNode[] => {
+		const linkRender = (row: DefaultRow, column: TableColumnCtx<DefaultRow>, $index: number) => {
 			const renderValue = formatterRender(row, column, row[props.prop ?? ""], $index);
 			return autoWidthRender([
 				<Fragment>
@@ -618,7 +617,7 @@ export default defineComponent({
 			]);
 		};
 
-		const defaultRender = ({ row, column, $index }: { row: DefaultRow; column: TableColumnCtx<DefaultRow>; $index: number }): VNode[] => {
+		const defaultRender = ({ row, column, $index }: { row: DefaultRow; column: TableColumnCtx<DefaultRow>; $index: number }) => {
 			if (props.type === "timeInfo") {
 				return timeInfoRender(row, column, $index);
 			}
@@ -656,7 +655,7 @@ export default defineComponent({
 			]);
 		};
 
-		let elTableColumnProps: ComputedRef<TableColumnCtx<DefaultRow>> = useProps(props, tableColumnProps, [
+		const elTableColumnProps = useProps(props, tableColumnProps, [
 			"type",
 			"width",
 			"minWidth",
@@ -664,22 +663,7 @@ export default defineComponent({
 			"sortOrders",
 			"resizable",
 			"showOverflowTooltip",
-		]) as unknown as ComputedRef<TableColumnCtx<DefaultRow>>;
-
-		watch(
-			() => props,
-			() => {
-				elTableColumnProps = useProps(props, tableColumnProps, [
-					"type",
-					"className",
-					"minWidth",
-					"sortable",
-					"sortOrders",
-					"resizable",
-					"showOverflowTooltip",
-				]) as unknown as ComputedRef<TableColumnCtx<DefaultRow>>;
-			}
-		);
+		]);
 
 		useRender(() => (
 			<Fragment>

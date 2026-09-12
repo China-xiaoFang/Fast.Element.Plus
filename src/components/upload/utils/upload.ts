@@ -70,7 +70,7 @@ export const uploadUtil = {
 		if (!url) {
 			console.error("[Fast:uploadUtil]", "文件上传地址为空。");
 			ElMessage.error("文件上传地址为空！");
-			return Promise.reject(new Error("文件上传地址为空！"));
+			throw new Error("文件上传地址为空！");
 		}
 		const formData = new FormData();
 		formData.append("file", file);

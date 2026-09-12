@@ -15,13 +15,7 @@ const inlinePngPlugin = {
 // 框架与两套图标均由使用方强制安装，构建时保持为外部模块。
 const peerDependencies = [/^@element-plus\/icons-vue(?:\/|$)/u, /^@fast-element-plus\/icons-vue(?:\/|$)/u, /^element-plus(?:\/|$)/u, /^vue(?:\/|$)/u];
 
-const bundledDependencies = [
-	/^@vueuse\//u,
-	/^decimal\.js(?:\/|$)/u,
-	/^lodash(?:-es|-unified)?(?:\/|$)/u,
-	/^screenfull(?:\/|$)/u,
-	/^sortablejs(?:\/|$)/u,
-];
+const bundledDependencies = [/^decimal\.js(?:\/|$)/u, /^screenfull(?:\/|$)/u, /^sortablejs(?:\/|$)/u];
 
 export default defineConfig([
 	{

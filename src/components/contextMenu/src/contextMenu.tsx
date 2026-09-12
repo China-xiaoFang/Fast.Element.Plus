@@ -1,7 +1,5 @@
-import { useEventListener } from "@vueuse/core";
-import { Transition, computed, defineComponent, onMounted, reactive } from "vue";
+import { Transition, computed, defineComponent, onBeforeUnmount, onMounted, reactive } from "vue";
 import { useGlobalSize } from "element-plus";
-import { isObject } from "lodash-unified";
 import { definePropType, useExpose, useRender } from "../../../utils";
 import { FaIcon } from "../../icon";
 import type { FaContextMenuData } from "./contextMenu.type";
@@ -17,10 +15,10 @@ export default defineComponent({
 	},
 	emits: {
 		/** @description 点击事件 */
-		click: (event: MouseEvent, data: FaContextMenuData | null) => event instanceof MouseEvent && isObject(data),
+		click: (event: MouseEvent, data: FaContextMenuData | null) => event instanceof MouseEvent && typeof data === "object" && data !== null,
 	},
 	setup(props, { emit, expose }) {
-		const _globalSize = useGlobalSize();
+		const globalSize = useGlobalSize();
 
 		const state = reactive({
 			visible: false,
@@ -30,29 +28,33 @@ export default defineComponent({
 			},
 		});
 
-		const handleClick = (event: MouseEvent, data: FaContextMenuData | null): void => {
+		const handleClick = (event: MouseEvent, data: FaContextMenuData | null) => {
 			if (data?.disabled) return;
 			data?.click?.(event, data);
 			emit("click", event, data);
 		};
 
-		const open = (axis: { x: number; y: number } = { x: 0, y: 0 }): void => {
+		const open = (axis: { x: number; y: number } = { x: 0, y: 0 }) => {
 			state.axis = axis;
 			state.visible = true;
 		};
 
-		const close = (): void => {
+		const close = () => {
 			state.visible = false;
 		};
 
 		onMounted(() => {
-			useEventListener(document, "click", close);
+			document.addEventListener("click", close);
+		});
+
+		onBeforeUnmount(() => {
+			document.removeEventListener("click", close);
 		});
 
 		useRender(() => (
 			<Transition name="el-zoom-in-top">
 				<div
-					class={["fa-context-menu", `fa-context-menu-${_globalSize.value}`, "el-popper el-dropdown__popper"]}
+					class={["fa-context-menu", `fa-context-menu-${globalSize.value}`, "el-popper el-dropdown__popper"]}
 					style={{ top: `${state.axis.y + 5}px`, left: `${state.axis.x + 14}px` }}
 					vShow={state.visible}
 					key={Math.random()}

@@ -12,8 +12,28 @@ const entry = generated.output.find((item) => item.type === "chunk" && item.isEn
 if (entry?.type !== "chunk") throw new Error("Runtime bundle did not produce an entry chunk.");
 const library = await import(`data:text/javascript;base64,${Buffer.from(entry.code).toString("base64")}`);
 const FastElementPlus = library.default;
+const { isEqual, omit, pick } = await import("../dist/utils/object/index.mjs");
 
 const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+
+test("object utilities select keys and compare supported values", () => {
+	const symbolKey = Symbol("symbolKey");
+	const source = { visible: 1, hidden: 2, [symbolKey]: 3 };
+	assert.deepEqual(pick(source, ["visible", symbolKey]), { visible: 1, [symbolKey]: 3 });
+	assert.deepEqual(omit(source, ["hidden"]), { visible: 1, [symbolKey]: 3 });
+
+	assert.equal(isEqual({ nested: [1, { value: Number.NaN }] }, { nested: [1, { value: Number.NaN }] }), true);
+	assert.equal(isEqual(Object(Symbol.for("same")), Object(Symbol.for("same"))), true);
+	assert.equal(isEqual(new Date("2026-09-12"), new Date("2026-09-12")), true);
+	assert.equal(isEqual(new Map([[{ id: 1 }, new Set(["a", "b"])]]), new Map([[{ id: 1 }, new Set(["b", "a"])]])), true);
+	assert.equal(isEqual({ value: 1 }, { value: 2 }), false);
+
+	const leftCycle = {};
+	const rightCycle = {};
+	leftCycle.self = leftCycle;
+	rightCycle.self = rightCycle;
+	assert.equal(isEqual(leftCycle, rightCycle), true);
+});
 
 test("root entry exposes the documented plugin, components, directives, and hooks", () => {
 	assert.equal(library.version, packageJson.version);

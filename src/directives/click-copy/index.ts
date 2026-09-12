@@ -16,25 +16,24 @@ const CopyDirective: Directive = {
 	mounted(el: CopyElement, binding: DirectiveBinding<string | number>) {
 		el.copyData = binding.value;
 
-		const copy = async (): Promise<void> => {
+		const copy = (): void => {
 			if (!el.copyData) return;
-			try {
-				await copyToClipboard(String(el.copyData));
-				ElMessage({
-					type: "success",
-					message: "复制成功",
-				});
-			} catch (error) {
-				ElMessage({
-					type: "error",
-					message: "复制失败",
-				});
-				throw error;
-			}
+			copyToClipboard(String(el.copyData)).then(
+				() => {
+					ElMessage({
+						type: "success",
+						message: "复制成功",
+					});
+				},
+				() => {
+					ElMessage({
+						type: "error",
+						message: "复制失败",
+					});
+				}
+			);
 		};
-		el.__handleClick__ = (): void => {
-			copy();
-		};
+		el.__handleClick__ = copy;
 		el.addEventListener("click", el.__handleClick__);
 	},
 	updated(el: CopyElement, binding: DirectiveBinding<string | number>) {

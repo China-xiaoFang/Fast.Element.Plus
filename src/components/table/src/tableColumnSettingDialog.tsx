@@ -1,7 +1,20 @@
-import { Fragment, defineComponent, inject, onBeforeUnmount, reactive, ref } from "vue";
-import { ElInput, ElInputNumber, ElMessage, ElNotification, ElRadio, ElRadioGroup, ElSwitch, ElTable, ElTableColumn, ElText } from "element-plus";
+import { Fragment, defineComponent, inject, onBeforeUnmount, reactive, shallowRef } from "vue";
+import { Rank } from "@element-plus/icons-vue";
+import {
+	ElIcon,
+	ElInput,
+	ElInputNumber,
+	ElMessage,
+	ElNotification,
+	ElRadio,
+	ElRadioGroup,
+	ElSwitch,
+	ElTable,
+	ElTableColumn,
+	ElText,
+} from "element-plus";
 import Sortable from "sortablejs";
-import { definePropType, randomString, useExpose, useRender, withDefineType } from "../../../utils";
+import { definePropType, randomString, useExpose, useRender } from "../../../utils";
 import { FaDialog } from "../../dialog";
 import { tableStateKey } from "./useTable";
 import type { TableColumnCtx } from "element-plus";
@@ -21,46 +34,32 @@ export default defineComponent({
 		const tableState = inject(tableStateKey);
 		if (tableState === undefined) throw new Error("FaTableColumnsSettingDialog 必须在 FaTable 内部渲染。");
 
+		const faDialogRef = shallowRef<FaDialogInstance | null>(null);
+		const sortableRef = shallowRef<Sortable | null>(null);
+
 		const state = reactive({
 			tableKey: randomString(8),
-			sortableInstance: withDefineType<Sortable | undefined>(),
 			change: false,
 		});
 
-		const faDialogRef = ref<FaDialogInstance>();
+		const indexMethod = (index: number) => index + 1;
 
-		const indexMethod = (index: number): number => {
-			return index + 1;
-		};
-
-		// /**
-		//  * 处理固定行ClassName
-		//  */
-		// const handleFixedRowClassName = (row: FaTableColumnCtx) => {
-		// 	if (row.fixed) {
-		// 		return "fa-table__setting-fixed-column";
-		// 	}
-		// };
-
-		const tableRowDrop = (): void => {
+		const tableRowDrop = () => {
 			const tBody = document.querySelector<HTMLElement>(`.fa-table__column-setting-${state.tableKey} .el-table__body-wrapper tbody`);
 			if (!tBody) return;
 
 			// 销毁现有Sortable实例（如果存在）
-			if (state.sortableInstance) {
-				state.sortableInstance.destroy();
-			}
+			sortableRef.value?.destroy();
 
-			state.sortableInstance = new Sortable(tBody, {
+			sortableRef.value = new Sortable(tBody, {
 				// ms, number 单位：ms，定义排序动画的时间
 				animation: 150,
-				delay: 0,
-				// filter: ".fa-table__setting-fixed-column",
-				// onMove(evt: any) {
-				// 	const { related } = evt;
-				// 	return !related.classList.contains("fa-table__setting-fixed-column");
-				// },
-				onEnd(evt: SortableEvent): void {
+				handle: ".fa-table__column-setting-drag-handle",
+				delay: 200,
+				delayOnTouchOnly: true,
+				touchStartThreshold: 5,
+				fallbackTolerance: 3,
+				onEnd(evt: SortableEvent) {
 					const { newIndex, oldIndex } = evt;
 					if (newIndex !== undefined && oldIndex !== undefined && newIndex !== oldIndex) {
 						state.change = true;
@@ -77,7 +76,7 @@ export default defineComponent({
 			});
 		};
 
-		const open = async (): Promise<void> => {
+		const open = async () => {
 			state.change = false;
 			await faDialogRef.value?.open(() => {
 				tableRowDrop();
@@ -88,14 +87,12 @@ export default defineComponent({
 			});
 		};
 
-		const destroySortable = (): void => {
-			state.sortableInstance?.destroy();
-			state.sortableInstance = undefined;
+		const destroySortable = () => {
+			sortableRef.value?.destroy();
+			sortableRef.value = null;
 		};
 
-		onBeforeUnmount(destroySortable);
-
-		const handleChange = async (): Promise<void> => {
+		const handleChange = async () => {
 			if (state.change) {
 				await props.change?.(tableState.orgColumns);
 			} else {
@@ -103,11 +100,11 @@ export default defineComponent({
 			}
 		};
 
-		const handleConfirmClick = (): void => {
+		const handleConfirmClick = () => {
 			faDialogRef.value?.close(handleChange);
 		};
 
-		const handleOrderChange = (): void => {
+		const handleOrderChange = () => {
 			state.change = true;
 			let orderColumns = tableState.orgColumns.filter((f) => !f.pureSearch);
 			orderColumns = orderColumns.sort((a, b) => {
@@ -123,11 +120,11 @@ export default defineComponent({
 			});
 		};
 
-		const handleColumnChange = (): void => {
+		const handleColumnChange = () => {
 			state.change = true;
 		};
 
-		const autoWidthDisabled = (row: FaTableColumnCtx, switchEl = false): { disabled?: boolean; placeholder?: string } => {
+		const autoWidthDisabled = (row: FaTableColumnCtx, switchEl = false) => {
 			const result: { disabled?: boolean; placeholder?: string } = {};
 			if (row.type) {
 				switch (row.type) {
@@ -174,12 +171,7 @@ export default defineComponent({
 			return result;
 		};
 
-		const pureSearchDisabled = (
-			row: FaTableColumnCtx,
-			switchEl = false,
-			orderEl = false,
-			_radioEl = false
-		): { disabled?: boolean; placeholder?: string } => {
+		const pureSearchDisabled = (row: FaTableColumnCtx, switchEl = false, orderEl = false, _radioEl = false) => {
 			const result: { disabled?: boolean; placeholder?: string } = {};
 			if (row.pureSearch) {
 				result.disabled = true;
@@ -194,6 +186,8 @@ export default defineComponent({
 			}
 			return result;
 		};
+
+		onBeforeUnmount(destroySortable);
 
 		useRender(() => (
 			<FaDialog
@@ -218,11 +212,19 @@ export default defineComponent({
 							data={tableState.orgColumns}
 							rowKey="prop"
 							border
-							// rowClassName={handleFixedRowClassName}
 						>
 							{{
 								default: () => (
 									<Fragment>
+										<ElTableColumn fixed="left" align="center" width={44}>
+											{{
+												default: () => (
+													<ElIcon class="fa-table__column-setting-drag-handle" title="拖动调整顺序">
+														<Rank />
+													</ElIcon>
+												),
+											}}
+										</ElTableColumn>
 										<ElTableColumn type="index" fixed="left" align="center" width={45} index={indexMethod} />
 										<ElTableColumn label="列显示名称" minWidth={200}>
 											{{

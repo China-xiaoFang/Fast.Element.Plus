@@ -50,6 +50,10 @@ test("package metadata exposes the ESM, global types, style, and CDN entries", (
 	assert.equal(packageJson.devDependencies?.["@fast-element-plus/icons-vue"], "^2.0.1");
 	assert.equal(packageJson.dependencies?.["@fast-china/utils"], undefined);
 	assert.equal(packageJson.devDependencies?.["@fast-china/utils"], undefined);
+	for (const dependencyName of ["csstype", "lodash", "lodash-es", "lodash-unified", "@types/lodash", "@types/lodash-es"]) {
+		assert.equal(packageJson.dependencies?.[dependencyName], undefined);
+		assert.equal(packageJson.devDependencies?.[dependencyName], undefined);
+	}
 });
 
 test("build output is complete and does not expose unpublished source paths", async () => {
@@ -73,6 +77,7 @@ test("build output is complete and does not expose unpublished source paths", as
 	for (const declaration of declarations) {
 		assert.doesNotMatch(declaration, /\.pnpm[\\/]/u);
 		assert.doesNotMatch(declaration, /@fast-element-plus\/(?:components|constants|directives|hooks)[/"']/u);
+		assert.doesNotMatch(declaration, /(?:from\s+|import\()["']csstype["']/u);
 	}
 	const publicDeclarations = await Promise.all(["dist/index.d.ts", "dist/global.d.ts"].map((file) => readFile(new URL(file, root), "utf8")));
 	for (const declaration of publicDeclarations) {
@@ -94,9 +99,10 @@ test("build output is complete and does not expose unpublished source paths", as
 	const esmOutput = (await Promise.all(esmFiles.map((file) => readFile(file, "utf8")))).join("\n");
 	assert.doesNotMatch(esmOutput, /@fast-china\/utils/u);
 	assert.doesNotMatch(esmOutput, /(?:^|[\\/])node_modules[\\/]/u);
-	for (const dependencyName of ["@vueuse/core", "decimal.js", "lodash-unified", "screenfull", "sortablejs"]) {
+	for (const dependencyName of ["decimal.js", "screenfull", "sortablejs"]) {
 		assert.match(esmOutput, new RegExp(`from\\s+["']${dependencyName.replaceAll(".", "\\.")}(?:/|["'])`, "u"));
 	}
+	assert.doesNotMatch(esmOutput, /from\s+["']lodash(?:-es|-unified)?(?:\/|["'])/u);
 	// 两套强制 Peer 图标包只保留静态外部引用，不内联到发布产物。
 	assert.match(esmOutput, /from\s+["']@element-plus\/icons-vue["']/u);
 	assert.match(esmOutput, /from\s+["']@fast-element-plus\/icons-vue["']/u);

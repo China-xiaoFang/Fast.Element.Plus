@@ -14,8 +14,13 @@ import FastElementPlus, {
 	type FaImageSlots,
 	type FaInputDialogPageInstance,
 	type FaInputDialogPageProps,
+	type FaLayoutGridBreakpoint,
+	type FaLayoutGridInstance,
+	type FaSelectEmits,
+	type FaSelectPageEmits,
 	type FaSelectPageProps,
 	type FaSelectProps,
+	type FaSelectV2Emits,
 	type FaSelectV2Instance,
 	type FaSelectV2Props,
 	FaTable,
@@ -23,8 +28,10 @@ import FastElementPlus, {
 	type FaTableInstance,
 	type FaTableProps,
 	FaTree,
+	type FaTreeEmits,
 	type FaTreeInstance,
 	type FaTreeProps,
+	type FaTreeSelectEmits,
 	type FaTreeSelectInstance,
 	type FaTreeSelectProps,
 	type FaUploadSlots,
@@ -44,7 +51,6 @@ const installPlugin: (app: App) => void = install;
 const currentVersion: string = version;
 
 type IsAny<Value> = 0 extends 1 & Value ? true : false;
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- 这是比较两个任意类型是否完全一致的标准逆变函数写法。
 type IsEqual<Left, Right> = (<Value>() => Value extends Left ? 1 : 2) extends <Value>() => Value extends Right ? 1 : 2 ? true : false;
 type AssertTrue<Value extends true> = Value;
 type InitParam = string | number | PagedInput;
@@ -68,6 +74,25 @@ export type InitParamChecks = [
 	AssertTrue<IsEqual<NonNullable<FaTableProps["initParam"]>, InitParam>>,
 	AssertTrue<IsEqual<NonNullable<FaTreeProps["initParam"]>, InitParam>>,
 	AssertTrue<IsEqual<NonNullable<FaTreeSelectProps["initParam"]>, InitParam>>,
+];
+
+/** 已标准化的公共命名应直接生效，不保留旧拼写别名。 */
+export type RenamedApiChecks = [
+	AssertTrue<IsEqual<FaLayoutGridBreakpoint, "xs" | "sm" | "md" | "lg" | "xl">>,
+	AssertTrue<"breakpoint" extends keyof FaLayoutGridInstance ? true : false>,
+	AssertTrue<"onBreakpointChange" extends keyof FaLayoutGridInstance["$props"] ? true : false>,
+	AssertTrue<"dataChange" extends keyof FaSelectEmits ? true : false>,
+	AssertTrue<"dataChange" extends keyof FaSelectPageEmits ? true : false>,
+	AssertTrue<"dataChange" extends keyof FaSelectV2Emits ? true : false>,
+	AssertTrue<"dataChange" extends keyof FaTreeEmits ? true : false>,
+	AssertTrue<"dataChange" extends keyof FaTreeSelectEmits ? true : false>,
+];
+
+/** 对外暴露的 Element Plus 实例成员不应退化为 any 或 unknown。 */
+export type ExposedInstanceChecks = [
+	AssertTrue<IsAny<FaDialogInstance["dialogContentRef"]> extends false ? true : false>,
+	AssertTrue<"resetPosition" extends keyof NonNullable<FaDialogInstance["dialogContentRef"]> ? true : false>,
+	AssertTrue<"updatePosition" extends keyof NonNullable<FaDialogInstance["dialogContentRef"]> ? true : false>,
 ];
 
 interface TypedOptionData {

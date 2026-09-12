@@ -6,5 +6,6 @@
 export * from "./async";
 export * from "./date";
 export * from "./dom";
+export * from "./object";
 export * from "./string";
 export * from "./vue";

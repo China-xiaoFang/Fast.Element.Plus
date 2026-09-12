@@ -1,11 +1,9 @@
-import { useVModel } from "@vueuse/core";
-import { Fragment, computed, defineComponent, onMounted, reactive, ref, watch } from "vue";
+import { Fragment, computed, defineComponent, reactive, shallowRef, useModel, watch } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { ElButton, ElInput, ElOption, ElPagination, ElSelect, selectEmits, selectProps, useGlobalSize } from "element-plus";
-import { isArray, isBoolean, isEqual, isNil, isNull, isNumber, isObject, isString } from "lodash-unified";
-import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
+import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import { FaSelectOption } from "../../select";
-import type { VNode } from "vue";
+import type { ComponentObjectPropsOptions } from "vue";
 import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "../../select";
 import type { SelectComponentProps } from "../../select/src/select";
 import type { PagedInput, PagedResult } from "../../table";
@@ -60,7 +58,7 @@ export const faSelectPageProps = {
 	/** @description 配置选项 */
 	props: {
 		type: definePropType<SelectComponentProps>(Object),
-		default: (): Partial<SelectComponentProps> => ({
+		default: () => ({
 			label: "label",
 			hide: "hide",
 			disabled: "disabled",
@@ -70,24 +68,28 @@ export const faSelectPageProps = {
 	/** @description 请求api */
 	requestApi: {
 		type: definePropType<(params?: PagedInput) => Promise<PagedResult<ElSelectorOutput>>>(Function),
-		required: true as const,
+		required: true,
 	},
 	/** 初始化参数 */
 	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
-};
+} satisfies ComponentObjectPropsOptions;
 
 /** FaSelectPage 的运行时 Emits 定义。 */
 export const faSelectPageEmits = {
 	...selectEmits,
 	/** @description v-model 回调 */
-	"update:modelValue": (value: ElSelectorModelValue): boolean =>
-		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNil(value),
+	"update:modelValue": (value: ElSelectorModelValue) =>
+		typeof value === "string" ||
+		typeof value === "number" ||
+		typeof value === "boolean" ||
+		(typeof value === "object" && value !== null) ||
+		value == null,
 	/** @description 选中数据改变 */
-	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
+	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue) => true,
 	/** @description v-model:label 回调 */
-	"update:label": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
+	"update:label": (value: string | string[] | null) => typeof value === "string" || Array.isArray(value) || value === null,
 	/** @description 数据改变 */
-	dataChangeCallBack: (data: ElSelectorOutput[]): boolean => isArray(data),
+	dataChange: (data: ElSelectorOutput[]) => Array.isArray(data),
 };
 
 /** FaSelectPage 的插槽参数。 */
@@ -116,8 +118,10 @@ export default defineComponent({
 	emits: faSelectPageEmits,
 	slots: makeSlots<FaSelectPageSlots>(),
 	setup(props, { slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit, { passive: true });
-		const _globalSize = useGlobalSize();
+		const selectedLabel = useModel(props, "label");
+
+		const globalSize = useGlobalSize();
+		const selectRef = shallowRef<InstanceType<typeof ElSelect> | null>(null);
 
 		const state = reactive({
 			value: withDefineType<ElSelectorModelValue>(),
@@ -138,12 +142,11 @@ export default defineComponent({
 			defaultSelectorData: withDefineType<ElSelectorOutput | undefined>(),
 		});
 
-		const selectRef = ref<InstanceType<typeof ElSelect>>();
 		let requestVersion = 0;
 
 		const handleData = (data: ElSelectorOutput[]): ElSelectorOutput[] => {
 			return data
-				.map((item): ElSelectorOutput => {
+				.map((item) => {
 					const value: unknown = item[props.valueKey];
 					const label: unknown = typeof props.props.label === "function" ? props.props.label(item) : item[props.props.label ?? "label"];
 					const hide: unknown = typeof props.props.hide === "function" ? props.props.hide(item) : item[props.props.hide ?? "hide"];
@@ -167,7 +170,7 @@ export default defineComponent({
 				.filter((item) => item.hide !== true);
 		};
 
-		const loadData = async (pageIndex?: number): Promise<void> => {
+		const loadData = async (pageIndex?: number) => {
 			const currentRequestVersion = ++requestVersion;
 			state.loading = true;
 			state.pageIndex = pageIndex ?? state.pageIndex;
@@ -184,7 +187,7 @@ export default defineComponent({
 				state.echo = false;
 				state.totalRows = resData.totalRows ?? 0;
 				state.selectorData = handleData(resData.rows ?? []);
-				emit("dataChangeCallBack", state.selectorData);
+				emit("dataChange", state.selectorData);
 			} catch (error) {
 				if (currentRequestVersion !== requestVersion) return;
 				state.pageIndex = 1;
@@ -203,12 +206,12 @@ export default defineComponent({
 			},
 		});
 
-		const handleModelValueUpdate = (value: ElSelectorModelValue): void => {
+		const handleModelValueUpdate = (value: ElSelectorModelValue) => {
 			state.value = value;
 			emit("update:modelValue", value);
 		};
 
-		const handleVisibleChange = async (visible: boolean): Promise<void> => {
+		const handleVisibleChange = async (visible: boolean) => {
 			if (visible) {
 				if (state.debut) {
 					// 首次出现
@@ -222,21 +225,52 @@ export default defineComponent({
 					}
 				}
 			}
+			// eslint-disable-next-line vue/custom-event-name-casing -- Element Plus 的公开事件名为 visible-change，需要保持原始名称透传。
 			emit("visible-change", visible);
+		};
+
+		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
+			data.flatMap((item) => [item, ...flattenOptions(item.children ?? [])]);
+
+		const handleChange = (value?: ElSelectorModelValue) => {
+			const selectorData = flattenOptions([
+				...state.selectedList,
+				...(state.defaultSelectorData ? [state.defaultSelectorData] : []),
+				...state.selectorData,
+			]);
+			if (props.multiple) {
+				const valueList = Array.isArray(value) ? value : [];
+				if (valueList.length === 0) {
+					emit("change", null, null);
+					return;
+				}
+				const dataList = valueList
+					.map((item) => selectorData.find((option) => option.value !== undefined && isEqual(option.value, item)))
+					.filter((item) => item !== undefined);
+				emit("change", dataList, value);
+				return;
+			}
+
+			if (value == null || Array.isArray(value)) {
+				emit("change", null, null);
+				return;
+			}
+			const data = selectorData.find((item) => item.value !== undefined && isEqual(item.value, value));
+			emit("change", data ?? null, value);
 		};
 
 		watch(
 			() => props.modelValue,
 			(newValue) => {
-				if (state.echo && !isNil(newValue)) {
-					const hasLabel = !isNil(props.label);
+				if (state.echo && newValue != null) {
+					const hasLabel = props.label != null;
 					// 判断是否为多选
 					if (props.multiple) {
 						if (!Array.isArray(newValue)) {
 							console.error("[Fast:FaSelectPage]", "当启用 multiple 时，传入的 modelValue 必须是 Array。");
 							return;
 						}
-						if (hasLabel && !isArray(props.label)) {
+						if (hasLabel && !Array.isArray(props.label)) {
 							console.error("[Fast:FaSelectPage]", "当启用 multiple 时，传入的 modelValue:label 必须是 Array。");
 							return;
 						}
@@ -264,7 +298,7 @@ export default defineComponent({
 							console.error("[Fast:FaSelectPage]", "当禁用 multiple 时，传入的 modelValue 不能是 Array。");
 							return;
 						}
-						if (hasLabel && isArray(props.label)) {
+						if (hasLabel && Array.isArray(props.label)) {
 							console.error("[Fast:FaSelectPage]", "当禁用 multiple 时，传入的 modelValue:label 不能是 Array。");
 							return;
 						}
@@ -280,36 +314,6 @@ export default defineComponent({
 				immediate: true,
 			}
 		);
-
-		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
-			data.flatMap((item) => [item, ...flattenOptions(item.children ?? [])]);
-
-		const handleChange = (value?: ElSelectorModelValue): void => {
-			const selectorData = flattenOptions([
-				...state.selectedList,
-				...(state.defaultSelectorData ? [state.defaultSelectorData] : []),
-				...state.selectorData,
-			]);
-			if (props.multiple) {
-				const valueList = Array.isArray(value) ? value : [];
-				if (valueList.length === 0) {
-					emit("change", null, null);
-					return;
-				}
-				const dataList = valueList
-					.map((item) => selectorData.find((option) => option.value !== undefined && isEqual(option.value, item)))
-					.filter((item): item is ElSelectorOutput => item !== undefined);
-				emit("change", dataList, value);
-				return;
-			}
-
-			if (isNil(value) || Array.isArray(value)) {
-				emit("change", null, null);
-				return;
-			}
-			const data = selectorData.find((item) => item.value !== undefined && isEqual(item.value, value));
-			emit("change", data ?? null, value);
-		};
 
 		watch(
 			[() => state.value, () => state.selectorData],
@@ -329,7 +333,7 @@ export default defineComponent({
 
 					state.selectedList = value
 						.map((item) => selectorData.find((option) => option.value !== undefined && isEqual(option.value, item)))
-						.filter((item): item is ElSelectorOutput => item !== undefined);
+						.filter((item) => item !== undefined);
 					selectedLabel.value = value.map((item, index) => {
 						const data = state.selectedList.find((option) => option.value !== undefined && isEqual(option.value, item));
 
@@ -338,7 +342,7 @@ export default defineComponent({
 					return;
 				}
 
-				if (isNil(value) || Array.isArray(value)) {
+				if (value == null || Array.isArray(value)) {
 					state.selectedList = [];
 					selectedLabel.value = null;
 					return;
@@ -355,26 +359,24 @@ export default defineComponent({
 			}
 		);
 
-		onMounted(() => {
-			watch(
-				() => props.initParam,
-				(newValue, oldValue) => {
-					if (!isEqual(newValue, oldValue)) {
-						state.nextRefresh = true;
-						if (!isNil(state.value)) {
-							handleModelValueUpdate(props.multiple ? [] : undefined);
-						}
+		watch(
+			() => props.initParam,
+			(newValue, oldValue) => {
+				if (!isEqual(newValue, oldValue)) {
+					state.nextRefresh = true;
+					if (state.value != null) {
+						handleModelValueUpdate(props.multiple ? [] : undefined);
 					}
 				}
-			);
-		});
+			}
+		);
 
 		const elSelectProps = useProps(props, selectProps, ["modelValue", "popperClass", "loading", "props"]);
 		const elSelectEmits = useEmits(selectEmits, emit, ["update:modelValue", "change", "visible-change"]);
 		const elPopperClass = computed(() => [
-			`fa-select-page-dropdown fa-select-page-dropdown-${_globalSize.value}`,
+			`fa-select-page-dropdown fa-select-page-dropdown-${globalSize.value}`,
 			props.popperClass,
-			props.moreDetail && `fa-select-dropdown__more-detail fa-select-dropdown__more-detail-${_globalSize.value}`,
+			props.moreDetail && `fa-select-dropdown__more-detail fa-select-dropdown__more-detail-${globalSize.value}`,
 		]);
 
 		useRender(() => (
@@ -392,11 +394,11 @@ export default defineComponent({
 				onVisible-change={handleVisibleChange}
 			>
 				{{
-					default: (): VNode[] =>
+					default: () =>
 						state.selectorData.map((item) => (
 							<FaSelectOption vSlots={{ default: slots.default }} data={item} moreDetail={props.moreDetail} />
 						)),
-					header: (): VNode[] => [
+					header: () => [
 						<Fragment>
 							{state.defaultSelectorData?.value !== undefined && (
 								<ElOption
@@ -415,22 +417,10 @@ export default defineComponent({
 									clearable={Boolean(state.searchValue)}
 									placeholder="请输入关键字搜索"
 									vModel_trim={state.searchValue}
-									onKeyup={(event: KeyboardEvent) => {
-										if (event.key === "Enter") {
-											loadData(1);
-										}
-									}}
+									onKeyup={(event: KeyboardEvent) => event.key === "Enter" && loadData(1)}
 								>
 									{{
-										append: () => (
-											<ElButton
-												loading={state.loading}
-												icon={Search}
-												onClick={() => {
-													loadData(1);
-												}}
-											/>
-										),
+										append: () => <ElButton loading={state.loading} icon={Search} onClick={() => loadData(1)} />,
 									}}
 								</ElInput>
 							}
@@ -452,13 +442,13 @@ export default defineComponent({
 							{slots.footer?.()}
 						</Fragment>
 					),
-					...(slots.prefix && { prefix: (): VNode[] => slots.prefix?.() ?? [] }),
-					...(slots.empty && { empty: (): VNode[] => slots.empty?.() ?? [] }),
-					...(slots.tag && { tag: (): VNode[] => slots.tag?.() ?? [] }),
-					...(slots.loading && { loading: (): VNode[] => slots.loading?.() ?? [] }),
+					...(slots.prefix && { prefix: () => slots.prefix?.() ?? [] }),
+					...(slots.empty && { empty: () => slots.empty?.() ?? [] }),
+					...(slots.tag && { tag: () => slots.tag?.() ?? [] }),
+					...(slots.loading && { loading: () => slots.loading?.() ?? [] }),
 					...(props.multiple
 						? {
-								label: ({ label: _label, value }: { label: string; value: string | number | boolean | object }): VNode[] => {
+								label: ({ label: _label, value }: { label: string; value: string | number | boolean | object }) => {
 									const selectedData = state.selectedList.find((f) => f.value === value);
 									if (slots.label) {
 										return slots.label({ label: selectedData?.label ?? _label, value: selectedData?.value ?? value });
@@ -467,7 +457,7 @@ export default defineComponent({
 								},
 							}
 						: slots.label && {
-								label: ({ label, value }: { label: string; value: string | number | boolean | object }): VNode[] =>
+								label: ({ label, value }: { label: string; value: string | number | boolean | object }) =>
 									slots.label?.({ label, value }) ?? [],
 							}),
 				}}

@@ -9,7 +9,9 @@ interface TreeExpose {
 const treeRef = useTemplateRef<TreeExpose>("treeRef");
 let version = 0;
 const requestApi = async (): Promise<Record<string, unknown>[]> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 400));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 400);
+	});
 	version++;
 	return [
 		{ value: "components", label: `组件（刷新 ${version}）`, children: [{ value: "table", label: "表格" }] },

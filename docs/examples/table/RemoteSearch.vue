@@ -20,11 +20,14 @@ const columns: FaTableColumnCtx[] = [
 ];
 
 const requestApi = async (input?: PagedInput): Promise<PagedResult<Record<string, unknown>>> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 300));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 300);
+	});
 	let result = [...allRows];
-	for (const key of ["name", "owner", "status"] as const) {
-		const value = input?.[key];
+	for (const key of ["name", "owner", "status"] satisfies Array<keyof (typeof allRows)[number]>) {
+		const value: unknown = input?.[key];
 		if (value === undefined || value === null || value === "") continue;
+		if (typeof value !== "string" && typeof value !== "number" && typeof value !== "boolean") continue;
 		result = result.filter((row) => String(row[key]).includes(String(value)));
 	}
 	const pageIndex = input?.pageIndex ?? 1;

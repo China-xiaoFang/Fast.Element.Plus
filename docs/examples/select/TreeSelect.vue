@@ -26,7 +26,7 @@ const data = [
 		],
 	},
 ];
-const requestApi = async () => data;
+const requestApi = (): Promise<typeof data> => Promise.resolve(data);
 </script>
 
 <template>

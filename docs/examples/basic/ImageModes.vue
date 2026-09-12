@@ -1,9 +1,7 @@
 <script setup lang="ts">
-const image =
-	"data:image/svg+xml;charset=UTF-8," +
-	encodeURIComponent(
-		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><defs><linearGradient id="g"><stop stop-color="#409eff"/><stop offset="1" stop-color="#36cfc9"/></linearGradient></defs><rect width="640" height="360" fill="url(#g)"/><circle cx="500" cy="80" r="45" fill="#fff" opacity=".65"/><text x="48" y="205" font-size="54" fill="white">Fast.Element.Plus</text></svg>'
-	);
+const image = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+	'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><defs><linearGradient id="g"><stop stop-color="#409eff"/><stop offset="1" stop-color="#36cfc9"/></linearGradient></defs><rect width="640" height="360" fill="url(#g)"/><circle cx="500" cy="80" r="45" fill="#fff" opacity=".65"/><text x="48" y="205" font-size="54" fill="white">Fast.Element.Plus</text></svg>'
+)}`;
 </script>
 
 <template>

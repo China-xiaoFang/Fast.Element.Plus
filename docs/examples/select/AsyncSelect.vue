@@ -11,7 +11,9 @@ const value = ref<number | null>(null);
 let loadCount = 0;
 
 const requestApi = async (): Promise<Record<string, unknown>[]> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 450));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 450);
+	});
 	loadCount++;
 	return [
 		{ value: 1, label: `研发中心（第 ${loadCount} 次加载）` },

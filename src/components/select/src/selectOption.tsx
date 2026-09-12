@@ -1,6 +1,5 @@
 import { Fragment, computed, defineComponent, h, reactive, resolveComponent } from "vue";
 import { ElOption, ElOptionGroup } from "element-plus";
-import { isUndefined } from "lodash-unified";
 import { definePropType, makeSlots, useRender } from "../../../utils";
 import type { ElSelectorOutput, ElSelectorValue } from "./select.type";
 
@@ -37,10 +36,10 @@ export default defineComponent({
 	}>(),
 	setup(props, { slots }) {
 		const state = reactive({
-			value: computed<ElSelectorValue>(() => (isUndefined(props.value) ? props.data.value : props.value) ?? ""),
-			label: computed(() => (isUndefined(props.label) ? props.data.label : props.label)),
-			disabled: computed(() => (isUndefined(props.disabled) ? props.data.disabled : props.disabled) ?? false),
-			children: computed(() => (isUndefined(props.children) ? props.data.children : props.children) ?? []),
+			value: computed<ElSelectorValue>(() => props.value ?? props.data.value ?? ""),
+			label: computed(() => props.label ?? props.data.label),
+			disabled: computed(() => props.disabled ?? props.data.disabled ?? false),
+			children: computed(() => props.children ?? props.data.children ?? []),
 		});
 
 		useRender(() => (

@@ -1,4 +1,4 @@
-import { Fragment, computed, defineComponent, onActivated, onMounted, ref, watch, watchEffect } from "vue";
+import { Fragment, computed, defineComponent, onActivated, onMounted, shallowRef, watch, watchEffect } from "vue";
 import { Eleme, More, Refresh, Search, Setting } from "@element-plus/icons-vue";
 import {
 	ElButton,
@@ -15,13 +15,14 @@ import {
 	useSizeProp,
 } from "element-plus";
 import { NotData } from "@fast-element-plus/icons-vue";
-import { isArray, isBoolean, isFunction, isNil, isNull, isNumber, isObject, isString, omit, pick } from "lodash-unified";
 import {
 	createDateRangeShortcuts,
 	createOneMonthRangeFromToday,
 	debounce,
 	definePropType,
 	makeSlots,
+	omit,
+	pick,
 	randomString,
 	useExpose,
 	useProps,
@@ -36,7 +37,7 @@ import FaTableSearchForm from "./tableSearchForm";
 import { useTable } from "./useTable";
 import type { TableColumnCtx, TableProps } from "element-plus";
 import type { CSSProperties, PropType } from "vue";
-import type { FaLayoutGridBreakPoint } from "../../layoutGrid";
+import type { FaLayoutGridBreakpoint } from "../../layoutGrid";
 import type { PagedInput, PagedResult, PagedSortInput } from "../src/page.type";
 import type { DefaultRow } from "./table.state";
 import type { FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from "./table.type";
@@ -58,7 +59,7 @@ export const tableProps = {
 	 */
 	data: {
 		type: Array as PropType<DefaultRow[]>,
-		default: (): DefaultRow[] => [],
+		default: () => [],
 	},
 	/**
 	 * @description size of Table
@@ -200,7 +201,7 @@ export const tableProps = {
 	 */
 	treeProps: {
 		type: Object as PropType<TreeProps>,
-		default: (): TreeProps => ({
+		default: () => ({
 			hasChildren: "hasChildren",
 			children: "children",
 			checkStrictly: false,
@@ -216,7 +217,7 @@ export const tableProps = {
 	load: Function as PropType<TableProps<DefaultRow>["load"]>,
 	style: {
 		type: Object as PropType<CSSProperties>,
-		default: (): CSSProperties => ({}),
+		default: () => ({}),
 	},
 	className: {
 		type: String,
@@ -281,7 +282,7 @@ export const faTableProps = {
 	/** @description 组件封装，原生的已经失效 method that returns rowspan and colspan */
 	spanMethod: {
 		type: Function as PropType<TableProps<DefaultRow>["spanMethod"]>,
-		validator: (): boolean => {
+		validator: () => {
 			console.warn("[Fast:FaTable]", "'spanMethod' 属性，组件已经封装，外部使用会失效。");
 			return false;
 		},
@@ -289,12 +290,12 @@ export const faTableProps = {
 	/** @description 表格Key */
 	tableKey: {
 		type: String,
-		default: (): string => randomString(8),
+		default: () => randomString(8),
 	},
 	/** @description 表格数据 */
 	data: {
 		type: definePropType<DefaultRow[]>(Array),
-		default: (): DefaultRow[] => [],
+		default: () => [],
 	},
 	/** @description 请求api */
 	requestApi: {
@@ -309,7 +310,7 @@ export const faTableProps = {
 	/** @description 列配置 */
 	columns: {
 		type: definePropType<FaTableColumnCtx[] | false>([Array, Boolean]),
-		default: (): FaTableColumnCtx[] | false => false,
+		default: () => false,
 	},
 	/** @description 表格列改变 */
 	columnsChange: {
@@ -317,8 +318,8 @@ export const faTableProps = {
 	},
 	/** @description 搜索表单 Grid布局列配置 */
 	searchFormCols: {
-		type: definePropType<string | number | Record<FaLayoutGridBreakPoint, number>>([String, Number, Object]),
-		default: (): string | number | Record<FaLayoutGridBreakPoint, number> => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
+		type: definePropType<string | number | Record<FaLayoutGridBreakpoint, number>>([String, Number, Object]),
+		default: () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
 	},
 	/** @description 折叠搜素 */
 	collapsedSearch: {
@@ -390,7 +391,7 @@ export const faTableProps = {
 	/** @description 配置选项 */
 	props: {
 		type: definePropType<{ span?: string; children?: string }>(Object),
-		default: (): { span?: string; children?: string } => ({
+		default: () => ({
 			span: undefined,
 			children: "children",
 		}),
@@ -410,67 +411,102 @@ export const faTableProps = {
 /** FaTable 的运行时 Emits 定义。 */
 export const faTableEmits = {
 	/** @description 当用户手动勾选数据行的 Checkbox 时触发的事件 */
-	select: (selection: DefaultRow[], row: DefaultRow): boolean => isArray(selection) && isObject(row),
+	select: (selection: DefaultRow[], row: DefaultRow) => Array.isArray(selection) && typeof row === "object" && row !== null,
 	/** @description 当用户手动勾选全选 Checkbox 时触发的事件 */
-	selectAll: (selection: DefaultRow[]): boolean => isArray(selection),
+	selectAll: (selection: DefaultRow[]) => Array.isArray(selection),
 	/** @description 当选择项发生变化时会触发该事件 */
-	selectionChange: (newSelection: DefaultRow[]): boolean => isArray(newSelection),
+	selectionChange: (newSelection: DefaultRow[]) => Array.isArray(newSelection),
 	/** @description 当单元格 hover 进入时会触发该事件 */
-	cellMouseEnter: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
-		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	cellMouseEnter: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+		typeof row === "object" &&
+		row !== null &&
+		typeof column === "object" &&
+		column !== null &&
+		cell instanceof HTMLTableCellElement &&
+		event instanceof Event,
 	/** @description 当单元格 hover 退出时会触发该事件 */
-	cellMouseLeave: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
-		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	cellMouseLeave: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+		typeof row === "object" &&
+		row !== null &&
+		typeof column === "object" &&
+		column !== null &&
+		cell instanceof HTMLTableCellElement &&
+		event instanceof Event,
 	/** @description 当某个单元格被点击时会触发该事件 */
-	cellClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
-		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	cellClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+		typeof row === "object" &&
+		row !== null &&
+		typeof column === "object" &&
+		column !== null &&
+		cell instanceof HTMLTableCellElement &&
+		event instanceof Event,
 	/** @description 当某个单元格被双击击时会触发该事件 */
-	cellDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
-		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	cellDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+		typeof row === "object" &&
+		row !== null &&
+		typeof column === "object" &&
+		column !== null &&
+		cell instanceof HTMLTableCellElement &&
+		event instanceof Event,
 	/** @description 当某个单元格被鼠标右键点击时会触发该事件 */
-	cellContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event): boolean =>
-		isObject(row) && isObject(column) && cell instanceof HTMLTableCellElement && event instanceof Event,
+	cellContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
+		typeof row === "object" &&
+		row !== null &&
+		typeof column === "object" &&
+		column !== null &&
+		cell instanceof HTMLTableCellElement &&
+		event instanceof Event,
 	/** @description 当某一行被点击时会触发该事件 */
-	rowClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event): boolean =>
-		isObject(row) && isObject(column) && event instanceof Event,
+	rowClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event) =>
+		typeof row === "object" && row !== null && typeof column === "object" && column !== null && event instanceof Event,
 	/** @description 当某一行被鼠标右键点击时会触发该事件 */
-	rowContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event): boolean =>
-		isObject(row) && isObject(column) && event instanceof Event,
+	rowContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event) =>
+		typeof row === "object" && row !== null && typeof column === "object" && column !== null && event instanceof Event,
 	/** @description 当某一行被双击时会触发该事件 */
-	rowDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event): boolean =>
-		isObject(row) && isObject(column) && event instanceof Event,
+	rowDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event) =>
+		typeof row === "object" && row !== null && typeof column === "object" && column !== null && event instanceof Event,
 	/** @description 当某一列的表头被点击时会触发该事件 */
-	headerClick: (column: TableColumnCtx<DefaultRow>, event: Event): boolean => isObject(column) && event instanceof Event,
+	headerClick: (column: TableColumnCtx<DefaultRow>, event: Event) => typeof column === "object" && column !== null && event instanceof Event,
 	/** @description 当某一列的表头被鼠标右键点击时触发该事件 */
-	headerContextmenu: (column: TableColumnCtx<DefaultRow>, event: Event): boolean => isObject(column) && event instanceof Event,
+	headerContextmenu: (column: TableColumnCtx<DefaultRow>, event: Event) => typeof column === "object" && column !== null && event instanceof Event,
 	/** @description 当表格的排序条件发生变化的时候会触发该事件 */
-	sortChange: (data: { column: TableColumnCtx<DefaultRow>; prop: string; order: "" | "ascending" | "descending" }): boolean => isObject(data),
+	sortChange: (data: { column: TableColumnCtx<DefaultRow>; prop: string; order: "" | "ascending" | "descending" }) =>
+		typeof data === "object" && data !== null,
 	/** @description column 的 key， 如果需要使用 filter-change 事件，则需要此属性标识是哪个 column 的筛选条件 */
-	filterChange: (newFilters: Record<string, string[]>): boolean => isObject(newFilters),
+	filterChange: (newFilters: Record<string, string[]>) => typeof newFilters === "object" && newFilters !== null,
 	/** @description 当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性 */
-	currentChange: (currentRow: DefaultRow, oldCurrentRow: DefaultRow | null): boolean =>
-		isObject(currentRow) && (isNull(oldCurrentRow) || isObject(oldCurrentRow)),
+	currentChange: (currentRow: DefaultRow, oldCurrentRow: DefaultRow | null) =>
+		typeof currentRow === "object" &&
+		currentRow !== null &&
+		(oldCurrentRow === null || (typeof oldCurrentRow === "object" && oldCurrentRow !== null)),
 	/** @description 当拖动表头改变了列的宽度的时候会触发该事件 */
-	headerDragend: (newWidth: number, oldWidth: number, column: TableColumnCtx<DefaultRow>, event: MouseEvent): boolean =>
-		isNumber(newWidth) && isNumber(oldWidth) && isObject(column) && event instanceof MouseEvent,
+	headerDragend: (newWidth: number, oldWidth: number, column: TableColumnCtx<DefaultRow>, event: MouseEvent) =>
+		typeof newWidth === "number" && typeof oldWidth === "number" && typeof column === "object" && column !== null && event instanceof MouseEvent,
 	/** @description 当用户对某一行展开或者关闭的时候会触发该事件（展开行时，回调的第二个参数为 expandedRows；树形表格时第二参数为 expanded） */
-	expandChange: (row: DefaultRow, expanded: boolean | DefaultRow[]): boolean => isObject(row) && (isBoolean(expanded) || isArray(expanded)),
+	expandChange: (row: DefaultRow, expanded: boolean | DefaultRow[]) =>
+		typeof row === "object" && row !== null && (typeof expanded === "boolean" || Array.isArray(expanded)),
 	/** @description 表格滚动时触发 */
-	scroll: (data: { scrollLeft: number; scrollTop: number }): boolean => isObject(data),
+	scroll: (data: { scrollLeft: number; scrollTop: number }) => typeof data === "object" && data !== null,
 
 	/** @description 表格刷新事件 */
-	refresh: (params: PagedInput): boolean => isObject(params),
+	refresh: (params: PagedInput) => typeof params === "object" && params !== null,
 	/** @description 表格重置事件 */
-	reset: (params: PagedInput): boolean => isObject(params),
+	reset: (params: PagedInput) => typeof params === "object" && params !== null,
 	/** @description 分页页码改变事件 */
-	sizeChange: (pageSize: number): boolean => isNumber(pageSize),
+	sizeChange: (pageSize: number) => typeof pageSize === "number",
 	/** @description 分页改变事件 */
-	paginationChange: (pageIndex: number, pageSize: number): boolean => isNumber(pageIndex) && isNumber(pageSize),
+	paginationChange: (pageIndex: number, pageSize: number) => typeof pageIndex === "number" && typeof pageSize === "number",
 	/** @description 自定义单元格点击事件 */
 	customCellClick: (
 		emitName: string,
 		{ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult
-	): boolean => (isNil(emitName) || isString(emitName)) && isObject(row) && isObject(column) && isNumber($index),
+	) =>
+		(emitName == null || typeof emitName === "string") &&
+		typeof row === "object" &&
+		row !== null &&
+		typeof column === "object" &&
+		column !== null &&
+		typeof $index === "number",
 };
 
 /** FaTable 的插槽参数。 */
@@ -527,8 +563,10 @@ export default defineComponent({
 	emits: faTableEmits,
 	slots: makeSlots<FaTableSlots>(),
 	setup(props, { slots, emit, expose }) {
+		const columnSettingRef = shallowRef<InstanceType<typeof FaTableColumnsSettingDialog> | null>(null);
+
 		const {
-			_globalSize,
+			globalSize,
 			state,
 			elementRef,
 			tableRef,
@@ -543,20 +581,20 @@ export default defineComponent({
 			doLoading,
 			handleCustomCellClick,
 		} = useTable(props, slots, emit);
+
 		const notifyColumnsChange = debounce(() => props.columnsChange?.(state.orgColumns), 500);
 		const resizeTableColumns = debounce(handleTableColumnAutoWidth, 100);
 
-		const columnSettingRef = ref<InstanceType<typeof FaTableColumnsSettingDialog>>();
 		let lastRowIndex = 0;
 		const getInitParam = (): Record<string, unknown> => {
 			return typeof props.initParam === "object" && props.initParam !== null ? props.initParam : {};
 		};
-		const getRowKey = (row: DefaultRow): string | number | undefined => {
-			const value: unknown = isFunction(props.rowKey) ? props.rowKey(row) : tableUtil.handleRowAccordingToProp(row, props.rowKey);
+		const getRowKey = (row: DefaultRow) => {
+			const value: unknown = typeof props.rowKey === "function" ? props.rowKey(row) : tableUtil.handleRowAccordingToProp(row, props.rowKey);
 			return typeof value === "string" || typeof value === "number" ? value : undefined;
 		};
 
-		const indexMethod = (index: number): number => {
+		const indexMethod = (index: number) => {
 			if (index === 0) {
 				lastRowIndex = 0;
 			}
@@ -572,7 +610,7 @@ export default defineComponent({
 			return index + (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize + 1;
 		};
 
-		const handleSelect = (selection: DefaultRow[], row: DefaultRow): void => {
+		const handleSelect = (selection: DefaultRow[], row: DefaultRow) => {
 			// 判断是否开启了单选
 			if (props.single) {
 				tableRef.value?.clearSelection();
@@ -583,7 +621,7 @@ export default defineComponent({
 			emit("select", selection, row);
 		};
 
-		const handleSelectAll = (selection: DefaultRow[]): void => {
+		const handleSelectAll = (selection: DefaultRow[]) => {
 			if (props.single) {
 				// 判断是否已经选中数据
 				if (state.selected) {
@@ -600,7 +638,7 @@ export default defineComponent({
 			emit("selectAll", selection);
 		};
 
-		const handleSelectionChange = (newSelection: DefaultRow[]): void => {
+		const handleSelectionChange = (newSelection: DefaultRow[]) => {
 			newSelection.length === 0 ? (state.selected = false) : (state.selected = true);
 			// 判断是否为单选
 			if (props.single && newSelection.length > 0) {
@@ -615,7 +653,7 @@ export default defineComponent({
 			emit("selectionChange", state.selectedList);
 		};
 
-		const toggleRowIndeterminateSelection = (row: DefaultRow, selected?: boolean): void => {
+		const toggleRowIndeterminateSelection = (row: DefaultRow, selected?: boolean) => {
 			const rowKey = getRowKey(row);
 			if (rowKey === undefined) return;
 			const curRow = state.tableData.find((item) => getRowKey(item) === rowKey);
@@ -648,7 +686,7 @@ export default defineComponent({
 			column: TableColumnCtx<DefaultRow> & { multiOrder?: "" | "ascending" | "descending" };
 			prop: string | null;
 			order: "" | "ascending" | "descending" | null;
-		}): void => {
+		}) => {
 			const normalizedProp = prop ?? column.property;
 			if (!column.multiOrder) {
 				column.multiOrder = "descending";
@@ -660,7 +698,7 @@ export default defineComponent({
 			// 排序集合非空判断
 			const initSortList: unknown = getInitParam()["sortList"];
 			state.searchParam.sortList = [
-				...(isArray(initSortList) ? (initSortList as PagedSortInput[]) : []),
+				...(Array.isArray(initSortList) ? (initSortList as PagedSortInput[]) : []),
 				...(state.searchParam.sortList ?? []),
 			].filter((item, index, list) => list.findIndex((candidate) => candidate.enField === item.enField) === index);
 
@@ -689,7 +727,7 @@ export default defineComponent({
 			tableSearch();
 		};
 
-		const handleCurrentChange = (currentRow: DefaultRow | null, oldCurrentRow: DefaultRow | null): void => {
+		const handleCurrentChange = (currentRow: DefaultRow | null, oldCurrentRow: DefaultRow | null) => {
 			if (!currentRow) {
 				// 这里为空的时候，会导致 Header 中的不确定状态还是true的状态
 				// tableRef.value.clearSelection();
@@ -715,7 +753,7 @@ export default defineComponent({
 			column: TableColumnCtx<DefaultRow>;
 			rowIndex: number;
 			columnIndex: number;
-		}): string => {
+		}) => {
 			let localCellClassName = "";
 			// 判断是否为选择列
 			if (column.type === "selection") {
@@ -736,9 +774,8 @@ export default defineComponent({
 				}
 			}
 			if (props.cellClassName) {
-				const cellClassName = isString(props.cellClassName)
-					? props.cellClassName
-					: props.cellClassName({ row, column, rowIndex, columnIndex });
+				const cellClassName =
+					typeof props.cellClassName === "string" ? props.cellClassName : props.cellClassName({ row, column, rowIndex, columnIndex });
 				if (!cellClassName) {
 					return localCellClassName;
 				}
@@ -762,11 +799,11 @@ export default defineComponent({
 			column: TableColumnCtx<DefaultRow> & { multiOrder?: "" | "ascending" | "descending" };
 			rowIndex: number;
 			columnIndex: number;
-		}): string => {
+		}) => {
 			// TODO：不晓得这里有无问题，EL 更新了还未测试
 			column.order = column.multiOrder === "ascending" || column.multiOrder === "descending" ? column.multiOrder : null;
 			if (props.headerCellClassName) {
-				if (isFunction(props.headerCellClassName)) {
+				if (typeof props.headerCellClassName === "function") {
 					return props.headerCellClassName({ row, column, rowIndex, columnIndex });
 				} else {
 					return props.headerCellClassName;
@@ -783,7 +820,7 @@ export default defineComponent({
 			column: TableColumnCtx<DefaultRow>;
 			rowIndex: number;
 			columnIndex: number;
-		}): number[] | { rowspan: number; colspan: number } => {
+		}) => {
 			/** @description 原生的 span-method 会失效 */
 			const property = column.property as string | null | undefined;
 			const columnKey = column.columnKey as string | null | undefined;
@@ -799,7 +836,7 @@ export default defineComponent({
 			return { rowspan: 1, colspan: 1 };
 		};
 
-		const handleHeaderDragend = (newWidth: number, oldWidth: number, column: TableColumnCtx<DefaultRow>, event: MouseEvent): void => {
+		const handleHeaderDragend = (newWidth: number, oldWidth: number, column: TableColumnCtx<DefaultRow>, event: MouseEvent) => {
 			state.orgColumns.forEach((f) => {
 				if (column.property === f.prop) {
 					f.width = newWidth;
@@ -810,10 +847,71 @@ export default defineComponent({
 			if (props.columnsChange) notifyColumnsChange();
 		};
 
-		const handleImagePreview = (url: string): void => {
+		const handleImagePreview = (url: string) => {
 			state.previewList = [url];
 			state.imagePreview = true;
 		};
+
+		const tableColumnOmitNames = ["multiOrder", "columnId", "order", "sortableField", "disabledSortable", "spanProp", "pureSearch", "search"];
+		const searchFormSlotNames = computed(() => [
+			...new Set(state.searchColumns.flatMap((column) => (typeof column.search?.slot === "string" ? [column.search.slot] : []))),
+		]);
+		const tableColumnSlotNames = computed(() => [
+			...new Set(state.tableColumns.flatMap((column) => [column.slot, column.headerSlot].filter((name) => typeof name === "string"))),
+		]);
+		const searchInputClearable = computed(() => {
+			const value = state.searchParam.searchValue;
+			return (value !== undefined && value !== "") || state.searchValueUpdate.length > 0;
+		});
+
+		watch(
+			() => props.columns,
+			() => {
+				loadTableColumns();
+			},
+			{ deep: true }
+		);
+
+		watch(
+			() => props.initParam,
+			() => {
+				// 如果初始化参数改变了，则需要改变对应的搜索参数
+				Object.entries(getInitParam()).forEach(([key, value]) => {
+					state.searchParam[key] = value;
+				});
+			},
+			{ deep: true }
+		);
+
+		watch(
+			() => props.data,
+			() => {
+				if (!props.requestApi && props.autoRefresh) {
+					return tableSearch();
+				}
+			},
+			{ deep: true }
+		);
+
+		watchEffect(() => {
+			const element = elementRef.value;
+			if (element) {
+				const observer = new ResizeObserver((entries) => {
+					for (const entry of entries) {
+						const { width, height } = entry.contentRect;
+						const widthChanged = state.tableWidth !== width;
+						state.tableWidth = width;
+						state.tableHeight = height;
+						if (widthChanged) resizeTableColumns();
+					}
+				});
+				observer.observe(element);
+
+				return () => {
+					observer.disconnect();
+				};
+			}
+		});
 
 		onMounted(async () => {
 			state.initParam = getInitParam();
@@ -823,55 +921,8 @@ export default defineComponent({
 				state.searchParam[key] = value;
 			});
 			await tableSearch();
-
-			watch(
-				() => props.columns,
-				() => {
-					loadTableColumns();
-				},
-				{ deep: true, immediate: true }
-			);
-
-			watch(
-				() => props.initParam,
-				() => {
-					// 如果初始化参数改变了，则需要改变对应的搜索参数
-					Object.entries(getInitParam()).forEach(([key, value]) => {
-						state.searchParam[key] = value;
-					});
-				},
-				{ deep: true }
-			);
-
-			watch(
-				() => props.data,
-				() => {
-					if (!props.requestApi && props.autoRefresh) {
-						return tableSearch();
-					}
-				},
-				{ deep: true, immediate: true }
-			);
-
-			watchEffect(() => {
-				const element = elementRef.value;
-				if (element) {
-					const observer = new ResizeObserver((entries) => {
-						for (const entry of entries) {
-							const { width, height } = entry.contentRect;
-							const widthChanged = state.tableWidth !== width;
-							state.tableWidth = width;
-							state.tableHeight = height;
-							if (widthChanged) resizeTableColumns();
-						}
-					});
-					observer.observe(element);
-
-					return (): void => {
-						observer.disconnect();
-					};
-				}
-			});
+			loadTableColumns();
+			if (!props.requestApi && props.autoRefresh) await tableSearch();
 		});
 
 		onActivated(() => {
@@ -879,24 +930,12 @@ export default defineComponent({
 			handleTableColumnAutoWidth();
 		});
 
-		const tableColumnOmitNames = ["multiOrder", "columnId", "order", "sortableField", "disabledSortable", "spanProp", "pureSearch", "search"];
-		const searchFormSlotNames = computed(() => [
-			...new Set(state.searchColumns.flatMap((column) => (isString(column.search?.slot) ? [column.search.slot] : []))),
-		]);
-		const tableColumnSlotNames = computed(() => [
-			...new Set(state.tableColumns.flatMap((column) => [column.slot, column.headerSlot].filter((name): name is string => isString(name)))),
-		]);
-		const searchInputClearable = computed(() => {
-			const value = state.searchParam.searchValue;
-			return (value !== undefined && value !== "") || state.searchValueUpdate.length > 0;
-		});
-
 		const elTableProps = useProps(props, tableProps, ["data", "spanMethod", "headerCellClassName", "cellClassName"]);
 
 		useRender(() => (
 			<div
 				ref={elementRef}
-				class={["fa-table", `fa-table-${_globalSize.value}`, `fa-table__${props.tableKey}`, { fa__click__disabled: state.loading }]}
+				class={["fa-table", `fa-table-${globalSize.value}`, `fa-table__${props.tableKey}`, { fa__click__disabled: state.loading }]}
 				style={{
 					"--fa-table-width": state.tableWidth ? `${state.tableWidth}px` : "",
 					"--fa-table-height": state.tableHeight ? `${state.tableHeight}px` : "",
@@ -912,14 +951,12 @@ export default defineComponent({
 					reset={tableReset}
 				/>
 				{slots.topHeader && (
-					<div class="el-card fa-table__header">{slots.topHeader({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}</div>
+					<div class="el-card fa-table__header">{slots.topHeader({ search: tableSearch, ...getTableDefaultSlots(state) })}</div>
 				)}
 				<div class="el-card fa-table__main">
 					{props.headerCard && (
 						<div class="fa-table__main-header">
-							<div class="fa-table__main-header-left">
-								{slots.header?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
-							</div>
+							<div class="fa-table__main-header-left">{slots.header?.({ search: tableSearch, ...getTableDefaultSlots(state) })}</div>
 							<div class="fa-table__main-header-right">
 								{props.toolBtn && (
 									<Fragment>
@@ -999,7 +1036,7 @@ export default defineComponent({
 												}}
 											</ElDropdown>
 										)}
-										{slots.toolButton?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
+										{slots.toolButton?.({ search: tableSearch, ...getTableDefaultSlots(state) })}
 										{slots.toolButtonAdv && (
 											<ElDropdown title="高级操作" trigger="click">
 												{{
@@ -1008,7 +1045,7 @@ export default defineComponent({
 													),
 													dropdown: () => (
 														<ElDropdownMenu>
-															{slots.toolButtonAdv?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
+															{slots.toolButtonAdv?.({ search: tableSearch, ...getTableDefaultSlots(state) })}
 														</ElDropdownMenu>
 													),
 												}}
@@ -1134,7 +1171,7 @@ export default defineComponent({
 															row,
 															column,
 															$index,
-															...{ search: tableSearch },
+															search: tableSearch,
 															...getTableDefaultSlots(state),
 														})}
 													</div>
@@ -1190,9 +1227,7 @@ export default defineComponent({
 						}}
 					</ElTable>
 					<div class="fa-table__main-footer">
-						<div class="fa-table__main-footer__left">
-							{slots.footer?.({ ...{ search: tableSearch }, ...getTableDefaultSlots(state) })}
-						</div>
+						<div class="fa-table__main-footer__left">{slots.footer?.({ search: tableSearch, ...getTableDefaultSlots(state) })}</div>
 						{slots.pagination ? (
 							slots.pagination({
 								pageIndex: state.tablePagination.pageIndex,

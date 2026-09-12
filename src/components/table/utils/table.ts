@@ -1,4 +1,3 @@
-import { isArray, isFunction, isString } from "lodash-unified";
 import type { PagedSortInput } from "../src/page.type";
 import type { DefaultRow } from "../src/table.state";
 import type { FaTableColumnCtx, FaTableEnumColumnCtx, FaTableEnumColumnType } from "../src/table.type";
@@ -13,7 +12,7 @@ export const tableUtil = {
 	 */
 	formatValue(callValue: unknown): unknown {
 		// 如果当前值为数组,使用 / 拼接（根据需求自定义）
-		if (isArray(callValue)) return callValue.length ? callValue.join(` , `) : null;
+		if (Array.isArray(callValue)) return callValue.length ? callValue.join(` , `) : null;
 		return callValue;
 	},
 	/**
@@ -48,10 +47,7 @@ export const tableUtil = {
 	filterEnum(callValue: unknown, enumData: FaTableEnumColumnCtx[], fieldNames?: { label: string; value: string }, type?: "tag"): unknown {
 		const value = fieldNames?.value ?? "value";
 		const label = fieldNames?.label ?? "label";
-		let filterData: FaTableEnumColumnCtx | undefined;
-		if (isArray(enumData)) {
-			filterData = enumData.find((item) => item[value] === callValue);
-		}
+		const filterData = enumData.find((item) => item[value] === callValue);
 		if (type === "tag") {
 			return filterData?.type ?? "info";
 		}
@@ -103,9 +99,9 @@ export const tableUtil = {
 	 */
 	setEnumMap(columnEnum: FaTableEnumColumnType, prop: string, enumMap: Map<string, FaTableEnumColumnCtx[]>): void {
 		if (!columnEnum) return;
-		if (isFunction(columnEnum)) {
+		if (typeof columnEnum === "function") {
 			enumMap.set(prop, columnEnum());
-		} else if (isArray(columnEnum)) {
+		} else if (Array.isArray(columnEnum)) {
 			enumMap.set(prop, columnEnum);
 		}
 	},
@@ -123,11 +119,9 @@ export const tableUtil = {
 
 			// 给每一项 column 添加 show && filterEnum 默认属性
 			col.show ??= true;
-			// col.filterEnum = col.filterEnum ?? col.tag ?? false;
-
 			let enumKey = col.prop ?? col.search?.key;
 
-			if (col.enum && isString(col.enum)) {
+			if (col.enum && typeof col.enum === "string") {
 				enumKey = col.enum;
 			}
 

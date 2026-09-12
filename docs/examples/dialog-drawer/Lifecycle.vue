@@ -13,12 +13,16 @@ const append = (message: string): void => {
 };
 const waitOpen = async (): Promise<void> => {
 	append("afterOpen 开始");
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 500));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 500);
+	});
 	append("afterOpen 完成");
 };
 const waitClose = async (): Promise<void> => {
 	append("beforeClose 开始");
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 500));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 500);
+	});
 	append("beforeClose 完成");
 };
 </script>

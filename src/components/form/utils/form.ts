@@ -12,10 +12,10 @@ export const formUtil = {
 	 * ElForm 表单验证
 	 * @param elFormRef ElForm 组件ref
 	 */
-	validate(elFormRef: Ref<FormInstance | undefined>): FormValidationResult {
+	validate(elFormRef: Readonly<Ref<FormInstance | null | undefined>>): FormValidationResult {
 		return new Promise<boolean>((resolve, reject) => {
 			const form = elFormRef.value;
-			if (form === undefined) {
+			if (form == null) {
 				reject(new Error("ElForm 实例尚未挂载。"));
 				return;
 			}
@@ -33,10 +33,10 @@ export const formUtil = {
 	 * ElForm 表单验证，带滚动
 	 * @param elFormRef ElForm 组件ref
 	 */
-	validateScrollToField(elFormRef: Ref<FormInstance | undefined>): FormValidationResult {
+	validateScrollToField(elFormRef: Readonly<Ref<FormInstance | null | undefined>>): FormValidationResult {
 		return new Promise<boolean>((resolve, reject) => {
 			const form = elFormRef.value;
-			if (form === undefined) {
+			if (form == null) {
 				reject(new Error("ElForm 实例尚未挂载。"));
 				return;
 			}

@@ -20,7 +20,6 @@ import { FaTreeSelect } from "./components/treeSelect";
 import { FaUpload } from "./components/upload";
 import { FaUploadImage } from "./components/uploadImage";
 import { FaUploadImages } from "./components/uploadImages";
-import type { Plugin } from "vue";
 
 /** 默认安装器注册的全部 Fast.Element.Plus 组件。 */
 export default [
@@ -50,4 +49,4 @@ export default [
 	FaUpload,
 	FaUploadImage,
 	FaUploadImages,
-] as Plugin[];
+];

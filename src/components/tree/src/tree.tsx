@@ -1,11 +1,9 @@
-import { useVModel } from "@vueuse/core";
-import { computed, defineComponent, nextTick, onMounted, reactive, ref, watch } from "vue";
+import { computed, defineComponent, nextTick, onMounted, reactive, shallowRef, useModel, watch } from "vue";
 import { Expand, Fold } from "@element-plus/icons-vue";
 import { ElIcon, ElInput, ElScrollbar, ElTree, treeEmits, treeProps, useGlobalSize } from "element-plus";
-import { isArray, isBoolean, isEqual, isNull, isNumber, isObject, isString, isUndefined } from "lodash-unified";
-import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
+import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import type { FilterValue, TreeNodeData } from "element-plus";
-import type { ComponentInternalInstance, VNode } from "vue";
+import type { ComponentInternalInstance } from "vue";
 import type { PagedInput } from "../../table";
 import type { FilterNodeMethodFunction, TreeNode } from "./tree.props";
 import type { ElTreeOutput } from "./tree.type";
@@ -74,7 +72,7 @@ export const faTreeProps = {
 	/** @description 树形数据 */
 	data: {
 		type: definePropType<ElTreeOutput[]>(Array),
-		default: (): ElTreeOutput[] => [],
+		default: () => [],
 	},
 	/** @description 请求api */
 	requestApi: {
@@ -88,16 +86,20 @@ export const faTreeProps = {
 export const faTreeEmits = {
 	...treeEmits,
 	/** @description v-model 回调 */
-	"update:modelValue": (value: string | number | boolean | object | null | undefined): boolean =>
-		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isNull(value) || isUndefined(value),
+	"update:modelValue": (value: string | number | boolean | object | null | undefined) =>
+		typeof value === "string" ||
+		typeof value === "number" ||
+		typeof value === "boolean" ||
+		(typeof value === "object" && value !== null) ||
+		value == null,
 	/** @description v-model:label 回调 */
-	"update:label": (value: string): boolean => isString(value) || isNull(value),
+	"update:label": (value: string) => typeof value === "string" || value === null,
 	/** @description 数据改变 */
-	dataChangeCallBack: (data: ElTreeOutput[]): boolean => isArray(data),
+	dataChange: (data: ElTreeOutput[]) => Array.isArray(data),
 	/** @description 选中数据改变 */
-	change: (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance, _event: MouseEvent): boolean => true,
+	change: (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance, _event: MouseEvent) => true,
 	/** @description 节点点击 */
-	"node-click": (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance | null, _event: MouseEvent): boolean => true,
+	"node-click": (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance | null, _event: MouseEvent) => true,
 };
 
 /** FaTree 的插槽参数。 */
@@ -116,22 +118,24 @@ export default defineComponent({
 	emits: faTreeEmits,
 	slots: makeSlots<FaTreeSlots>(),
 	setup(props, { slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit, { passive: true });
-		const _globalSize = useGlobalSize();
+		const selectedLabel = useModel(props, "label");
+
+		const globalSize = useGlobalSize();
+		const treeRef = shallowRef<InstanceType<typeof ElTree> | null>(null);
 
 		const state = reactive({
-			value: withDefineType<string | number | boolean | object | null | undefined>(props.modelValue),
+			value: withDefineType<string | number | boolean | object | null | undefined>(),
 			loading: false,
 			searchValue: withDefineType<string>(),
-			orgTreeData: withDefineType<ElTreeOutput[]>([]),
+			originalTreeData: withDefineType<ElTreeOutput[]>([]),
 			treeData: withDefineType<ElTreeOutput[]>([]),
-			hamburger: props.hamburger || false,
+			hamburger: false,
 			width: computed(() => {
 				if (state.hamburger) {
 					return "130px";
 				} else {
 					const width = addCssUnit(props.width);
-					if (_globalSize.value === "small") {
+					if (globalSize.value === "small") {
 						return `calc(${width} * 0.9)`;
 					} else {
 						return width;
@@ -139,17 +143,15 @@ export default defineComponent({
 				}
 			}),
 		});
+		let requestVersion = 0;
 
 		/** @description 只有一层节点 */
 		const fold = computed<boolean>(() => {
 			const childrenKey = props.props.children ?? "children";
-			return state.orgTreeData.every((item) => !Array.isArray(item[childrenKey]) || item[childrenKey].length === 0);
+			return state.originalTreeData.every((item) => !Array.isArray(item[childrenKey]) || item[childrenKey].length === 0);
 		});
 
-		const treeRef = ref<InstanceType<typeof ElTree>>();
-		let requestVersion = 0;
-
-		const loadData = async (): Promise<void> => {
+		const loadData = async () => {
 			const currentRequestVersion = ++requestVersion;
 			let curSelectedData: string | number | undefined;
 			if (props.nodeKey) {
@@ -181,9 +183,9 @@ export default defineComponent({
 			if (!props.hideAll) {
 				treeData.unshift({ [props.nodeKey]: props.allValue, label: "全部", value: null, all: true });
 			}
-			state.orgTreeData = treeData;
+			state.originalTreeData = treeData;
 			state.treeData = treeData;
-			emit("dataChangeCallBack", state.treeData);
+			emit("dataChange", state.treeData);
 			const selectedKey = curSelectedData ?? props.modelValue ?? props.defaultSelection;
 			if (props.nodeKey && (typeof selectedKey === "string" || typeof selectedKey === "number")) {
 				nextTick(() => {
@@ -193,17 +195,17 @@ export default defineComponent({
 			}
 		};
 
-		const handleHamburgerClick = (): void => {
+		const handleHamburgerClick = () => {
 			if (state.hamburger) {
-				state.treeData = state.orgTreeData;
+				state.treeData = state.originalTreeData;
 			} else {
 				// 折叠只显示一级数据
-				state.treeData = state.orgTreeData.map((item) => ({ ...item, [props.props.children ?? "children"]: [] }));
+				state.treeData = state.originalTreeData.map((item) => ({ ...item, [props.props.children ?? "children"]: [] }));
 			}
 			state.hamburger = !state.hamburger;
 		};
 
-		const handleFilterNode = (value: FilterValue, data: TreeNodeData, child: TreeNode): boolean => {
+		const handleFilterNode = (value: FilterValue, data: TreeNodeData, child: TreeNode) => {
 			if (!value) return true;
 			const isAll: unknown = data["all"];
 			const dataLabel: unknown = data["label"];
@@ -225,7 +227,7 @@ export default defineComponent({
 			return result;
 		};
 
-		const handleNodeClick = (data: ElTreeOutput, node: TreeNode, instance: ComponentInternalInstance | null, event: MouseEvent): void => {
+		const handleNodeClick = (data: ElTreeOutput, node: TreeNode, instance: ComponentInternalInstance | null, event: MouseEvent) => {
 			if (!instance) return;
 			// 判断是否开启点击展开节点，并且节点是折叠状态，则自动展开，否则需要点击箭头图标才能折叠或开启 'collapseOnClickNode'
 			if (props.expandOnClickNode) {
@@ -244,36 +246,47 @@ export default defineComponent({
 					emit("change", data, node, instance, event);
 				}
 			}
+			// eslint-disable-next-line vue/custom-event-name-casing -- Element Plus 的公开事件名为 node-click，需要保持原始名称透传。
 			emit("node-click", data, node, instance, event);
 		};
-
-		onMounted(async () => {
-			await loadData();
-			watch(
-				() => props.data,
-				() => {
-					if (!props.requestApi) {
-						return loadData();
-					}
-				},
-				{ deep: true }
-			);
-		});
 
 		watch(
 			() => props.modelValue,
 			(newValue) => {
 				state.value = newValue;
 				if (typeof newValue === "string" || typeof newValue === "number") treeRef.value?.setCurrentKey(newValue);
-			}
+			},
+			{ immediate: true }
 		);
+
+		watch(
+			() => props.hamburger,
+			(newValue) => {
+				state.hamburger = newValue;
+			},
+			{ immediate: true }
+		);
+
+		watch(
+			() => props.data,
+			() => {
+				if (!props.requestApi) {
+					return loadData();
+				}
+			},
+			{ deep: true }
+		);
+
+		onMounted(async () => {
+			await loadData();
+		});
 
 		const elTreeProps = useProps(props, treeProps, ["data", "expandOnClickNode", "filterNodeMethod"]);
 		const elTreeEmits = useEmits(treeEmits, emit, ["node-click"]);
 
 		useRender(() => (
 			<div
-				class={["el-card fa-tree", `fa-tree-${_globalSize.value}`, { "fa-tree__fold": state.hamburger || fold.value }]}
+				class={["el-card fa-tree", `fa-tree-${globalSize.value}`, { "fa-tree__fold": state.hamburger || fold.value }]}
 				style={{ width: state.width }}
 				vLoading={state.loading}
 			>
@@ -323,7 +336,7 @@ export default defineComponent({
 									{!data["all"] && slots.default && <span>{slots.default({ node, data })}</span>}
 								</span>
 							),
-							...(slots.empty && { empty: (): VNode[] => slots.empty?.() ?? [] }),
+							...(slots.empty && { empty: () => slots.empty?.() ?? [] }),
 						}}
 					</ElTree>
 				</ElScrollbar>

@@ -1,11 +1,9 @@
-import { useVModel } from "@vueuse/core";
-import { computed, defineComponent, onMounted, reactive, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, reactive, shallowRef, useModel, watch } from "vue";
 import { ArrowDown, CircleClose } from "@element-plus/icons-vue";
 import { ElSelectV2, tagProps, useAriaProps, useEmptyValuesProps, useGlobalSize, useSizeProp, useTooltipContentProps } from "element-plus";
-import { isArray, isBoolean, isEqual, isNil, isNull, isNumber, isObject, isString } from "lodash-unified";
-import { addCssUnit, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
+import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import type { SelectV2Props as ElementPlusSelectV2Props, Options, Placement, ScrollbarDirection } from "element-plus";
-import type { Component, PropType, VNode } from "vue";
+import type { Component, PropType } from "vue";
 import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "../../select/src/select.type";
 import type { PagedInput, PagedResult } from "../../table";
 
@@ -63,7 +61,7 @@ export const SelectV2Props = {
 	/** @description collapse-tags tooltip configuration */
 	tagTooltip: {
 		type: definePropType<ElementPlusSelectV2Props["tagTooltip"]>(Object),
-		default: (): NonNullable<ElementPlusSelectV2Props["tagTooltip"]> => ({}),
+		default: () => ({}),
 	},
 	/**
 	 * @description The max tags number to be shown. To use this, `collapse-tags` must be true
@@ -166,7 +164,6 @@ export const SelectV2Props = {
 	 */
 	options: {
 		type: definePropType<ElementPlusSelectV2Props["options"]>(Array),
-		// required: true,
 	},
 	/**
 	 * @description placeholder, the default is 'Please select'
@@ -201,7 +198,7 @@ export const SelectV2Props = {
 	 */
 	popperOptions: {
 		type: definePropType<Partial<Options>>(Object),
-		default: (): Partial<Options> => ({}),
+		default: () => ({}),
 	},
 	/**
 	 * @description whether search data from server
@@ -221,7 +218,7 @@ export const SelectV2Props = {
 	 */
 	props: {
 		type: definePropType<Props>(Object),
-		default: (): Required<Props> => ({
+		default: () => ({
 			label: "label",
 			value: "value",
 			disabled: "disabled",
@@ -301,7 +298,7 @@ export const SelectV2Props = {
 	fitInputWidth: {
 		type: [Boolean, Number],
 		default: true,
-		validator: (value: boolean | number): boolean => isBoolean(value) || isNumber(value),
+		validator: (value: boolean | number) => typeof value === "boolean" || typeof value === "number",
 	},
 	/** @description select suffix icon */
 	suffixIcon: {
@@ -315,15 +312,15 @@ export const SelectV2Props = {
 
 /** 底层虚拟化选择器的运行时 Emits 定义。 */
 export const selectV2Emits = {
-	"update:modelValue": (_value: ElSelectorModelValue): boolean => true,
-	change: (_value: ElSelectorModelValue): boolean => true,
-	"end-reached": (_direction: ScrollbarDirection): boolean => true,
-	"remove-tag": (_value: ElSelectorValue): boolean => true,
-	"visible-change": (_visible: boolean): boolean => true,
-	focus: (_event: FocusEvent): boolean => true,
-	blur: (_event: FocusEvent): boolean => true,
-	clear: (): boolean => true,
-} as const;
+	"update:modelValue": (_value: ElSelectorModelValue) => true,
+	change: (_value: ElSelectorModelValue) => true,
+	"end-reached": (_direction: ScrollbarDirection) => true,
+	"remove-tag": (_value: ElSelectorValue) => true,
+	"visible-change": (_visible: boolean) => true,
+	focus: (_event: FocusEvent) => true,
+	blur: (_event: FocusEvent) => true,
+	clear: () => true,
+};
 
 /** FaSelectV2 的运行时 Props 定义。 */
 export const faSelectV2Props = {
@@ -382,7 +379,7 @@ export const faSelectV2Props = {
 	/** @description 下拉框数据 */
 	data: {
 		type: definePropType<ElSelectorOutput[]>(Array),
-		default: (): ElSelectorOutput[] => [],
+		default: () => [],
 	},
 	/** 分页返回 */
 	pageResult: Boolean,
@@ -398,14 +395,18 @@ export const faSelectV2Props = {
 export const faSelectV2Emits = {
 	...selectV2Emits,
 	/** @description v-model 回调 */
-	"update:modelValue": (value: ElSelectorModelValue): boolean =>
-		isString(value) || isNumber(value) || isBoolean(value) || isObject(value) || isArray(value) || isNil(value),
+	"update:modelValue": (value: ElSelectorModelValue) =>
+		typeof value === "string" ||
+		typeof value === "number" ||
+		typeof value === "boolean" ||
+		(typeof value === "object" && value !== null) ||
+		value == null,
 	/** @description 选中数据改变 */
-	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue): boolean => true,
+	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue) => true,
 	/** @description v-model:label 回调 */
-	"update:label": (value: string | string[] | null): boolean => isString(value) || isArray(value) || isNull(value),
+	"update:label": (value: string | string[] | null) => typeof value === "string" || Array.isArray(value) || value === null,
 	/** @description 数据改变 */
-	dataChangeCallBack: (data: ElSelectorOutput[]): boolean => isArray(data),
+	dataChange: (data: ElSelectorOutput[]) => Array.isArray(data),
 };
 
 /** FaSelectV2 的插槽参数。 */
@@ -434,8 +435,10 @@ export default defineComponent({
 	emits: faSelectV2Emits,
 	slots: makeSlots<FaSelectV2Slots>(),
 	setup(props, { slots, emit, expose }) {
-		const selectedLabel = useVModel(props, "label", emit, { passive: true });
-		const _globalSize = useGlobalSize();
+		const selectedLabel = useModel(props, "label");
+
+		const globalSize = useGlobalSize();
+		const selectV2Ref = shallowRef<InstanceType<typeof ElSelectV2> | null>(null);
 
 		const state = reactive({
 			value: withDefineType<ElSelectorModelValue>(),
@@ -444,15 +447,14 @@ export default defineComponent({
 			/** 首次出现 */
 			debut: true,
 			/** 回显 */
-			echo: props.data.length > 0 ? false : true,
+			echo: true,
 			/** 下次刷新 */
 			nextRefresh: false,
 		});
 
-		const selectV2Ref = ref<InstanceType<typeof ElSelectV2>>();
 		let requestVersion = 0;
 
-		const loadData = async (): Promise<void> => {
+		const loadData = async () => {
 			const currentRequestVersion = ++requestVersion;
 			// 判断是否需要自动请求
 			if (props.requestApi) {
@@ -469,7 +471,7 @@ export default defineComponent({
 					} else {
 						state.selectorData = resData as ElSelectorOutput[];
 					}
-					emit("dataChangeCallBack", state.selectorData);
+					emit("dataChange", state.selectorData);
 				} catch (error) {
 					if (currentRequestVersion !== requestVersion) return;
 					state.selectorData = [];
@@ -485,12 +487,12 @@ export default defineComponent({
 			}
 		};
 
-		const handleModelValueUpdate = (value: ElSelectorModelValue): void => {
+		const handleModelValueUpdate = (value: ElSelectorModelValue) => {
 			state.value = value;
 			emit("update:modelValue", value);
 		};
 
-		const handleVisibleChange = async (visible: boolean): Promise<void> => {
+		const handleVisibleChange = async (visible: boolean) => {
 			if (visible) {
 				if (state.debut) {
 					// 首次出现
@@ -505,14 +507,65 @@ export default defineComponent({
 					}
 				}
 			}
+			// eslint-disable-next-line vue/custom-event-name-casing -- Element Plus 的公开事件名为 visible-change，需要保持原始名称透传。
 			emit("visible-change", visible);
+		};
+
+		const getOptionValue = (item: ElSelectorOutput) => {
+			const value: unknown = item[props.props.value ?? "value"];
+			return value !== null &&
+				(typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "object")
+				? value
+				: undefined;
+		};
+
+		const getOptionLabel = (item: ElSelectorOutput) => {
+			const label: unknown = item[props.props.label ?? "label"];
+			return typeof label === "string" ? label : undefined;
+		};
+
+		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
+			data.flatMap((item) => {
+				const children: unknown = item[props.props.options ?? "options"];
+				return [item, ...(Array.isArray(children) ? flattenOptions(children as ElSelectorOutput[]) : [])];
+			});
+
+		const handleChange = (value?: ElSelectorModelValue) => {
+			const selectorData = flattenOptions(state.selectorData);
+			if (props.multiple) {
+				const valueList = Array.isArray(value) ? value : [];
+				if (valueList.length === 0) {
+					emit("change", null, null);
+					return;
+				}
+				const dataList = valueList
+					.map((item) =>
+						selectorData.find((option) => {
+							const optionValue = getOptionValue(option);
+							return optionValue !== undefined && isEqual(optionValue, item);
+						})
+					)
+					.filter((item) => item !== undefined);
+				emit("change", dataList, value);
+				return;
+			}
+
+			if (value == null || Array.isArray(value)) {
+				emit("change", null, null);
+				return;
+			}
+			const data = selectorData.find((option) => {
+				const optionValue = getOptionValue(option);
+				return optionValue !== undefined && isEqual(optionValue, value);
+			});
+			emit("change", data ?? null, value);
 		};
 
 		watch(
 			() => props.modelValue,
 			(newValue) => {
-				if (state.echo && !isNil(newValue)) {
-					const hasLabel = !isNil(props.label);
+				if (state.echo && newValue != null) {
+					const hasLabel = props.label != null;
 					// 判断是否为多选
 					if (props.multiple) {
 						// 判断是否为数组
@@ -520,7 +573,7 @@ export default defineComponent({
 							console.error("[Fast:FaSelectV2]", "当启用 multiple 时，传入的 modelValue 必须是 Array。");
 							return;
 						}
-						if (hasLabel && !isArray(props.label)) {
+						if (hasLabel && !Array.isArray(props.label)) {
 							console.error("[Fast:FaSelectV2]", "当启用 multiple 时，传入的 modelValue:label 必须是 Array。");
 							return;
 						}
@@ -548,7 +601,7 @@ export default defineComponent({
 							console.error("[Fast:FaSelectV2]", "当禁用 multiple 时，传入的 modelValue 不能是 Array。");
 							return;
 						}
-						if (hasLabel && isArray(props.label)) {
+						if (hasLabel && Array.isArray(props.label)) {
 							console.error("[Fast:FaSelectV2]", "当禁用 multiple 时，传入的 modelValue:label 不能是 Array。");
 							return;
 						}
@@ -566,56 +619,6 @@ export default defineComponent({
 				immediate: true,
 			}
 		);
-
-		const getOptionValue = (item: ElSelectorOutput): ElSelectorValue | undefined => {
-			const value: unknown = item[props.props.value ?? "value"];
-			return value !== null &&
-				(typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "object")
-				? value
-				: undefined;
-		};
-
-		const getOptionLabel = (item: ElSelectorOutput): string | undefined => {
-			const label: unknown = item[props.props.label ?? "label"];
-			return typeof label === "string" ? label : undefined;
-		};
-
-		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
-			data.flatMap((item) => {
-				const children: unknown = item[props.props.options ?? "options"];
-				return [item, ...(Array.isArray(children) ? flattenOptions(children as ElSelectorOutput[]) : [])];
-			});
-
-		const handleChange = (value?: ElSelectorModelValue): void => {
-			const selectorData = flattenOptions(state.selectorData);
-			if (props.multiple) {
-				const valueList = Array.isArray(value) ? value : [];
-				if (valueList.length === 0) {
-					emit("change", null, null);
-					return;
-				}
-				const dataList = valueList
-					.map((item) =>
-						selectorData.find((option) => {
-							const optionValue = getOptionValue(option);
-							return optionValue !== undefined && isEqual(optionValue, item);
-						})
-					)
-					.filter((item): item is ElSelectorOutput => item !== undefined);
-				emit("change", dataList, value);
-				return;
-			}
-
-			if (isNil(value) || Array.isArray(value)) {
-				emit("change", null, null);
-				return;
-			}
-			const data = selectorData.find((option) => {
-				const optionValue = getOptionValue(option);
-				return optionValue !== undefined && isEqual(optionValue, value);
-			});
-			emit("change", data ?? null, value);
-		};
 
 		watch(
 			[() => state.value, () => state.selectorData],
@@ -635,7 +638,7 @@ export default defineComponent({
 					});
 					return;
 				}
-				if (isNil(value) || Array.isArray(value)) {
+				if (value == null || Array.isArray(value)) {
 					selectedLabel.value = null;
 					return;
 				}
@@ -650,6 +653,36 @@ export default defineComponent({
 				flush: "sync",
 				immediate: true,
 			}
+		);
+
+		watch(
+			() => props.initParam,
+			(newValue, oldValue) => {
+				if (!isEqual(newValue, oldValue)) {
+					state.nextRefresh = true;
+					if (state.value != null) {
+						handleModelValueUpdate(props.multiple ? [] : undefined);
+					}
+				}
+			}
+		);
+
+		watch(
+			() => props.data,
+			() => {
+				if (!props.requestApi) {
+					return loadData();
+				}
+			},
+			{ deep: true }
+		);
+
+		watch(
+			() => props.data.length,
+			(length) => {
+				if (state.debut) state.echo = length === 0;
+			},
+			{ immediate: true }
 		);
 
 		onMounted(async () => {
@@ -670,26 +703,6 @@ export default defineComponent({
 			else if (!props.lazy) {
 				await loadData();
 			}
-			watch(
-				() => props.initParam,
-				(newValue, oldValue) => {
-					if (!isEqual(newValue, oldValue)) {
-						state.nextRefresh = true;
-						if (!isNil(state.value)) {
-							handleModelValueUpdate(props.multiple ? [] : undefined);
-						}
-					}
-				}
-			);
-			watch(
-				() => props.data,
-				() => {
-					if (!props.requestApi) {
-						return loadData();
-					}
-				},
-				{ deep: true }
-			);
 		});
 
 		const elSelectV2Props = useProps(props, SelectV2Props, ["modelValue", "popperClass", "loading", "options", "itemHeight"]);
@@ -697,7 +710,7 @@ export default defineComponent({
 		const elPopperClass = computed(() => {
 			let localClass = `fa-select-v2-dropdown ${props.popperClass}`;
 			if (props.moreDetail) {
-				localClass += ` fa-select-v2-dropdown__more-detail fa-select-v2-dropdown__more-detail-${_globalSize.value}`;
+				localClass += ` fa-select-v2-dropdown__more-detail fa-select-v2-dropdown__more-detail-${globalSize.value}`;
 			}
 			return localClass;
 		});
@@ -715,22 +728,22 @@ export default defineComponent({
 				onChange={handleChange}
 				loading={state.loading}
 				options={state.selectorData}
-				itemHeight={props.itemHeight + (_globalSize.value === "small" ? 0 : 8)}
+				itemHeight={props.itemHeight + (globalSize.value === "small" ? 0 : 8)}
 				onVisible-change={handleVisibleChange}
 			>
 				{{
 					...(slots.default && {
-						default: ({ item, index, disabled }: { item: ElSelectorOutput; index: number; disabled: boolean }): VNode[] =>
+						default: ({ item, index, disabled }: { item: ElSelectorOutput; index: number; disabled: boolean }) =>
 							slots.default?.({ item, index, disabled }) ?? [],
 					}),
-					...(slots.header && { header: (): VNode[] => slots.header?.() ?? [] }),
-					...(slots.footer && { footer: (): VNode[] => slots.footer?.() ?? [] }),
-					...(slots.prefix && { prefix: (): VNode[] => slots.prefix?.() ?? [] }),
-					...(slots.empty && { empty: (): VNode[] => slots.empty?.() ?? [] }),
-					...(slots.tag && { tag: (): VNode[] => slots.tag?.() ?? [] }),
-					...(slots.loading && { loading: (): VNode[] => slots.loading?.() ?? [] }),
+					...(slots.header && { header: () => slots.header?.() ?? [] }),
+					...(slots.footer && { footer: () => slots.footer?.() ?? [] }),
+					...(slots.prefix && { prefix: () => slots.prefix?.() ?? [] }),
+					...(slots.empty && { empty: () => slots.empty?.() ?? [] }),
+					...(slots.tag && { tag: () => slots.tag?.() ?? [] }),
+					...(slots.loading && { loading: () => slots.loading?.() ?? [] }),
 					...(slots.label && {
-						label: ({ label, value }: { label: string; value: string | number | boolean | object }): VNode[] =>
+						label: ({ label, value }: { label: string; value: string | number | boolean | object }) =>
 							slots.label?.({ label, value }) ?? [],
 					}),
 				}}

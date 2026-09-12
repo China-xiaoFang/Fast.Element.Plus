@@ -5,7 +5,9 @@ const form = reactive<{ credentialPhoto: string | null }>({
 	credentialPhoto: null,
 });
 const uploadApi = async (formData: FormData): Promise<string> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 500));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 500);
+	});
 	const file = formData.get("file");
 	if (!(file instanceof File)) throw new TypeError("未找到上传文件");
 	return URL.createObjectURL(file);

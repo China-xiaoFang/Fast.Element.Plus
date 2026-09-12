@@ -2,11 +2,9 @@
 import { ElMessage } from "element-plus";
 import type { FaTableEnumColumnCtx } from "../../../src";
 
-const image =
-	"data:image/svg+xml;charset=UTF-8," +
-	encodeURIComponent(
-		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80"><rect width="120" height="80" rx="8" fill="#409eff"/><text x="60" y="48" text-anchor="middle" font-size="20" fill="white">Fast</text></svg>'
-	);
+const image = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+	'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80"><rect width="120" height="80" rx="8" fill="#409eff"/><text x="60" y="48" text-anchor="middle" font-size="20" fill="white">Fast</text></svg>'
+)}`;
 const rows = [
 	{ id: 1, name: "Fast.Element.Plus", amount: 12345.6, ratio: 0.876543, status: 1, image, createdTime: "2026-08-26 09:30:00" },
 	{ id: 2, name: "Fast.NET", amount: 9876543.21, ratio: 0.123456, status: 0, image, createdTime: "2026-08-25 16:20:00" },

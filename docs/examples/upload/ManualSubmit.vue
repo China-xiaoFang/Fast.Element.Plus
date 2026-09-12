@@ -9,7 +9,9 @@ interface UploadExpose {
 const uploadRef = useTemplateRef<UploadExpose>("uploadRef");
 const fileUrl = ref<string | null>(null);
 const uploadApi = async (formData: FormData): Promise<string> => {
-	await new Promise<void>((resolve) => window.setTimeout(resolve, 350));
+	await new Promise<void>((resolve) => {
+		window.setTimeout(resolve, 350);
+	});
 	const file = formData.get("file");
 	if (!(file instanceof File)) throw new TypeError("未找到上传文件");
 	return URL.createObjectURL(file);

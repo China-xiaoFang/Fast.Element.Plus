@@ -11,12 +11,13 @@ const rows = [
 	{ id: 3, name: "Fast.Admin", owner: "业务团队", status: "稳定" },
 ];
 
-const requestApi = async (_input?: PagedInput): Promise<PagedResult<Record<string, unknown>>> => ({
-	pageIndex: 1,
-	pageSize: 20,
-	totalRows: rows.length,
-	rows,
-});
+const requestApi = (_input?: PagedInput): Promise<PagedResult<Record<string, unknown>>> =>
+	Promise.resolve({
+		pageIndex: 1,
+		pageSize: 20,
+		totalRows: rows.length,
+		rows,
+	});
 </script>
 
 <template>
