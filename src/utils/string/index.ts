@@ -59,7 +59,7 @@ export async function copy(value: string): Promise<void> {
 		await new Promise<void>((resolve, reject) => {
 			setClipboardData({
 				data: value,
-				fail: (error: unknown): void => {
+				fail: (error: unknown) => {
 					reject(error instanceof Error ? error : new Error("文本复制到剪贴板失败。", { cause: error }));
 				},
 				success: resolve,
@@ -75,7 +75,6 @@ export async function copy(value: string): Promise<void> {
 	}
 
 	const document = runtimeGlobals.document;
-
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 兼容不支持 Clipboard API 的旧 WebView。
 	if (typeof document?.createElement !== "function" || document.body == null || typeof document.execCommand !== "function") {
 		throw new Error("当前运行环境不支持访问剪贴板。");
@@ -91,7 +90,6 @@ export async function copy(value: string): Promise<void> {
 	try {
 		textarea.focus();
 		textarea.select();
-
 		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 兼容不支持 Clipboard API 的旧 WebView。
 		copied = document.execCommand("copy");
 	} finally {

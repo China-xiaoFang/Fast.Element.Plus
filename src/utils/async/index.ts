@@ -110,7 +110,7 @@ export function debounce<Arguments extends unknown[], Result>(
 	 * @param arguments_ - 本次调用参数；同批次中只有最后一组参数会执行。
 	 * @returns 与当前批次共享结果、但可独立结算的 Promise。
 	 */
-	const debounced = (...arguments_: Arguments): Promise<Awaited<Result>> => {
+	const debounced = (...arguments_: Arguments) => {
 		latestArguments = arguments_;
 		if (timer !== undefined) clearTimeout(timer);
 		timer = setTimeout(() => {
@@ -121,7 +121,7 @@ export function debounce<Arguments extends unknown[], Result>(
 		});
 	};
 
-	debounced.cancel = (reason?: unknown): void => {
+	debounced.cancel = (reason?: unknown) => {
 		if (timer !== undefined) clearTimeout(timer);
 		timer = undefined;
 		latestArguments = undefined;
@@ -131,11 +131,11 @@ export function debounce<Arguments extends unknown[], Result>(
 		});
 		waiters = [];
 	};
-	debounced.flush = (): Promise<Awaited<Result>> | undefined => {
+	debounced.flush = () => {
 		if (timer === undefined) return undefined;
 		clearTimeout(timer);
 		return execute();
 	};
-	debounced.pending = (): boolean => timer !== undefined;
+	debounced.pending = () => timer !== undefined;
 	return debounced;
 }
