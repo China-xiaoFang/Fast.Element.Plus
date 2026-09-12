@@ -59,7 +59,7 @@ export function useEmits<Emits extends EmitsOptions>(
 			handlerNames.add(handlerName);
 			Object.defineProperty(handlers, handlerName, {
 				enumerable: true,
-				value: (...arguments_: unknown[]): void => {
+				value: (...arguments_: unknown[]) => {
 					emitEvent(eventName, ...arguments_);
 				},
 				writable: true,
