@@ -31,6 +31,7 @@ pnpm install --frozen-lockfile
 | `pnpm format:check` | 检查 Prettier                                       |
 | `pnpm test:types`   | 验证公开消费者类型                                  |
 | `pnpm test:runtime` | 验证根入口、组件、指令与 Hook 契约                  |
+| `pnpm test:docs`    | 校验文档核对版本、组件 API 页面与示例引用           |
 | `pnpm test:package` | 验证公开入口、声明、Source Map、CSS、归档和 Publint |
 | `pnpm check`        | 运行统一质量门禁                                    |
 
@@ -78,10 +79,14 @@ CI 在 Node.js 22.18.0 与 24.18.0 上运行，使用 Frozen Lockfile，并执�
 
 仓库只采用人工发布流程，不声明或配置 OIDC Trusted Publishing：
 
-1. 更新 SemVer、`src/version.ts` 与 `CHANGELOG.md` 日期。
-2. 执行 `pnpm install --frozen-lockfile`。
-3. 执行 `pnpm check`。
-4. 人工检查 `pnpm --config.ignore-scripts=true pack --dry-run` 清单。
-5. 由维护者在可信环境执行 npm Publish，并创建对应 `v<version>` Tag。
+1. 修改代码，并同步相关测试。
+2. 调整根 `package.json` 的包版本，并同步 `src/version.ts` 与 `CHANGELOG.md`。
+3. 对照该版本的源码与变更记录，核对并同步相关文档和示例，包括 Props、Events、Slots、Exposes、`v-model`、默认值、类型与行为。
+4. 核对完成后，更新 `docs/index.md` Frontmatter 中唯一的 `docReviewVersion`。该字段表示文档已按此组件库版本完成核对，不表示 API 的首次引入版本；即使正文无需修改也必须在人工核对后更新。
+5. 执行 `pnpm test` 和 `pnpm docs:build`；`test:docs` 只校验可稳定自动判断的版本、页面和引用关系，版本一致不代表全部文档语义正确。
+6. 执行 `pnpm check`，并人工检查 `pnpm --config.ignore-scripts=true pack --dry-run` 清单。
+7. 由维护者在可信环境执行 npm Publish，并创建对应 `v<version>` Tag。
+
+固定流程为：修改代码 → 调整包版本 → 核对并同步相关文档 → 更新文档已核对版本 → 执行测试和文档构建。不得只修改 `docReviewVersion` 来绕过校验；无法可靠确定变更范围时，应扩大人工核对范围。
 
 未经明确授权，不执行 Publish、Push、Tag 或 Release。npm 已发布版本不可覆盖；发布后缺陷必须通过新的 Patch 或 Pre-release 修复。

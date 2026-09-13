@@ -2,6 +2,8 @@
 
 Fast.Element.Plus 提供一个具名导出的 ESM 根入口、一个 Vue 全局类型入口和一个样式入口。所有公开 JavaScript API 均从 `fast-element-plus` 导入；`dist/` 内部路径不是公共入口。
 
+需要逐方法查看调用示例、输入值、输入类型、参数说明、返回值与返回类型时，参见[根入口方法 API](./METHODS.zh-CN)和[组件实例方法 API](./COMPONENT_METHODS.zh-CN)。各组件页的 Expose 表用于总览，实例方法页逐项给出完整调用契约。
+
 这是遵循 Fast 团队约定的业务 SDK，不是 Element Plus 原生组件的无差异替代品。封装可以有意改变默认值、事件参数和业务流程，具体以 Fast.Element.Plus 类型与文档为准。
 
 ## 插件
