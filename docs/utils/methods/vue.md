@@ -1,6 +1,6 @@
 # Vue 3 Helper方法 API
 
-本文逐项记录 `@fast-china/utils` 的 Vue 3 Helper公开函数。示例、输入和返回值均按 Fast.Utils 2.1.5 源码核对。
+本文逐项记录 `@fast-china/utils` 的 Vue 3 Helper 公开函数。示例、输入和返回值均按 Fast.Utils 2.1.6 源码核对。
 
 ## `useEmits`
 
@@ -356,3 +356,208 @@ const result = withDefineType<{ name: string }>({ name: "Fast" });
 | 返回值   | 返回值类型 | 返回值说明                                   |
 | -------- | ---------- | -------------------------------------------- |
 | `result` | `Value`    | 传入值本身；省略时返回类型化的 `undefined`。 |
+
+## `useEventListener`
+
+注册原生事件监听器，并在响应式目标变化或当前 Vue 作用域销毁时自动移除。
+
+### 签名
+
+```ts
+export function useEventListener<EventType extends Event = Event>(
+	target: EventTargetSource,
+	event: string,
+	listener: (event: EventType) => void,
+	options?: boolean | AddEventListenerOptions
+): () => void;
+```
+
+### 示例
+
+```ts
+import { useEventListener } from "@fast-china/utils";
+
+const stop = useEventListener(document, "visibilitychange", () => {
+	console.log(document.visibilityState);
+});
+```
+
+### 输入
+
+| 输入值     | 输入值类型                           | 必填/默认值 | 输入值说明                                              |
+| ---------- | ------------------------------------ | ----------- | ------------------------------------------------------- |
+| `target`   | `EventTargetSource`                  | 是          | 原生 EventTarget、Ref 或 Getter，可为空。               |
+| `event`    | `string`                             | 是          | 原生事件名称。                                          |
+| `listener` | `(event: EventType) => void`         | 是          | 事件回调。                                              |
+| `options`  | `boolean \| AddEventListenerOptions` | 否          | 原生 `addEventListener` 与 `removeEventListener` 选项。 |
+
+### 返回
+
+| 返回值 | 返回值类型   | 返回值说明                                       |
+| ------ | ------------ | ------------------------------------------------ |
+| `stop` | `() => void` | 可提前移除监听器；Vue 作用域销毁时也会自动调用。 |
+
+## `useWindowSize`
+
+响应式读取浏览器窗口的 `innerWidth` 和 `innerHeight`。
+
+### 签名
+
+```ts
+export function useWindowSize(): UseWindowSizeReturn;
+```
+
+### 示例
+
+```ts
+import { useWindowSize } from "@fast-china/utils";
+
+const { width, height } = useWindowSize();
+```
+
+### 输入
+
+该方法没有输入参数。浏览器环境必须在 Vue 响应式作用域内调用，以便自动清理监听器。
+
+### 返回
+
+| 返回值   | 返回值类型                     | 返回值说明                                      |
+| -------- | ------------------------------ | ----------------------------------------------- |
+| `width`  | `Readonly<ShallowRef<number>>` | 当前 `window.innerWidth`；非浏览器环境为 `0`。  |
+| `height` | `Readonly<ShallowRef<number>>` | 当前 `window.innerHeight`；非浏览器环境为 `0`。 |
+
+本方法不提供初始尺寸、Visual Viewport、Outer Size 等高级选项。
+
+## `useResizeObserver`
+
+使用原生 `ResizeObserver` 监听单个元素或响应式元素。
+
+### 签名
+
+```ts
+export function useResizeObserver(target: ResizeObserverTarget, callback: ResizeObserverCallback, options?: ResizeObserverOptions): () => void;
+```
+
+### 示例
+
+```ts
+import { useResizeObserver } from "@fast-china/utils";
+
+const stop = useResizeObserver(elementRef, (entries) => {
+	console.log(entries[0]?.contentRect);
+});
+```
+
+### 输入
+
+| 输入值     | 输入值类型               | 必填/默认值 | 输入值说明                        |
+| ---------- | ------------------------ | ----------- | --------------------------------- |
+| `target`   | `ResizeObserverTarget`   | 是          | 原生元素、Ref 或 Getter，可为空。 |
+| `callback` | `ResizeObserverCallback` | 是          | 原生 ResizeObserver 回调。        |
+| `options`  | `ResizeObserverOptions`  | 否          | 原生元素观察选项。                |
+
+### 返回
+
+| 返回值 | 返回值类型   | 返回值说明                                             |
+| ------ | ------------ | ------------------------------------------------------ |
+| `stop` | `() => void` | 提前断开观察；不支持 ResizeObserver 的运行时为空操作。 |
+
+## `useElementSize`
+
+通过 `useResizeObserver` 响应式读取元素的 Content Rect 尺寸。
+
+### 签名
+
+```ts
+export function useElementSize(target: ResizeObserverTarget, initialSize?: ElementSize, options?: ResizeObserverOptions): UseElementSizeReturn;
+```
+
+### 示例
+
+```ts
+import { useElementSize } from "@fast-china/utils";
+
+const { width, height, stop } = useElementSize(elementRef, { height: 0, width: 0 });
+```
+
+### 输入
+
+| 输入值        | 输入值类型              | 必填/默认值                        | 输入值说明                        |
+| ------------- | ----------------------- | ---------------------------------- | --------------------------------- |
+| `target`      | `ResizeObserverTarget`  | 是                                 | 原生元素、Ref 或 Getter，可为空。 |
+| `initialSize` | `ElementSize`           | 否，默认 `{ width: 0, height: 0 }` | 首次观察结果前的宽高。            |
+| `options`     | `ResizeObserverOptions` | 否                                 | 原生元素观察选项。                |
+
+### 返回
+
+| 返回值   | 返回值类型                     | 返回值说明                    |
+| -------- | ------------------------------ | ----------------------------- |
+| `width`  | `Readonly<ShallowRef<number>>` | 元素 Content Rect 宽度。      |
+| `height` | `Readonly<ShallowRef<number>>` | 元素 Content Rect 高度。      |
+| `stop`   | `() => void`                   | 提前停止底层 ResizeObserver。 |
+
+## `useNow`
+
+按固定间隔提供响应式当前时间。
+
+### 签名
+
+```ts
+export function useNow(intervalMilliseconds?: number): Readonly<ShallowRef<Date>>;
+```
+
+### 示例
+
+```ts
+import { useNow } from "@fast-china/utils";
+
+const now = useNow();
+```
+
+### 输入
+
+| 输入值                 | 输入值类型 | 必填/默认值     | 输入值说明                               |
+| ---------------------- | ---------- | --------------- | ---------------------------------------- |
+| `intervalMilliseconds` | `number`   | 否，默认 `1000` | 原生计时器支持范围内的非负整数毫秒间隔。 |
+
+### 返回
+
+| 返回值 | 返回值类型                   | 返回值说明                                |
+| ------ | ---------------------------- | ----------------------------------------- |
+| `now`  | `Readonly<ShallowRef<Date>>` | 当前时间；SSR 中只返回调用时的静态 Date。 |
+
+浏览器和 uni-app 中必须在 Vue 响应式作用域内调用，定时器会随作用域自动停止。
+
+## `useBreakpoints`
+
+通过原生 `matchMedia()` 创建响应式最小宽度断点。
+
+### 签名
+
+```ts
+export function useBreakpoints<Key extends string>(breakpoints: Breakpoints<Key>): UseBreakpointsReturn<Key>;
+```
+
+### 示例
+
+```ts
+import { useBreakpoints } from "@fast-china/utils";
+
+const breakpoints = useBreakpoints({ desktop: 1280, mobile: 0, tablet: 768 });
+const active = breakpoints.active();
+```
+
+### 输入
+
+| 输入值        | 输入值类型         | 必填/默认值 | 输入值说明                                         |
+| ------------- | ------------------ | ----------- | -------------------------------------------------- |
+| `breakpoints` | `Breakpoints<Key>` | 是          | 断点名称与非负最小像素宽度；名称 `active` 被保留。 |
+
+### 返回
+
+| 返回值       | 返回值类型                      | 返回值说明                                 |
+| ------------ | ------------------------------- | ------------------------------------------ |
+| 同名断点属性 | `Readonly<ShallowRef<boolean>>` | 当前视口是否满足对应的 `min-width`。       |
+| `active()`   | `ComputedRef<Key \| "">`        | 当前命中的最大断点，未命中时返回空字符串。 |
+
+非浏览器环境下所有断点均为 `false`；浏览器环境必须在 Vue 响应式作用域内调用。本方法只支持 `min-width`。
