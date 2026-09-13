@@ -108,7 +108,7 @@ Element Plus 原生树表只需要提供 `row-key` 和 `children` 数据，不�
 
 ## 关联组件：FaTableColumnsSettingDialog
 
-FaTable 内部的列设置弹窗，由 `columnSettingBtn` 控制显示。它依赖 FaTable 提供的状态，只应通过 `FaTable.TableColumnsSettingDialog` 或 FaTable 内部流程使用。
+FaTable 内部的列设置弹窗，由 `columnSettingBtn` 控制显示。通过每行左侧的拖动手柄调整列顺序；触屏操作需要短按后拖动，避免滚动列表时误排序。它依赖 FaTable 提供的状态，只应通过 `FaTable.TableColumnsSettingDialog` 或 FaTable 内部流程使用。
 
 <ComponentApi name="FaTableColumnsSettingDialog" />
 
