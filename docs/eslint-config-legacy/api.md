@@ -2,7 +2,7 @@
 
 全部配置创建方法的独立示例、输入和返回值表见[方法 API](./methods)。
 
-本文以 `@fast-china/eslint-config-legacy` 2.1.8 的 `package.json#exports` 与 `src/` 公开导出为准。它面向 ESLint `^8.57.0` 的 `.eslintrc`，不是 Flat Config；新项目应使用 [Fast.ESLint.Config](/eslint-config/)。
+本文以 `@fast-china/eslint-config-legacy` 2.1.9 的 `package.json#exports` 与 `src/` 公开导出为准。它面向 ESLint `^8.57.0` 的 `.eslintrc`，不是 Flat Config；新项目应使用 [Fast.ESLint.Config](/eslint-config/)。
 
 ## 默认入口与直接 `extends`
 

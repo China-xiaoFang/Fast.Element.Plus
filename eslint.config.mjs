@@ -1072,6 +1072,8 @@ export default defineConfig(
 				/** 允许透明转发外部 Promise 的未知拒绝原因；静态可知的 `string`、`number` 等仍会被报告。 */
 				"@typescript-eslint/prefer-promise-reject-errors": ["error", { allowThrowingUnknown: true }],
 			},
+			/** Vue SFC 允许按模板与运行时兜底处理未穷尽的联合类型或枚举。 */
+			"@typescript-eslint/switch-exhaustiveness-check": "off",
 			/** SFC 以模板上下文和快速迭代为主，不强制补写函数返回类型。 */
 			"@typescript-eslint/explicit-function-return-type": "off",
 			/** SFC 的导出宏由 Vue 编译器建立契约，不强制补写普通模块边界类型。 */
