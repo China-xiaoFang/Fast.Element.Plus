@@ -61,7 +61,7 @@
 	},
 	"scripts": {
 		"dev": "tsdown --watch",
-		"docs:dev": "vitepress dev docs",
+		"docs:dev": "vitepress dev docs --host 127.0.0.1 --port 5173 --strictPort",
 		"build": "tsdown && pnpm run typegen && pnpm run build:styles",
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs",
@@ -72,9 +72,10 @@
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"test": "pnpm run build && pnpm run test:types && pnpm run test:runtime && pnpm run test:package",
+		"test": "pnpm run build && pnpm run test:types && pnpm run test:runtime && pnpm run test:docs && pnpm run test:package",
 		"test:types": "tsc --noEmit --project tests/tsconfig.json",
 		"test:runtime": "node --test tests/runtime.test.mjs",
+		"test:docs": "node --test tests/docs.test.mjs",
 		"test:package": "node --test tests/package.test.mjs && publint --strict --pack npm",
 		"check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run format:check",
 		"prepack": "pnpm run check"

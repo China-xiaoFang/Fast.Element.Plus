@@ -57,6 +57,14 @@ pnpm format:check
 pnpm --config.ignore-scripts=true pack --dry-run
 ```
 
+## Documentation review
+
+Use one release flow: change code → update the package version → review and synchronize affected documentation → update the reviewed documentation version → run tests and the documentation build.
+
+The single reviewed documentation version is `docReviewVersion` in the frontmatter of `docs/index.md`. It means the documentation has been checked against that package version; it is not the version in which a component or property was introduced. Before updating it, compare the release changes with source and verify the affected Props, Events, Slots, Exposes, `v-model` contracts, defaults, types, behavior, and examples. Update the field after the review even when no documentation text needs to change. If the change scope is uncertain, widen the review instead of assuming that no documentation update is required.
+
+`pnpm test:docs` checks the package/documentation version match, public component API-page coverage, required API references, and Markdown example paths. These stable checks do not prove that every semantic description or example is correct, so never update only `docReviewVersion` to make the test pass.
+
 ## Dependencies
 
 Development tools use reviewed caret ranges and are resolved exactly by `pnpm-lock.yaml`. Before changing a dependency:
