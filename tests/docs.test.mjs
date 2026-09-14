@@ -168,7 +168,7 @@ test("every documented public method has an example, typed inputs, and a typed r
 		utilityMethodCount += count;
 	}
 	assert.equal(utilityMethodUrls.length, 16, "Fast.Utils 方法文档应覆盖 16 个公开模块。");
-	assert.equal(utilityMethodCount, 153, "Fast.Utils 方法文档未覆盖当前核对的 153 个公开函数。");
+	assert.equal(utilityMethodCount, 159, "Fast.Utils 方法文档未覆盖当前核对的 159 个公开函数。");
 });
 
 test("ESLint examples use the official configuration wrapper and keep project overrides", async () => {

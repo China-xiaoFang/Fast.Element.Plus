@@ -21,7 +21,7 @@
 | String      | [查看](./methods/string)   |
 | Vue         | [查看](./methods/vue)      |
 
-以下清单按 `@fast-china/utils` 2.1.6 根入口逐模块核对。全部成员均从包根具名导入，不存在公开模块子路径；类型成员使用 `import type`。具体存储、密码学、错误与跨端约束见 [API 参考](./api) 和[运行时契约](./runtime-contract)。
+以下清单按 `@fast-china/utils` 2.1.7 根入口逐模块核对。全部成员均从包根具名导入，不存在公开模块子路径；类型成员使用 `import type`。具体存储、密码学、错误与跨端约束见 [API 参考](./api) 和[运行时契约](./runtime-contract)。
 
 ```ts
 import { chunk, sleep, encodeBase64, parseHexColor, addDays, addCssUnit, isBrowser, once, clamp, pick, Local, camelCase } from "@fast-china/utils";
