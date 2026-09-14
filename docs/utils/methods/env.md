@@ -1,6 +1,6 @@
 # Environment 环境方法 API
 
-本文逐项记录 `@fast-china/utils` 的 Environment 环境公开函数。示例、输入和返回值均按 Fast.Utils 2.1.7 源码核对。
+本文逐项记录 `@fast-china/utils` 的 Environment 环境公开函数。示例、输入和返回值均按 Fast.Utils 2.1.8 源码核对。
 
 ## `isBrowser`
 
@@ -88,7 +88,7 @@ const result = isNode();
 
 ## `isUniApp`
 
-判断当前运行时是否暴露 uni-app 的 `uni` 全局对象。
+判断当前运行时是否暴露 uni-app 的 `uni` 运行时对象。
 
 ### 签名
 
@@ -110,9 +110,9 @@ const result = isUniApp();
 
 ### 返回
 
-| 返回值   | 返回值类型 | 返回值说明                                                         |
-| -------- | ---------- | ------------------------------------------------------------------ |
-| `result` | `boolean`  | 全局属性存在且不为 `undefined` 时返回 `true`；不调用任何平台 API。 |
+| 返回值   | 返回值类型 | 返回值说明                                                        |
+| -------- | ---------- | ----------------------------------------------------------------- |
+| `result` | `boolean`  | `uni` 标识符或兼容全局属性存在时返回 `true`；不调用任何平台 API。 |
 
 ## `hasWebCrypto`
 

@@ -1,6 +1,6 @@
 # Identity 安装标识方法 API
 
-本文逐项记录 `@fast-china/utils` 的 Identity 安装标识公开函数。示例、输入和返回值均按 Fast.Utils 2.1.7 源码核对。
+本文逐项记录 `@fast-china/utils` 的 Identity 安装标识公开函数。示例、输入和返回值均按 Fast.Utils 2.1.8 源码核对。
 
 ## `configureInstallationIdentity`
 
