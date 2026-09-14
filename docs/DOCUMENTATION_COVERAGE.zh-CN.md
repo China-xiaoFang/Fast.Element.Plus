@@ -8,7 +8,7 @@
 | Fast.ESLint.Config        | `2.1.9`  | 根入口 8 项、`configs`、`constants`、`rules` 子路径及当前规则配置                          | 26 个公开方法逐项记录完整调用契约；另保留源仓库 8 个完整规则分类和正反示例                                    |
 | Fast.ESLint.Config.Legacy | `2.1.9`  | 默认 Legacy Config、23 个直接 extends 子路径、`configs`、`constants`、`rules`              | 27 个公开方法逐项记录完整调用契约；分别说明 ESLint 8、Vue 2/3 和 `.eslintrc` 语义                             |
 | Fast.Vite.Plugins         | `2.0.15` | 13 个插件函数、2 个 CDN 常量及全部公开 Options/Context/Result 类型                         | 13 个插件方法逐项记录配置输入、类型、返回插件及可执行示例                                                     |
-| Fast.Utils                | `2.1.5`  | 根入口 16 个模块的函数、常量、接口与类型                                                   | 153 个公开函数和 19 个公开对象方法逐项记录签名、输入、返回及示例                                              |
+| Fast.Utils                | `2.1.7`  | 根入口 16 个模块的函数、常量、接口与类型                                                   | 159 个公开函数和 19 个公开对象方法逐项记录签名、输入、返回及示例                                              |
 | Fast.Axios                | `2.0.4`  | FastAxios 容器、处理器、`axiosUtil`、公开请求类型、uni-app Adapter、Vite/Webpack 子路径    | 39 个根入口、容器、处理器、Adapter 与插件方法逐项记录完整调用契约                                             |
 | Fast.Element.Plus.Icons   | `2.0.2`  | 根入口 68 个具名 Vue SVG 组件                                                              | 68 个图标均提供独立导入与渲染示例，并记录属性输入和 VNode 返回说明                                            |
 
