@@ -1,6 +1,6 @@
 # Logger 日志方法 API
 
-本文逐项记录 `@fast-china/utils` 的 Logger 日志公开函数。示例、输入和返回值均按 Fast.Utils 2.1.7 源码核对。
+本文逐项记录 `@fast-china/utils` 的 Logger 日志公开函数。示例、输入和返回值均按 Fast.Utils 2.1.8 源码核对。
 
 ## `createLogger`
 
