@@ -1,4 +1,4 @@
-import { Fragment, computed, defineComponent, nextTick, onBeforeUnmount, reactive, shallowRef, watch } from "vue";
+import { Fragment, computed, defineComponent, nextTick, onBeforeUnmount, reactive, shallowRef, toRef, watch } from "vue";
 import { Close, Eleme, Refresh } from "@element-plus/icons-vue";
 import { ElButton, ElDrawer, ElIcon, ElMessage, ElMessageBox, ElScrollbar, drawerEmits, drawerProps, useGlobalSize } from "element-plus";
 import { FullScreen, FullScreenExit } from "@fast-element-plus/icons-vue";
@@ -355,9 +355,9 @@ export default defineComponent({
 			/** @description 用于关闭 Drawer, 该方法会调用传入的 before-close 方法 */
 			handleClose: computed(() => drawerRef.value?.handleClose),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 是否显示 */
-			visible: computed(() => state.visible),
+			visible: toRef(state, "visible"),
 			/** @description 打开弹窗 */
 			open: handleOpen,
 			/** @description 关闭弹窗 */

@@ -1,4 +1,4 @@
-import { Fragment, computed, defineComponent, reactive, shallowRef, useModel, watch } from "vue";
+import { Fragment, computed, defineComponent, reactive, shallowRef, toRef, useModel, watch } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { ElButton, ElInput, ElOption, ElPagination, ElSelect, selectEmits, selectProps, useGlobalSize } from "element-plus";
 import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
@@ -472,7 +472,7 @@ export default defineComponent({
 			/** @description 获取当前选中的标签 */
 			selectedLabel: computed(() => selectRef.value?.selectedLabel),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 选中的数据 */
 			selectedList: computed(() => state.selectedList),
 			/** @description 刷新 */

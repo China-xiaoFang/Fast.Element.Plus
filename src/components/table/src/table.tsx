@@ -1,4 +1,4 @@
-import { Fragment, computed, defineComponent, onActivated, onMounted, shallowRef, watch, watchEffect } from "vue";
+import { Fragment, computed, defineComponent, onActivated, onMounted, shallowRef, toRef, watch, watchEffect } from "vue";
 import { Eleme, More, Refresh, Search, Setting } from "@element-plus/icons-vue";
 import {
 	ElButton,
@@ -1299,7 +1299,7 @@ export default defineComponent({
 			/** @description 适用于 lazy Table, 需要设置 rowKey, 更新 key children */
 			updateKeyChildren: computed(() => tableRef.value?.updateKeyChildren),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 表格数据 */
 			tableData: computed(() => state.tableData),
 			/** @description 分页数据 */

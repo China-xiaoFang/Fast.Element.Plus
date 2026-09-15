@@ -1,4 +1,4 @@
-import { Fragment, computed, defineComponent, nextTick, reactive, shallowRef, watch } from "vue";
+import { Fragment, computed, defineComponent, nextTick, reactive, shallowRef, toRef, watch } from "vue";
 import { Close, Eleme, Refresh } from "@element-plus/icons-vue";
 import { ElButton, ElDialog, ElIcon, ElMessage, ElMessageBox, ElScrollbar, dialogEmits, dialogProps, useGlobalSize } from "element-plus";
 import { FullScreen, FullScreenExit } from "@fast-element-plus/icons-vue";
@@ -334,9 +334,9 @@ export default defineComponent({
 			/** @description 重置位置 */
 			resetPosition: computed(() => dialogRef.value?.resetPosition),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 是否显示 */
-			visible: computed(() => state.visible),
+			visible: toRef(state, "visible"),
 			/** @description 打开弹窗 */
 			open: handleOpen,
 			/** @description 关闭弹窗 */

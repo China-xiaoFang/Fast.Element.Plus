@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, reactive, shallowRef, useModel, watch } from "vue";
+import { computed, defineComponent, onMounted, reactive, shallowRef, toRef, useModel, watch } from "vue";
 import { ElTreeSelect, selectEmits, selectProps, treeEmits, treeProps } from "element-plus";
 import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import type { FilterValue, SelectInstance, TreeInstance, TreeNodeData } from "element-plus";
@@ -615,7 +615,7 @@ export default defineComponent({
 			/** @description Element Plus Select 实例。 */
 			selectRef: computed(() => treeSelectRef.value?.selectRef),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 刷新 */
 			refresh: loadData,
 			/** @description 设置选择 */

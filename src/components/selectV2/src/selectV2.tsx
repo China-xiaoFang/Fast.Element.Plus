@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, reactive, shallowRef, useModel, watch } from "vue";
+import { computed, defineComponent, onMounted, reactive, shallowRef, toRef, useModel, watch } from "vue";
 import { ArrowDown, CircleClose } from "@element-plus/icons-vue";
 import { ElSelectV2, tagProps, useAriaProps, useEmptyValuesProps, useGlobalSize, useSizeProp, useTooltipContentProps } from "element-plus";
 import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
@@ -760,7 +760,7 @@ export default defineComponent({
 			/** @description 滚动到指定选项索引。 */
 			scrollTo: computed(() => selectV2Ref.value?.scrollTo),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 刷新 */
 			refresh: loadData,
 			/** @description 设置选择  */

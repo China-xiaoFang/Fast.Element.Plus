@@ -1,4 +1,4 @@
-import { computed, defineComponent, nextTick, onMounted, reactive, shallowRef, useModel, watch } from "vue";
+import { computed, defineComponent, nextTick, onMounted, reactive, shallowRef, toRef, useModel, watch } from "vue";
 import { Expand, Fold } from "@element-plus/icons-vue";
 import { ElIcon, ElInput, ElScrollbar, ElTree, treeEmits, treeProps, useGlobalSize } from "element-plus";
 import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
@@ -385,7 +385,7 @@ export default defineComponent({
 			/** @description 在 Tree 中给定节点后插入一个节点 */
 			insertAfter: computed(() => treeRef.value?.insertAfter),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 刷新 */
 			refresh: loadData,
 		});
