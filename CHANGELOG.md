@@ -2,6 +2,18 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.19] - 2026-09-16
+
+### Changed
+
+- Made `FaUploadImage` `width` and `height` size only the image frame; the tip now uses the outer available width below the frame, so the component's total height includes the tip.
+
+### Fixed
+
+- Confined the `FaUploadImage` loading mask to the image frame when a form stretches the outer component to the full row width.
+- Aligned `FaUpload` trigger and `FaUploadImages` add-card styling with and without drag-and-drop, with width constraints for narrow containers.
+- Added a preview page covering normal and loading states for all three upload components with drag-and-drop enabled or disabled, plus the full-width form case.
+
 ## [2.0.18] - 2026-09-15
 
 ### Changed
@@ -197,6 +209,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.19]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.19
 [2.0.18]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.18
 [2.0.17]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.17
 [2.0.16]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.16
