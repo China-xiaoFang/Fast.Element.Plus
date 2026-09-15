@@ -1,4 +1,4 @@
-import { Transition, computed, defineComponent, onBeforeUnmount, onMounted, reactive } from "vue";
+import { Transition, defineComponent, onBeforeUnmount, onMounted, reactive, toRef } from "vue";
 import { useGlobalSize } from "element-plus";
 import { definePropType, useExpose, useRender } from "../../../utils";
 import { FaIcon } from "../../icon";
@@ -81,7 +81,7 @@ export default defineComponent({
 
 		return useExpose(expose, {
 			/** @description 是否显示 */
-			visible: computed(() => state.visible),
+			visible: toRef(state, "visible"),
 			/** @description 打开菜单 */
 			open,
 			/** @description 关闭菜单 */

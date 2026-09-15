@@ -1,4 +1,4 @@
-import { computed, defineComponent, reactive, shallowRef, watch, withModifiers } from "vue";
+import { computed, defineComponent, reactive, shallowRef, toRef, watch, withModifiers } from "vue";
 import { Eleme } from "@element-plus/icons-vue";
 import { ElButton, buttonEmits, buttonProps } from "element-plus";
 import { useOverlay } from "../../../hooks";
@@ -134,7 +134,7 @@ export default defineComponent({
 			/** @description 是否在两个字符之间插入空格 */
 			shouldAddSpace: computed(() => buttonRef.value?.shouldAddSpace),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 按钮加载 */
 			doLoading: handleLoading,
 		});

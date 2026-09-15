@@ -102,7 +102,7 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			show: state.show,
+			show: computed(() => state.show),
 		});
 	},
 });

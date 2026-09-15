@@ -220,7 +220,11 @@ export default defineComponent({
 										<UploadFilled />
 									</ElIcon>
 									<div class="el-upload__text">
-										Drop file here <br />
+										{props.drag && (
+											<Fragment>
+												Drop file here <br />
+											</Fragment>
+										)}
 										<em>click to upload</em>
 									</div>
 								</Fragment>

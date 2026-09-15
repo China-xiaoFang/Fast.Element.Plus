@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, reactive, shallowRef, useModel, watch } from "vue";
+import { computed, defineComponent, onMounted, reactive, shallowRef, toRef, useModel, watch } from "vue";
 import { ElSelect, selectEmits, selectProps, useGlobalSize } from "element-plus";
 import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 import FaSelectOption from "./selectOption";
@@ -453,7 +453,7 @@ export default defineComponent({
 			/** @description 获取当前选中的标签 */
 			selectedLabel: computed(() => selectRef.value?.selectedLabel),
 			/** @description 加载状态 */
-			loading: computed(() => state.loading),
+			loading: toRef(state, "loading"),
 			/** @description 刷新 */
 			refresh: loadData,
 			/** @description 设置选择  */

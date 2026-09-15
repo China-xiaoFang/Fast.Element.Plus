@@ -114,7 +114,7 @@ export default defineComponent({
 			<ElUpload
 				{...elUploadProps.value}
 				ref={uploadRef}
-				class="fa-upload"
+				class={["fa-upload", { "fa-upload__trigger": !!slots.trigger }]}
 				vLoading={loading.value}
 				vModel:fileList={fileList.value}
 				disabled={disabled.value}
@@ -136,7 +136,8 @@ export default defineComponent({
 									<UploadFilled />
 								</ElIcon>
 								<div class="el-upload__text">
-									Drop file here or <em>click to upload</em>
+									{props.drag ? "Drop file here or " : "Select a file or "}
+									<em>click to upload</em>
 								</div>
 							</Fragment>
 						),
