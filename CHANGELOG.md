@@ -2,6 +2,12 @@
 
 All notable changes to Fast.Element.Plus are documented in this file.
 
+## [2.0.18] - 2026-09-15
+
+### Changed
+
+- Disabled drag-and-drop upload by default for `FaUploadImage`; callers can still enable it with `drag`.
+
 ## [2.0.17] - 2026-09-12
 
 ### Changed
@@ -191,6 +197,7 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
+[2.0.18]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.18
 [2.0.17]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.17
 [2.0.16]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.16
 [2.0.15]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.15

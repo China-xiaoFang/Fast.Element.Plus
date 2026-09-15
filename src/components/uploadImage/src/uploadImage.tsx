@@ -10,11 +10,6 @@ import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from "el
 export const faUploadImageProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...uploadProps,
-	/** @description whether to activate drag and drop mode */
-	drag: {
-		type: Boolean,
-		default: true,
-	},
 	/** @description accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true` */
 	accept: {
 		type: String,
