@@ -15,7 +15,7 @@
 		"vue"
 	],
 	"license": "Apache-2.0",
-	"homepage": "https://fastdotnet.com",
+	"homepage": "http://fastdotnet.com",
 	"bugs": {
 		"url": "https://gitee.com/FastDotnet/fast.element.plus/issues"
 	},
@@ -61,10 +61,7 @@
 	},
 	"scripts": {
 		"dev": "tsdown --watch",
-		"docs:dev": "vitepress dev docs --host 127.0.0.1 --port 5173 --strictPort",
 		"build": "tsdown && pnpm run typegen && pnpm run build:styles",
-		"docs:build": "vitepress build docs",
-		"docs:preview": "vitepress preview docs",
 		"build:styles": "sass styles/index.scss dist/index.css --style=compressed --source-map --embed-sources",
 		"typegen": "tsc",
 		"typecheck": "tsc --noEmit",
@@ -72,10 +69,9 @@
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"test": "pnpm run build && pnpm run test:types && pnpm run test:runtime && pnpm run test:docs && pnpm run test:package",
+		"test": "pnpm run build && pnpm run test:types && pnpm run test:runtime && pnpm run test:package",
 		"test:types": "tsc --noEmit --project tests/tsconfig.json",
 		"test:runtime": "node --test tests/runtime.test.mjs",
-		"test:docs": "node --test tests/docs.test.mjs",
 		"test:package": "node --test tests/package.test.mjs && publint --strict --pack npm",
 		"check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run format:check",
 		"prepack": "pnpm run check"
@@ -98,7 +94,7 @@
 		"@fast-element-plus/icons-vue": "^2.0.1",
 		"@types/node": "^24.13.4",
 		"@types/sortablejs": "^1.15.9",
-		"dayjs": "^1.11.23",
+		"@vue/shared": "3.5.11",
 		"element-plus": "^2.14.5",
 		"eslint": "^10.10.0",
 		"eslint-config-flat-gitignore": "^2.4.0",
@@ -116,7 +112,6 @@
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.70.0",
 		"unplugin-vue-jsx": "^0.10.0",
-		"vitepress": "^1.6.4",
 		"vue": "^3.5.11",
 		"vue-eslint-parser": "^10.4.1"
 	},

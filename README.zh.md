@@ -2,6 +2,8 @@
 
 <h1 align="center">Fast.Element.Plus</h1>
 
+**[使用文档](http://docs.fastdotnet.cn/) · [官方网站](http://fastdotnet.com)**
+
 <p align="center">
 	基于 Element Plus 构建的 Vue 3 类型化业务组件、指令与 Hook。
 </p>
@@ -18,14 +20,14 @@ Fast.Element.Plus 是正式开源的 Fast 系列业务 SDK，面向 Fast 团队�
 ## 环境要求
 
 - 支持 ES2022 的现代浏览器或 WebView。
-- Vue `^3.5.41`。
+- Vue `^3.5.11`。
 - Element Plus `^2.14.5`。
 - Element Plus Icons `^2.3.2`。
 - Fast.Element.Plus.Icons `^2.0.0`。
 
 Vue、Element Plus、Element Plus Icons 和 Fast.Element.Plus.Icons 均为强制 Peer Dependency。两套图标包保持在构建产物之外。包管理器会自动安装正式 Runtime Dependency，ESM 构建保留这些外部导入，不再将其复制到 `dist/node_modules`；CDN IIFE 仍会内联依赖以支持浏览器直接使用。组件内部工具包含在 Fast.Element.Plus 构建产物中。
 
-当前 Element Plus 人工审计基线为 `2.14.x`。当 Element Plus 次版本号发生变化，例如由 `2.14.x` 升级到 `2.15.x` 或更高时，必须重新核对封装涉及的原生 Props、Emits、Slots、Expose、默认值和内部样式结构，详见 [Element Plus 兼容性与升级核对](./docs/ELEMENT_PLUS_COMPATIBILITY.zh-CN.md)。
+当前 Element Plus 人工审计基线为 `2.14.x`。当 Element Plus 次版本号发生变化，例如由 `2.14.x` 升级到 `2.15.x` 或更高时，必须重新核对封装涉及的原生 Props、Emits、Slots、Expose、默认值和内部样式结构，详见 [Element Plus 兼容性与升级核对](http://docs.fastdotnet.cn/ELEMENT_PLUS_COMPATIBILITY.zh-CN)。
 
 ## 安装
 
@@ -103,22 +105,16 @@ useOverlay.show();
 
 ## 文档
 
-- [组件文档与交互案例](./docs/components/overview.md)
-- [安装与使用](./docs/guide/installation.md)
-- [文档站构建与部署](./docs/guide/deployment.md)
-- [API 参考](./docs/API.zh-CN.md)
-- [运行时契约](./docs/RUNTIME_CONTRACT.md)
-- [Element Plus 兼容性与升级核对](./docs/ELEMENT_PLUS_COMPATIBILITY.zh-CN.md)
+- [组件文档与交互案例](http://docs.fastdotnet.cn/components/overview)
+- [安装与使用](http://docs.fastdotnet.cn/guide/installation)
+- [文档站构建与部署](http://docs.fastdotnet.cn/guide/deployment)
+- [API 参考](http://docs.fastdotnet.cn/API.zh-CN)
+- [运行时契约](http://docs.fastdotnet.cn/RUNTIME_CONTRACT)
+- [Element Plus 兼容性与升级核对](http://docs.fastdotnet.cn/ELEMENT_PLUS_COMPATIBILITY.zh-CN)
 - [开发与发布指南](./docs/DEVELOPMENT_RELEASE.zh-CN.md)
 - [贡献指南](./CONTRIBUTING.md)
 - [安全策略](./SECURITY.md)
 - [更新日志](./CHANGELOG.md)
-
-本地运行完整文档站：
-
-```bash
-pnpm docs:dev
-```
 
 ## 开源协议
 

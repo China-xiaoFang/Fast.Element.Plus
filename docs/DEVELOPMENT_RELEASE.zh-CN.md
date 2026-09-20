@@ -9,7 +9,7 @@
 - 根目录是唯一 npm 发布单元，根 `dist/` 是唯一产物目录。
 - 组件样式构建为 `dist/index.css` 与内嵌源码的 Source Map。
 
-应用环境包括支持 ES2022 的现代浏览器、WebView、Vue `^3.5.41` 和 Element Plus `^2.14.5`。
+应用环境包括支持 ES2022 的现代浏览器、WebView、Vue `^3.5.11` 和 Element Plus `^2.14.5`。
 
 ## 安装与命令
 
@@ -18,22 +18,20 @@ corepack enable
 pnpm install --frozen-lockfile
 ```
 
-| 命令                | 用途                                                |
-| ------------------- | --------------------------------------------------- |
-| `pnpm dev`          | 使用 tsdown 监听源码并增量构建 JavaScript           |
-| `pnpm docs:dev`     | 启动开发文档站并查看组件案例                        |
-| `pnpm docs:build`   | 构建可部署的静态文档站                              |
-| `pnpm docs:preview` | 本地预览生产文档站                                  |
-| `pnpm build`        | 构建 ESM、全局类型、压缩 IIFE 和 CSS                |
-| `pnpm typegen`      | 使用 TypeScript 生成完整 Vue TSX 公开声明           |
-| `pnpm typecheck`    | 检查源码与构建配置类型                              |
-| `pnpm lint`         | 运行零警告 ESLint                                   |
-| `pnpm format:check` | 检查 Prettier                                       |
-| `pnpm test:types`   | 验证公开消费者类型                                  |
-| `pnpm test:runtime` | 验证根入口、组件、指令与 Hook 契约                  |
-| `pnpm test:docs`    | 校验文档核对版本、组件 API 页面与示例引用           |
-| `pnpm test:package` | 验证公开入口、声明、Source Map、CSS、归档和 Publint |
-| `pnpm check`        | 运行统一质量门禁                                    |
+| 命令                                    | 用途                                                |
+| --------------------------------------- | --------------------------------------------------- |
+| `pnpm dev`                              | 使用 tsdown 监听源码并增量构建 JavaScript           |
+| `pnpm build`                            | 构建 ESM、全局类型、压缩 IIFE 和 CSS                |
+| `pnpm typegen`                          | 使用 TypeScript 生成完整 Vue TSX 公开声明           |
+| `pnpm typecheck`                        | 检查源码与构建配置类型                              |
+| `pnpm lint`                             | 运行零警告 ESLint                                   |
+| `pnpm format:check`                     | 检查 Prettier                                       |
+| `pnpm test:types`                       | 验证公开消费者类型                                  |
+| `pnpm test:runtime`                     | 验证根入口、组件、指令与 Hook 契约                  |
+| `pnpm test:package`                     | 验证公开入口、声明、Source Map、CSS、归档和 Publint |
+| `pnpm check`                            | 运行统一质量门禁                                    |
+
+组件用法与示例见[使用文档](http://docs.fastdotnet.cn/)。文档维护者另行验证站点构建与示例；SDK 常规构建和测试不要求访问文档工程。
 
 ## 修改公共 API
 
@@ -67,7 +65,7 @@ pnpm install --frozen-lockfile
 - `src/utils/` 只保留组件真实使用的内部工具，不从根入口导出，也不依赖 Fast.Utils。
 - Runtime Dependency 必须证明无法由平台能力或现有依赖替代。
 - 依赖升级后使用当前 pnpm 11 更新 Lockfile，并通过 Frozen Lockfile 安装与 Peer 检查。
-- Element Plus 次版本号发生变化时，必须完整执行 [Element Plus 兼容性与升级核对](./ELEMENT_PLUS_COMPATIBILITY.zh-CN.md)，完成后才能更新文档审计基线。
+- Element Plus 次版本号发生变化时，必须完整执行 [Element Plus 兼容性与升级核对](http://docs.fastdotnet.cn/ELEMENT_PLUS_COMPATIBILITY.zh-CN)，完成后才能更新文档审计基线。
 - 不混用 npm、Yarn 或不同 pnpm 主版本改写 Lockfile。
 - ESLint 配置完整同步 Fast.ESLint.Config 的 Vue、TypeScript、JavaScript、Import、RegExp、JSON、Markdown、排序和 Prettier 规则，直接安装官方插件，不依赖 `@fast-china/eslint-config`。
 
@@ -82,8 +80,8 @@ CI 在 Node.js 22.18.0 与 24.18.0 上运行，使用 Frozen Lockfile，并执�
 1. 修改代码，并同步相关测试。
 2. 调整根 `package.json` 的包版本，并同步 `src/version.ts` 与 `CHANGELOG.md`。
 3. 对照该版本的源码与变更记录，核对并同步相关文档和示例，包括 Props、Events、Slots、Exposes、`v-model`、默认值、类型与行为。
-4. 核对完成后，更新 `docs/index.md` Frontmatter 中唯一的 `docReviewVersion`。该字段表示文档已按此组件库版本完成核对，不表示 API 的首次引入版本；即使正文无需修改也必须在人工核对后更新。
-5. 执行 `pnpm test` 和 `pnpm docs:build`；`test:docs` 只校验可稳定自动判断的版本、页面和引用关系，版本一致不代表全部文档语义正确。
+4. 核对完成后，由文档维护者更新文档核对记录中的 `docReviewVersion`。该字段表示文档已按此组件库版本完成核对，不表示 API 的首次引入版本；即使正文无需修改也必须在人工核对后更新。
+5. 执行 `pnpm test`，并由文档维护者完成站点构建和文档检查；文档自动检查只校验可稳定自动判断的版本、页面和引用关系，版本一致不代表全部文档语义正确。
 6. 执行 `pnpm check`，并人工检查 `pnpm --config.ignore-scripts=true pack --dry-run` 清单。
 7. 由维护者在可信环境执行 npm Publish，并创建对应 `v<version>` Tag。
 

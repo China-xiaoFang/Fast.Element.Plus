@@ -2,6 +2,8 @@
 
 <h1 align="center">Fast.Element.Plus</h1>
 
+**[Documentation](http://docs.fastdotnet.cn/) · [Official website](http://fastdotnet.com)**
+
 <p align="center">
 	Typed Vue 3 components, directives, and hooks for business applications built on Element Plus.
 </p>
@@ -18,14 +20,14 @@ The SDK builds business behavior on Element Plus and is not a drop-in replacemen
 ## Requirements
 
 - ES2022 modern browsers or WebViews.
-- Vue `^3.5.41`.
+- Vue `^3.5.11`.
 - Element Plus `^2.14.5`.
 - Element Plus Icons `^2.3.2`.
 - Fast.Element.Plus.Icons `^2.0.0`.
 
 Vue, Element Plus, Element Plus Icons, and Fast.Element.Plus.Icons are required peer dependencies. Both icon packages remain external to the build. Package managers install declared runtime dependencies automatically, and the ESM build keeps those imports external instead of copying them into `dist/node_modules`; the CDN IIFE bundles them for direct browser use. Component-only utilities are included in the Fast.Element.Plus build.
 
-The current manually audited Element Plus baseline is `2.14.x`. When the Element Plus minor version changes, for example from `2.14.x` to `2.15.x` or later, native Props, Emits, Slots, exposed methods, defaults, and internal style structures must be audited again. See [Element Plus compatibility and upgrade audit](./docs/ELEMENT_PLUS_COMPATIBILITY.md).
+The current manually audited Element Plus baseline is `2.14.x`. When the Element Plus minor version changes, for example from `2.14.x` to `2.15.x` or later, native Props, Emits, Slots, exposed methods, defaults, and internal style structures must be audited again. See [Element Plus compatibility and upgrade audit](http://docs.fastdotnet.cn/ELEMENT_PLUS_COMPATIBILITY).
 
 ## Install
 
@@ -103,22 +105,16 @@ The `unpkg` and `jsdelivr` fields select `dist/index.global.min.js`. Load Vue, E
 
 ## Documentation
 
-- [Component documentation and interactive examples (Chinese)](./docs/components/overview.md)
-- [Installation guide (Chinese)](./docs/guide/installation.md)
-- [Documentation build and deployment (Chinese)](./docs/guide/deployment.md)
-- [API reference](./docs/API.md)
-- [Runtime contract](./docs/RUNTIME_CONTRACT.md)
-- [Element Plus compatibility and upgrade audit](./docs/ELEMENT_PLUS_COMPATIBILITY.md)
+- [Component documentation and interactive examples (Chinese)](http://docs.fastdotnet.cn/components/overview)
+- [Installation guide (Chinese)](http://docs.fastdotnet.cn/guide/installation)
+- [Documentation build and deployment (Chinese)](http://docs.fastdotnet.cn/guide/deployment)
+- [API reference](http://docs.fastdotnet.cn/API)
+- [Runtime contract](http://docs.fastdotnet.cn/RUNTIME_CONTRACT)
+- [Element Plus compatibility and upgrade audit](http://docs.fastdotnet.cn/ELEMENT_PLUS_COMPATIBILITY)
 - [Development and release guide (Chinese)](./docs/DEVELOPMENT_RELEASE.zh-CN.md)
 - [Contributing](./CONTRIBUTING.md)
 - [Security policy](./SECURITY.md)
 - [Changelog](./CHANGELOG.md)
-
-Run the complete documentation site locally:
-
-```bash
-pnpm docs:dev
-```
 
 ## License
 
