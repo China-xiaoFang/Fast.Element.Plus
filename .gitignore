@@ -3,10 +3,33 @@ node_modules
 .pnpm-store
 *.tgz
 
-# Build and test outputs
-/dist
-/docs/.vitepress/cache
-/docs/.vitepress/dist
-
 # System
 .DS_Store
+
+# Codex - ignore local state; keep reviewed shared configuration
+**/.codex/*
+!**/.codex/config.toml
+!**/.codex/hooks.json
+
+# Shared custom agents
+!**/.codex/agents/
+**/.codex/agents/*
+!**/.codex/agents/*.toml
+
+# Shared execution rules
+!**/.codex/rules/
+**/.codex/rules/*
+!**/.codex/rules/*.rules
+
+# Shared local-environment definitions
+!**/.codex/environments/
+**/.codex/environments/*
+!**/.codex/environments/*.toml
+
+# Fast convention: local-only reports, drafts, screenshots, and scratch files
+**/.codex-local/
+
+# Optional log directory used in Codex documentation examples
+**/.codex-log/
+
+# Do not blanket-ignore AGENTS.md, .agents/skills/, or skills-lock.json.
