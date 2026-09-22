@@ -3,35 +3,35 @@ import { definePropType, makeSlots, useExpose, useRender } from "../../../utils"
 import type { VNode, VNodeArrayChildren } from "vue";
 import type { FaLayoutGridBreakpoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
 
-/** FaLayoutGrid 的插槽参数。 */
+/** FaLayoutGrid 的插槽参数 */
 export interface FaLayoutGridSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
 }
 
 export default defineComponent({
 	name: "FaLayoutGrid",
 	props: {
-		/** @description Grid布局列配置 */
+		/** Grid布局列配置 */
 		cols: {
 			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakpoint, number>>>([String, Number, Object]),
 			default: () => ({ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }),
 		},
-		/** @description 折叠 */
+		/** 折叠 */
 		collapsed: Boolean,
-		/** @description 折叠行数 */
+		/** 折叠行数 */
 		collapsedRows: {
 			type: [String, Number],
 			default: 1,
 		},
-		/** @description 间距，偏移 */
+		/** 间距，偏移 */
 		gap: {
 			type: definePropType<number | [number, number]>([Number, Array]),
 			default: 0,
 		},
 	},
 	emits: {
-		/** @description 断点变化事件 */
+		/** 断点变化事件 */
 		breakpointChange: ({ breakpoint: _breakpoint }: { breakpoint: FaLayoutGridBreakpoint }) => true,
 	},
 	slots: makeSlots<FaLayoutGridSlots>(),
@@ -192,7 +192,7 @@ export default defineComponent({
 		});
 
 		return useExpose(expose, {
-			/** @description 响应式断点 */
+			/** 响应式断点 */
 			breakpoint,
 		});
 	},

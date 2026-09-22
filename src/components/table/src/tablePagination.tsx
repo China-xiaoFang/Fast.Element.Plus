@@ -6,16 +6,16 @@ import { tableStateKey } from "./useTable";
 export default defineComponent({
 	name: "FaTablePagination",
 	props: {
-		/** @description 页码 */
+		/** 页码 */
 		pageSizes: {
 			type: definePropType<number[]>(Array),
 			default: [20, 30, 50, 100],
 		},
 	},
 	emits: {
-		/** @description 页码改变 */
+		/** 页码改变 */
 		sizeChange: (pageSize: number) => typeof pageSize === "number" || pageSize === null,
-		/** @description 当前页数改变 */
+		/** 当前页数改变 */
 		currentChange: (currentPage: number) => typeof currentPage === "number" || currentPage === null,
 	},
 	setup(props, { emit }) {

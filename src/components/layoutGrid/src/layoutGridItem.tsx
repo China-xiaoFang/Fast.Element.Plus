@@ -3,48 +3,48 @@ import { definePropType, makeSlots, useExpose, useRender } from "../../../utils"
 import type { Ref } from "vue";
 import type { FaLayoutGridBreakpoint, FaLayoutGridItemResponsive } from "./layoutGrid.type";
 
-/** FaLayoutGridItem 的插槽参数。 */
+/** FaLayoutGridItem 的插槽参数 */
 export interface FaLayoutGridItemSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
 }
 
 export default defineComponent({
 	name: "FaLayoutGridItem",
 	props: {
-		/** @description 偏移 */
+		/** 偏移 */
 		offset: {
 			type: [String, Number],
 			default: 0,
 		},
-		/** @description 占位 */
+		/** 占位 */
 		span: {
 			type: [String, Number],
 			default: 1,
 		},
-		/** @description 后缀 */
+		/** 后缀 */
 		suffix: { type: Boolean, default: false },
-		/** @description 响应式，小于480px屏幕配置 */
+		/** 响应式，小于480px屏幕配置 */
 		xs: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
 			default: undefined,
 		},
-		/** @description 响应式，平板竖屏配置 */
+		/** 响应式，平板竖屏配置 */
 		sm: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
 			default: undefined,
 		},
-		/** @description 响应式，平板横屏配置 */
+		/** 响应式，平板横屏配置 */
 		md: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
 			default: undefined,
 		},
-		/** @description 响应式，小型桌面配置 */
+		/** 响应式，小型桌面配置 */
 		lg: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
 			default: undefined,
 		},
-		/** @description 响应式，大型桌面配置 */
+		/** 响应式，大型桌面配置 */
 		xl: {
 			type: definePropType<FaLayoutGridItemResponsive>(Object),
 			default: undefined,

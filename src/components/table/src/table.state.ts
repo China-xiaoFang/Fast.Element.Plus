@@ -22,12 +22,12 @@ export interface FaTableState {
 	orgColumns: FaTableColumnCtx[];
 	/**
 	 * 正常显示的列
-	 * @description prop 不为空，并且不是纯搜索字段的
+	 * prop 不为空，并且不是纯搜索字段的
 	 */
 	tableColumns: FaTableColumnCtx[];
 	/**
 	 * 搜索列
-	 * @description 纯搜索字段或el 不为空的
+	 * 纯搜索字段或el 不为空的
 	 */
 	searchColumns: FaTableColumnCtx[];
 	/**
@@ -76,7 +76,7 @@ export interface FaTableState {
 	selectedListIds: (string | number)[];
 	/**
 	 * 当前不确定选中数据的ids
-	 * @description 仅样式存在区别
+	 * 仅样式存在区别
 	 */
 	indeterminateSelectedListIds: (string | number)[];
 	/**

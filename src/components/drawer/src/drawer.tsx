@@ -4,85 +4,85 @@ import { ElButton, ElDrawer, ElIcon, ElMessage, ElMessageBox, ElScrollbar, drawe
 import { FullScreen, FullScreenExit } from "@fast-element-plus/icons-vue";
 import { callOptionalFunction, definePropType, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
 
-/** FaDrawer 的运行时 Props 定义。 */
+/** FaDrawer 的运行时 Props 定义 */
 export const faDrawerProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...drawerProps,
-	/** @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
+	/** whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` */
 	appendToBody: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description enable dragging feature for Dialog */
+	/** enable dragging feature for Dialog */
 	draggable: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description destroy elements in Dialog when closed */
+	/** destroy elements in Dialog when closed */
 	destroyOnClose: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 显示刷新按钮 */
+	/** 显示刷新按钮 */
 	showRefresh: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 显示全屏图标 */
+	/** 显示全屏图标 */
 	showFullscreen: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 显示关闭按钮 */
+	/** 显示关闭按钮 */
 	showCloseButton: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 显示确认按钮 */
+	/** 显示确认按钮 */
 	showConfirmButton: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 禁用确认按钮 */
+	/** 禁用确认按钮 */
 	disabledConfirmButton: Boolean,
-	/** @description 关闭按钮文字，默认取消 */
+	/** 关闭按钮文字，默认取消 */
 	closeButtonText: {
 		type: String,
 		default: "取消",
 	},
-	/** @description 确认按钮文字，默认确认 */
+	/** 确认按钮文字，默认确认 */
 	confirmButtonText: {
 		type: String,
 		default: "确认",
 	},
-	/** @description 隐藏底部操作 */
+	/** 隐藏底部操作 */
 	hideFooter: Boolean,
-	/** @description 显示关闭回调 */
+	/** 显示关闭回调 */
 	showBeforeClose: Boolean,
-	/** @description 打开之后 */
+	/** 打开之后 */
 	afterOpen: {
 		type: definePropType<() => void | Promise<void>>(Function),
 	},
 };
 
-/** FaDrawer 的运行时 Emits 定义。 */
+/** FaDrawer 的运行时 Emits 定义 */
 export const faDrawerEmits = {
 	...drawerEmits,
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: boolean) => typeof value === "boolean",
-	/** @description 确认按钮点击事件 */
+	/** 确认按钮点击事件 */
 	confirmClick: () => true,
 };
 
-/** FaDrawer 的插槽参数。 */
+/** FaDrawer 的插槽参数 */
 export interface FaDrawerSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: { loading: boolean };
-	/** @description 头部插槽 */
+	/** 头部插槽 */
 	header: { loading: boolean; close: () => void; titleId: string; titleClass: string };
-	/** @description 标题插槽 */
+	/** 标题插槽 */
 	title: { loading: boolean; close: () => void; titleId: string; titleClass: string };
-	/** @description 底部插槽 */
+	/** 底部插槽 */
 	footer: { loading: boolean; close: () => void };
 }
 
@@ -352,19 +352,19 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 用于关闭 Drawer, 该方法会调用传入的 before-close 方法 */
+			/** 用于关闭 Drawer, 该方法会调用传入的 before-close 方法 */
 			handleClose: computed(() => drawerRef.value?.handleClose),
-			/** @description 加载状态 */
+			/** 加载状态 */
 			loading: toRef(state, "loading"),
-			/** @description 是否显示 */
+			/** 是否显示 */
 			visible: toRef(state, "visible"),
-			/** @description 打开弹窗 */
+			/** 打开弹窗 */
 			open: handleOpen,
-			/** @description 关闭弹窗 */
+			/** 关闭弹窗 */
 			close: handleClose,
-			/** @description 刷新弹窗 */
+			/** 刷新弹窗 */
 			refresh: handleRefresh,
-			/** @description 弹窗加载 */
+			/** 弹窗加载 */
 			doLoading: handleLoading,
 		});
 	},

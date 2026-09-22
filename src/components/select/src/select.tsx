@@ -7,71 +7,71 @@ import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "./
 
 /** 传递给底层 Element Plus 选择器的扩展 Props。 */
 export interface SelectComponentProps {
-	/** @description 指定标签为节点的某个属性值 */
+	/** 指定标签为节点的某个属性值 */
 	label?: string | ((data: ElSelectorOutput) => string);
-	/** @description 指定是否隐藏为节点的某个属性值 */
+	/** 指定是否隐藏为节点的某个属性值 */
 	hide?: string | ((data: ElSelectorOutput) => boolean);
-	/** @description 指定是否禁用为节点的某个属性值 */
+	/** 指定是否禁用为节点的某个属性值 */
 	disabled?: string | ((data: ElSelectorOutput) => boolean);
-	/** @description 指定子节点对象为节点的某个属性值 */
+	/** 指定子节点对象为节点的某个属性值 */
 	children?: string;
 }
 
-/** FaSelect 的运行时 Props 定义。 */
+/** FaSelect 的运行时 Props 定义 */
 export const faSelectProps = {
 	...selectProps,
-	/** @description whether Select is disabled 重载使其支持 ElForm*/
+	/** 是否禁用选择器；未指定时继承 ElForm 的禁用状态。 */
 	disabled: {
 		type: Boolean,
 		default: undefined,
 	},
-	/** @description displayed text while loading data from server, default is 'Loading' */
+	/** 远程数据加载时显示的文本；默认显示“加载中...”。 */
 	loadingText: {
 		type: String,
 		default: "加载中...",
 	},
-	/** @description displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data' */
+	/** 筛选结果为空时显示的文本，也可通过 empty 插槽替换。 */
 	noMatchText: {
 		type: String,
 		default: "暂无匹配的数据",
 	},
-	/** @description displayed text when there is no options, you can also use slot `empty`, default is 'No data' */
+	/** 没有可选数据时显示的文本，也可通过 empty 插槽替换。 */
 	noDataText: {
 		type: String,
 		default: "暂无数据",
 	},
-	/** @description whether to collapse tags to a text when multiple selecting */
+	/** 多选时是否折叠已选标签 */
 	collapseTags: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true */
+	/** 悬停折叠标签时是否显示全部选项；仅在 collapse-tags 开启时有效。 */
 	collapseTagsTooltip: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description v-model绑定值 */
+	/** v-model 绑定值 */
 	modelValue: {
 		type: definePropType<ElSelectorModelValue>([String, Number, Boolean, Object, Array]),
 		default: undefined,
 	},
-	/** @description v-model:label绑定值 */
+	/** v-model:label 绑定值 */
 	label: definePropType<string | string[] | null>([String, Array]),
-	/** @description 宽度 */
+	/** 宽度 */
 	width: {
 		type: [String, Number],
 		default: "100%",
 	},
-	/** @description 更多细节，只有使用slot的时候有用 */
+	/** 插槽使用的附加状态 */
 	moreDetail: Boolean,
-	/** @description 懒加载远程数据，默认 true。当下拉框第一次显示的时候才会加载远程数据*/
+	/** 是否延迟加载远程数据；开启后在首次打开下拉框时请求。 */
 	lazy: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 默认选中。不能和懒加载一起使用 */
+	/** 是否默认选中；不能与懒加载同时使用。 */
 	defaultSelected: Boolean,
-	/** @description 配置选项 */
+	/** 配置选项 */
 	props: {
 		type: definePropType<SelectComponentProps>(Object),
 		default: () => ({
@@ -81,12 +81,12 @@ export const faSelectProps = {
 			children: "children",
 		}),
 	},
-	/** @description 下拉框数据 */
+	/** 下拉框数据 */
 	data: {
 		type: definePropType<ElSelectorOutput[]>(Array),
 		default: () => [],
 	},
-	/** @description 请求api */
+	/** 请求数据的函数 */
 	requestApi: {
 		type: definePropType<(params?: string | number | PagedInput) => Promise<ElSelectorOutput[]>>(Function),
 	},
@@ -94,41 +94,41 @@ export const faSelectProps = {
 	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 };
 
-/** FaSelect 的运行时 Emits 定义。 */
+/** FaSelect 的运行时 Emits 定义 */
 export const faSelectEmits = {
 	...selectEmits,
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: ElSelectorModelValue) =>
 		typeof value === "string" ||
 		typeof value === "number" ||
 		typeof value === "boolean" ||
 		(typeof value === "object" && value !== null) ||
 		value == null,
-	/** @description 选中数据改变 */
+	/** 选中数据改变 */
 	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue) => true,
-	/** @description v-model:label 回调 */
+	/** v-model:label 回调 */
 	"update:label": (value: string | string[] | null) => typeof value === "string" || Array.isArray(value) || value === null,
-	/** @description 数据改变 */
+	/** 数据改变 */
 	dataChange: (data: ElSelectorOutput[]) => Array.isArray(data),
 };
 
-/** FaSelect 的插槽参数。 */
+/** FaSelect 的插槽参数 */
 export interface FaSelectSlots extends Record<string, unknown> {
-	/** @description FaSelectOption 默认内容插槽 */
+	/** FaSelectOption 默认内容插槽 */
 	default: ElSelectorOutput;
-	/** @description 下拉列表顶部的内容 */
+	/** 下拉列表顶部的内容 */
 	header: never;
-	/** @description 下拉列表底部的内容 */
+	/** 下拉列表底部的内容 */
 	footer: never;
-	/** @description Select 组件头部内容 */
+	/** Select 组件头部内容 */
 	prefix: never;
-	/** @description 无选项时的列表 */
+	/** 无选项时的列表 */
 	empty: never;
-	/** @description select 组件自定义标签内容 */
+	/** select 组件自定义标签内容 */
 	tag: never;
-	/** @description select 组件自定义 loading内容 */
+	/** Select 组件自定义加载内容 */
 	loading: never;
-	/** @description select 组件自定义标签内容 */
+	/** select 组件自定义标签内容 */
 	label: { label: string; value: string | number | boolean | object };
 }
 
@@ -446,19 +446,19 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 使选择器的输入框获取焦点 */
+			/** 使选择器的输入框获取焦点 */
 			focus: computed(() => selectRef.value?.focus),
-			/** @description 使选择器的输入框失去焦点，并隐藏下拉框 */
+			/** 使选择器的输入框失去焦点，并隐藏下拉框 */
 			blur: computed(() => selectRef.value?.blur),
-			/** @description 获取当前选中的标签 */
+			/** 获取当前选中的标签 */
 			selectedLabel: computed(() => selectRef.value?.selectedLabel),
-			/** @description 加载状态 */
+			/** 加载状态 */
 			loading: toRef(state, "loading"),
-			/** @description 刷新 */
+			/** 刷新 */
 			refresh: loadData,
-			/** @description 设置选择  */
+			/** 设置选择 */
 			setSelection: (value: Exclude<ElSelectorModelValue, null | undefined>) => handleModelValueUpdate(value),
-			/** @description 清除选择  */
+			/** 清除选择 */
 			clearSelection: () => handleModelValueUpdate(props.multiple ? [] : undefined),
 		});
 	},

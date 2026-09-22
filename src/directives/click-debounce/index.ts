@@ -2,7 +2,7 @@
  * v-debounce
  * 按钮防抖指令
  */
-import { withInstallDirective } from "../../utils";
+import { withInstallDirective } from "../../utils/vue/install";
 import type { Directive } from "vue";
 
 interface DebounceElement extends HTMLElement {
@@ -25,9 +25,16 @@ const DebounceDirective: Directive<DebounceElement> = {
 			}
 			// 防抖处理
 			el.__debounce_timer__ = setTimeout(() => {
+				el.__debounce_timer__ = undefined;
 				el.__debounce_originClick__?.(...arguments_);
 			}, 500);
 		};
+	},
+	beforeUnmount(el) {
+		// 卸载后不再触发延迟业务回调，同时释放闭包引用。
+		if (el.__debounce_timer__ !== undefined) clearTimeout(el.__debounce_timer__);
+		delete el.__debounce_timer__;
+		delete el.__debounce_originClick__;
 	},
 };
 

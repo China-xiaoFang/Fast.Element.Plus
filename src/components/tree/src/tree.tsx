@@ -8,14 +8,14 @@ import type { PagedInput } from "../../table";
 import type { FilterNodeMethodFunction, TreeNode } from "./tree.props";
 import type { ElTreeOutput } from "./tree.type";
 
-/** FaTree 的运行时 Props 定义。 */
+/** FaTree 的运行时 Props 定义 */
 export const faTreeProps = {
 	...treeProps,
 	/** 树节点筛选方法。 */
 	filterNodeMethod: {
 		type: definePropType<FilterNodeMethodFunction>(Function),
 	},
-	/** @description whether Select is disabled 重载使其支持 ElForm*/
+	/** 是否禁用选择器；未指定时继承 ElForm 的禁用状态。 */
 	disabled: {
 		type: Boolean,
 		default: undefined,
@@ -25,56 +25,56 @@ export const faTreeProps = {
 		type: String,
 		default: "value",
 	},
-	/** @description 是否默认展开所有节点 */
+	/** 是否默认展开所有节点 */
 	defaultExpandAll: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 是否在点击节点的时候选中节点 */
+	/** 是否在点击节点的时候选中节点 */
 	checkOnClickNode: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 是否高亮当前选中节点 */
+	/** 是否高亮当前选中节点 */
 	highlightCurrent: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 点击折叠节点，需要开启 'expandOnClickNode' */
+	/** 点击折叠节点，需要开启 'expandOnClickNode' */
 	collapseOnClickNode: Boolean,
-	/** @description v-model绑定值 */
+	/** v-model 绑定值 */
 	modelValue: {
 		type: definePropType<string | number | boolean | object | null>([String, Number, Boolean, Object]),
 		default: undefined,
 	},
-	/** @description v-model:label绑定值 */
+	/** v-model:label 绑定值 */
 	label: String,
-	/** @description 宽度 */
+	/** 宽度 */
 	width: {
 		type: [String, Number],
 		default: 180,
 	},
-	/** @description 默认选择 */
+	/** 默认选择 */
 	defaultSelection: [String, Number],
-	/** @description 标题 */
+	/** 标题 */
 	title: String,
-	/** @description 折叠 */
+	/** 折叠 */
 	hamburger: Boolean,
-	/** @description 隐藏全部 */
+	/** 隐藏全部 */
 	hideAll: Boolean,
-	/** @description 隐藏过滤 */
+	/** 隐藏过滤 */
 	hideFilter: Boolean,
-	/** @description 全部值 */
+	/** 全部值 */
 	allValue: {
 		type: definePropType<string | number | boolean | object | null>([String, Number, Boolean, Object]),
 		default: undefined,
 	},
-	/** @description 树形数据 */
+	/** 树形数据 */
 	data: {
 		type: definePropType<ElTreeOutput[]>(Array),
 		default: () => [],
 	},
-	/** @description 请求api */
+	/** 请求数据的函数 */
 	requestApi: {
 		type: definePropType<(params?: string | number | PagedInput) => Promise<ElTreeOutput[]>>(Function),
 	},
@@ -82,33 +82,33 @@ export const faTreeProps = {
 	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
 };
 
-/** FaTree 的运行时 Emits 定义。 */
+/** FaTree 的运行时 Emits 定义 */
 export const faTreeEmits = {
 	...treeEmits,
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: string | number | boolean | object | null | undefined) =>
 		typeof value === "string" ||
 		typeof value === "number" ||
 		typeof value === "boolean" ||
 		(typeof value === "object" && value !== null) ||
 		value == null,
-	/** @description v-model:label 回调 */
+	/** v-model:label 回调 */
 	"update:label": (value: string) => typeof value === "string" || value === null,
-	/** @description 数据改变 */
+	/** 数据改变 */
 	dataChange: (data: ElTreeOutput[]) => Array.isArray(data),
-	/** @description 选中数据改变 */
+	/** 选中数据改变 */
 	change: (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance, _event: MouseEvent) => true,
-	/** @description 节点点击 */
+	/** 节点点击 */
 	"node-click": (_data: ElTreeOutput, _node: TreeNode, _instance: ComponentInternalInstance | null, _event: MouseEvent) => true,
 };
 
-/** FaTree 的插槽参数。 */
+/** FaTree 的插槽参数 */
 export interface FaTreeSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: { node: TreeNode; data: ElTreeOutput };
-	/** @description 当数据为空时自定义的内容 */
+	/** 当数据为空时自定义的内容 */
 	empty: never;
-	/** @description 显示内容插槽 */
+	/** 显示内容插槽 */
 	label: { node: TreeNode; data: ElTreeOutput };
 }
 
@@ -145,7 +145,7 @@ export default defineComponent({
 		});
 		let requestVersion = 0;
 
-		/** @description 只有一层节点 */
+		/** 只有一层节点 */
 		const fold = computed<boolean>(() => {
 			const childrenKey = props.props.children ?? "children";
 			return state.originalTreeData.every((item) => !Array.isArray(item[childrenKey]) || item[childrenKey].length === 0);
@@ -344,49 +344,49 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 过滤所有树节点，过滤后的节点将被隐藏 */
+			/** 过滤所有树节点，过滤后的节点将被隐藏 */
 			filter: computed(() => treeRef.value?.filter),
-			/** @description 获取节点的唯一标识。 */
+			/** 获取节点的唯一标识。 */
 			getNodeKey: computed(() => treeRef.value?.getNodeKey),
-			/** @description 获取指定节点的路径数据。 */
+			/** 获取指定节点的路径数据。 */
 			getNodePath: computed(() => treeRef.value?.getNodePath),
-			/** @description 为节点设置新数据，只有当设置 node-key 属性的时候才可用 */
+			/** 为节点设置新数据，只有当设置 node-key 属性的时候才可用 */
 			updateKeyChildren: computed(() => treeRef.value?.updateKeyChildren),
-			/** @description 如果节点可以被选中，(show-checkbox 为 true), 本方法将返回当前选中节点的数组 */
+			/** 如果节点可以被选中，(show-checkbox 为 true), 本方法将返回当前选中节点的数组 */
 			getCheckedNodes: computed(() => treeRef.value?.getCheckedNodes),
-			/** @description 设置目前勾选的节点，使用此方法必须提前设置 node-key 属性 */
+			/** 设置目前勾选的节点，使用此方法必须提前设置 node-key 属性 */
 			setCheckedNodes: computed(() => treeRef.value?.setCheckedNodes),
-			/** @description 	若节点可用被选中 (show-checkbox 为 true), 它将返回当前选中节点 key 的数组 */
+			/** 若节点可用被选中 (show-checkbox 为 true), 它将返回当前选中节点 key 的数组 */
 			getCheckedKeys: computed(() => treeRef.value?.getCheckedKeys),
-			/** @description 设置目前选中的节点，使用此方法必须设置 node-key 属性 */
+			/** 设置目前选中的节点，使用此方法必须设置 node-key 属性 */
 			setCheckedKeys: computed(() => treeRef.value?.setCheckedKeys),
-			/** @description 设置节点是否被选中, 使用此方法必须设置 node-key 属性 */
+			/** 设置节点是否被选中, 使用此方法必须设置 node-key 属性 */
 			setChecked: computed(() => treeRef.value?.setChecked),
-			/** @description 如果节点可用被选中 (show-checkbox 为 true), 它将返回当前半选中的节点组成的数组 */
+			/** 如果节点可用被选中 (show-checkbox 为 true), 它将返回当前半选中的节点组成的数组 */
 			getHalfCheckedNodes: computed(() => treeRef.value?.getHalfCheckedNodes),
-			/** @description 若节点可被选中(show-checkbox 为 true)，则返回目前半选中的节点的 key 所组成的数组 */
+			/** 若节点可被选中(show-checkbox 为 true)，则返回目前半选中的节点的 key 所组成的数组 */
 			getHalfCheckedKeys: computed(() => treeRef.value?.getHalfCheckedKeys),
-			/** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
+			/** 返回当前被选中节点的数据 (如果没有则返回 null) */
 			getCurrentKey: computed(() => treeRef.value?.getCurrentKey),
-			/** @description 返回当前被选中节点的数据 (如果没有则返回 null) */
+			/** 返回当前被选中节点的数据 (如果没有则返回 null) */
 			getCurrentNode: computed(() => treeRef.value?.getCurrentNode),
-			/** @description 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key  属性 */
+			/** 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key  属性 */
 			setCurrentKey: computed(() => treeRef.value?.setCurrentKey),
-			/** @description 设置节点为选中状态，使用此方法必须设置 node-key 属性 */
+			/** 设置节点为选中状态，使用此方法必须设置 node-key 属性 */
 			setCurrentNode: computed(() => treeRef.value?.setCurrentNode),
-			/** @description 根据 data 或者 key 拿到 Tree 组件中的 node */
+			/** 根据 data 或者 key 拿到 Tree 组件中的 node */
 			getNode: computed(() => treeRef.value?.getNode),
-			/** @description 删除 Tree 中的一个节点，使用此方法必须设置 node-key 属性 */
+			/** 删除 Tree 中的一个节点，使用此方法必须设置 node-key 属性 */
 			remove: computed(() => treeRef.value?.remove),
-			/** @description 为 Tree 中的一个节点追加一个子节点 */
+			/** 为 Tree 中的一个节点追加一个子节点 */
 			append: computed(() => treeRef.value?.append),
-			/** @description 在 Tree 中给定节点前插入一个节点 */
+			/** 在 Tree 中给定节点前插入一个节点 */
 			insertBefore: computed(() => treeRef.value?.insertBefore),
-			/** @description 在 Tree 中给定节点后插入一个节点 */
+			/** 在 Tree 中给定节点后插入一个节点 */
 			insertAfter: computed(() => treeRef.value?.insertAfter),
-			/** @description 加载状态 */
+			/** 加载状态 */
 			loading: toRef(state, "loading"),
-			/** @description 刷新 */
+			/** 刷新 */
 			refresh: loadData,
 		});
 	},

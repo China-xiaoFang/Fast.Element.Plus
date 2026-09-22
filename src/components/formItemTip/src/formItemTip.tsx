@@ -3,17 +3,17 @@ import { QuestionFilled } from "@element-plus/icons-vue";
 import { ElIcon, ElTooltip } from "element-plus";
 import { makeSlots, useRender } from "../../../utils";
 
-/** FaFormItemTip 的运行时 Props 定义。 */
+/** FaFormItemTip 的运行时 Props 定义 */
 export const faFormItemTipProps = {
-	/** @description 提示 */
+	/** 提示 */
 	tips: String,
-	/** @description 显示 */
+	/** 显示 */
 	label: String,
 };
 
-/** FaFormItemTip 的插槽参数。 */
+/** FaFormItemTip 的插槽参数 */
 export interface FaFormItemTipSlots extends Record<string, unknown> {
-	/** @description 显示插槽 */
+	/** 显示插槽 */
 	label: never;
 }
 

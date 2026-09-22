@@ -6,21 +6,21 @@ import { addCssUnit, definePropType, makeSlots, randomString, useExpose, useProp
 import { useUpload } from "../../upload/src/useUpload";
 import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from "element-plus";
 
-/** FaUploadImage 的运行时 Props 定义。 */
+/** FaUploadImage 的运行时 Props 定义 */
 export const faUploadImageProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...uploadProps,
-	/** @description accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true` */
+	/** accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true` */
 	accept: {
 		type: String,
 		default: () => FaMimeType.Image,
 	},
-	/** @description type of file list */
+	/** type of file list */
 	listType: {
 		type: definePropType<NonNullable<UploadProps["listType"]>>(String),
 		default: "picture",
 	},
-	/** @description whether uploading multiple files is permitted */
+	/** whether uploading multiple files is permitted */
 	multiple: {
 		type: Boolean,
 		default: false,
@@ -32,47 +32,47 @@ export const faUploadImageProps = {
 			return true;
 		},
 	},
-	/** @description whether to show the uploaded file list */
+	/** whether to show the uploaded file list */
 	showFileList: {
 		type: Boolean,
 		default: false,
 	},
-	/** @description v-model绑定值 */
+	/** v-model 绑定值 */
 	modelValue: definePropType<string | null>(String),
-	/** @description 大小限制，单位kb */
+	/** 大小限制，单位kb */
 	maxSize: {
 		type: [String, Number],
 		default: 2048,
 	},
-	/** @description 图片上传接口，优先级最高 */
+	/** 图片上传接口，优先级最高 */
 	uploadApi: {
 		type: definePropType<(formData: FormData) => Promise<string>>(Function),
 	},
-	/** @description 图片上传地址 */
+	/** 图片上传地址 */
 	uploadUrl: String,
-	/** @description 宽度 */
+	/** 宽度 */
 	width: {
 		type: [String, Number],
 		default: 150,
 	},
-	/** @description 高度 */
+	/** 高度 */
 	height: {
 		type: [String, Number],
 		default: 150,
 	},
 };
 
-/** FaUploadImage 的运行时 Emits 定义。 */
+/** FaUploadImage 的运行时 Emits 定义 */
 export const faUploadImageEmits = {
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: string | null) => typeof value === "string" || value === null,
-	/** @description v-model:fileList 回调 */
+	/** v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]) => Array.isArray(value),
 };
 
-/** FaUploadImage 的插槽参数。 */
+/** FaUploadImage 的插槽参数 */
 export interface FaUploadImageSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
 }
 
@@ -245,23 +245,23 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 取消上传请求 */
+			/** 取消上传请求 */
 			abort: computed(() => uploadRef.value?.abort),
-			/** @description 手动上传文件列表 */
+			/** 手动上传文件列表 */
 			submit: computed(() => uploadRef.value?.submit),
-			/** @description 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
+			/** 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
 			clearFiles: computed(() => uploadRef.value?.clearFiles),
-			/** @description 手动选择文件 */
+			/** 手动选择文件 */
 			handleStart: computed(() => uploadRef.value?.handleStart),
-			/** @description 手动移除文件。file 和 rawFile 已被合并。 */
+			/** 手动移除文件。file 和 rawFile 已被合并。 */
 			handleRemove: computed(() => uploadRef.value?.handleRemove),
-			/** @description 加载状态 */
+			/** 加载状态 */
 			loading,
-			/** @description 文件集合 */
+			/** 文件集合 */
 			fileList,
-			/** @description 预览 */
+			/** 预览 */
 			preview: computed(() => state.preview),
-			/** @description 预览集合 */
+			/** 预览集合 */
 			previewList: computed(() => state.previewList),
 		});
 	},

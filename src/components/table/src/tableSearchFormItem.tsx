@@ -91,12 +91,12 @@ const selectPlaceholderEls = ["el-select", "ElSelect", "el-select-v2", "ElSelect
 export default defineComponent({
 	name: "FaTableSearchFormItem",
 	props: {
-		/** @description 列配置 */
+		/** 列配置 */
 		column: {
 			type: definePropType<FaTableColumnCtx>(Object),
 			required: true,
 		},
-		/** @description 搜索 */
+		/** 搜索 */
 		search: {
 			type: definePropType<() => Promise<void>>(Function),
 			required: true,

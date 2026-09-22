@@ -12,7 +12,7 @@ export interface FaTableDefaultSlotsResult {
 	selectedList: DefaultRow[];
 	selectedListIds: (string | number)[];
 	indeterminateSelectedListIds: (string | number)[];
-	/** @description 可能为空 */
+	/** 可能为空 */
 	search?: () => Promise<void>;
 }
 
@@ -174,42 +174,34 @@ export type FaTableColumnCtx<T extends DefaultRow = DefaultRow> = Partial<
 > & {
 	/**
 	 * 内部的计算属性，一般不做使用
-	 * @description FaTable
 	 */
 	multiOrder?: "" | "ascending" | "descending";
 	/**
 	 * 列Id
-	 * @description FaTable
 	 */
 	columnId?: number | string;
 	/**
 	 * 排序
-	 * @description FaTable
 	 */
 	order?: number;
 	/**
 	 * 排序字段
-	 * @description FaTable
 	 */
 	sortableField?: string;
 	/**
 	 * 禁用排序配置
-	 * @description FaTable
 	 */
 	disabledSortable?: boolean;
 	/**
 	 * 合并行字段
-	 * @description FaTable
 	 */
 	spanProp?: string;
 	/**
 	 * 纯搜索
-	 * @description FaTable
 	 */
 	pureSearch?: boolean;
 	/**
 	 * 搜索项配置
-	 * @description FaTable
 	 */
 	search?: FaTableSearchColumnCtx;
 	/** 上面所有属性，全部非 FaTableColumn props，均为计算属性 */

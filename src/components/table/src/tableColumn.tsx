@@ -1,6 +1,7 @@
 import { Fragment, computed, defineComponent, h, inject, resolveComponent } from "vue";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { ElIcon, ElImage, ElMessage, ElTableColumn, ElTag, ElText, dayjs, useGlobalSize } from "element-plus";
+import { tableColumnProps } from "../../../internal/props";
 import { copy as copyToClipboard, definePropType, formatChineseRelativeTime, makeSlots, useProps, useRender } from "../../../utils";
 import FaImage from "../../image";
 import artwork from "../images/artwork.png";
@@ -9,7 +10,7 @@ import { tableUtil } from "../utils/table";
 import { getTableDefaultSlots } from "./table.type";
 import { enumMapKey, tableStateKey } from "./useTable";
 import type { TableColumnCtx } from "element-plus";
-import type { PropType, VNode } from "vue";
+import type { VNode } from "vue";
 import type { DefaultRow } from "./table.state";
 import type {
 	FaTableColumnCtx,
@@ -20,162 +21,13 @@ import type {
 	FaTableEnumColumnType,
 } from "./table.type";
 
-/** FaTableColumn 的运行时 Props 定义。 */
-export const tableColumnProps = {
-	/**
-	 * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
-	 */
-	type: {
-		type: String,
-		default: "default",
-	},
-	/**
-	 * @description column label
-	 */
-	label: String,
-	/**
-	 * @description class name of cells in the column
-	 */
-	className: String,
-	/**
-	 * @description class name of the label of this column
-	 */
-	labelClassName: String,
-	/**
-	 * @description
-	 */
-	property: String,
-	/**
-	 * @description field name. You can also use its alias: `property`
-	 */
-	prop: String,
-	/**
-	 * @description column width
-	 */
-	width: {
-		type: [String, Number],
-		default: "",
-	},
-	/**
-	 * @description column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion
-	 */
-	minWidth: {
-		type: [String, Number],
-		default: "",
-	},
-	/**
-	 * @description render function for table header of this column
-	 */
-	renderHeader: Function as PropType<TableColumnCtx<DefaultRow>["renderHeader"]>,
-	/**
-	 * @description whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table
-	 */
-	sortable: {
-		type: [Boolean, String],
-		default: false,
-	},
-	/**
-	 * @description sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort
-	 */
-	sortMethod: Function as PropType<TableColumnCtx<DefaultRow>["sortMethod"]>,
-	/**
-	 * @description specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal
-	 */
-	sortBy: [String, Function, Array] as PropType<TableColumnCtx<DefaultRow>["sortBy"]>,
-	/**
-	 * @description whether column width can be resized, works when `border` of `el-table` is `true`
-	 */
-	resizable: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description column's key. If you need to use the filter-change event, you need this attribute to identify which column is being filtered
-	 */
-	columnKey: String,
-	/**
-	 * @description alignment, the value should be 'left' \/ 'center' \/ 'right'
-	 */
-	align: String,
-	/**
-	 * @description alignment of the table header. If omitted, the value of the above `align` attribute will be applied, the value should be 'left' \/ 'center' \/ 'right'
-	 */
-	headerAlign: String,
-	/**
-	 * @description whether to hide extra content and show them in a tooltip when hovering on the cell
-	 */
-	showOverflowTooltip: {
-		type: [Boolean, Object] as PropType<TableColumnCtx<DefaultRow>["showOverflowTooltip"]>,
-		default: undefined,
-	},
-	/** @description function that formats cell tooltip content, works when show-overflow-tooltip is enabled */
-	tooltipFormatter: Function as PropType<TableColumnCtx<DefaultRow>["tooltipFormatter"]>,
-	/**
-	 * @description whether column is fixed at left / right. Will be fixed at left if `true`
-	 */
-	fixed: [Boolean, String],
-	/**
-	 * @description function that formats cell content
-	 */
-	formatter: Function as PropType<TableColumnCtx<DefaultRow>["formatter"]>,
-	/**
-	 * @description function that determines if a certain row can be selected, works when `type` is 'selection'
-	 */
-	selectable: Function as PropType<TableColumnCtx<DefaultRow>["selectable"]>,
-	/**
-	 * @description whether to reserve selection after data refreshing, works when `type` is 'selection'. Note that `row-key` is required for this to work
-	 */
-	reserveSelection: Boolean,
-	/**
-	 * @description data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`
-	 */
-	filterMethod: Function as PropType<TableColumnCtx<DefaultRow>["filterMethod"]>,
-	/**
-	 * @description filter value for selected data, might be useful when table header is rendered with `render-header`
-	 */
-	filteredValue: Array as PropType<TableColumnCtx<DefaultRow>["filteredValue"]>,
-	/**
-	 * @description an array of data filtering options. For each element in this array, `text` and `value` are required
-	 */
-	filters: Array as PropType<TableColumnCtx<DefaultRow>["filters"]>,
-	/**
-	 * @description placement for the filter dropdown
-	 */
-	filterPlacement: String,
-	/**
-	 * @description whether data filtering supports multiple options
-	 */
-	filterMultiple: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description className for the filter dropdown
-	 */
-	filterClassName: String,
-	/**
-	 * @description customize indices for each row, works on columns with `type=index`
-	 */
-	index: [Number, Function] as PropType<TableColumnCtx<DefaultRow>["index"]>,
-	/**
-	 * @description the order of the sorting strategies used when sorting the data, works when `sortable` is `true`. Accepts an array, as the user clicks on the header, the column is sorted in order of the elements in the array
-	 */
-	sortOrders: {
-		type: Array as PropType<TableColumnCtx<DefaultRow>["sortOrders"]>,
-		default: () => {
-			return ["ascending", "descending", null];
-		},
-		validator: (val: unknown) => {
-			return Array.isArray(val) && val.every((order: unknown) => order === "ascending" || order === "descending" || order === null);
-		},
-	},
-};
+export { tableColumnProps } from "../../../internal/props";
 
 /** FaTableColumn 插槽返回的行列上下文。 */
 export interface FaTableColumnSlotsResult {
-	/** @description slots为表格内容的时候才会返回 */
+	/** slots为表格内容的时候才会返回 */
 	row?: DefaultRow;
-	/** @description slot为表头内容的时候返回 'TableColumnCtx<DefaultRow>' 否则返回 'FaTableColumnCtx' */
+	/** slot为表头内容的时候返回 'TableColumnCtx<DefaultRow>' 否则返回 'FaTableColumnCtx' */
 	column?: TableColumnCtx<DefaultRow> | FaTableColumnCtx;
 	$index?: number;
 }
@@ -184,13 +36,13 @@ type FaTableColumnDefaultSlots = Record<string, FaTableDefaultSlotsResult & FaTa
 
 /** FaTableColumn 的固定插槽和动态命名插槽。 */
 export type FaTableColumnSlots = Record<string, unknown> & {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: FaTableDefaultSlotsResult & { row: DefaultRow; column: FaTableColumnCtx; $index: number };
-	/** @description 自定义表头的内容 */
+	/** 自定义表头的内容 */
 	header: FaTableDefaultSlotsResult & { column: FaTableColumnCtx; $index: number };
-	/** @description 自定义 filter 图标 */
+	/** 自定义 filter 图标 */
 	filterIcon: FaTableDefaultSlotsResult & { filterOpened: boolean };
-	/** @description 展开列的自定义内容 */
+	/** 展开列的自定义内容 */
 	expand: FaTableDefaultSlotsResult & { expanded: boolean };
 } & FaTableColumnDefaultSlots;
 
@@ -199,88 +51,88 @@ export default defineComponent({
 	props: {
 		...tableColumnProps,
 		/**
-		 * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
+		 * type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
 		 */
 		type: {
 			type: definePropType<FaTableColumnType>(String),
 			default: "default",
 		},
 		/**
-		 * @description column width
+		 * column width
 		 */
 		width: {
 			type: [String, Number],
 			default: "auto",
 		},
-		/** @description alignment, the value should be 'left' \/ 'center' \/ 'right' */
+		/** alignment, the value should be 'left' \/ 'center' \/ 'right' */
 		align: {
 			type: String,
 			default: "left",
 		},
-		/** @description alignment of the table header. If omitted, the value of the above `align` attribute will be applied, the value should be 'left' \/ 'center' \/ 'right' */
+		/** alignment of the table header. If omitted, the value of the above `align` attribute will be applied, the value should be 'left' \/ 'center' \/ 'right' */
 		headerAlign: {
 			type: String,
 			default: "left",
 		},
-		/** @description 是否显示在表格当中 */
+		/** 是否显示在表格当中 */
 		show: Boolean,
-		/** @description 小页面的宽度，如果为空，则继承默认宽度 */
+		/** 小页面的宽度，如果为空，则继承默认宽度 */
 		smallWidth: {
 			type: [String, Number],
 		},
-		/** @description 自适应宽度 */
+		/** 自适应宽度 */
 		autoWidth: Boolean,
-		/** @description 插槽名称 */
+		/** 插槽名称 */
 		slot: String,
-		/** @description 表格头部插槽名称 */
+		/** 表格头部插槽名称 */
 		headerSlot: String,
-		/** @description 自定义表头内容渲染（tsx语法） */
+		/** 自定义表头内容渲染（tsx语法） */
 		headerRender: {
 			type: definePropType<({ column, $index }: { column: TableColumnCtx<DefaultRow>; $index: number } & FaTableDefaultSlotsResult) => VNode[]>(
 				Function
 			),
 		},
-		/** @description 自定义单元格内容渲染（tsx语法） */
+		/** 自定义单元格内容渲染（tsx语法） */
 		render: {
 			type: definePropType<
 				({ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult) => VNode[]
 			>(Function),
 		},
-		/** @description 多级表头 */
+		/** 多级表头 */
 		_children: {
 			type: definePropType<FaTableColumnCtx[]>(Array),
 		},
-		/** @description 隐藏图片 */
+		/** 隐藏图片 */
 		hideImage: Boolean,
-		/** @description 复制 */
+		/** 复制 */
 		copy: Boolean,
-		/** @description 是否为 Link Button */
+		/** 是否为 Link Button */
 		link: Boolean,
-		/** @description 合并行字段 */
+		/** 合并行字段 */
 		spanProp: String,
-		/** @description Link 按钮的点击事件，优先级最高 */
+		/** Link 按钮的点击事件，优先级最高 */
 		click: {
 			type: definePropType<({ row, $index }: { row: DefaultRow; $index?: number } & FaTableDefaultSlotsResult) => void>(Function),
 		},
-		/** @description 点击Emits事件回调 */
+		/** 点击Emits事件回调 */
 		clickEmit: String,
-		/** @description 图片列是否显示为原图，默认 false 显示缩略图 */
+		/** 图片列是否显示为原图，默认 false 显示缩略图 */
 		originalImage: Boolean,
-		/** @description 显示时间格式化字符串 */
+		/** 显示时间格式化字符串 */
 		dateFix: Boolean,
-		/** @description 显示在页面中的日期格式 */
+		/** 显示在页面中的日期格式 */
 		dateFormat: {
 			type: definePropType<FaTableColumnDateFormat>(String),
 		},
-		/** @description 是否是标签展示 */
+		/** 是否是标签展示 */
 		tag: Boolean,
-		/** @description 枚举类型（渲染值的字典） */
+		/** 枚举类型（渲染值的字典） */
 		enum: {
 			type: definePropType<FaTableEnumColumnType>([String, Array, Function]),
 		},
-		/** @description 数据删除字段，如果为 true 会显示遮罩层 */
+		/** 数据删除字段，如果为 true 会显示遮罩层 */
 		dataDeleteField: String,
-		/** @description 时间信息字段 */
+		/** 时间信息字段 */
 		timeInfoField: {
 			type: definePropType<{ userName?: string; time?: string }>(Object),
 			default: () => ({
@@ -290,9 +142,9 @@ export default defineComponent({
 		},
 	},
 	emits: {
-		/** @description 图片预览 */
+		/** 图片预览 */
 		imagePreview: (url: string) => typeof url === "string",
-		/** @description 自定义单元格点击事件 */
+		/** 自定义单元格点击事件 */
 		customCellClick: (emitName: string, { row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) =>
 			(emitName == null || typeof emitName === "string") &&
 			typeof row === "object" &&

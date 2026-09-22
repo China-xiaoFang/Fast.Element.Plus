@@ -6,37 +6,37 @@ import { FaLayoutGridItem } from "../../layoutGrid";
 import type { FormItemInstance } from "element-plus";
 import type { Ref } from "vue";
 
-/** FaFormItem 的运行时 Props 定义。 */
+/** FaFormItem 的运行时 Props 定义 */
 export const faFormItemProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...formItemProps,
-	/** @description Label tips 提示 */
+	/** Label tips 提示 */
 	tips: String,
-	/** @description Grid 布局 */
+	/** Grid 布局 */
 	grid: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 偏移量 */
+	/** 偏移量 */
 	offset: {
 		type: [String, Number],
 		default: 0,
 	},
-	/** @description 栅格跨度 */
+	/** 栅格跨度 */
 	span: {
 		type: [String, Number],
 	},
-	/** @description 独占一行。如果设置 span 则无效 */
+	/** 独占一行。如果设置 span 则无效 */
 	row: Boolean,
 };
 
-/** FaFormItem 的插槽参数。 */
+/** FaFormItem 的插槽参数 */
 export interface FaFormItemSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
-	/** @description 标签位置显示的内容 */
+	/** 标签位置显示的内容 */
 	label: { label: string };
-	/** @description 验证错误信息的显示内容 */
+	/** 验证错误信息的显示内容 */
 	error: { error: string };
 }
 
@@ -102,19 +102,19 @@ export default defineComponent({
 		});
 
 		return useExpose(expose, {
-			/** @description 表单项大小 */
+			/** 表单项大小 */
 			size: computed(() => formItemRef.value?.size),
-			/** @description 校验消息 */
+			/** 校验消息 */
 			validateMessage: computed(() => formItemRef.value?.validateMessage),
-			/** @description 校验状态 */
+			/** 校验状态 */
 			validateState: computed(() => formItemRef.value?.validateState),
-			/** @description 验证表单项 */
+			/** 验证表单项 */
 			validate: computed(() => formItemRef.value?.validate),
-			/** @description 移除该表单项的校验结果 */
+			/** 移除该表单项的校验结果 */
 			clearValidate: computed(() => formItemRef.value?.clearValidate),
-			/** @description 对该表单项进行重置，将其值重置为初始值并移除校验结果 */
+			/** 对该表单项进行重置，将其值重置为初始值并移除校验结果 */
 			resetField: computed(() => formItemRef.value?.resetField),
-			/** @description 设置该表单项的初始值。 */
+			/** 设置该表单项的初始值。 */
 			setInitialValue: computed(() => formItemRef.value?.setInitialValue),
 		});
 	},

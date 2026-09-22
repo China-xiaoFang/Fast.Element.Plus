@@ -23,32 +23,32 @@ type FaTableSearchFormSlots = Record<
 export default defineComponent({
 	name: "FaTableSearchForm",
 	props: {
-		/** @description 显示 */
+		/** 显示 */
 		show: {
 			type: Boolean,
 			required: true,
 		},
-		/** @description 折叠搜素 */
+		/** 折叠搜索 */
 		collapsedSearch: {
 			type: Boolean,
 			default: true,
 		},
-		/** @description 高级搜素抽屉 */
+		/** 高级搜索抽屉 */
 		advancedSearchDrawer: {
 			type: Boolean,
 			default: false,
 		},
-		/** @description Grid布局列配置 */
+		/** Grid布局列配置 */
 		cols: {
 			type: definePropType<string | number | Partial<Record<FaLayoutGridBreakpoint, number>>>([String, Number, Object]),
 			default: () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
 		},
-		/** @description 搜索 */
+		/** 搜索 */
 		search: {
 			type: definePropType<() => Promise<void>>(Function),
 			required: true,
 		},
-		/** @description 重置 */
+		/** 重置 */
 		reset: {
 			type: definePropType<() => Promise<void>>(Function),
 			required: true,

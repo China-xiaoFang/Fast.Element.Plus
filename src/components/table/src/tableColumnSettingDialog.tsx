@@ -25,7 +25,7 @@ import type { FaTableColumnCtx } from "./table.type";
 export default defineComponent({
 	name: "FaTableColumnsSettingDialog",
 	props: {
-		/** @description 改变 */
+		/** 改变 */
 		change: {
 			type: definePropType<(columns: FaTableColumnCtx[]) => Promise<void>>(Function),
 		},
@@ -494,9 +494,9 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 打开 */
+			/** 打开 */
 			open,
-			/** @description 列改变 */
+			/** 列改变 */
 			change: handleChange,
 		});
 	},

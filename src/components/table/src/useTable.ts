@@ -1,6 +1,7 @@
-import { computed, nextTick, provide, reactive, shallowRef, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, provide, reactive, shallowRef, watch } from "vue";
 import { dayjs, useGlobalSize } from "element-plus";
 import { callOptionalFunction, debounce } from "../../../utils";
+import { createLoadingTasks } from "../../../utils/loading-tasks";
 import { tableUtil } from "../utils/table";
 import { getTableDefaultSlots } from "./table.type";
 import type { TableInstance } from "element-plus";
@@ -32,6 +33,7 @@ interface TableComposable {
 	tableSearch: () => Promise<void>;
 	tableReset: () => Promise<void>;
 	doRender: () => Promise<void>;
+	setManualLoading: (loading: boolean) => void;
 	doLoading: (loadingFunction: () => void | Promise<void>, loadingText?: string) => Promise<void>;
 	handleCustomCellClick: (emitName: string, context: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) => void;
 }
@@ -151,13 +153,28 @@ export const useTable = (
 		tableHeight: 0,
 		autoColumnWidth: [],
 	});
+	// 请求与列宽各自失效，Loading 按任务独立释放。
 	let requestVersion = 0;
+	let widthVersion = 0;
+	let disposed = false;
+	let releaseRequest: (() => void) | undefined;
+	let releaseWidth: (() => void) | undefined;
+	let releaseManual: (() => void) | undefined;
+
+	const unmountedError = new Error("FaTable 已卸载，待执行的渲染已取消。");
+	const loadingTasks = createLoadingTasks((loading, text) => {
+		state.loading = loading;
+		state.loadingText = text ?? "加载中...";
+	});
 
 	provide(tableStateKey, state);
 
 	const handleTableColumnAutoWidth = (): void => {
-		state.loading = true;
-		state.loadingText = "加载中...";
+		if (disposed) return;
+		const currentWidthVersion = ++widthVersion;
+		releaseWidth?.();
+		const done = loadingTasks.begin();
+		releaseWidth = done;
 		state.autoColumnWidth = [];
 		const autoWidthColumns = state.tableColumns.filter((f) => f.autoWidth);
 		if (slots.operation) {
@@ -170,6 +187,7 @@ export const useTable = (
 			// padding24/16 + border1
 			const otherWidth = globalSize.value === "default" ? 25 : 17;
 			nextTick(() => {
+				if (disposed || currentWidthVersion !== widthVersion) return;
 				const tableDom = document.querySelector(`.fa-table__${props.tableKey}`);
 				if (tableDom) {
 					autoWidthColumns.forEach((item) => {
@@ -201,12 +219,14 @@ export const useTable = (
 						}
 					});
 				}
-			}).finally(() => {
-				state.loading = false;
+			}).then(done, (error: unknown) => {
+				done();
+				// 此方法是同步公开入口；宽度失败不改变请求结果，也不能遗留 Loading。
+				console.error("[Fast:FaTable] 自动宽度计算失败。", error);
 			});
 			return;
 		}
-		state.loading = false;
+		done();
 	};
 
 	const handleTableData = (data: DefaultRow[]): DefaultRow[] => {
@@ -238,87 +258,90 @@ export const useTable = (
 	};
 
 	const loadData = async (): Promise<void> => {
+		if (disposed) return;
 		const currentRequestVersion = ++requestVersion;
-		state.loading = true;
-		state.loadingText = "加载中...";
-		if (props.requestApi) {
-			const params = getRequestParam();
-			emit("refresh", params);
-			let pageData: DefaultRow[];
-			try {
-				const resData = await props.requestApi(params);
-				if (currentRequestVersion !== requestVersion) return;
-				// 数据回调
-				props.dataCallback?.(resData);
-				// 解析 API 接口返回的分页数据（如果有分页更新分页信息）
-				if (props.pagination) {
-					if (Array.isArray(resData)) {
-						pageData = resData;
-						state.tablePagination.totalRows = resData.length;
+		releaseRequest?.();
+		const done = loadingTasks.begin();
+		releaseRequest = done;
+		try {
+			if (props.requestApi) {
+				const params = getRequestParam();
+				emit("refresh", params);
+				let pageData: DefaultRow[];
+				try {
+					const resData = await props.requestApi(params);
+					if (disposed || currentRequestVersion !== requestVersion) return;
+					// 数据回调
+					props.dataCallback?.(resData);
+					// 解析 API 接口返回的分页数据（如果有分页更新分页信息）
+					if (props.pagination) {
+						if (Array.isArray(resData)) {
+							pageData = resData;
+							state.tablePagination.totalRows = resData.length;
+						} else {
+							const pageRes = resData as PagedResult;
+							pageData = pageRes.rows ?? [];
+							Object.assign(state.tablePagination, {
+								pageIndex: pageRes.pageIndex ?? state.tablePagination.pageIndex,
+								pageSize: pageRes.pageSize ?? state.tablePagination.pageSize,
+								totalRows: pageRes.totalRows ?? pageData.length,
+							});
+						}
 					} else {
-						const pageRes = resData as PagedResult;
-						pageData = pageRes.rows ?? [];
+						pageData = resData as DefaultRow[];
+						// 更新分页信息
 						Object.assign(state.tablePagination, {
-							pageIndex: pageRes.pageIndex ?? state.tablePagination.pageIndex,
-							pageSize: pageRes.pageSize ?? state.tablePagination.pageSize,
-							totalRows: pageRes.totalRows ?? pageData.length,
+							pageIndex: 1,
+							pageSize: 0,
+							totalRows: pageData.length,
 						});
 					}
+					state.tableData = handleTableData(pageData);
+				} catch (error) {
+					if (disposed || currentRequestVersion !== requestVersion) return;
+					state.tableData = [];
+					throw error;
+				}
+			} else {
+				emit("refresh", { searchValue: state.searchParam.searchValue });
+				let _value = handleTableData([...props.data]);
+				_value = _value.filter((f) => {
+					const searchValue = state.searchParam.searchValue;
+					if (typeof searchValue !== "string" || searchValue.length === 0) return true;
+					return state.tableColumns.some((col) => {
+						const value: unknown = tableUtil.handleRowAccordingToProp(f, col.prop ?? "");
+						const text =
+							typeof value === "string" || typeof value === "number" || typeof value === "bigint" || typeof value === "boolean"
+								? String(value)
+								: "";
+						return text.toLowerCase().includes(searchValue.toLowerCase());
+					});
+				});
+				if (Array.isArray(state.searchParam.sortList) && state.searchParam.sortList.length > 0) {
+					_value = _value.sort(tableUtil.arrayDynamicSort(state.searchParam.sortList));
+				}
+				if (props.pagination) {
+					// 更新分页信息
+					Object.assign(state.tablePagination, {
+						totalRows: _value.length,
+					});
+					const pageStart = (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize;
+					const pageEnd = pageStart + state.tablePagination.pageSize;
+					state.tableData = _value.slice(pageStart, pageEnd);
 				} else {
-					pageData = resData as DefaultRow[];
+					state.tableData = _value;
 					// 更新分页信息
 					Object.assign(state.tablePagination, {
 						pageIndex: 1,
 						pageSize: 0,
-						totalRows: pageData.length,
+						totalRows: _value.length,
 					});
 				}
-				state.tableData = handleTableData(pageData);
-			} catch (error) {
-				if (currentRequestVersion !== requestVersion) return;
-				state.tableData = [];
-				throw error;
-			} finally {
-				if (currentRequestVersion === requestVersion) state.loading = false;
 			}
-		} else {
-			emit("refresh", { searchValue: state.searchParam.searchValue });
-			let _value = handleTableData([...props.data]);
-			_value = _value.filter((f) => {
-				const searchValue = state.searchParam.searchValue;
-				if (typeof searchValue !== "string" || searchValue.length === 0) return true;
-				return state.tableColumns.some((col) => {
-					const value: unknown = tableUtil.handleRowAccordingToProp(f, col.prop ?? "");
-					const text =
-						typeof value === "string" || typeof value === "number" || typeof value === "bigint" || typeof value === "boolean"
-							? String(value)
-							: "";
-					return text.toLowerCase().includes(searchValue.toLowerCase());
-				});
-			});
-			if (Array.isArray(state.searchParam.sortList) && state.searchParam.sortList.length > 0) {
-				_value = _value.sort(tableUtil.arrayDynamicSort(state.searchParam.sortList));
-			}
-			if (props.pagination) {
-				// 更新分页信息
-				Object.assign(state.tablePagination, {
-					totalRows: _value.length,
-				});
-				const pageStart = (state.tablePagination.pageIndex - 1) * state.tablePagination.pageSize;
-				const pageEnd = pageStart + state.tablePagination.pageSize;
-				state.tableData = _value.slice(pageStart, pageEnd);
-			} else {
-				state.tableData = _value;
-				// 更新分页信息
-				Object.assign(state.tablePagination, {
-					pageIndex: 1,
-					pageSize: 0,
-					totalRows: _value.length,
-				});
-			}
-			state.loading = false;
+			if (!disposed && currentRequestVersion === requestVersion) handleTableColumnAutoWidth();
+		} finally {
+			done();
 		}
-		handleTableColumnAutoWidth();
 	};
 
 	const cloneColumns = (columns: FaTableColumnCtx[]): FaTableColumnCtx[] =>
@@ -329,6 +352,7 @@ export const useTable = (
 		}));
 
 	const loadTableColumns = (): void => {
+		if (disposed) return;
 		let columns: FaTableColumnCtx[] = props.columns ? cloneColumns(props.columns) : [];
 		// 默认值处理
 		columns.forEach((col) => {
@@ -449,6 +473,7 @@ export const useTable = (
 	};
 
 	const tableSearch = async (): Promise<void> => {
+		if (disposed) return;
 		// 重置到第一页
 		state.tablePagination.pageIndex = 1;
 		updatedTotalParam();
@@ -460,6 +485,7 @@ export const useTable = (
 	}, 300);
 
 	const tableReset = async (): Promise<void> => {
+		if (disposed) return;
 		// 重置到第一页
 		state.tablePagination.pageIndex = 1;
 		// 清除搜索条件
@@ -472,19 +498,37 @@ export const useTable = (
 	};
 
 	const doRender = async (): Promise<void> => {
+		if (disposed) return;
+		// 从重绘请求发出时失效旧结果，而不是等防抖结束后才失效。
+		requestVersion++;
 		state.orgColumns = [];
 		state.autoColumnWidth = [];
 		state.tableData = [];
-		await renderTable();
+		try {
+			await renderTable();
+		} catch (error) {
+			if (error !== unmountedError) throw error;
+		}
+	};
+
+	// 供公开 loading 的 setter 使用，不单独暴露为组件方法。
+	const setManualLoading = (loading: boolean): void => {
+		if (disposed) return;
+		if (loading) {
+			releaseManual ??= loadingTasks.begin();
+		} else {
+			releaseManual?.();
+			releaseManual = undefined;
+		}
 	};
 
 	const doLoading = async (loadingFunction: () => void | Promise<void>, loadingText = "加载中..."): Promise<void> => {
-		state.loading = true;
-		state.loadingText = loadingText;
+		if (disposed) return;
+		const done = loadingTasks.begin(loadingText);
 		try {
 			await callOptionalFunction(loadingFunction);
 		} finally {
-			state.loading = false;
+			done();
 		}
 	};
 
@@ -507,6 +551,14 @@ export const useTable = (
 		}
 	);
 
+	onBeforeUnmount(() => {
+		disposed = true;
+		requestVersion++;
+		widthVersion++;
+		renderTable.cancel(unmountedError);
+		loadingTasks.dispose();
+	});
+
 	return {
 		globalSize,
 		state,
@@ -521,6 +573,7 @@ export const useTable = (
 		tableSearch,
 		tableReset,
 		doRender,
+		setManualLoading,
 		doLoading,
 		handleCustomCellClick,
 	};

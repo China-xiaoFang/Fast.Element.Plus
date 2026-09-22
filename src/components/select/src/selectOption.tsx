@@ -6,32 +6,32 @@ import type { ElSelectorOutput, ElSelectorValue } from "./select.type";
 export default defineComponent({
 	name: "FaSelectOption",
 	props: {
-		/** @description 绑定值，优先级比 data 高 */
+		/** 绑定值，优先级比 data 高 */
 		value: {
 			type: definePropType<string | number | boolean | object>([String, Number, Boolean, Object]),
 			default: undefined,
 		},
-		/** @description 显示值，优先级比 data 高 */
+		/** 显示值，优先级比 data 高 */
 		label: String,
-		/** @description 禁用值，优先级比 data 高 */
+		/** 禁用值，优先级比 data 高 */
 		disabled: {
 			type: Boolean,
 			default: undefined,
 		},
-		/** @description 子节点，优先级比 data 高 */
+		/** 子节点，优先级比 data 高 */
 		children: {
 			type: definePropType<ElSelectorOutput[]>(Array),
 		},
-		/** @description 下拉框数据 */
+		/** 下拉框数据 */
 		data: {
 			type: definePropType<ElSelectorOutput>(Object),
 			default: () => ({}),
 		},
-		/** @description 更多细节，只有使用slot的时候有用 */
+		/** 插槽使用的附加状态 */
 		moreDetail: Boolean,
 	},
 	slots: makeSlots<{
-		/** @description 默认内容插槽 */
+		/** 默认内容插槽 */
 		default: ElSelectorOutput;
 	}>(),
 	setup(props, { slots }) {

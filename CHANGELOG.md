@@ -1,6 +1,25 @@
 # Changelog
 
-All notable changes to Fast.Element.Plus are documented in this file.
+All notable changes to this project are documented in this file.
+
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and releases should follow [Semantic Versioning](https://semver.org/).
+
+## [2.0.20] - 2026-09-22
+
+### Fixed
+
+- Keep independent Loading ownership for concurrent button/table tasks and external/manual states; stale completions cannot release another task.
+- Cancel delayed table work on unmount, invalidate stale request results immediately on rerender and disconnect ResizeObserver through actual watchEffect cleanup.
+- Prefer current remote option labels while retaining out-of-page selections, and clear stale selector caches after reset/context changes.
+- Release debounce/throttle timers on directive unmount; preserve the throttle unlock timer across extra events and callback errors.
+- Track FaButton overlay ownership so initial false state, duplicate completion and unmount do not close another component's overlay.
+
+### Documentation and Tooling
+
+- Admit Icons 2.x and the corrected 3.x through the peer range; the installer continues registering `fa-icon-*` by public export keys. Locked development dependencies remain unchanged.
+- Correct localized Fast.Docs links and retain minimal README examples.
+- Align public-contract comments and agent guidance.
+- Keep ESLint and Prettier skill-file ignores separate and add regression checks.
 
 ## [2.0.19] - 2026-09-16
 
@@ -209,23 +228,24 @@ All notable changes to Fast.Element.Plus are documented in this file.
 - Scoped Table styles and added responsive IconSelector styling.
 - Improved dialogs, drawers, tables, forms, trees, selectors, car-number input, images, and uploads for dark mode, touch input, and narrow viewports.
 
-[2.0.19]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.19
-[2.0.18]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.18
-[2.0.17]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.17
-[2.0.16]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.16
-[2.0.15]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.15
-[2.0.14]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.14
-[2.0.13]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.13
-[2.0.12]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.12
-[2.0.11]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.11
-[2.0.10]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.10
-[2.0.9]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.9
-[2.0.8]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.8
-[2.0.7]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.7
-[2.0.6]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.6
-[2.0.5]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.5
-[2.0.4]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.4
-[2.0.3]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.3
-[2.0.2]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.2
-[2.0.1]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.1
+[2.0.20]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.19...v2.0.20
+[2.0.19]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.18...v2.0.19
+[2.0.18]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.17...v2.0.18
+[2.0.17]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.16...v2.0.17
+[2.0.16]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.15...v2.0.16
+[2.0.15]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.14...v2.0.15
+[2.0.14]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.13...v2.0.14
+[2.0.13]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.12...v2.0.13
+[2.0.12]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.11...v2.0.12
+[2.0.11]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.10...v2.0.11
+[2.0.10]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.9...v2.0.10
+[2.0.9]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.8...v2.0.9
+[2.0.8]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.7...v2.0.8
+[2.0.7]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.6...v2.0.7
+[2.0.6]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.5...v2.0.6
+[2.0.5]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.4...v2.0.5
+[2.0.4]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.3...v2.0.4
+[2.0.3]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.2...v2.0.3
+[2.0.2]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.1...v2.0.2
+[2.0.1]: https://gitee.com/FastDotnet/fast.element.plus/compare/v2.0.0...v2.0.1
 [2.0.0]: https://gitee.com/FastDotnet/fast.element.plus/releases/tag/v2.0.0

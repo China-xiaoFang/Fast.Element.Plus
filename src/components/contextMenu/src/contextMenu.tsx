@@ -7,14 +7,14 @@ import type { FaContextMenuData } from "./contextMenu.type";
 export default defineComponent({
 	name: "FaContextMenu",
 	props: {
-		/** @description 数据 */
+		/** 数据 */
 		data: {
 			type: definePropType<FaContextMenuData[]>(Array),
 			default: () => [],
 		},
 	},
 	emits: {
-		/** @description 点击事件 */
+		/** 点击事件 */
 		click: (event: MouseEvent, data: FaContextMenuData | null) => event instanceof MouseEvent && typeof data === "object" && data !== null,
 	},
 	setup(props, { emit, expose }) {
@@ -80,11 +80,11 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 是否显示 */
+			/** 是否显示 */
 			visible: toRef(state, "visible"),
-			/** @description 打开菜单 */
+			/** 打开菜单 */
 			open,
-			/** @description 关闭菜单 */
+			/** 关闭菜单 */
 			close,
 		});
 	},

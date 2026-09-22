@@ -9,52 +9,52 @@ import type { PropType } from "vue";
 import type { FaDialogInstance } from "../../dialog";
 import type { DefaultRow, FaTableInstance, PagedInput, PagedResult } from "../../table";
 
-/** FaInputDialogPage 的运行时 Props 定义。 */
+/** FaInputDialogPage 的运行时 Props 定义 */
 export const faInputDialogPageProps = {
-	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
+	/** key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
 	rowKey: {
 		type: [String, Function] as PropType<NonNullable<TableProps<DefaultRow>["rowKey"]>>,
 		default: "id",
 	},
-	/** @description v-model绑定值 */
+	/** v-model 绑定值 */
 	modelValue: [String, Number] as PropType<string | number | null>,
-	/** @description v-model:label绑定值 */
+	/** v-model:label 绑定值 */
 	label: String as PropType<string | null>,
-	/** @description 输入框占位文本 */
+	/** 输入框占位文本 */
 	placeholder: {
 		type: String,
 		default: "请选择",
 	},
-	/** @description 禁用 */
+	/** 禁用 */
 	disabled: Boolean,
-	/** @description 标题 */
+	/** 标题 */
 	title: String,
-	/** @description 请求api */
+	/** 请求数据的函数 */
 	requestApi: {
 		type: definePropType<(params?: PagedInput) => Promise<PagedResult | DefaultRow[]>>(Function),
 	},
 	/** 初始化参数 */
 	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
-	/** @description 显示文本 Key */
+	/** 显示文本 Key */
 	labelKey: {
 		type: String,
 		default: "name",
 	},
 };
 
-/** FaInputDialogPage 的运行时 Emits 定义。 */
+/** FaInputDialogPage 的运行时 Emits 定义 */
 export const faInputDialogPageEmits = {
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: string | number | null) => typeof value === "string" || typeof value === "number" || value === null,
-	/** @description v-model:label 回调 */
+	/** v-model:label 回调 */
 	"update:label": (value: string | null) => typeof value === "string" || value === null,
-	/** @description 选中数据改变 */
+	/** 选中数据改变 */
 	change: (_data: DefaultRow | null, _value?: string | number | null) => true,
 };
 
-/** FaInputDialogPage 的插槽参数。 */
+/** FaInputDialogPage 的插槽参数 */
 export interface FaInputDialogPageSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
 }
 
@@ -164,11 +164,11 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 选择行数据 */
+			/** 选择行数据 */
 			selectionRow: computed(() => state.selectionRow),
-			/** @description 打开选择器弹窗 */
+			/** 打开选择器弹窗 */
 			open: handleSearchClick,
-			/** @description 清除选择 */
+			/** 清除选择 */
 			clear: handleDeleteClick,
 		});
 	},

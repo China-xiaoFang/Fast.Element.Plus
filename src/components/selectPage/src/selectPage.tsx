@@ -1,4 +1,4 @@
-import { Fragment, computed, defineComponent, reactive, shallowRef, toRef, useModel, watch } from "vue";
+import { Fragment, computed, defineComponent, onBeforeUnmount, reactive, shallowRef, toRef, useModel, watch } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { ElButton, ElInput, ElOption, ElPagination, ElSelect, selectEmits, selectProps, useGlobalSize } from "element-plus";
 import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
@@ -8,54 +8,54 @@ import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "..
 import type { SelectComponentProps } from "../../select/src/select";
 import type { PagedInput, PagedResult } from "../../table";
 
-/** FaSelectPage 的运行时 Props 定义。 */
+/** FaSelectPage 的运行时 Props 定义 */
 export const faSelectPageProps = {
 	...selectProps,
-	/** @description whether Select is disabled 重载使其支持 ElForm*/
+	/** 是否禁用选择器；未指定时继承 ElForm 的禁用状态。 */
 	disabled: {
 		type: Boolean,
 		default: undefined,
 	},
-	/** @description displayed text while loading data from server, default is 'Loading' */
+	/** 远程数据加载时显示的文本；默认显示“加载中...”。 */
 	loadingText: {
 		type: String,
 		default: "加载中...",
 	},
-	/** @description displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data' */
+	/** 筛选结果为空时显示的文本，也可通过 empty 插槽替换。 */
 	noMatchText: {
 		type: String,
 		default: "暂无匹配的数据",
 	},
-	/** @description displayed text when there is no options, you can also use slot `empty`, default is 'No data' */
+	/** 没有可选数据时显示的文本，也可通过 empty 插槽替换。 */
 	noDataText: {
 		type: String,
 		default: "暂无数据",
 	},
-	/** @description whether to collapse tags to a text when multiple selecting */
+	/** 多选时是否折叠已选标签 */
 	collapseTags: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true */
+	/** 悬停折叠标签时是否显示全部选项；仅在 collapse-tags 开启时有效。 */
 	collapseTagsTooltip: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description v-model绑定值 */
+	/** v-model 绑定值 */
 	modelValue: {
 		type: definePropType<ElSelectorModelValue>([String, Number, Boolean, Object, Array]),
 		default: undefined,
 	},
-	/** @description v-model:label绑定值 */
+	/** v-model:label 绑定值 */
 	label: definePropType<string | string[] | null>([String, Array]),
-	/** @description 宽度 */
+	/** 宽度 */
 	width: {
 		type: [String, Number],
 		default: "100%",
 	},
-	/** @description 更多细节，只有使用slot的时候有用 */
+	/** 插槽使用的附加状态 */
 	moreDetail: Boolean,
-	/** @description 配置选项 */
+	/** 配置选项 */
 	props: {
 		type: definePropType<SelectComponentProps>(Object),
 		default: () => ({
@@ -65,7 +65,7 @@ export const faSelectPageProps = {
 			children: "children",
 		}),
 	},
-	/** @description 请求api */
+	/** 请求数据的函数 */
 	requestApi: {
 		type: definePropType<(params?: PagedInput) => Promise<PagedResult<ElSelectorOutput>>>(Function),
 		required: true,
@@ -74,41 +74,41 @@ export const faSelectPageProps = {
 	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
 } satisfies ComponentObjectPropsOptions;
 
-/** FaSelectPage 的运行时 Emits 定义。 */
+/** FaSelectPage 的运行时 Emits 定义 */
 export const faSelectPageEmits = {
 	...selectEmits,
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: ElSelectorModelValue) =>
 		typeof value === "string" ||
 		typeof value === "number" ||
 		typeof value === "boolean" ||
 		(typeof value === "object" && value !== null) ||
 		value == null,
-	/** @description 选中数据改变 */
+	/** 选中数据改变 */
 	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue) => true,
-	/** @description v-model:label 回调 */
+	/** v-model:label 回调 */
 	"update:label": (value: string | string[] | null) => typeof value === "string" || Array.isArray(value) || value === null,
-	/** @description 数据改变 */
+	/** 数据改变 */
 	dataChange: (data: ElSelectorOutput[]) => Array.isArray(data),
 };
 
-/** FaSelectPage 的插槽参数。 */
+/** FaSelectPage 的插槽参数 */
 export interface FaSelectPageSlots extends Record<string, unknown> {
-	/** @description FaSelectOption 默认内容插槽 */
+	/** FaSelectOption 默认内容插槽 */
 	default: ElSelectorOutput;
-	/** @description 下拉列表顶部的内容 */
+	/** 下拉列表顶部的内容 */
 	header: never;
-	/** @description 下拉列表底部的内容 */
+	/** 下拉列表底部的内容 */
 	footer: never;
-	/** @description Select 组件头部内容 */
+	/** Select 组件头部内容 */
 	prefix: never;
-	/** @description 无选项时的列表 */
+	/** 无选项时的列表 */
 	empty: never;
-	/** @description select 组件自定义标签内容 */
+	/** select 组件自定义标签内容 */
 	tag: never;
-	/** @description select 组件自定义 loading内容 */
+	/** Select 组件自定义加载内容 */
 	loading: never;
-	/** @description select 组件自定义标签内容 */
+	/** select 组件自定义标签内容 */
 	label: { label: string; value: string | number | boolean | object };
 }
 
@@ -142,8 +142,9 @@ export default defineComponent({
 			defaultSelectorData: withDefineType<ElSelectorOutput | undefined>(),
 		});
 
+		// 新请求、参数变化和卸载都会使旧响应失效。
 		let requestVersion = 0;
-
+		let disposed = false;
 		const handleData = (data: ElSelectorOutput[]): ElSelectorOutput[] => {
 			return data
 				.map((item) => {
@@ -170,7 +171,11 @@ export default defineComponent({
 				.filter((item) => item.hide !== true);
 		};
 
+		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
+			data.flatMap((item) => [item, ...flattenOptions(item.children ?? [])]);
+
 		const loadData = async (pageIndex?: number) => {
+			if (disposed) return;
 			const currentRequestVersion = ++requestVersion;
 			state.loading = true;
 			state.pageIndex = pageIndex ?? state.pageIndex;
@@ -182,20 +187,24 @@ export default defineComponent({
 			};
 			try {
 				const resData = await props.requestApi(params);
-				if (currentRequestVersion !== requestVersion) return;
+				if (disposed || currentRequestVersion !== requestVersion) return;
 				// 这里不允许回显了
 				state.echo = false;
 				state.totalRows = resData.totalRows ?? 0;
 				state.selectorData = handleData(resData.rows ?? []);
+				// 最新选项替换回显缓存，保留当前页之外的选中项。
+				state.defaultSelectorData &&=
+					flattenOptions(state.selectorData).find((item) => isEqual(item.value, state.defaultSelectorData?.value)) ??
+					state.defaultSelectorData;
 				emit("dataChange", state.selectorData);
 			} catch (error) {
-				if (currentRequestVersion !== requestVersion) return;
+				if (disposed || currentRequestVersion !== requestVersion) return;
 				state.pageIndex = 1;
 				state.totalRows = 0;
 				state.selectorData = [];
 				throw error;
 			} finally {
-				if (currentRequestVersion === requestVersion) state.loading = false;
+				if (!disposed && currentRequestVersion === requestVersion) state.loading = false;
 			}
 		};
 
@@ -229,14 +238,11 @@ export default defineComponent({
 			emit("visible-change", visible);
 		};
 
-		const flattenOptions = (data: ElSelectorOutput[]): ElSelectorOutput[] =>
-			data.flatMap((item) => [item, ...flattenOptions(item.children ?? [])]);
-
 		const handleChange = (value?: ElSelectorModelValue) => {
 			const selectorData = flattenOptions([
+				...state.selectorData,
 				...state.selectedList,
 				...(state.defaultSelectorData ? [state.defaultSelectorData] : []),
-				...state.selectorData,
 			]);
 			if (props.multiple) {
 				const valueList = Array.isArray(value) ? value : [];
@@ -319,9 +325,9 @@ export default defineComponent({
 			[() => state.value, () => state.selectorData],
 			([value]) => {
 				const selectorData = flattenOptions([
+					...state.selectorData,
 					...state.selectedList,
 					...(state.defaultSelectorData ? [state.defaultSelectorData] : []),
-					...state.selectorData,
 				]);
 
 				if (props.multiple) {
@@ -344,6 +350,7 @@ export default defineComponent({
 
 				if (value == null || Array.isArray(value)) {
 					state.selectedList = [];
+					state.defaultSelectorData = undefined;
 					selectedLabel.value = null;
 					return;
 				}
@@ -363,6 +370,12 @@ export default defineComponent({
 			() => props.initParam,
 			(newValue, oldValue) => {
 				if (!isEqual(newValue, oldValue)) {
+					requestVersion++;
+					state.loading = false;
+					state.selectorData = [];
+					state.selectedList = [];
+					state.defaultSelectorData = undefined;
+					state.pageIndex = 1;
 					state.nextRefresh = true;
 					if (state.value != null) {
 						handleModelValueUpdate(props.multiple ? [] : undefined);
@@ -370,6 +383,11 @@ export default defineComponent({
 				}
 			}
 		);
+
+		onBeforeUnmount(() => {
+			disposed = true;
+			requestVersion++;
+		});
 
 		const elSelectProps = useProps(props, selectProps, ["modelValue", "popperClass", "loading", "props"]);
 		const elSelectEmits = useEmits(selectEmits, emit, ["update:modelValue", "change", "visible-change"]);
@@ -465,21 +483,21 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 使选择器的输入框获取焦点 */
+			/** 使选择器的输入框获取焦点 */
 			focus: computed(() => selectRef.value?.focus),
-			/** @description 使选择器的输入框失去焦点，并隐藏下拉框 */
+			/** 使选择器的输入框失去焦点，并隐藏下拉框 */
 			blur: computed(() => selectRef.value?.blur),
-			/** @description 获取当前选中的标签 */
+			/** 获取当前选中的标签 */
 			selectedLabel: computed(() => selectRef.value?.selectedLabel),
-			/** @description 加载状态 */
+			/** 加载状态 */
 			loading: toRef(state, "loading"),
-			/** @description 选中的数据 */
+			/** 选中的数据 */
 			selectedList: computed(() => state.selectedList),
-			/** @description 刷新 */
+			/** 刷新 */
 			refresh: loadData,
-			/** @description 设置选择 */
+			/** 设置选择 */
 			setSelection: (value: Exclude<ElSelectorModelValue, null | undefined>) => handleModelValueUpdate(value),
-			/** @description 清除选择 */
+			/** 清除选择 */
 			clearSelection: () => handleModelValueUpdate(props.multiple ? [] : undefined),
 		});
 	},

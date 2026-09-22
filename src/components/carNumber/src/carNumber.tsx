@@ -11,27 +11,27 @@ export default defineComponent({
 	props: {
 		// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 		...inputProps,
-		/** @description value conversion function */
+		/** value conversion function */
 		parser: {
 			// eslint-disable-next-line @typescript-eslint/no-deprecated -- 保留 Element Plus 2.x parser 的运行时约束。
 			...inputProps.parser,
 			type: definePropType<(value: string) => string>(Function),
 		},
-		/** @description v-model绑定值 */
+		/** v-model 绑定值 */
 		modelValue: {
 			type: definePropType<string | null>(String),
 			default: undefined,
 		},
-		/** @description placeholder */
+		/** placeholder */
 		placeholder: {
 			type: String,
 			default: "请选择",
 		},
 	},
 	emits: {
-		/** @description v-model 回调 */
+		/** v-model 回调 */
 		"update:modelValue": (value: string | null) => typeof value === "string" || value === null,
-		/** @description 改变 */
+		/** 改变 */
 		change: (value: string | null) => typeof value === "string" || value === null,
 	},
 	setup(props, { emit }) {

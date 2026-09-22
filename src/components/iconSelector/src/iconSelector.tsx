@@ -12,18 +12,18 @@ type IconType = "ele" | "fastEle" | "local";
 export default defineComponent({
 	name: "FaIconSelector",
 	props: {
-		/** @description v-model绑定值 */
+		/** v-model 绑定值 */
 		modelValue: String as PropType<string | null>,
-		/** @description 自定义图标 */
+		/** 自定义图标 */
 		customIcons: {
 			type: definePropType<string[]>(Array),
 			default: () => [],
 		},
 	},
 	emits: {
-		/** @description v-model 回调 */
+		/** v-model 回调 */
 		"update:modelValue": (value: string | null) => typeof value === "string" || value === null,
-		/** @description 改变 */
+		/** 改变 */
 		change: (value: string | null) => typeof value === "string" || value === null,
 	},
 	setup(props, { emit, expose }) {

@@ -1,4 +1,4 @@
-import { Fragment, computed, defineComponent, onActivated, onMounted, shallowRef, toRef, watch, watchEffect } from "vue";
+import { Fragment, computed, defineComponent, onActivated, onBeforeUnmount, onMounted, shallowRef, watch, watchEffect } from "vue";
 import { Eleme, More, Refresh, Search, Setting } from "@element-plus/icons-vue";
 import {
 	ElButton,
@@ -12,9 +12,9 @@ import {
 	ElPagination,
 	ElTable,
 	ElTableColumn,
-	useSizeProp,
 } from "element-plus";
 import { NotData } from "@fast-element-plus/icons-vue";
+import { tableProps } from "../../../internal/props";
 import {
 	createDateRangeShortcuts,
 	createOneMonthRangeFromToday,
@@ -36,250 +36,34 @@ import FaTablePagination from "./tablePagination";
 import FaTableSearchForm from "./tableSearchForm";
 import { useTable } from "./useTable";
 import type { TableColumnCtx, TableProps } from "element-plus";
-import type { CSSProperties, PropType } from "vue";
+import type { PropType } from "vue";
 import type { FaLayoutGridBreakpoint } from "../../layoutGrid";
 import type { PagedInput, PagedResult, PagedSortInput } from "../src/page.type";
 import type { DefaultRow } from "./table.state";
 import type { FaTableColumnCtx, FaTableDataRange, FaTableDefaultSlotsResult } from "./table.type";
 
-type Layout = "fixed" | "auto";
+export { tableProps } from "../../../internal/props";
+export type { TreeProps } from "../../../internal/props";
 
-// type TreeProps = TableProps<DefaultRow>["treeProps"];
-/** FaTable 树形数据的字段配置。 */
-export interface TreeProps {
-	hasChildren?: string;
-	children?: string;
-	checkStrictly?: boolean;
-}
-
-/** Element Plus Table 的透传 Props 定义。 */
-export const tableProps = {
-	/**
-	 * @description table data
-	 */
-	data: {
-		type: Array as PropType<DefaultRow[]>,
-		default: () => [],
-	},
-	/**
-	 * @description size of Table
-	 */
-	size: useSizeProp,
-	width: [String, Number],
-	/**
-	 * @description table's height. By default it has an `auto` height. If its value is a number, the height is measured in pixels; if its value is a string, the value will be assigned to element's style.height, the height is affected by external styles
-	 */
-	height: [String, Number],
-	/**
-	 * @description table's max-height. The legal value is a number or the height in px
-	 */
-	maxHeight: [String, Number],
-	/**
-	 * @description whether width of column automatically fits its container
-	 */
-	fit: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description whether Table is striped
-	 */
-	stripe: Boolean,
-	/**
-	 * @description whether Table has vertical border
-	 */
-	border: Boolean,
-	/**
-	 * @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used
-	 */
-	rowKey: [String, Function] as PropType<TableProps<DefaultRow>["rowKey"]>,
-	/**
-	 * @description whether Table header is visible
-	 */
-	showHeader: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description whether to display a summary row
-	 */
-	showSummary: Boolean,
-	/**
-	 * @description displayed text for the first column of summary row
-	 */
-	sumText: String,
-	/**
-	 * @description custom summary method
-	 */
-	summaryMethod: Function as PropType<TableProps<DefaultRow>["summaryMethod"]>,
-	/**
-	 * @description function that returns custom class names for a row, or a string assigning class names for every row
-	 */
-	rowClassName: [String, Function] as PropType<TableProps<DefaultRow>["rowClassName"]>,
-	/**
-	 * @description function that returns custom style for a row, or an object assigning custom style for every row
-	 */
-	rowStyle: [Object, Function] as PropType<TableProps<DefaultRow>["rowStyle"]>,
-	/**
-	 * @description function that returns custom class names for a cell, or a string assigning class names for every cell
-	 */
-	cellClassName: [String, Function] as PropType<TableProps<DefaultRow>["cellClassName"]>,
-	/**
-	 * @description function that returns custom style for a cell, or an object assigning custom style for every cell
-	 */
-	cellStyle: [Object, Function] as PropType<TableProps<DefaultRow>["cellStyle"]>,
-	/**
-	 * @description function that returns custom class names for a row in table header, or a string assigning class names for every row in table header
-	 */
-	headerRowClassName: [String, Function] as PropType<TableProps<DefaultRow>["headerRowClassName"]>,
-	/**
-	 * @description function that returns custom style for a row in table header, or an object assigning custom style for every row in table header
-	 */
-	headerRowStyle: [Object, Function] as PropType<TableProps<DefaultRow>["headerRowStyle"]>,
-	/**
-	 * @description function that returns custom class names for a cell in table header, or a string assigning class names for every cell in table header
-	 */
-	headerCellClassName: [String, Function] as PropType<TableProps<DefaultRow>["headerCellClassName"]>,
-	/**
-	 * @description function that returns custom style for a cell in table header, or an object assigning custom style for every cell in table header
-	 */
-	headerCellStyle: [Object, Function] as PropType<TableProps<DefaultRow>["headerCellStyle"]>,
-	/**
-	 * @description whether current row is highlighted
-	 */
-	highlightCurrentRow: Boolean,
-	/**
-	 * @description key of current row, a set only prop
-	 */
-	currentRowKey: [String, Number],
-	/**
-	 * @description displayed text when data is empty. You can customize this area with `#empty`
-	 */
-	emptyText: String,
-	/**
-	 * @description set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop
-	 */
-	expandRowKeys: Array as PropType<TableProps<DefaultRow>["expandRowKeys"]>,
-	/** @description controls whether a row can be expanded */
-	rowExpandable: Function as PropType<TableProps<DefaultRow>["rowExpandable"]>,
-	/**
-	 * @description whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data
-	 */
-	defaultExpandAll: Boolean,
-	/**
-	 * @description set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order
-	 */
-	defaultSort: Object as PropType<TableProps<DefaultRow>["defaultSort"]>,
-	/**
-	 * @description the `effect` of the overflow tooltip
-	 */
-	tooltipEffect: String,
-	/**
-	 * @description the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)
-	 */
-	tooltipOptions: Object as PropType<TableProps<DefaultRow>["tooltipOptions"]>,
-	/**
-	 * @description method that returns rowspan and colspan
-	 */
-	spanMethod: Function as PropType<TableProps<DefaultRow>["spanMethod"]>,
-	/**
-	 * @description controls the behavior of master checkbox in multi-select tables when only some rows are selected (but not all). If true, all rows will be selected, else deselected
-	 */
-	selectOnIndeterminate: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description horizontal indentation of tree data
-	 */
-	indent: {
-		type: Number,
-		default: 16,
-	},
-	/**
-	 * @description configuration for rendering nested data
-	 */
-	treeProps: {
-		type: Object as PropType<TreeProps>,
-		default: () => ({
-			hasChildren: "hasChildren",
-			children: "children",
-			checkStrictly: false,
-		}),
-	},
-	/**
-	 * @description whether to lazy loading data
-	 */
-	lazy: Boolean,
-	/**
-	 * @description method for loading child row data, only works when `lazy` is true
-	 */
-	load: Function as PropType<TableProps<DefaultRow>["load"]>,
-	style: {
-		type: Object as PropType<CSSProperties>,
-		default: () => ({}),
-	},
-	className: {
-		type: String,
-		default: "",
-	},
-	/**
-	 * @description sets the algorithm used to lay out table cells, rows, and columns
-	 */
-	tableLayout: {
-		type: String as PropType<Layout>,
-		default: "fixed",
-	},
-	/**
-	 * @description always show scrollbar
-	 */
-	scrollbarAlwaysOn: Boolean,
-	/**
-	 * @description ensure main axis minimum-size doesn't follow the content
-	 */
-	flexible: Boolean,
-	/**
-	 * @description whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns
-	 */
-	showOverflowTooltip: [Boolean, Object] as PropType<TableProps<DefaultRow>["showOverflowTooltip"]>,
-	/** @description formats overflow tooltip content */
-	tooltipFormatter: Function as PropType<TableProps<DefaultRow>["tooltipFormatter"]>,
-	/** @description element to which the filter panel is appended */
-	appendFilterPanelTo: String,
-	scrollbarTabindex: {
-		type: [Number, String],
-		default: undefined,
-	},
-	/** @description whether the last column can be resized */
-	allowDragLastColumn: {
-		type: Boolean,
-		default: true,
-	},
-	/** @description whether collapsed expanded-row content remains mounted */
-	preserveExpandedContent: Boolean,
-	/** @description whether to use native scrollbars */
-	nativeScrollbar: Boolean,
-};
-
-/** FaTable 的运行时 Props 定义。 */
+/** FaTable 的运行时 Props 定义 */
 export const faTableProps = {
 	...tableProps,
-	/** @description whether Table has vertical border */
+	/** whether Table has vertical border */
 	border: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description whether current row is highlighted */
+	/** whether current row is highlighted */
 	highlightCurrentRow: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
+	/** key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used */
 	rowKey: {
 		type: [String, Function] as PropType<NonNullable<TableProps<DefaultRow>["rowKey"]>>,
 		default: "id",
 	},
-	/** @description 组件封装，原生的已经失效 method that returns rowspan and colspan */
+	/** 组件封装，原生的已经失效 method that returns rowspan and colspan */
 	spanMethod: {
 		type: Function as PropType<TableProps<DefaultRow>["spanMethod"]>,
 		validator: () => {
@@ -287,108 +71,108 @@ export const faTableProps = {
 			return false;
 		},
 	},
-	/** @description 表格Key */
+	/** 表格Key */
 	tableKey: {
 		type: String,
 		default: () => randomString(8),
 	},
-	/** @description 表格数据 */
+	/** 表格数据 */
 	data: {
 		type: definePropType<DefaultRow[]>(Array),
 		default: () => [],
 	},
-	/** @description 请求api */
+	/** 请求数据的函数 */
 	requestApi: {
 		type: definePropType<(params?: PagedInput) => Promise<PagedResult<DefaultRow> | DefaultRow[]>>(Function),
 	},
-	/** @description 接口请求数据回调 */
+	/** 接口请求数据回调 */
 	dataCallback: {
 		type: definePropType<(data: PagedResult<DefaultRow> | DefaultRow[]) => void>(Function),
 	},
 	/** 初始化参数 */
 	initParam: definePropType<string | number | PagedInput | null>([String, Number, Object]),
-	/** @description 列配置 */
+	/** 列配置 */
 	columns: {
 		type: definePropType<FaTableColumnCtx[] | false>([Array, Boolean]),
 		default: () => false,
 	},
-	/** @description 表格列改变 */
+	/** 表格列改变 */
 	columnsChange: {
 		type: definePropType<(columns: FaTableColumnCtx[]) => Promise<void>>(Function),
 	},
-	/** @description 搜索表单 Grid布局列配置 */
+	/** 搜索表单 Grid布局列配置 */
 	searchFormCols: {
 		type: definePropType<string | number | Record<FaLayoutGridBreakpoint, number>>([String, Number, Object]),
 		default: () => ({ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }),
 	},
-	/** @description 折叠搜素 */
+	/** 折叠搜索 */
 	collapsedSearch: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 高级搜素抽屉 */
+	/** 高级搜索抽屉 */
 	advancedSearchDrawer: {
 		type: Boolean,
 		default: false,
 	},
-	/** @description 搜索表单 */
+	/** 搜索表单 */
 	searchForm: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 头部卡片 */
+	/** 头部卡片 */
 	headerCard: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 刷新按钮 */
+	/** 刷新按钮 */
 	refreshBtn: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 搜索按钮 */
+	/** 搜索按钮 */
 	searchBtn: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 列配置按钮 */
+	/** 列配置按钮 */
 	columnSettingBtn: {
 		type: Boolean,
 		default: false,
 	},
-	/** @description 头部卡片右侧功能按钮 */
+	/** 头部卡片右侧功能按钮 */
 	toolBtn: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 隐藏搜索时间 */
+	/** 隐藏搜索时间 */
 	hideSearchTime: Boolean,
-	/** @description 未来搜索时间 */
+	/** 未来搜索时间 */
 	futureSearchTime: Boolean,
-	/** @description 搜索时间范围 */
+	/** 搜索时间范围 */
 	dataSearchRange: {
 		type: definePropType<FaTableDataRange>(String),
 		default: "Past3D",
 	},
-	/** @description 分页 */
+	/** 分页 */
 	pagination: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 页码 */
+	/** 页码 */
 	pageSizes: {
 		type: definePropType<number[]>(Array),
 		default: [20, 30, 50, 100],
 	},
-	/** @description 隐藏图片 */
+	/** 隐藏图片 */
 	hideImage: Boolean,
-	/** @description 单选 */
+	/** 单选 */
 	single: Boolean,
-	/** @description 行点击选择 */
+	/** 行点击选择 */
 	rowClickSelection: Boolean,
-	/** @description 将父级数据的 children 展开为表格行，并把父级字段合并到子项；Element Plus 树表无需启用 */
+	/** 将父级数据的 children 展开为表格行，并把父级字段合并到子项；Element Plus 树表无需启用 */
 	treeData: Boolean,
-	/** @description 配置选项 */
+	/** 配置选项 */
 	props: {
 		type: definePropType<{ span?: string; children?: string }>(Object),
 		default: () => ({
@@ -396,27 +180,27 @@ export const faTableProps = {
 			children: "children",
 		}),
 	},
-	/** @description 自动刷新，当传入 data 时候，如果存在更改则自动刷新 */
+	/** 自动刷新，当传入 data 时候，如果存在更改则自动刷新 */
 	autoRefresh: {
 		type: Boolean,
 		default: true,
 	},
 	/**
 	 * 等价于 Table-Column 的 selectable
-	 * @description function that determines if a certain row can be selected, works when `type` is 'selection'
+	 * function that determines if a certain row can be selected, works when `type` is 'selection'
 	 */
 	rowSelectable: Function as PropType<TableColumnCtx<DefaultRow>["selectable"]>,
 };
 
-/** FaTable 的运行时 Emits 定义。 */
+/** FaTable 的运行时 Emits 定义 */
 export const faTableEmits = {
-	/** @description 当用户手动勾选数据行的 Checkbox 时触发的事件 */
+	/** 当用户手动勾选数据行的 Checkbox 时触发的事件 */
 	select: (selection: DefaultRow[], row: DefaultRow) => Array.isArray(selection) && typeof row === "object" && row !== null,
-	/** @description 当用户手动勾选全选 Checkbox 时触发的事件 */
+	/** 当用户手动勾选全选 Checkbox 时触发的事件 */
 	selectAll: (selection: DefaultRow[]) => Array.isArray(selection),
-	/** @description 当选择项发生变化时会触发该事件 */
+	/** 当选择项发生变化时会触发该事件 */
 	selectionChange: (newSelection: DefaultRow[]) => Array.isArray(newSelection),
-	/** @description 当单元格 hover 进入时会触发该事件 */
+	/** 当单元格 hover 进入时会触发该事件 */
 	cellMouseEnter: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
 		typeof row === "object" &&
 		row !== null &&
@@ -424,7 +208,7 @@ export const faTableEmits = {
 		column !== null &&
 		cell instanceof HTMLTableCellElement &&
 		event instanceof Event,
-	/** @description 当单元格 hover 退出时会触发该事件 */
+	/** 当单元格 hover 退出时会触发该事件 */
 	cellMouseLeave: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
 		typeof row === "object" &&
 		row !== null &&
@@ -432,7 +216,7 @@ export const faTableEmits = {
 		column !== null &&
 		cell instanceof HTMLTableCellElement &&
 		event instanceof Event,
-	/** @description 当某个单元格被点击时会触发该事件 */
+	/** 当某个单元格被点击时会触发该事件 */
 	cellClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
 		typeof row === "object" &&
 		row !== null &&
@@ -440,7 +224,7 @@ export const faTableEmits = {
 		column !== null &&
 		cell instanceof HTMLTableCellElement &&
 		event instanceof Event,
-	/** @description 当某个单元格被双击击时会触发该事件 */
+	/** 当某个单元格被双击击时会触发该事件 */
 	cellDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
 		typeof row === "object" &&
 		row !== null &&
@@ -448,7 +232,7 @@ export const faTableEmits = {
 		column !== null &&
 		cell instanceof HTMLTableCellElement &&
 		event instanceof Event,
-	/** @description 当某个单元格被鼠标右键点击时会触发该事件 */
+	/** 当某个单元格被鼠标右键点击时会触发该事件 */
 	cellContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, cell: HTMLTableCellElement, event: Event) =>
 		typeof row === "object" &&
 		row !== null &&
@@ -456,47 +240,47 @@ export const faTableEmits = {
 		column !== null &&
 		cell instanceof HTMLTableCellElement &&
 		event instanceof Event,
-	/** @description 当某一行被点击时会触发该事件 */
+	/** 当某一行被点击时会触发该事件 */
 	rowClick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event) =>
 		typeof row === "object" && row !== null && typeof column === "object" && column !== null && event instanceof Event,
-	/** @description 当某一行被鼠标右键点击时会触发该事件 */
+	/** 当某一行被鼠标右键点击时会触发该事件 */
 	rowContextmenu: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event) =>
 		typeof row === "object" && row !== null && typeof column === "object" && column !== null && event instanceof Event,
-	/** @description 当某一行被双击时会触发该事件 */
+	/** 当某一行被双击时会触发该事件 */
 	rowDblclick: (row: DefaultRow, column: TableColumnCtx<DefaultRow>, event: Event) =>
 		typeof row === "object" && row !== null && typeof column === "object" && column !== null && event instanceof Event,
-	/** @description 当某一列的表头被点击时会触发该事件 */
+	/** 当某一列的表头被点击时会触发该事件 */
 	headerClick: (column: TableColumnCtx<DefaultRow>, event: Event) => typeof column === "object" && column !== null && event instanceof Event,
-	/** @description 当某一列的表头被鼠标右键点击时触发该事件 */
+	/** 当某一列的表头被鼠标右键点击时触发该事件 */
 	headerContextmenu: (column: TableColumnCtx<DefaultRow>, event: Event) => typeof column === "object" && column !== null && event instanceof Event,
-	/** @description 当表格的排序条件发生变化的时候会触发该事件 */
+	/** 当表格的排序条件发生变化的时候会触发该事件 */
 	sortChange: (data: { column: TableColumnCtx<DefaultRow>; prop: string; order: "" | "ascending" | "descending" }) =>
 		typeof data === "object" && data !== null,
-	/** @description column 的 key， 如果需要使用 filter-change 事件，则需要此属性标识是哪个 column 的筛选条件 */
+	/** column 的 key， 如果需要使用 filter-change 事件，则需要此属性标识是哪个 column 的筛选条件 */
 	filterChange: (newFilters: Record<string, string[]>) => typeof newFilters === "object" && newFilters !== null,
-	/** @description 当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性 */
+	/** 当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性 */
 	currentChange: (currentRow: DefaultRow, oldCurrentRow: DefaultRow | null) =>
 		typeof currentRow === "object" &&
 		currentRow !== null &&
 		(oldCurrentRow === null || (typeof oldCurrentRow === "object" && oldCurrentRow !== null)),
-	/** @description 当拖动表头改变了列的宽度的时候会触发该事件 */
+	/** 当拖动表头改变了列的宽度的时候会触发该事件 */
 	headerDragend: (newWidth: number, oldWidth: number, column: TableColumnCtx<DefaultRow>, event: MouseEvent) =>
 		typeof newWidth === "number" && typeof oldWidth === "number" && typeof column === "object" && column !== null && event instanceof MouseEvent,
-	/** @description 当用户对某一行展开或者关闭的时候会触发该事件（展开行时，回调的第二个参数为 expandedRows；树形表格时第二参数为 expanded） */
+	/** 当用户对某一行展开或者关闭的时候会触发该事件（展开行时，回调的第二个参数为 expandedRows；树形表格时第二参数为 expanded） */
 	expandChange: (row: DefaultRow, expanded: boolean | DefaultRow[]) =>
 		typeof row === "object" && row !== null && (typeof expanded === "boolean" || Array.isArray(expanded)),
-	/** @description 表格滚动时触发 */
+	/** 表格滚动时触发 */
 	scroll: (data: { scrollLeft: number; scrollTop: number }) => typeof data === "object" && data !== null,
 
-	/** @description 表格刷新事件 */
+	/** 表格刷新事件 */
 	refresh: (params: PagedInput) => typeof params === "object" && params !== null,
-	/** @description 表格重置事件 */
+	/** 表格重置事件 */
 	reset: (params: PagedInput) => typeof params === "object" && params !== null,
-	/** @description 分页页码改变事件 */
+	/** 分页页码改变事件 */
 	sizeChange: (pageSize: number) => typeof pageSize === "number",
-	/** @description 分页改变事件 */
+	/** 分页改变事件 */
 	paginationChange: (pageIndex: number, pageSize: number) => typeof pageIndex === "number" && typeof pageSize === "number",
-	/** @description 自定义单元格点击事件 */
+	/** 自定义单元格点击事件 */
 	customCellClick: (
 		emitName: string,
 		{ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number } & FaTableDefaultSlotsResult
@@ -509,29 +293,29 @@ export const faTableEmits = {
 		typeof $index === "number",
 };
 
-/** FaTable 的插槽参数。 */
+/** FaTable 的插槽参数 */
 export type FaTableSlots = Record<string, unknown> & {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
-	/** @description 插入至表格最后一行之后的内容， 如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。 若表格有合计行，该 slot 会位于合计行之上。 */
+	/** 插入至表格最后一行之后的内容， 如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。 若表格有合计行，该 slot 会位于合计行之上。 */
 	append: never;
-	/** @description 当数据为空时自定义的内容 */
+	/** 当数据为空时自定义的内容 */
 	empty: never;
-	/** @description 表格顶部插槽 */
+	/** 表格顶部插槽 */
 	topHeader: FaTableDefaultSlotsResult;
-	/** @description 表格头部左侧插槽 */
+	/** 表格头部左侧插槽 */
 	header: FaTableDefaultSlotsResult;
-	/** @description 表格头部右侧功能按钮插槽 */
+	/** 表格头部右侧功能按钮插槽 */
 	toolButton: FaTableDefaultSlotsResult;
-	/** @description 表格头部右侧高级操作按钮插槽，ElDropdownMenuItem 标签 */
+	/** 表格头部右侧高级操作按钮插槽，ElDropdownMenuItem 标签 */
 	toolButtonAdv: FaTableDefaultSlotsResult;
-	/** @description 表格操作列插槽 */
+	/** 表格操作列插槽 */
 	operation: FaTableDefaultSlotsResult & {
 		row: DefaultRow;
 		column: FaTableColumnCtx;
 		$index: number;
 	};
-	/** @description 表格分页插槽 */
+	/** 表格分页插槽 */
 	pagination: {
 		pageIndex: number;
 		pageSize: number;
@@ -539,20 +323,20 @@ export type FaTableSlots = Record<string, unknown> & {
 		handleSizeChange: (val: number) => void;
 		handlePaginationChange: (val: number) => void;
 	};
-	/** @description 表格页脚插槽 */
+	/** 表格页脚插槽 */
 	footer: FaTableDefaultSlotsResult;
-	/** @description 列配置 */
+	/** 列配置 */
 	columnSetting: never;
 } & Record<
 		string,
 		FaTableDefaultSlotsResult & {
-			/** @description slots为表格内容的时候才会返回 */
+			/** slots为表格内容的时候才会返回 */
 			row?: DefaultRow;
-			/** @description slot为表头内容的时候返回 'TableColumnCtx<DefaultRow>' 否则返回 'FaTableColumnCtx' */
+			/** slot为表头内容的时候返回 'TableColumnCtx<DefaultRow>' 否则返回 'FaTableColumnCtx' */
 			column?: TableColumnCtx<DefaultRow> | FaTableColumnCtx;
-			/** @description slot为非搜索项的时候才会返回 */
+			/** slot为非搜索项的时候才会返回 */
 			$index?: number;
-			/** @description slot为搜索项的时候才会返回 */
+			/** slot为搜索项的时候才会返回 */
 			search?: () => Promise<void>;
 		}
 	>;
@@ -578,12 +362,20 @@ export default defineComponent({
 			tableSearch,
 			tableReset,
 			doRender,
+			setManualLoading,
 			doLoading,
 			handleCustomCellClick,
 		} = useTable(props, slots, emit);
 
 		const notifyColumnsChange = debounce(() => props.columnsChange?.(state.orgColumns), 500);
 		const resizeTableColumns = debounce(handleTableColumnAutoWidth, 100);
+
+		const unmountedError = new Error("FaTable 已卸载，列布局任务已取消。");
+		const reportColumnTask = (task: Promise<unknown>) => {
+			task.catch((error: unknown) => {
+				if (error !== unmountedError) console.error("FaTable 列更新失败。", error);
+			});
+		};
 
 		let lastRowIndex = 0;
 		const getInitParam = (): Record<string, unknown> => {
@@ -821,7 +613,7 @@ export default defineComponent({
 			rowIndex: number;
 			columnIndex: number;
 		}) => {
-			/** @description 原生的 span-method 会失效 */
+			/** 原生的 span-method 会失效 */
 			const property = column.property as string | null | undefined;
 			const columnKey = column.columnKey as string | null | undefined;
 			const pKey = property ?? columnKey;
@@ -844,7 +636,7 @@ export default defineComponent({
 				}
 			});
 			emit("headerDragend", newWidth, oldWidth, column, event);
-			if (props.columnsChange) notifyColumnsChange();
+			if (props.columnsChange) reportColumnTask(notifyColumnsChange());
 		};
 
 		const handleImagePreview = (url: string) => {
@@ -893,7 +685,7 @@ export default defineComponent({
 			{ deep: true }
 		);
 
-		watchEffect(() => {
+		watchEffect((onCleanup) => {
 			const element = elementRef.value;
 			if (element) {
 				const observer = new ResizeObserver((entries) => {
@@ -902,15 +694,18 @@ export default defineComponent({
 						const widthChanged = state.tableWidth !== width;
 						state.tableWidth = width;
 						state.tableHeight = height;
-						if (widthChanged) resizeTableColumns();
+						if (widthChanged) reportColumnTask(resizeTableColumns());
 					}
 				});
 				observer.observe(element);
 
-				return () => {
-					observer.disconnect();
-				};
+				onCleanup(() => observer.disconnect());
 			}
+		});
+
+		onBeforeUnmount(() => {
+			notifyColumnsChange.cancel(unmountedError);
+			resizeTableColumns.cancel(unmountedError);
 		});
 
 		onMounted(async () => {
@@ -1266,67 +1061,67 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 用于多选表格，清空用户的选择 */
+			/** 用于多选表格，清空用户的选择 */
 			clearSelection: computed(() => tableRef.value?.clearSelection),
-			/** @description 返回当前选中的行 */
+			/** 返回当前选中的行 */
 			getSelectionRows: computed(() => tableRef.value?.getSelectionRows),
-			/** @description 返回当前半选中的行。 */
+			/** 返回当前半选中的行。 */
 			getHalfSelectionRows: computed(() => tableRef.value?.getHalfSelectionRows),
-			/** @description 用于多选表格，切换某一行的选中状态， 如果使用了第二个参数，则可直接设置这一行选中与否 */
+			/** 用于多选表格，切换某一行的选中状态， 如果使用了第二个参数，则可直接设置这一行选中与否 */
 			toggleRowSelection: computed(() => tableRef.value?.toggleRowSelection),
-			/** @description 用于多选表格，切换全选和全不选 */
+			/** 用于多选表格，切换全选和全不选 */
 			toggleAllSelection: computed(() => tableRef.value?.toggleAllSelection),
-			/** @description 用于可扩展的表格或树表格，如果某行被扩展，则切换。 使用第二个参数，您可以直接设置该行应该被扩展或折叠。 */
+			/** 用于可扩展的表格或树表格，如果某行被扩展，则切换。 使用第二个参数，您可以直接设置该行应该被扩展或折叠。 */
 			toggleRowExpansion: computed(() => tableRef.value?.toggleRowExpansion),
-			/** @description 用于单选表格，设定某一行为选中行， 如果调用时不加参数，则会取消目前高亮行的选中状态。 */
+			/** 用于单选表格，设定某一行为选中行， 如果调用时不加参数，则会取消目前高亮行的选中状态。 */
 			setCurrentRow: computed(() => tableRef.value?.setCurrentRow),
-			/** @description 用于清空排序条件，数据会恢复成未排序的状态 */
+			/** 用于清空排序条件，数据会恢复成未排序的状态 */
 			clearSort: computed(() => tableRef.value?.clearSort),
-			/** @description 传入由columnKey 组成的数组以清除指定列的过滤条件。 如果没有参数，清除所有过滤器 */
+			/** 传入由columnKey 组成的数组以清除指定列的过滤条件。 如果没有参数，清除所有过滤器 */
 			clearFilter: computed(() => tableRef.value?.clearFilter),
-			/** @description 对 Table 进行重新布局。 当表格可见性变化时，您可能需要调用此方法以获得正确的布局 */
+			/** 对 Table 进行重新布局。 当表格可见性变化时，您可能需要调用此方法以获得正确的布局 */
 			doLayout: computed(() => tableRef.value?.doLayout),
-			/** @description 手动排序表格。 参数 prop 属性指定排序列，order 指定排序顺序。 */
+			/** 手动排序表格。 参数 prop 属性指定排序列，order 指定排序顺序。 */
 			sort: computed(() => tableRef.value?.sort),
-			/** @description 滚动到一组特定坐标 */
+			/** 滚动到一组特定坐标 */
 			scrollTo: computed(() => tableRef.value?.scrollTo),
-			/** @description 设置垂直滚动位置 */
+			/** 设置垂直滚动位置 */
 			setScrollTop: computed(() => tableRef.value?.setScrollTop),
-			/** @description 设置水平滚动位置 */
+			/** 设置水平滚动位置 */
 			setScrollLeft: computed(() => tableRef.value?.setScrollLeft),
-			/** @description 获取表列的 context */
+			/** 获取表列的 context */
 			columns: computed(() => tableRef.value?.columns),
-			/** @description 适用于 lazy Table, 需要设置 rowKey, 更新 key children */
+			/** 适用于 lazy Table, 需要设置 rowKey, 更新 key children */
 			updateKeyChildren: computed(() => tableRef.value?.updateKeyChildren),
-			/** @description 加载状态 */
-			loading: toRef(state, "loading"),
-			/** @description 表格数据 */
+			/** 聚合加载状态；手动关闭不能结束内部任务。 */
+			loading: computed({ get: () => state.loading, set: setManualLoading }),
+			/** 表格数据 */
 			tableData: computed(() => state.tableData),
-			/** @description 分页数据 */
+			/** 分页数据 */
 			tablePagination: computed(() => state.tablePagination),
-			/** @description 搜索参数 */
+			/** 搜索参数 */
 			searchParam: computed(() => state.searchParam),
-			/** @description 选中状态 */
+			/** 选中状态 */
 			selected: computed(() => state.selected),
-			/** @description 选中数据列表 */
+			/** 选中数据列表 */
 			selectedList: computed(() => state.selectedList),
-			/** @description 选中数据 rowKey 列表 */
+			/** 选中数据 rowKey 列表 */
 			selectedListIds: computed(() => state.selectedListIds),
-			/** @description 部分选中数据 rowKey 列表 */
+			/** 部分选中数据 rowKey 列表 */
 			indeterminateSelectedListIds: computed(() => state.indeterminateSelectedListIds),
-			/** @description 表格宽度 */
+			/** 表格宽度 */
 			tableWidth: computed(() => state.tableWidth),
-			/** @description 表格高度 */
+			/** 表格高度 */
 			tableHeight: computed(() => state.tableHeight),
-			/** @description 部分选中（样式不一样而已），用于多选表格，切换某一行的选中状态， 如果使用了第二个参数，则可直接设置这一行选中与否 */
+			/** 部分选中（样式不一样而已），用于多选表格，切换某一行的选中状态， 如果使用了第二个参数，则可直接设置这一行选中与否 */
 			toggleRowIndeterminateSelection,
-			/** @description 异步方法，刷新表格 */
+			/** 异步方法，刷新表格 */
 			refresh: tableSearch,
-			/** @description 异步方法，重置表格 */
+			/** 异步方法，重置表格 */
 			reset: tableReset,
-			/** @description 对 Table 进行重新渲染。当 TableKey 发生变化的时候可以通过此方法重新渲染表格 */
+			/** 对 Table 进行重新渲染。当 TableKey 发生变化的时候可以通过此方法重新渲染表格 */
 			doRender,
-			/** @description Table 加载 */
+			/** Table 加载 */
 			doLoading,
 		});
 	},

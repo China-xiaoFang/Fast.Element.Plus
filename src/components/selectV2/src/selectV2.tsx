@@ -1,314 +1,13 @@
 import { computed, defineComponent, onMounted, reactive, shallowRef, toRef, useModel, watch } from "vue";
-import { ArrowDown, CircleClose } from "@element-plus/icons-vue";
-import { ElSelectV2, tagProps, useAriaProps, useEmptyValuesProps, useGlobalSize, useSizeProp, useTooltipContentProps } from "element-plus";
+import { ElSelectV2, useGlobalSize } from "element-plus";
+import { SelectV2Props } from "../../../internal/props";
 import { addCssUnit, definePropType, isEqual, makeSlots, useEmits, useExpose, useProps, useRender, withDefineType } from "../../../utils";
-import type { SelectV2Props as ElementPlusSelectV2Props, Options, Placement, ScrollbarDirection } from "element-plus";
-import type { Component, PropType } from "vue";
+import type { ScrollbarDirection } from "element-plus";
 import type { ElSelectorModelValue, ElSelectorOutput, ElSelectorValue } from "../../select/src/select.type";
 import type { PagedInput, PagedResult } from "../../table";
 
-/** 传递给底层 Element Plus 虚拟化选择器的扩展 Props。 */
-export interface Props {
-	label?: string;
-	value?: string;
-	disabled?: string;
-	options?: string;
-}
-
-/** FaSelectV2 支持的业务选择器 Props 定义。 */
-export const SelectV2Props = {
-	/**
-	 * @description whether creating new items is allowed. To use this, `filterable` must be true
-	 */
-	allowCreate: Boolean,
-	/**
-	 * @description autocomplete of select input
-	 */
-	autocomplete: {
-		type: definePropType<"none" | "both" | "list" | "inline">(String),
-		default: "none",
-	},
-	/**
-	 * @description for non-filterable Select, this prop decides if the option menu pops up when the input is focused
-	 */
-	automaticDropdown: Boolean,
-	/**
-	 * @description whether select can be cleared
-	 */
-	clearable: Boolean,
-	/**
-	 * @description custom clear icon
-	 */
-	clearIcon: {
-		type: definePropType<string | Component>([String, Object, Function]),
-		default: CircleClose,
-	},
-	/**
-	 * @description tooltip theme, built-in theme: `dark` / `light`
-	 */
-	effect: {
-		type: definePropType<string>(String),
-		default: "light",
-	},
-	/**
-	 * @description whether to collapse tags to a text when multiple selecting
-	 */
-	collapseTags: Boolean,
-	/**
-	 * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
-	 */
-	collapseTagsTooltip: Boolean,
-	/** @description collapse-tags tooltip configuration */
-	tagTooltip: {
-		type: definePropType<ElementPlusSelectV2Props["tagTooltip"]>(Object),
-		default: () => ({}),
-	},
-	/**
-	 * @description The max tags number to be shown. To use this, `collapse-tags` must be true
-	 */
-	maxCollapseTags: {
-		type: Number,
-		default: 1,
-	},
-	/**
-	 * @description
-	 */
-	defaultFirstOption: Boolean,
-	/**
-	 * @description is disabled
-	 */
-	disabled: Boolean,
-	/**
-	 * @description
-	 */
-	estimatedOptionHeight: {
-		type: Number,
-		default: undefined,
-	},
-	/**
-	 * @description is filterable
-	 */
-	filterable: Boolean,
-	/**
-	 * @description
-	 */
-	filterMethod: Function as PropType<ElementPlusSelectV2Props["filterMethod"]>,
-	/**
-	 * @description The height of the dropdown panel, 34px for each item
-	 */
-	height: {
-		type: Number,
-		default: 274, // same as select dropdown menu
-	},
-	/**
-	 * @description The height of the dropdown item
-	 */
-	itemHeight: {
-		type: Number,
-		default: 34,
-	},
-	/**
-	 * @description
-	 */
-	id: String,
-	/**
-	 * @description whether Select is loading data from server
-	 */
-	loading: Boolean,
-	/**
-	 * @description displayed text while loading data from server, default is 'Loading'
-	 */
-	loadingText: String,
-	/**
-	 * @description biding value
-	 */
-	modelValue: {
-		type: definePropType<ElSelectorModelValue>([Array, String, Number, Boolean, Object]),
-	},
-	/**
-	 * @description is multiple
-	 */
-	multiple: Boolean,
-	/**
-	 * @description maximum number of options user can select when multiple is true. No limit when set to 0
-	 */
-	multipleLimit: {
-		type: Number,
-		default: 0,
-	},
-	/**
-	 * @description the name attribute of select input
-	 */
-	name: String,
-	/**
-	 * @description displayed text when there is no options, you can also use slot empty, the default is 'No Data'
-	 */
-	noDataText: String,
-	/**
-	 * @description displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'
-	 */
-	noMatchText: String,
-	/**
-	 * @description function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true
-	 */
-	remoteMethod: Function as PropType<ElementPlusSelectV2Props["remoteMethod"]>,
-	/**
-	 * @description whether reserve the keyword after select filtered option.
-	 */
-	reserveKeyword: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description data of the options, the key of `value` and `label` can be customize by `props`
-	 */
-	options: {
-		type: definePropType<ElementPlusSelectV2Props["options"]>(Array),
-	},
-	/**
-	 * @description placeholder, the default is 'Please select'
-	 */
-	placeholder: {
-		type: String,
-	},
-	/**
-	 * @description whether select dropdown is teleported to the body
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的运行时默认值与校验规则。
-	teleported: useTooltipContentProps.teleported,
-	/**
-	 * @description when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed
-	 */
-	persistent: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description custom class name for Select's dropdown
-	 */
-	popperClass: {
-		type: String,
-		default: "",
-	},
-	/** @description custom style for Select's dropdown */
-	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的运行时类型定义。
-	popperStyle: useTooltipContentProps.popperStyle,
-	/**
-	 * @description [popper.js](https://popper.js.org/docs/v2/) parameters
-	 */
-	popperOptions: {
-		type: definePropType<Partial<Options>>(Object),
-		default: () => ({}),
-	},
-	/**
-	 * @description whether search data from server
-	 */
-	remote: Boolean,
-	/** @description debounce delay during remote search, in milliseconds */
-	debounce: {
-		type: Number,
-		default: 300,
-	},
-	/**
-	 * @description size of component
-	 */
-	size: useSizeProp,
-	/**
-	 * @description configuration options, see the following table
-	 */
-	props: {
-		type: definePropType<Props>(Object),
-		default: () => ({
-			label: "label",
-			value: "value",
-			disabled: "disabled",
-			options: "options",
-		}),
-	},
-	/**
-	 * @description unique identity key name for value, required when value is an object
-	 */
-	valueKey: {
-		type: String,
-		default: "value",
-	},
-	/**
-	 * @description Controls whether the scrollbar is always displayed
-	 */
-	scrollbarAlwaysOn: Boolean,
-	/**
-	 * @description whether to trigger form validation
-	 */
-	validateEvent: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description offset of the dropdown
-	 */
-	offset: {
-		type: Number,
-		default: 12,
-	},
-	/** @description whether to show the suffix icon during remote search */
-	remoteShowSuffix: Boolean,
-	/**
-	 * @description Determines whether the arrow is displayed
-	 */
-	showArrow: {
-		type: Boolean,
-		default: true,
-	},
-	/**
-	 * @description position of dropdown
-	 */
-	placement: {
-		type: definePropType<Placement>(String),
-		default: "bottom-start",
-	},
-	/**
-	 * @description list of possible positions for dropdown
-	 */
-	fallbackPlacements: {
-		type: definePropType<Placement[]>(Array),
-		default: ["bottom-start", "top-start", "right", "left"],
-	},
-	/**
-	 * @description tag type
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的 Tag 运行时校验规则。
-	tagType: { ...tagProps.type, default: "info" },
-	/**
-	 * @description tag effect
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的 Tag 运行时校验规则。
-	tagEffect: { ...tagProps.effect, default: "light" },
-	/**
-	 * @description tabindex for input
-	 */
-	tabindex: {
-		type: [String, Number],
-		default: 0,
-	},
-	/**
-	 * @description which element the select dropdown appends to
-	 */
-	appendTo: String,
-	/** @description whether the dropdown width follows the input width, or a fixed width */
-	fitInputWidth: {
-		type: [Boolean, Number],
-		default: true,
-		validator: (value: boolean | number) => typeof value === "boolean" || typeof value === "number",
-	},
-	/** @description select suffix icon */
-	suffixIcon: {
-		type: definePropType<string | Component>([String, Object, Function]),
-		default: ArrowDown,
-	},
-	// eslint-disable-next-line @typescript-eslint/no-deprecated -- 复用 Element Plus 2.x 的空值运行时约定。
-	...useEmptyValuesProps,
-	...useAriaProps(["ariaLabel"]),
-};
+export { SelectV2Props } from "../../../internal/props";
+export type { Props } from "../../../internal/props";
 
 /** 底层虚拟化选择器的运行时 Emits 定义。 */
 export const selectV2Emits = {
@@ -322,68 +21,68 @@ export const selectV2Emits = {
 	clear: () => true,
 };
 
-/** FaSelectV2 的运行时 Props 定义。 */
+/** FaSelectV2 的运行时 Props 定义 */
 export const faSelectV2Props = {
 	...SelectV2Props,
-	/** @description whether Select is disabled 重载使其支持 ElForm*/
+	/** 是否禁用选择器；未指定时继承 ElForm 的禁用状态。 */
 	disabled: {
 		type: Boolean,
 		default: undefined,
 	},
-	/** @description displayed text while loading data from server, default is 'Loading' */
+	/** 远程数据加载时显示的文本；默认显示“加载中...”。 */
 	loadingText: {
 		type: String,
 		default: "加载中...",
 	},
-	/** @description displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data' */
+	/** 筛选结果为空时显示的文本，也可通过 empty 插槽替换。 */
 	noMatchText: {
 		type: String,
 		default: "暂无匹配的数据",
 	},
-	/** @description displayed text when there is no options, you can also use slot `empty`, default is 'No data' */
+	/** 没有可选数据时显示的文本，也可通过 empty 插槽替换。 */
 	noDataText: {
 		type: String,
 		default: "暂无数据",
 	},
-	/** @description whether to collapse tags to a text when multiple selecting */
+	/** 多选时是否折叠已选标签 */
 	collapseTags: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true */
+	/** 悬停折叠标签时是否显示全部选项；仅在 collapse-tags 开启时有效。 */
 	collapseTagsTooltip: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description v-model绑定值 */
+	/** v-model 绑定值 */
 	modelValue: {
 		type: definePropType<ElSelectorModelValue>([String, Number, Boolean, Object, Array]),
 		default: undefined,
 	},
-	/** @description v-model:label绑定值 */
+	/** v-model:label 绑定值 */
 	label: definePropType<string | string[] | null>([String, Array]),
-	/** @description 宽度 */
+	/** 宽度 */
 	width: {
 		type: [String, Number],
 		default: "100%",
 	},
-	/** @description 更多细节，只有使用slot的时候有用 */
+	/** 插槽使用的附加状态 */
 	moreDetail: Boolean,
-	/** @description 懒加载远程数据，默认 true。当下拉框第一次显示的时候才会加载远程数据*/
+	/** 是否延迟加载远程数据；开启后在首次打开下拉框时请求。 */
 	lazy: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description 默认选中。不能和懒加载一起使用 */
+	/** 是否默认选中；不能与懒加载同时使用。 */
 	defaultSelected: Boolean,
-	/** @description 下拉框数据 */
+	/** 下拉框数据 */
 	data: {
 		type: definePropType<ElSelectorOutput[]>(Array),
 		default: () => [],
 	},
 	/** 分页返回 */
 	pageResult: Boolean,
-	/** @description 请求api */
+	/** 请求数据的函数 */
 	requestApi: {
 		type: definePropType<(params?: string | number | PagedInput) => Promise<ElSelectorOutput[] | PagedResult<ElSelectorOutput>>>(Function),
 	},
@@ -391,41 +90,41 @@ export const faSelectV2Props = {
 	initParam: definePropType<string | number | PagedInput>([String, Number, Object]),
 };
 
-/** FaSelectV2 的运行时 Emits 定义。 */
+/** FaSelectV2 的运行时 Emits 定义 */
 export const faSelectV2Emits = {
 	...selectV2Emits,
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: ElSelectorModelValue) =>
 		typeof value === "string" ||
 		typeof value === "number" ||
 		typeof value === "boolean" ||
 		(typeof value === "object" && value !== null) ||
 		value == null,
-	/** @description 选中数据改变 */
+	/** 选中数据改变 */
 	change: (_data: ElSelectorOutput | ElSelectorOutput[] | null, _value?: ElSelectorModelValue) => true,
-	/** @description v-model:label 回调 */
+	/** v-model:label 回调 */
 	"update:label": (value: string | string[] | null) => typeof value === "string" || Array.isArray(value) || value === null,
-	/** @description 数据改变 */
+	/** 数据改变 */
 	dataChange: (data: ElSelectorOutput[]) => Array.isArray(data),
 };
 
-/** FaSelectV2 的插槽参数。 */
+/** FaSelectV2 的插槽参数 */
 export interface FaSelectV2Slots extends Record<string, unknown> {
-	/** @description FaSelectOption 默认内容插槽 */
+	/** FaSelectOption 默认内容插槽 */
 	default: { item: ElSelectorOutput; index: number; disabled: boolean };
-	/** @description 下拉列表顶部的内容 */
+	/** 下拉列表顶部的内容 */
 	header: never;
-	/** @description 下拉列表底部的内容 */
+	/** 下拉列表底部的内容 */
 	footer: never;
-	/** @description Select 组件头部内容 */
+	/** Select 组件头部内容 */
 	prefix: never;
-	/** @description 无选项时的列表 */
+	/** 无选项时的列表 */
 	empty: never;
-	/** @description select 组件自定义标签内容 */
+	/** select 组件自定义标签内容 */
 	tag: never;
-	/** @description select 组件自定义 loading内容 */
+	/** Select 组件自定义加载内容 */
 	loading: never;
-	/** @description select 组件自定义标签内容 */
+	/** select 组件自定义标签内容 */
 	label: { label: string; value: string | number | boolean | object };
 }
 
@@ -751,21 +450,21 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 使选择器的输入框获取焦点 */
+			/** 使选择器的输入框获取焦点 */
 			focus: computed(() => selectV2Ref.value?.focus),
-			/** @description 使选择器的输入框失去焦点，并隐藏下拉框 */
+			/** 使选择器的输入框失去焦点，并隐藏下拉框 */
 			blur: computed(() => selectV2Ref.value?.blur),
-			/** @description 获取当前选中的标签 */
+			/** 获取当前选中的标签 */
 			selectedLabel: computed(() => selectV2Ref.value?.selectedLabel),
-			/** @description 滚动到指定选项索引。 */
+			/** 滚动到指定选项索引。 */
 			scrollTo: computed(() => selectV2Ref.value?.scrollTo),
-			/** @description 加载状态 */
+			/** 加载状态 */
 			loading: toRef(state, "loading"),
-			/** @description 刷新 */
+			/** 刷新 */
 			refresh: loadData,
-			/** @description 设置选择  */
+			/** 设置选择 */
 			setSelection: (value: Exclude<ElSelectorModelValue, null | undefined>) => handleModelValueUpdate(value),
-			/** @description 清除选择  */
+			/** 清除选择 */
 			clearSelection: () => handleModelValueUpdate(props.multiple ? [] : undefined),
 		});
 	},

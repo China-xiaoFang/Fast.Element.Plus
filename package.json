@@ -1,6 +1,6 @@
 {
 	"name": "fast-element-plus",
-	"version": "2.0.19",
+	"version": "2.0.20",
 	"description": "Typed Vue 3 components, directives, and hooks built on Element Plus.",
 	"type": "module",
 	"keywords": [
@@ -71,7 +71,7 @@
 		"format:check": "prettier --check .",
 		"test": "pnpm run build && pnpm run test:types && pnpm run test:runtime && pnpm run test:package",
 		"test:types": "tsc --noEmit --project tests/tsconfig.json",
-		"test:runtime": "node --test tests/runtime.test.mjs",
+		"test:runtime": "node --test tests/runtime.test.mjs tests/lifecycle.runtime.test.mjs tests/tool-ignores.test.mjs && node --import tsx --test tests/directive-lifecycle.test.mjs tests/loading-tasks.test.ts",
 		"test:package": "node --test tests/package.test.mjs && publint --strict --pack npm",
 		"check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run format:check",
 		"prepack": "pnpm run check"

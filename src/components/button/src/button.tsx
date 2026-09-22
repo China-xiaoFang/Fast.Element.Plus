@@ -1,44 +1,47 @@
-import { computed, defineComponent, reactive, shallowRef, toRef, watch, withModifiers } from "vue";
+import { computed, defineComponent, onBeforeUnmount, reactive, shallowRef, watch, withModifiers } from "vue";
 import { Eleme } from "@element-plus/icons-vue";
 import { ElButton, buttonEmits, buttonProps } from "element-plus";
 import { useOverlay } from "../../../hooks";
 import { callOptionalFunction, definePropType, makeSlots, useExpose, useProps, useRender } from "../../../utils";
+import { createLoadingTasks } from "../../../utils/loading-tasks";
 import type { ButtonInstance } from "element-plus";
 import type { Component } from "vue";
 
-/** FaButton 的运行时 Props 定义。 */
+/** FaButton 的运行时 Props 定义 */
 export const faButtonProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...buttonProps,
 	/**
-	 * @description customize loading icon component
-	 * @default Eleme
+	 * 自定义加载图标
+	 *
+	 * 未指定时使用 `Eleme`。
 	 */
 	loadingIcon: {
 		type: definePropType<string | Component>([String, Object, Function]),
 		default: () => Eleme,
 	},
-	/** @description 禁用加载 */
+	/** 禁用加载 */
 	disabledLoading: Boolean,
 };
 
-/** FaButton 的运行时 Emits 定义。 */
+/** FaButton 的运行时 Emits 定义 */
 export const faButtonEmits = {
 	...buttonEmits,
 	/**
-	 * @description 点击事件
-	 * @param done 需要手动隐藏Loading
+	 * 点击事件；未禁用内部加载时，调用方完成后应调用 done。
+	 * @param event - 鼠标事件
+	 * @param done - 完成本次交互并隐藏内部加载状态的回调
 	 */
 	click: (event: MouseEvent, done: () => void = () => undefined) => event instanceof MouseEvent && typeof done === "function",
 };
 
-/** FaButton 的插槽参数。 */
+/** FaButton 的插槽参数 */
 export interface FaButtonSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
-	/** @description 自定义加载中组件 */
+	/** 自定义加载中组件 */
 	loading: never;
-	/** @description 自定义图标组件 */
+	/** 自定义图标组件 */
 	icon: never;
 }
 
@@ -54,54 +57,73 @@ export default defineComponent({
 			loading: false,
 		});
 
-		const showLoading = () => {
-			state.loading = true;
-			// 这里默认透明
-			useOverlay.show(0);
-		};
+		// 组件只持有一个遮罩，所有内部任务结束后才释放。
+		let ownsOverlay = false;
+		let disposed = false;
+		let releaseExternal: (() => void) | undefined;
+		let releaseManual: (() => void) | undefined;
 
-		const hideLoading = () => {
-			state.loading = false;
-			useOverlay.hide();
-		};
+		const loadingTasks = createLoadingTasks((loading) => {
+			state.loading = loading;
+			if (loading && !ownsOverlay) {
+				useOverlay.show(0);
+				ownsOverlay = true;
+			} else if (!loading && ownsOverlay) {
+				ownsOverlay = false;
+				useOverlay.hide();
+			}
+		});
+
+		// 手动关闭只释放手动任务，不能结束内部异步任务。
+		const manualLoading = computed({
+			get: () => state.loading,
+			set: (value: boolean) => {
+				if (value) {
+					releaseManual ??= loadingTasks.begin();
+				} else {
+					releaseManual?.();
+					releaseManual = undefined;
+				}
+			},
+		});
 
 		const handleLoading = async (loadingFunction: () => void | Promise<void>) => {
-			showLoading();
+			if (disposed) return;
+			const done = loadingTasks.begin();
 			try {
 				await callOptionalFunction(loadingFunction);
 			} finally {
-				hideLoading();
+				done();
 			}
 		};
 
 		const handleClick = (event: MouseEvent) => {
+			if (disposed) return;
 			if (props.disabledLoading) {
-				// 回调点击事件
 				emit("click", event);
 			} else {
-				showLoading();
-				// 回调点击事件
-				emit("click", event, hideLoading);
+				const done = loadingTasks.begin();
+				emit("click", event, done);
 			}
 		};
 
-		/**
-		 * 监听外部 loading 的值
-		 */
+		// 外部受控状态与内部任务独立；false 只能释放外部持有的 Loading。
 		watch(
-			() => props.loading,
-			(newValue) => {
-				if (props.disabledLoading) return;
-				if (newValue) {
-					showLoading();
+			[() => props.loading, () => props.disabledLoading],
+			([loading, disabledLoading]) => {
+				if (loading && !disabledLoading) {
+					releaseExternal ??= loadingTasks.begin();
 				} else {
-					hideLoading();
+					releaseExternal?.();
+					releaseExternal = undefined;
 				}
 			},
-			{
-				immediate: true,
-			}
+			{ immediate: true }
 		);
+		onBeforeUnmount(() => {
+			disposed = true;
+			loadingTasks.dispose();
+		});
 
 		// eslint-disable-next-line @typescript-eslint/no-deprecated -- 透传范围必须与继承的 Element Plus 2.x 运行时 props 保持一致。
 		const elButtonProps = useProps(props, buttonProps, ["loading"]);
@@ -123,19 +145,19 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 按钮 html 元素 */
+			/** 按钮 html 元素 */
 			ref: computed(() => buttonRef.value?.ref),
-			/** @description 按钮尺寸 */
+			/** 按钮尺寸 */
 			size: computed(() => buttonRef.value?.size),
-			/** @description 按钮类型 */
+			/** 按钮类型 */
 			type: computed(() => buttonRef.value?.type),
-			/** @description 按钮已禁用 */
+			/** 按钮已禁用 */
 			disabled: computed(() => buttonRef.value?.disabled),
-			/** @description 是否在两个字符之间插入空格 */
+			/** 是否在两个字符之间插入空格 */
 			shouldAddSpace: computed(() => buttonRef.value?.shouldAddSpace),
-			/** @description 加载状态 */
-			loading: toRef(state, "loading"),
-			/** @description 按钮加载 */
+			/** 聚合加载状态；手动写入只管理手动任务，不关闭仍在执行的内部任务。 */
+			loading: manualLoading,
+			/** 执行独立的加载任务；并发调用分别完成，卸载后不再启动新任务。 */
 			doLoading: handleLoading,
 		});
 	},

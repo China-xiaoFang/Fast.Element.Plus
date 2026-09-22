@@ -14,5 +14,5 @@
 		"skipLibCheck": true
 	},
 	// 源码依赖工程级 JSX 与静态资源声明；发布产物继续由包测试和 publint 验证。
-	"include": ["public-api.test.ts", "../types/**/*.d.ts"]
+	"include": ["**/*.ts", "../types/**/*.d.ts"]
 }

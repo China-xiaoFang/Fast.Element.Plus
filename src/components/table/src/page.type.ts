@@ -144,7 +144,7 @@ export interface PagedInput {
 	sortList?: PagedSortInput[];
 	/**
 	 * 启用分页
-	 * @default true
+	 * @defaultValue true
 	 */
 	enablePaged?: boolean;
 	/** 业务接口附加的查询字段。 */

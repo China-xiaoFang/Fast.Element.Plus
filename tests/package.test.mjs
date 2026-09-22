@@ -19,7 +19,7 @@ const collectFiles = async (directory) => {
 
 test("package metadata exposes the ESM, global types, style, and CDN entries", () => {
 	assert.equal(packageJson.type, "module");
-	assert.match(packageJson.version, /^2\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/u);
+	assert.equal(packageJson.version, "2.0.20");
 	assert.equal(packageJson.main, "./dist/index.mjs");
 	assert.equal(packageJson.module, "./dist/index.mjs");
 	assert.equal(packageJson.types, "./dist/index.d.ts");

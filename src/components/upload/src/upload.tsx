@@ -5,52 +5,52 @@ import { definePropType, makeSlots, useExpose, useProps, useRender } from "../..
 import { useUpload } from "./useUpload";
 import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from "element-plus";
 
-/** FaUpload 的运行时 Props 定义。 */
+/** FaUpload 的运行时 Props 定义 */
 export const faUploadProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...uploadProps,
-	/** @description whether to activate drag and drop mode */
+	/** whether to activate drag and drop mode */
 	drag: {
 		type: Boolean,
 		default: true,
 	},
-	/** @description maximum number of uploads allowed */
+	/** maximum number of uploads allowed */
 	limit: {
 		type: Number,
 		default: 1,
 	},
-	/** @description v-model绑定值 */
+	/** v-model 绑定值 */
 	modelValue: definePropType<string | string[] | null>([String, Array]),
-	/** @description 大小限制，单位kb */
+	/** 大小限制，单位kb */
 	maxSize: {
 		type: definePropType<string | number>([String, Number]),
 		default: 5120,
 	},
-	/** @description 图片上传接口，优先级最高 */
+	/** 图片上传接口，优先级最高 */
 	uploadApi: {
 		type: definePropType<(formData: FormData) => Promise<string>>(Function),
 	},
-	/** @description 图片上传地址 */
+	/** 图片上传地址 */
 	uploadUrl: String,
 };
 
-/** FaUpload 的运行时 Emits 定义。 */
+/** FaUpload 的运行时 Emits 定义 */
 export const faUploadEmits = {
-	/** @description v-model 回调 */
+	/** v-model 回调 */
 	"update:modelValue": (value: string | string[] | null) => typeof value === "string" || Array.isArray(value) || value === null,
-	/** @description v-model:fileList 回调 */
+	/** v-model:fileList 回调 */
 	"update:fileList": (value: UploadUserFile[]) => Array.isArray(value),
 };
 
-/** FaUpload 的插槽参数。 */
+/** FaUpload 的插槽参数 */
 export interface FaUploadSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: never;
-	/** @description 触发文件选择框的内容 */
+	/** 触发文件选择框的内容 */
 	trigger: never;
-	/** @description 提示说明文字 */
+	/** 提示说明文字 */
 	tip: never;
-	/** @description 缩略图模板的内容 */
+	/** 缩略图模板的内容 */
 	file: { file: UploadFile; index: number };
 }
 
@@ -168,19 +168,19 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 取消上传请求 */
+			/** 取消上传请求 */
 			abort: computed(() => uploadRef.value?.abort),
-			/** @description 手动上传文件列表 */
+			/** 手动上传文件列表 */
 			submit: computed(() => uploadRef.value?.submit),
-			/** @description 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
+			/** 清空已上传的文件列表（该方法不支持在 before-upload 中调用） */
 			clearFiles: computed(() => uploadRef.value?.clearFiles),
-			/** @description 手动选择文件 */
+			/** 手动选择文件 */
 			handleStart: computed(() => uploadRef.value?.handleStart),
-			/** @description 手动移除文件。file 和 rawFile 已被合并。 */
+			/** 手动移除文件。file 和 rawFile 已被合并。 */
 			handleRemove: computed(() => uploadRef.value?.handleRemove),
-			/** @description 加载状态 */
+			/** 加载状态 */
 			loading,
-			/** @description 文件集合 */
+			/** 文件集合 */
 			fileList,
 		});
 	},

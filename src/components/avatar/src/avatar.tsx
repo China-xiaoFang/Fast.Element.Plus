@@ -4,42 +4,42 @@ import { ElAvatar, avatarEmits, avatarProps } from "element-plus";
 import { definePropType, makeSlots, useEmits, useExpose, useProps, useRender } from "../../../utils";
 import type { Component } from "vue";
 
-/** FaAvatar 的运行时 Props 定义。 */
+/** FaAvatar 的运行时 Props 定义 */
 export const faAvatarProps = {
 	// eslint-disable-next-line @typescript-eslint/no-deprecated -- Element Plus 2.x 尚未提供可替代的公开运行时 props 定义。
 	...avatarProps,
-	/** @description set how the image fit its container for an image avatar. */
+	/** set how the image fit its container for an image avatar. */
 	fit: {
 		type: definePropType<
 			"fill" | "-moz-initial" | "inherit" | "initial" | "revert" | "revert-layer" | "unset" | "none" | "contain" | "cover" | "scale-down"
 		>(String),
 		default: "cover",
 	},
-	/** @description representation type to icon, more info on icon component. */
+	/** representation type to icon, more info on icon component. */
 	icon: {
 		type: definePropType<string | Component>([String, Object, Function]),
 		default: () => Picture,
 	},
-	/** @description Base64图片 */
+	/** Base64图片 */
 	base64: Boolean,
-	/** @description 原图 */
+	/** 原图 */
 	original: Boolean,
-	/** @description 标准 */
+	/** 标准 */
 	normal: Boolean,
-	/** @description 小图 */
+	/** 小图 */
 	small: Boolean,
-	/** @description 缩略图 */
+	/** 缩略图 */
 	thumb: Boolean,
 };
 
-/** FaAvatar 的运行时 Emits 定义。 */
+/** FaAvatar 的运行时 Emits 定义 */
 export const faAvatarEmits = {
 	...avatarEmits,
 };
 
-/** FaAvatar 的插槽参数。 */
+/** FaAvatar 的插槽参数 */
 export interface FaAvatarSlots extends Record<string, unknown> {
-	/** @description 默认内容插槽 */
+	/** 默认内容插槽 */
 	default: { src?: string };
 }
 
@@ -80,7 +80,7 @@ export default defineComponent({
 		));
 
 		return useExpose(expose, {
-			/** @description 图片路径 */
+			/** 图片路径 */
 			src: state.src,
 		});
 	},
