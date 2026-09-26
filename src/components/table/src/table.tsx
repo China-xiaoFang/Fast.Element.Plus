@@ -943,37 +943,6 @@ export default defineComponent({
 										columnKey="__table-selection"
 										selectable={props.rowSelectable}
 									/>
-									{slots.operation && (
-										<ElTableColumn
-											fixed="right"
-											width={state.operationColumnWidth}
-											headerAlign="center"
-											align="left"
-											showOverflowTooltip={false}
-											className="fa-table__operation-column"
-											resizable={false}
-											columnKey="__table-operation"
-										>
-											{{
-												header: () => (
-													<div class="fa-table__auto-width-column__cell-header __fa-table__auto-width-column__cell-header____table-operation">
-														<span>操作</span>
-													</div>
-												),
-												default: ({ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) => (
-													<div class="fa-table__auto-width-column__cell __fa-table__auto-width-column__cell____table-operation">
-														{slots.operation?.({
-															row,
-															column,
-															$index,
-															search: tableSearch,
-															...getTableDefaultSlots(state),
-														})}
-													</div>
-												),
-											}}
-										</ElTableColumn>
-									)}
 									{state.tableColumns.length === 0
 										? slots.default?.()
 										: state.tableColumns.map(
@@ -1017,6 +986,37 @@ export default defineComponent({
 														)
 													))
 											)}
+									{slots.operation && (
+										<ElTableColumn
+											fixed="right"
+											width={state.operationColumnWidth}
+											headerAlign="center"
+											align="left"
+											showOverflowTooltip={false}
+											className="fa-table__operation-column"
+											resizable={false}
+											columnKey="__table-operation"
+										>
+											{{
+												header: () => (
+													<div class="fa-table__auto-width-column__cell-header __fa-table__auto-width-column__cell-header____table-operation">
+														<span>操作</span>
+													</div>
+												),
+												default: ({ row, column, $index }: { row: DefaultRow; column: FaTableColumnCtx; $index: number }) => (
+													<div class="fa-table__auto-width-column__cell __fa-table__auto-width-column__cell____table-operation">
+														{slots.operation?.({
+															row,
+															column,
+															$index,
+															search: tableSearch,
+															...getTableDefaultSlots(state),
+														})}
+													</div>
+												),
+											}}
+										</ElTableColumn>
+									)}
 								</Fragment>
 							),
 						}}
